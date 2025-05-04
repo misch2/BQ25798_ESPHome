@@ -1,10 +1,10 @@
-#include "bq25798.h"
+#include "bq25798_component.h"
 #include "esphome/core/log.h"
 
 namespace esphome {
 namespace bq25798 {
 
-static const char* TAG = "bq25798";
+static const char* TAG = "bq25798.component";
 
 // BQ25798 bqlib = BQ25798();
 
@@ -27,6 +27,27 @@ void BQ25798Component::dump_config() {
     ESP_LOGE(TAG, "Communication with BQ25798 failed!");
   }
 }
+
+{%- for def in settings %}
+{%-     if def.type == "bool" %}
+void BQ25798Component::set_{{ def.name | lower }}(bool value) {
+  // FIXME
+}
+{%-     elif def.type == "int" %}
+void BQ25798Component::set_{{ def.name | lower }}(int value) {
+  // FIXME
+}
+{%-     elif def.type == "float" %}
+void BQ25798Component::set_{{ def.name | lower }}(float value) {
+  // FIXME
+}
+{%-     elif def.type == "enum" %}
+void BQ25798Component::set_{{ def.name | lower }}(int value) {
+  // (BQ25798::{{ def.name }}_t)
+  // FIXME
+}
+{%-     endif %}
+{%- endfor %}
 
 }  // namespace bq25798
 }  // namespace esphome

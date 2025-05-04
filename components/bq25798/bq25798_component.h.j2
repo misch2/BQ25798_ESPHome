@@ -1,0 +1,33 @@
+#pragma once
+
+#include "esphome/components/i2c/i2c.h"
+#include "esphome/core/component.h"
+
+#include "BQ25798.h"
+
+namespace esphome {
+namespace bq25798 {
+
+class BQ25798Component : public i2c::I2CDevice, public Component {
+ public:
+  void setup() override;
+  void loop() override;
+  void dump_config() override;
+  
+  // BQ25798 setters
+{%- for def in settings %}
+{%-     if def.type == "bool" %}
+  void set_{{ def.name | lower }}(bool value);
+{%-     elif def.type == "int" %}
+  void set_{{ def.name | lower }}(int value);
+{%-     elif def.type == "float" %}
+  void set_{{ def.name | lower }}(float value);
+{%-     elif def.type == "enum" %}
+  void set_{{ def.name | lower }}(int value);
+{%-     endif %}
+{%- endfor %}
+
+};  // class BQ25798Component
+
+}  // namespace bq25798
+}  // namespace esphome

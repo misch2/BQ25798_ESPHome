@@ -21,18 +21,17 @@ i2c:
 bq25798:
   id: bq25798_component_1
   i2c_id: bus_a
-  # address: 0x01 # optional
   iindpm: 500 # optional
   vindpm: 4500 # optional
   ichg: 1000 # optional
   adc_en: true # optional
-  adc_rate: CONTINUOUS
+  adc_rate: ADC_RATE_CONTINUOUS
   adc_sample: ADC_SAMPLE_15BIT
 
-# # sensor:
-# #   - platform: bq25798
-# #     name: "Test"
-# #     id: bq25798_component_1
-# #     on_click:
-# #       then:
-# #         - logger.log: "Clicked"
+# sensor:
+#   - platform: bq25798
+#     name: "Test"
+#     id: bq25798_component_1
+#     on_click:
+#       then:
+#         - logger.log: "Clicked"

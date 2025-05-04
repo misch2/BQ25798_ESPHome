@@ -8,10 +8,12 @@ DEPENDENCIES = ["i2c"]
 bq25798_ns = cg.esphome_ns.namespace("bq25798")
 BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.Component, i2c.I2CDevice)
 
+# Settings
 {%- for def in settings %}
 CONF_{{ def.name}} = "{{ def.name | lower }}"
 {%- endfor %}
 
+# Configuration schema
 {%- for def in settings %}
 {%-     if def.type == "enum" %}
 ENUM_{{ def.name}} = {
@@ -22,11 +24,11 @@ ENUM_{{ def.name}} = {
 {%-     endif %}
 {%- endfor %}
 
-
 CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798Component),
+            # Chip settings
 {%- for def in settings %}
 {%-     if def.type == "bool" %}
             cv.Optional(CONF_{{ def.name}}): cv.boolean,
@@ -38,12 +40,10 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_{{ def.name}}): cv.enum(ENUM_{{def.name}}),
 {%-     endif %}
 {%- endfor %}
-
-            cv.Optional(CONF_VSYSMIN): cv.positive_int,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(i2c.i2c_device_schema(0x01))    # FIXME
+    .extend(i2c.i2c_device_schema({{ default_address_hex }}))
 )
 
 
@@ -57,3 +57,8 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
+
+{%- for def in settings %}
+    if {{ def.name | lower }} := config.get(CONF_{{ def.name }}):
+        cg.add(var.set_{{ def.name | lower }}({{ def.name | lower }}))
+{% endfor %}

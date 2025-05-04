@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.conf": "NGINX",
+        "*.perlconf": "perl",
+        "*.ptex": "tex",
+        "*.tmpl": "tt",
+        "chrono": "cpp",
+        "system_error": "cpp",
+        "xlocale": "cpp"
+    }
+}
