@@ -1,0 +1,77 @@
+import esphome.codegen as cg
+import esphome.config_validation as cv
+from esphome import core
+from esphome.components import i2c, sensor
+from esphome.const import (
+    CONF_ID,
+    CONF_TEMPERATURE,
+    DEVICE_CLASS_TEMPERATURE,
+    STATE_CLASS_MEASUREMENT,
+    UNIT_CELSIUS,
+    UNIT_PERCENT,
+    UNIT_VOLT,
+    UNIT_MILLIAMP,
+)
+
+from .. import (
+    CONF_BQ25798_ID,
+    BQ25798_CLIENT_SCHEMA,
+    bq25798_ns, 
+)
+
+DEPENDENCIES = ["bq25798"]
+
+BQ25798Sensor = bq25798_ns.class_("BQ25798Sensor", cg.Component)
+
+# Settings
+{%- for def in settings %}
+{# All settings, not just RW ones #}
+CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+{%- endfor %}
+
+# Configuration schema
+{%- for def in settings %}
+{%-     if def.type == "enum" %}
+ENUM_BQ25798_{{ def.name}} = {
+{%-         for enum in def.enum_constants %}
+    "{{ enum }}": {{ loop.index0 }},
+{%-         endfor %}
+}
+{%-     endif %}
+{%- endfor %}
+
+CONFIG_SCHEMA = (
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.declare_id(BQ25798Sensor),
+
+            # All sensors
+{%- for def in settings %}
+{%-     if def.type == "int" or def.type == "float" or def.type == "enum" %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): sensor.sensor_schema(
+                unit_of_measurement="FIXME1",
+                #accuracy_decimals=1,    # FIXME
+                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+            ),
+{%-     endif %}            
+{%- endfor %}
+        }
+    )
+    .extend(BQ25798_CLIENT_SCHEMA)
+)
+
+async def to_code(config):
+    var = cg.new_Pvariable(config[CONF_ID])
+
+    await cg.register_component(var, config)
+    parent = await cg.get_variable(config[CONF_BQ25798_ID])
+
+    # Sensors
+{%- for def in settings %}
+{%-     if def.type == "int" or def.type == "float" or def.type == "enum" %}
+    if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
+        sens = await sensor.new_sensor({{ def.name | lower }})
+        cg.add(parent.set_{{ def.name | lower }}_sensor(sens))
+{%-     endif %}                    
+{% endfor %}

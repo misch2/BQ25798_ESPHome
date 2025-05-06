@@ -13,6 +13,8 @@ void BQ25798Component::setup() {
   bq25798_noi2c = new BQ25798NoI2C();
   bq25798_noi2c->begin(this->address_); // no-op
 
+  // FIXME reset the chip?
+
   uint8_t raw_value;
   if (!this->read_byte(REG00_Minimal_System_Voltage, &raw_value)) {
     ESP_LOGE(TAG, "Failed to read from BQ25798 at address 0x%02X", this->address_);
@@ -330,6 +332,8 @@ void BQ25798Component::dump_config() {
     return;
   }
   LOG_UPDATE_INTERVAL(this);
+
+  // Dump all the sensors enabled in YAML config
   LOG_SENSOR("  ", "VSYSMIN", this->vsysmin_sensor_);
   LOG_SENSOR("  ", "VREG", this->vreg_sensor_);
   LOG_SENSOR("  ", "ICHG", this->ichg_sensor_);
@@ -412,163 +416,84 @@ void BQ25798Component::dump_config() {
   LOG_SENSOR("  ", "BCOLD", this->bcold_sensor_);
   LOG_BINARY_SENSOR("  ", "TS_IGNORE", this->ts_ignore_sensor_);
   LOG_SENSOR("  ", "ICO_ILIM", this->ico_ilim_sensor_);
-  ESP_LOGCONFIG(TAG, "  ICO_ILIM: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "IINDPM_STAT", this->iindpm_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  IINDPM_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VINDPM_STAT", this->vindpm_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VINDPM_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "WD_STAT", this->wd_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  WD_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "PG_STAT", this->pg_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  PG_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "AC2_PRESENT_STAT", this->ac2_present_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  AC2_PRESENT_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "AC1_PRESENT_STAT", this->ac1_present_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  AC1_PRESENT_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBUS_PRESENT_STAT", this->vbus_present_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_PRESENT_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "CHG_STAT", this->chg_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  CHG_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBUS_STAT", this->vbus_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "BC12_DONE_STAT", this->bc12_done_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  BC12_DONE_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "ICO_STAT", this->ico_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  ICO_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TREG_STAT", this->treg_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TREG_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "DPDM_STAT", this->dpdm_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  DPDM_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBAT_PRESENT_STAT", this->vbat_present_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBAT_PRESENT_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ACRB2_STAT", this->acrb2_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  ACRB2_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ACRB1_STAT", this->acrb1_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  ACRB1_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ADC_DONE_STAT", this->adc_done_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  ADC_DONE_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VSYS_STAT", this->vsys_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "CHG_TMR_STAT", this->chg_tmr_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  CHG_TMR_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TRICHG_TMR_STAT", this->trichg_tmr_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TRICHG_TMR_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "PRECHG_TMR_STAT", this->prechg_tmr_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  PRECHG_TMR_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBATOTG_LOW_STAT", this->vbatotg_low_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBATOTG_LOW_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TS_COLD_STAT", this->ts_cold_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_COLD_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TS_COOL_STAT", this->ts_cool_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_COOL_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TS_WARM_STAT", this->ts_warm_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_WARM_STAT: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TS_HOT_STAT", this->ts_hot_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_HOT_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBAT_REG_STAT", this->ibat_reg_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBAT_REG_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBUS_OVP_STAT", this->vbus_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBAT_OVP_STAT", this->vbat_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBAT_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBUS_OCP_STAT", this->ibus_ocp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBUS_OCP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBAT_OCP_STAT", this->ibat_ocp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBAT_OCP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "CONV_OCP_STAT", this->conv_ocp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  CONV_OCP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VAC2_OVP_STAT", this->vac2_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC2_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VAC1_OVP_STAT", this->vac1_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC1_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VSYS_SHORT_STAT", this->vsys_short_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_SHORT_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VSYS_OVP_STAT", this->vsys_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "OTG_OVP_STAT", this->otg_ovp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  OTG_OVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "OTG_UVP_STAT", this->otg_uvp_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  OTG_UVP_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TSHUT_STAT", this->tshut_stat_sensor_);
-  ESP_LOGCONFIG(TAG, "  TSHUT_STAT: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IINDPM_FLAG", this->iindpm_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  IINDPM_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VINDPM_FLAG", this->vindpm_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VINDPM_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "WD_FLAG", this->wd_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  WD_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "POORSRC_FLAG", this->poorsrc_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  POORSRC_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "PG_FLAG", this->pg_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  PG_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "AC2_PRESENT_FLAG", this->ac2_present_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  AC2_PRESENT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "AC1_PRESENT_FLAG", this->ac1_present_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  AC1_PRESENT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBUS_PRESENT_FLAG", this->vbus_present_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_PRESENT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "CHG_FLAG", this->chg_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  CHG_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ICO_FLAG", this->ico_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  ICO_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBUS_FLAG", this->vbus_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TREG_FLAG", this->treg_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TREG_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBAT_PRESENT_FLAG", this->vbat_present_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBAT_PRESENT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "BC1_2_DONE_FLAG", this->bc1_2_done_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  BC1_2_DONE_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "DPDM_DONE_FLAG", this->dpdm_done_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  DPDM_DONE_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ADC_DONE_FLAG", this->adc_done_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  ADC_DONE_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VSYS_FLAG", this->vsys_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "CHG_TMR_FLAG", this->chg_tmr_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  CHG_TMR_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TRICHG_TMR_FLAG", this->trichg_tmr_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TRICHG_TMR_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "PRECHG_TMR_FLAG", this->prechg_tmr_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  PRECHG_TMR_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TOPOFF_TMR_FLAG", this->topoff_tmr_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TOPOFF_TMR_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBATOTG_LOW_FLAG", this->vbatotg_low_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBATOTG_LOW_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TS_COLD_FLAG", this->ts_cold_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_COLD_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TS_COOL_FLAG", this->ts_cool_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_COOL_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TS_WARM_FLAG", this->ts_warm_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_WARM_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TS_HOT_FLAG", this->ts_hot_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_HOT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBAT_REG_FLAG", this->ibat_reg_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBAT_REG_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBUS_OVP_FLAG", this->vbus_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VBAT_OVP_FLAG", this->vbat_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBAT_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBUS_OCP_FLAG", this->ibus_ocp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBUS_OCP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "IBAT_OCP_FLAG", this->ibat_ocp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBAT_OCP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "CONV_OCP_FLAG", this->conv_ocp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  CONV_OCP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VAC2_OVP_FLAG", this->vac2_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC2_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VAC1_OVP_FLAG", this->vac1_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC1_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VSYS_SHORT_FLAG", this->vsys_short_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_SHORT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "VSYS_OVP_FLAG", this->vsys_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "OTG_OVP_FLAG", this->otg_ovp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  OTG_OVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "OTG_UVP_FLAG", this->otg_uvp_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  OTG_UVP_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "TSHUT_FLAG", this->tshut_flag_sensor_);
-  ESP_LOGCONFIG(TAG, "  TSHUT_FLAG: (read-only)"); // FIXME?
   LOG_BINARY_SENSOR("  ", "ADC_EN", this->adc_en_sensor_);
   LOG_SENSOR("  ", "ADC_RATE", this->adc_rate_sensor_);
   LOG_SENSOR("  ", "ADC_SAMPLE", this->adc_sample_sensor_);
@@ -586,39 +511,27 @@ void BQ25798Component::dump_config() {
   LOG_BINARY_SENSOR("  ", "VAC2_ADC_DIS", this->vac2_adc_dis_sensor_);
   LOG_BINARY_SENSOR("  ", "VAC1_ADC_DIS", this->vac1_adc_dis_sensor_);
   LOG_SENSOR("  ", "IBUS_ADC", this->ibus_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBUS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "IBAT_ADC", this->ibat_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  IBAT_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBUS_ADC", this->vbus_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBUS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VAC1_ADC", this->vac1_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC1_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VAC2_ADC", this->vac2_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  VAC2_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VBAT_ADC", this->vbat_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  VBAT_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "VSYS_ADC", this->vsys_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  VSYS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TS_ADC", this->ts_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  TS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "TDIE_ADC", this->tdie_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  TDIE_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "DPLUS_ADC", this->dplus_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  DPLUS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "DMINUS_ADC", this->dminus_adc_sensor_);
-  ESP_LOGCONFIG(TAG, "  DMINUS_ADC: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "DPLUS_DAC", this->dplus_dac_sensor_);
   LOG_SENSOR("  ", "DMINUS_DAC", this->dminus_dac_sensor_);
   LOG_SENSOR("  ", "PN", this->pn_sensor_);
-  ESP_LOGCONFIG(TAG, "  PN: (read-only)"); // FIXME?
   LOG_SENSOR("  ", "DEV_REV", this->dev_rev_sensor_);
-  ESP_LOGCONFIG(TAG, "  DEV_REV: (read-only)"); // FIXME?
 
 }
 
 float BQ25798Component::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Component::update() {
+
   if (this->vsysmin_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG00_Minimal_System_Voltage, &raw_value)) {
@@ -626,6 +539,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VSYSMIN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -634,6 +548,8 @@ void BQ25798Component::update() {
     this->vsysmin_sensor_->publish_state(value);
   }
 
+
+
   if (this->vreg_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG01_Charge_Voltage_Limit, &raw_value)) {
@@ -641,6 +557,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VREG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -649,6 +566,8 @@ void BQ25798Component::update() {
     this->vreg_sensor_->publish_state(value);
   }
 
+
+
   if (this->ichg_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG03_Charge_Current_Limit, &raw_value)) {
@@ -656,6 +575,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ICHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -664,6 +584,8 @@ void BQ25798Component::update() {
     this->ichg_sensor_->publish_state(value);
   }
 
+
+
   if (this->vindpm_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG05_Input_Voltage_Limit, &raw_value)) {
@@ -671,6 +593,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VINDPM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -679,6 +602,8 @@ void BQ25798Component::update() {
     this->vindpm_sensor_->publish_state(value);
   }
 
+
+
   if (this->iindpm_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG06_Input_Current_Limit, &raw_value)) {
@@ -686,6 +611,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IINDPM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -693,6 +619,8 @@ void BQ25798Component::update() {
     }
     this->iindpm_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbat_lowv_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -709,6 +637,7 @@ void BQ25798Component::update() {
     }
     this->vbat_lowv_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBAT_LOWV);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -717,6 +646,8 @@ void BQ25798Component::update() {
     this->vbat_lowv_sensor_->publish_state(value);
   }
 
+
+
   if (this->iprechg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG08_Precharge_Control, &raw_value)) {
@@ -724,6 +655,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IPRECHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -732,6 +664,8 @@ void BQ25798Component::update() {
     this->iprechg_sensor_->publish_state(value);
   }
 
+
+
   if (this->reg_rst_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG09_Termination_Control, &raw_value)) {
@@ -739,6 +673,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->REG_RST);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -747,6 +682,8 @@ void BQ25798Component::update() {
     this->reg_rst_sensor_->publish_state(value);
   }
 
+
+
   if (this->stop_wd_chg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG09_Termination_Control, &raw_value)) {
@@ -754,6 +691,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->STOP_WD_CHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -762,6 +700,8 @@ void BQ25798Component::update() {
     this->stop_wd_chg_sensor_->publish_state(value);
   }
 
+
+
   if (this->iterm_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG09_Termination_Control, &raw_value)) {
@@ -769,6 +709,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ITERM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -776,6 +717,8 @@ void BQ25798Component::update() {
     }
     this->iterm_sensor_->publish_state(value);
   }
+
+
 
   if (this->cell_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -792,6 +735,7 @@ void BQ25798Component::update() {
     }
     this->cell_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->CELL);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -799,6 +743,8 @@ void BQ25798Component::update() {
     }
     this->cell_sensor_->publish_state(value);
   }
+
+
 
   if (this->trechg_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -815,6 +761,7 @@ void BQ25798Component::update() {
     }
     this->trechg_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TRECHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -823,6 +770,8 @@ void BQ25798Component::update() {
     this->trechg_sensor_->publish_state(value);
   }
 
+
+
   if (this->vrechg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0A_Recharge_Control, &raw_value)) {
@@ -830,6 +779,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VRECHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -838,6 +788,8 @@ void BQ25798Component::update() {
     this->vrechg_sensor_->publish_state(value);
   }
 
+
+
   if (this->votg_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG0B_VOTG_regulation, &raw_value)) {
@@ -845,6 +797,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VOTG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -852,6 +805,8 @@ void BQ25798Component::update() {
     }
     this->votg_sensor_->publish_state(value);
   }
+
+
 
   if (this->prechg_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -868,6 +823,7 @@ void BQ25798Component::update() {
     }
     this->prechg_tmr_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->PRECHG_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -876,6 +832,8 @@ void BQ25798Component::update() {
     this->prechg_tmr_sensor_->publish_state(value);
   }
 
+
+
   if (this->iotg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0D_IOTG_regulation, &raw_value)) {
@@ -883,6 +841,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IOTG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -890,6 +849,8 @@ void BQ25798Component::update() {
     }
     this->iotg_sensor_->publish_state(value);
   }
+
+
 
   if (this->topoff_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -906,6 +867,7 @@ void BQ25798Component::update() {
     }
     this->topoff_tmr_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TOPOFF_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -914,6 +876,8 @@ void BQ25798Component::update() {
     this->topoff_tmr_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_trichg_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0E_Timer_Control, &raw_value)) {
@@ -921,6 +885,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TRICHG_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -929,6 +894,8 @@ void BQ25798Component::update() {
     this->en_trichg_tmr_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_prechg_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0E_Timer_Control, &raw_value)) {
@@ -936,6 +903,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_PRECHG_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -944,6 +912,8 @@ void BQ25798Component::update() {
     this->en_prechg_tmr_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_chg_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0E_Timer_Control, &raw_value)) {
@@ -951,6 +921,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -958,6 +929,8 @@ void BQ25798Component::update() {
     }
     this->en_chg_tmr_sensor_->publish_state(value);
   }
+
+
 
   if (this->chg_tmr_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -974,6 +947,7 @@ void BQ25798Component::update() {
     }
     this->chg_tmr_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->CHG_TMR);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -982,6 +956,8 @@ void BQ25798Component::update() {
     this->chg_tmr_sensor_->publish_state(value);
   }
 
+
+
   if (this->tmr2x_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0E_Timer_Control, &raw_value)) {
@@ -989,6 +965,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TMR2X_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -997,6 +974,8 @@ void BQ25798Component::update() {
     this->tmr2x_en_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_auto_ibatdis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1004,6 +983,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_AUTO_IBATDIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1012,6 +992,8 @@ void BQ25798Component::update() {
     this->en_auto_ibatdis_sensor_->publish_state(value);
   }
 
+
+
   if (this->force_ibatdis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1019,6 +1001,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_IBATDIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1027,6 +1010,8 @@ void BQ25798Component::update() {
     this->force_ibatdis_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_chg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1034,6 +1019,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1042,6 +1028,8 @@ void BQ25798Component::update() {
     this->en_chg_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_ico_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1049,6 +1037,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ICO);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1057,6 +1046,8 @@ void BQ25798Component::update() {
     this->en_ico_sensor_->publish_state(value);
   }
 
+
+
   if (this->force_ico_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1064,6 +1055,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_ICO);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1072,6 +1064,8 @@ void BQ25798Component::update() {
     this->force_ico_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_hiz_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1079,6 +1073,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_HIZ);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1087,6 +1082,8 @@ void BQ25798Component::update() {
     this->en_hiz_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_term_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1094,6 +1091,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TERM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1102,6 +1100,8 @@ void BQ25798Component::update() {
     this->en_term_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_backup_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG0F_Charger_Control_0, &raw_value)) {
@@ -1109,6 +1109,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BACKUP);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1116,6 +1117,8 @@ void BQ25798Component::update() {
     }
     this->en_backup_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbus_backup_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1132,6 +1135,7 @@ void BQ25798Component::update() {
     }
     this->vbus_backup_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBUS_BACKUP);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1139,6 +1143,8 @@ void BQ25798Component::update() {
     }
     this->vbus_backup_sensor_->publish_state(value);
   }
+
+
 
   if (this->vac_ovp_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1155,6 +1161,7 @@ void BQ25798Component::update() {
     }
     this->vac_ovp_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VAC_OVP);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1163,6 +1170,8 @@ void BQ25798Component::update() {
     this->vac_ovp_sensor_->publish_state(value);
   }
 
+
+
   if (this->wd_rst_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG10_Charger_Control_1, &raw_value)) {
@@ -1170,6 +1179,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_RST);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1177,6 +1187,8 @@ void BQ25798Component::update() {
     }
     this->wd_rst_sensor_->publish_state(value);
   }
+
+
 
   if (this->watchdog_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1193,6 +1205,7 @@ void BQ25798Component::update() {
     }
     this->watchdog_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->WATCHDOG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1201,6 +1214,8 @@ void BQ25798Component::update() {
     this->watchdog_sensor_->publish_state(value);
   }
 
+
+
   if (this->force_indet_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG11_Charger_Control_2, &raw_value)) {
@@ -1208,6 +1223,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_INDET);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1216,6 +1232,8 @@ void BQ25798Component::update() {
     this->force_indet_sensor_->publish_state(value);
   }
 
+
+
   if (this->auto_indet_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG11_Charger_Control_2, &raw_value)) {
@@ -1223,6 +1241,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AUTO_INDET_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1231,6 +1250,8 @@ void BQ25798Component::update() {
     this->auto_indet_en_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_12v_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG11_Charger_Control_2, &raw_value)) {
@@ -1238,6 +1259,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_12V);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1246,6 +1268,8 @@ void BQ25798Component::update() {
     this->en_12v_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_9v_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG11_Charger_Control_2, &raw_value)) {
@@ -1253,6 +1277,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_9V);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1261,6 +1286,8 @@ void BQ25798Component::update() {
     this->en_9v_sensor_->publish_state(value);
   }
 
+
+
   if (this->hvdcp_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG11_Charger_Control_2, &raw_value)) {
@@ -1268,6 +1295,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->HVDCP_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1275,6 +1303,8 @@ void BQ25798Component::update() {
     }
     this->hvdcp_en_sensor_->publish_state(value);
   }
+
+
 
   if (this->sdrv_ctrl_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1291,6 +1321,7 @@ void BQ25798Component::update() {
     }
     this->sdrv_ctrl_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->SDRV_CTRL);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1298,6 +1329,8 @@ void BQ25798Component::update() {
     }
     this->sdrv_ctrl_sensor_->publish_state(value);
   }
+
+
 
   if (this->sdrv_dly_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1314,6 +1347,7 @@ void BQ25798Component::update() {
     }
     this->sdrv_dly_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->SDRV_DLY);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1322,6 +1356,8 @@ void BQ25798Component::update() {
     this->sdrv_dly_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_acdrv_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1329,6 +1365,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_ACDRV);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1337,6 +1374,8 @@ void BQ25798Component::update() {
     this->dis_acdrv_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_otg_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1344,6 +1383,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_OTG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1352,6 +1392,8 @@ void BQ25798Component::update() {
     this->en_otg_sensor_->publish_state(value);
   }
 
+
+
   if (this->pfm_otg_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1359,6 +1401,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_OTG_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1367,6 +1410,8 @@ void BQ25798Component::update() {
     this->pfm_otg_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->pfm_fwd_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1374,6 +1419,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_FWD_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1381,6 +1427,8 @@ void BQ25798Component::update() {
     }
     this->pfm_fwd_dis_sensor_->publish_state(value);
   }
+
+
 
   if (this->wkup_dly_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1397,6 +1445,7 @@ void BQ25798Component::update() {
     }
     this->wkup_dly_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->WKUP_DLY);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1405,6 +1454,8 @@ void BQ25798Component::update() {
     this->wkup_dly_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_ldo_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1412,6 +1463,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_LDO);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1420,6 +1472,8 @@ void BQ25798Component::update() {
     this->dis_ldo_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_otg_ooa_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1427,6 +1481,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_OTG_OOA);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1435,6 +1490,8 @@ void BQ25798Component::update() {
     this->dis_otg_ooa_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_fwd_ooa_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG12_Charger_Control_3, &raw_value)) {
@@ -1442,6 +1499,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_FWD_OOA);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1450,6 +1508,8 @@ void BQ25798Component::update() {
     this->dis_fwd_ooa_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_acdrv2_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1457,6 +1517,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV2);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1465,6 +1526,8 @@ void BQ25798Component::update() {
     this->en_acdrv2_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_acdrv1_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1472,6 +1535,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV1);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1479,6 +1543,8 @@ void BQ25798Component::update() {
     }
     this->en_acdrv1_sensor_->publish_state(value);
   }
+
+
 
   if (this->pwm_freq_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1495,6 +1561,7 @@ void BQ25798Component::update() {
     }
     this->pwm_freq_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->PWM_FREQ);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1503,6 +1570,8 @@ void BQ25798Component::update() {
     this->pwm_freq_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1510,6 +1579,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1518,6 +1588,8 @@ void BQ25798Component::update() {
     this->dis_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_vsys_short_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1525,6 +1597,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VSYS_SHORT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1533,6 +1606,8 @@ void BQ25798Component::update() {
     this->dis_vsys_short_sensor_->publish_state(value);
   }
 
+
+
   if (this->dis_votg_uvp_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1540,6 +1615,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VOTG_UVP);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1548,6 +1624,8 @@ void BQ25798Component::update() {
     this->dis_votg_uvp_sensor_->publish_state(value);
   }
 
+
+
   if (this->force_vindpm_det_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1555,6 +1633,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_VINDPM_DET);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1563,6 +1642,8 @@ void BQ25798Component::update() {
     this->force_vindpm_det_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_ibus_ocp_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG13_Charger_Control_4, &raw_value)) {
@@ -1570,6 +1651,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBUS_OCP);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1578,6 +1660,8 @@ void BQ25798Component::update() {
     this->en_ibus_ocp_sensor_->publish_state(value);
   }
 
+
+
   if (this->sfet_present_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG14_Charger_Control_5, &raw_value)) {
@@ -1585,6 +1669,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->SFET_PRESENT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1593,6 +1678,8 @@ void BQ25798Component::update() {
     this->sfet_present_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_ibat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG14_Charger_Control_5, &raw_value)) {
@@ -1600,6 +1687,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1607,6 +1695,8 @@ void BQ25798Component::update() {
     }
     this->en_ibat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ibat_reg_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1623,6 +1713,7 @@ void BQ25798Component::update() {
     }
     this->ibat_reg_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IBAT_REG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1631,6 +1722,8 @@ void BQ25798Component::update() {
     this->ibat_reg_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_iindpm_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG14_Charger_Control_5, &raw_value)) {
@@ -1638,6 +1731,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IINDPM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1646,6 +1740,8 @@ void BQ25798Component::update() {
     this->en_iindpm_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_extilim_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG14_Charger_Control_5, &raw_value)) {
@@ -1653,6 +1749,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_EXTILIM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1661,6 +1758,8 @@ void BQ25798Component::update() {
     this->en_extilim_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_batoc_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG14_Charger_Control_5, &raw_value)) {
@@ -1668,6 +1767,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BATOC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1675,6 +1775,8 @@ void BQ25798Component::update() {
     }
     this->en_batoc_sensor_->publish_state(value);
   }
+
+
 
   if (this->voc_pct_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1691,6 +1793,7 @@ void BQ25798Component::update() {
     }
     this->voc_pct_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VOC_PCT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1698,6 +1801,8 @@ void BQ25798Component::update() {
     }
     this->voc_pct_sensor_->publish_state(value);
   }
+
+
 
   if (this->voc_dly_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1714,6 +1819,7 @@ void BQ25798Component::update() {
     }
     this->voc_dly_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VOC_DLY);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1721,6 +1827,8 @@ void BQ25798Component::update() {
     }
     this->voc_dly_sensor_->publish_state(value);
   }
+
+
 
   if (this->voc_rate_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1737,6 +1845,7 @@ void BQ25798Component::update() {
     }
     this->voc_rate_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VOC_RATE);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1745,6 +1854,8 @@ void BQ25798Component::update() {
     this->voc_rate_sensor_->publish_state(value);
   }
 
+
+
   if (this->en_mppt_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG15_MPPT_Control, &raw_value)) {
@@ -1752,6 +1863,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_MPPT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1759,6 +1871,8 @@ void BQ25798Component::update() {
     }
     this->en_mppt_sensor_->publish_state(value);
   }
+
+
 
   if (this->treg_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1775,6 +1889,7 @@ void BQ25798Component::update() {
     }
     this->treg_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TREG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1782,6 +1897,8 @@ void BQ25798Component::update() {
     }
     this->treg_sensor_->publish_state(value);
   }
+
+
 
   if (this->tshut_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1798,6 +1915,7 @@ void BQ25798Component::update() {
     }
     this->tshut_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TSHUT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1806,6 +1924,8 @@ void BQ25798Component::update() {
     this->tshut_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_pd_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG16_Temperature_Control, &raw_value)) {
@@ -1813,6 +1933,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PD_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1821,6 +1942,8 @@ void BQ25798Component::update() {
     this->vbus_pd_en_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac1_pd_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG16_Temperature_Control, &raw_value)) {
@@ -1828,6 +1951,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_PD_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1836,6 +1960,8 @@ void BQ25798Component::update() {
     this->vac1_pd_en_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac2_pd_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG16_Temperature_Control, &raw_value)) {
@@ -1843,6 +1969,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_PD_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1850,6 +1977,8 @@ void BQ25798Component::update() {
     }
     this->vac2_pd_en_sensor_->publish_state(value);
   }
+
+
 
   if (this->bkup_acfet1_on_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1866,6 +1995,7 @@ void BQ25798Component::update() {
     }
     this->bkup_acfet1_on_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->BKUP_ACFET1_ON);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1873,6 +2003,8 @@ void BQ25798Component::update() {
     }
     this->bkup_acfet1_on_sensor_->publish_state(value);
   }
+
+
 
   if (this->jeita_vset_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1889,6 +2021,7 @@ void BQ25798Component::update() {
     }
     this->jeita_vset_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->JEITA_VSET);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1896,6 +2029,8 @@ void BQ25798Component::update() {
     }
     this->jeita_vset_sensor_->publish_state(value);
   }
+
+
 
   if (this->jeita_iseth_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1912,6 +2047,7 @@ void BQ25798Component::update() {
     }
     this->jeita_iseth_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->JEITA_ISETH);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1919,6 +2055,8 @@ void BQ25798Component::update() {
     }
     this->jeita_iseth_sensor_->publish_state(value);
   }
+
+
 
   if (this->jeita_isetc_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1935,6 +2073,7 @@ void BQ25798Component::update() {
     }
     this->jeita_isetc_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->JEITA_ISETC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1942,6 +2081,8 @@ void BQ25798Component::update() {
     }
     this->jeita_isetc_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_cool_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1958,6 +2099,7 @@ void BQ25798Component::update() {
     }
     this->ts_cool_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_COOL);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1965,6 +2107,8 @@ void BQ25798Component::update() {
     }
     this->ts_cool_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_warm_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -1981,6 +2125,7 @@ void BQ25798Component::update() {
     }
     this->ts_warm_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_WARM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -1988,6 +2133,8 @@ void BQ25798Component::update() {
     }
     this->ts_warm_sensor_->publish_state(value);
   }
+
+
 
   if (this->bhot_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2004,6 +2151,7 @@ void BQ25798Component::update() {
     }
     this->bhot_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->BHOT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2011,6 +2159,8 @@ void BQ25798Component::update() {
     }
     this->bhot_sensor_->publish_state(value);
   }
+
+
 
   if (this->bcold_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2027,6 +2177,7 @@ void BQ25798Component::update() {
     }
     this->bcold_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->BCOLD);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2035,6 +2186,8 @@ void BQ25798Component::update() {
     this->bcold_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_ignore_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG18_NTC_Control_1, &raw_value)) {
@@ -2042,6 +2195,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_IGNORE);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2050,6 +2204,8 @@ void BQ25798Component::update() {
     this->ts_ignore_sensor_->publish_state(value);
   }
 
+
+
   if (this->ico_ilim_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG19_ICO_Current_Limit, &raw_value)) {
@@ -2057,6 +2213,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ICO_ILIM);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2064,6 +2221,8 @@ void BQ25798Component::update() {
     }
     this->ico_ilim_sensor_->publish_state(value);
   }
+
+
 
   if (this->iindpm_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2080,6 +2239,7 @@ void BQ25798Component::update() {
     }
     this->iindpm_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IINDPM_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2087,6 +2247,8 @@ void BQ25798Component::update() {
     }
     this->iindpm_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vindpm_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2103,6 +2265,7 @@ void BQ25798Component::update() {
     }
     this->vindpm_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VINDPM_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2110,6 +2273,8 @@ void BQ25798Component::update() {
     }
     this->vindpm_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->wd_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2126,6 +2291,7 @@ void BQ25798Component::update() {
     }
     this->wd_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->WD_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2133,6 +2299,8 @@ void BQ25798Component::update() {
     }
     this->wd_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->pg_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2149,6 +2317,7 @@ void BQ25798Component::update() {
     }
     this->pg_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->PG_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2156,6 +2325,8 @@ void BQ25798Component::update() {
     }
     this->pg_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ac2_present_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2172,6 +2343,7 @@ void BQ25798Component::update() {
     }
     this->ac2_present_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->AC2_PRESENT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2179,6 +2351,8 @@ void BQ25798Component::update() {
     }
     this->ac2_present_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ac1_present_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2195,6 +2369,7 @@ void BQ25798Component::update() {
     }
     this->ac1_present_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->AC1_PRESENT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2202,6 +2377,8 @@ void BQ25798Component::update() {
     }
     this->ac1_present_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbus_present_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2218,6 +2395,7 @@ void BQ25798Component::update() {
     }
     this->vbus_present_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBUS_PRESENT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2225,6 +2403,8 @@ void BQ25798Component::update() {
     }
     this->vbus_present_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->chg_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2241,6 +2421,7 @@ void BQ25798Component::update() {
     }
     this->chg_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->CHG_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2248,6 +2429,8 @@ void BQ25798Component::update() {
     }
     this->chg_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbus_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2264,6 +2447,7 @@ void BQ25798Component::update() {
     }
     this->vbus_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBUS_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2272,6 +2456,8 @@ void BQ25798Component::update() {
     this->vbus_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->bc12_done_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG1C_Charger_Status_1, &raw_value)) {
@@ -2279,6 +2465,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC12_DONE_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2286,6 +2473,8 @@ void BQ25798Component::update() {
     }
     this->bc12_done_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ico_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2302,6 +2491,7 @@ void BQ25798Component::update() {
     }
     this->ico_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ICO_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2309,6 +2499,8 @@ void BQ25798Component::update() {
     }
     this->ico_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->treg_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2325,6 +2517,7 @@ void BQ25798Component::update() {
     }
     this->treg_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TREG_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2332,6 +2525,8 @@ void BQ25798Component::update() {
     }
     this->treg_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->dpdm_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2348,6 +2543,7 @@ void BQ25798Component::update() {
     }
     this->dpdm_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DPDM_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2355,6 +2551,8 @@ void BQ25798Component::update() {
     }
     this->dpdm_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbat_present_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2371,6 +2569,7 @@ void BQ25798Component::update() {
     }
     this->vbat_present_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBAT_PRESENT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2379,6 +2578,8 @@ void BQ25798Component::update() {
     this->vbat_present_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->acrb2_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG1E_Charger_Status_3, &raw_value)) {
@@ -2386,6 +2587,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB2_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2394,6 +2596,8 @@ void BQ25798Component::update() {
     this->acrb2_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->acrb1_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG1E_Charger_Status_3, &raw_value)) {
@@ -2401,6 +2605,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB1_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2409,6 +2614,8 @@ void BQ25798Component::update() {
     this->acrb1_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->adc_done_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG1E_Charger_Status_3, &raw_value)) {
@@ -2416,6 +2623,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2423,6 +2631,8 @@ void BQ25798Component::update() {
     }
     this->adc_done_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vsys_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2439,6 +2649,7 @@ void BQ25798Component::update() {
     }
     this->vsys_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VSYS_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2446,6 +2657,8 @@ void BQ25798Component::update() {
     }
     this->vsys_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->chg_tmr_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2462,6 +2675,7 @@ void BQ25798Component::update() {
     }
     this->chg_tmr_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->CHG_TMR_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2469,6 +2683,8 @@ void BQ25798Component::update() {
     }
     this->chg_tmr_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->trichg_tmr_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2485,6 +2701,7 @@ void BQ25798Component::update() {
     }
     this->trichg_tmr_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TRICHG_TMR_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2492,6 +2709,8 @@ void BQ25798Component::update() {
     }
     this->trichg_tmr_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->prechg_tmr_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2508,6 +2727,7 @@ void BQ25798Component::update() {
     }
     this->prechg_tmr_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->PRECHG_TMR_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2515,6 +2735,8 @@ void BQ25798Component::update() {
     }
     this->prechg_tmr_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->vbatotg_low_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2531,6 +2753,7 @@ void BQ25798Component::update() {
     }
     this->vbatotg_low_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBATOTG_LOW_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2538,6 +2761,8 @@ void BQ25798Component::update() {
     }
     this->vbatotg_low_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_cold_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2554,6 +2779,7 @@ void BQ25798Component::update() {
     }
     this->ts_cold_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_COLD_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2561,6 +2787,8 @@ void BQ25798Component::update() {
     }
     this->ts_cold_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_cool_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2577,6 +2805,7 @@ void BQ25798Component::update() {
     }
     this->ts_cool_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_COOL_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2584,6 +2813,8 @@ void BQ25798Component::update() {
     }
     this->ts_cool_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_warm_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2600,6 +2831,7 @@ void BQ25798Component::update() {
     }
     this->ts_warm_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_WARM_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2607,6 +2839,8 @@ void BQ25798Component::update() {
     }
     this->ts_warm_stat_sensor_->publish_state(value);
   }
+
+
 
   if (this->ts_hot_stat_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -2623,6 +2857,7 @@ void BQ25798Component::update() {
     }
     this->ts_hot_stat_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->TS_HOT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2631,6 +2866,8 @@ void BQ25798Component::update() {
     this->ts_hot_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_reg_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2638,6 +2875,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2646,6 +2884,8 @@ void BQ25798Component::update() {
     this->ibat_reg_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2653,6 +2893,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2661,6 +2902,8 @@ void BQ25798Component::update() {
     this->vbus_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbat_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2668,6 +2911,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2676,6 +2920,8 @@ void BQ25798Component::update() {
     this->vbat_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibus_ocp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2683,6 +2929,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2691,6 +2938,8 @@ void BQ25798Component::update() {
     this->ibus_ocp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_ocp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2698,6 +2947,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2706,6 +2956,8 @@ void BQ25798Component::update() {
     this->ibat_ocp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->conv_ocp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2713,6 +2965,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2721,6 +2974,8 @@ void BQ25798Component::update() {
     this->conv_ocp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac2_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2728,6 +2983,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2736,6 +2992,8 @@ void BQ25798Component::update() {
     this->vac2_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac1_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG20_FAULT_Status_0, &raw_value)) {
@@ -2743,6 +3001,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2751,6 +3010,8 @@ void BQ25798Component::update() {
     this->vac1_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_short_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG21_FAULT_Status_1, &raw_value)) {
@@ -2758,6 +3019,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2766,6 +3028,8 @@ void BQ25798Component::update() {
     this->vsys_short_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG21_FAULT_Status_1, &raw_value)) {
@@ -2773,6 +3037,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2781,6 +3046,8 @@ void BQ25798Component::update() {
     this->vsys_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->otg_ovp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG21_FAULT_Status_1, &raw_value)) {
@@ -2788,6 +3055,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2796,6 +3064,8 @@ void BQ25798Component::update() {
     this->otg_ovp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->otg_uvp_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG21_FAULT_Status_1, &raw_value)) {
@@ -2803,6 +3073,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2811,6 +3082,8 @@ void BQ25798Component::update() {
     this->otg_uvp_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->tshut_stat_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG21_FAULT_Status_1, &raw_value)) {
@@ -2818,6 +3091,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_STAT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2826,6 +3100,8 @@ void BQ25798Component::update() {
     this->tshut_stat_sensor_->publish_state(value);
   }
 
+
+
   if (this->iindpm_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2833,6 +3109,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IINDPM_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2841,6 +3118,8 @@ void BQ25798Component::update() {
     this->iindpm_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vindpm_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2848,6 +3127,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VINDPM_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2856,6 +3136,8 @@ void BQ25798Component::update() {
     this->vindpm_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->wd_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2863,6 +3145,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2871,6 +3154,8 @@ void BQ25798Component::update() {
     this->wd_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->poorsrc_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2878,6 +3163,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->POORSRC_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2886,6 +3172,8 @@ void BQ25798Component::update() {
     this->poorsrc_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->pg_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2893,6 +3181,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PG_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2901,6 +3190,8 @@ void BQ25798Component::update() {
     this->pg_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ac2_present_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2908,6 +3199,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC2_PRESENT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2916,6 +3208,8 @@ void BQ25798Component::update() {
     this->ac2_present_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ac1_present_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2923,6 +3217,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC1_PRESENT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2931,6 +3226,8 @@ void BQ25798Component::update() {
     this->ac1_present_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_present_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG22_Charger_Flag_0, &raw_value)) {
@@ -2938,6 +3235,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PRESENT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2946,6 +3244,8 @@ void BQ25798Component::update() {
     this->vbus_present_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->chg_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -2953,6 +3253,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2961,6 +3262,8 @@ void BQ25798Component::update() {
     this->chg_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ico_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -2968,6 +3271,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ICO_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2976,6 +3280,8 @@ void BQ25798Component::update() {
     this->ico_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -2983,6 +3289,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -2991,6 +3298,8 @@ void BQ25798Component::update() {
     this->vbus_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->treg_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -2998,6 +3307,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TREG_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3006,6 +3316,8 @@ void BQ25798Component::update() {
     this->treg_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbat_present_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -3013,6 +3325,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_PRESENT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3021,6 +3334,8 @@ void BQ25798Component::update() {
     this->vbat_present_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->bc1_2_done_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG23_Charger_Flag_1, &raw_value)) {
@@ -3028,6 +3343,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC1_2_DONE_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3036,6 +3352,8 @@ void BQ25798Component::update() {
     this->bc1_2_done_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->dpdm_done_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3043,6 +3361,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPDM_DONE_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3051,6 +3370,8 @@ void BQ25798Component::update() {
     this->dpdm_done_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->adc_done_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3058,6 +3379,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3066,6 +3388,8 @@ void BQ25798Component::update() {
     this->adc_done_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3073,6 +3397,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3081,6 +3406,8 @@ void BQ25798Component::update() {
     this->vsys_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->chg_tmr_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3088,6 +3415,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_TMR_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3096,6 +3424,8 @@ void BQ25798Component::update() {
     this->chg_tmr_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->trichg_tmr_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3103,6 +3433,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TRICHG_TMR_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3111,6 +3442,8 @@ void BQ25798Component::update() {
     this->trichg_tmr_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->prechg_tmr_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3118,6 +3451,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PRECHG_TMR_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3126,6 +3460,8 @@ void BQ25798Component::update() {
     this->prechg_tmr_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->topoff_tmr_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG24_Charger_Flag_2, &raw_value)) {
@@ -3133,6 +3469,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TOPOFF_TMR_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3141,6 +3478,8 @@ void BQ25798Component::update() {
     this->topoff_tmr_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbatotg_low_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG25_Charger_Flag_3, &raw_value)) {
@@ -3148,6 +3487,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBATOTG_LOW_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3156,6 +3496,8 @@ void BQ25798Component::update() {
     this->vbatotg_low_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_cold_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG25_Charger_Flag_3, &raw_value)) {
@@ -3163,6 +3505,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COLD_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3171,6 +3514,8 @@ void BQ25798Component::update() {
     this->ts_cold_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_cool_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG25_Charger_Flag_3, &raw_value)) {
@@ -3178,6 +3523,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COOL_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3186,6 +3532,8 @@ void BQ25798Component::update() {
     this->ts_cool_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_warm_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG25_Charger_Flag_3, &raw_value)) {
@@ -3193,6 +3541,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_WARM_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3201,6 +3550,8 @@ void BQ25798Component::update() {
     this->ts_warm_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_hot_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG25_Charger_Flag_3, &raw_value)) {
@@ -3208,6 +3559,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_HOT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3216,6 +3568,8 @@ void BQ25798Component::update() {
     this->ts_hot_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_reg_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3223,6 +3577,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3231,6 +3586,8 @@ void BQ25798Component::update() {
     this->ibat_reg_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3238,6 +3595,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3246,6 +3604,8 @@ void BQ25798Component::update() {
     this->vbus_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbat_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3253,6 +3613,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3261,6 +3622,8 @@ void BQ25798Component::update() {
     this->vbat_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibus_ocp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3268,6 +3631,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3276,6 +3640,8 @@ void BQ25798Component::update() {
     this->ibus_ocp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_ocp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3283,6 +3649,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3291,6 +3658,8 @@ void BQ25798Component::update() {
     this->ibat_ocp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->conv_ocp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3298,6 +3667,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3306,6 +3676,8 @@ void BQ25798Component::update() {
     this->conv_ocp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac2_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3313,6 +3685,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3321,6 +3694,8 @@ void BQ25798Component::update() {
     this->vac2_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac1_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG26_FAULT_Flag_0, &raw_value)) {
@@ -3328,6 +3703,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3336,6 +3712,8 @@ void BQ25798Component::update() {
     this->vac1_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_short_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG27_FAULT_Flag_1, &raw_value)) {
@@ -3343,6 +3721,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3351,6 +3730,8 @@ void BQ25798Component::update() {
     this->vsys_short_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG27_FAULT_Flag_1, &raw_value)) {
@@ -3358,6 +3739,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3366,6 +3748,8 @@ void BQ25798Component::update() {
     this->vsys_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->otg_ovp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG27_FAULT_Flag_1, &raw_value)) {
@@ -3373,6 +3757,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3381,6 +3766,8 @@ void BQ25798Component::update() {
     this->otg_ovp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->otg_uvp_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG27_FAULT_Flag_1, &raw_value)) {
@@ -3388,6 +3775,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3396,6 +3784,8 @@ void BQ25798Component::update() {
     this->otg_uvp_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->tshut_flag_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG27_FAULT_Flag_1, &raw_value)) {
@@ -3403,6 +3793,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_FLAG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3411,6 +3802,8 @@ void BQ25798Component::update() {
     this->tshut_flag_sensor_->publish_state(value);
   }
 
+
+
   if (this->adc_en_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2E_ADC_Control, &raw_value)) {
@@ -3418,6 +3811,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_EN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3425,6 +3819,8 @@ void BQ25798Component::update() {
     }
     this->adc_en_sensor_->publish_state(value);
   }
+
+
 
   if (this->adc_rate_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3441,6 +3837,7 @@ void BQ25798Component::update() {
     }
     this->adc_rate_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ADC_RATE);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3448,6 +3845,8 @@ void BQ25798Component::update() {
     }
     this->adc_rate_sensor_->publish_state(value);
   }
+
+
 
   if (this->adc_sample_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3464,6 +3863,7 @@ void BQ25798Component::update() {
     }
     this->adc_sample_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ADC_SAMPLE);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3471,6 +3871,8 @@ void BQ25798Component::update() {
     }
     this->adc_sample_sensor_->publish_state(value);
   }
+
+
 
   if (this->adc_avg_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3487,6 +3889,7 @@ void BQ25798Component::update() {
     }
     this->adc_avg_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ADC_AVG);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3495,6 +3898,8 @@ void BQ25798Component::update() {
     this->adc_avg_sensor_->publish_state(value);
   }
 
+
+
   if (this->adc_avg_init_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2E_ADC_Control, &raw_value)) {
@@ -3502,6 +3907,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_AVG_INIT);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3510,6 +3916,8 @@ void BQ25798Component::update() {
     this->adc_avg_init_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibus_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3517,6 +3925,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3525,6 +3934,8 @@ void BQ25798Component::update() {
     this->ibus_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3532,6 +3943,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3540,6 +3952,8 @@ void BQ25798Component::update() {
     this->ibat_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3547,6 +3961,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3555,6 +3970,8 @@ void BQ25798Component::update() {
     this->vbus_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbat_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3562,6 +3979,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3570,6 +3988,8 @@ void BQ25798Component::update() {
     this->vbat_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3577,6 +3997,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3585,6 +4006,8 @@ void BQ25798Component::update() {
     this->vsys_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3592,6 +4015,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3600,6 +4024,8 @@ void BQ25798Component::update() {
     this->ts_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->tdie_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG2F_ADC_Function_Disable_0, &raw_value)) {
@@ -3607,6 +4033,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TDIE_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3615,6 +4042,8 @@ void BQ25798Component::update() {
     this->tdie_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->dplus_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG30_ADC_Function_Disable_1, &raw_value)) {
@@ -3622,6 +4051,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPLUS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3630,6 +4060,8 @@ void BQ25798Component::update() {
     this->dplus_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->dminus_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG30_ADC_Function_Disable_1, &raw_value)) {
@@ -3637,6 +4069,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DMINUS_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3645,6 +4078,8 @@ void BQ25798Component::update() {
     this->dminus_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac2_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG30_ADC_Function_Disable_1, &raw_value)) {
@@ -3652,6 +4087,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3660,6 +4096,8 @@ void BQ25798Component::update() {
     this->vac2_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac1_adc_dis_sensor_ != nullptr) {
     uint8_t raw_value;
     if (!this->read_byte(REG30_ADC_Function_Disable_1, &raw_value)) {
@@ -3667,6 +4105,7 @@ void BQ25798Component::update() {
       return;
     }
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_ADC_DIS);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3675,6 +4114,8 @@ void BQ25798Component::update() {
     this->vac1_adc_dis_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibus_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG31_IBUS_ADC, &raw_value)) {
@@ -3682,6 +4123,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IBUS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3690,6 +4132,8 @@ void BQ25798Component::update() {
     this->ibus_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->ibat_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG33_IBAT_ADC, &raw_value)) {
@@ -3697,6 +4141,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IBAT_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3705,6 +4150,8 @@ void BQ25798Component::update() {
     this->ibat_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbus_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG35_VBUS_ADC, &raw_value)) {
@@ -3712,6 +4159,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBUS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3720,6 +4168,8 @@ void BQ25798Component::update() {
     this->vbus_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac1_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG37_VAC1_ADC, &raw_value)) {
@@ -3727,6 +4177,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VAC1_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3735,6 +4186,8 @@ void BQ25798Component::update() {
     this->vac1_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->vac2_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG39_VAC2_ADC, &raw_value)) {
@@ -3742,6 +4195,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VAC2_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3750,6 +4204,8 @@ void BQ25798Component::update() {
     this->vac2_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->vbat_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG3B_VBAT_ADC, &raw_value)) {
@@ -3757,6 +4213,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBAT_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3765,6 +4222,8 @@ void BQ25798Component::update() {
     this->vbat_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->vsys_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG3D_VSYS_ADC, &raw_value)) {
@@ -3772,6 +4231,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VSYS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3780,6 +4240,8 @@ void BQ25798Component::update() {
     this->vsys_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->ts_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG3F_TS_ADC, &raw_value)) {
@@ -3787,6 +4249,7 @@ void BQ25798Component::update() {
       return;
     }
     float value = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->TS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3795,6 +4258,8 @@ void BQ25798Component::update() {
     this->ts_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->tdie_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG41_TDIE_ADC, &raw_value)) {
@@ -3802,6 +4267,7 @@ void BQ25798Component::update() {
       return;
     }
     float value = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->TDIE_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3810,6 +4276,8 @@ void BQ25798Component::update() {
     this->tdie_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->dplus_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG43_DPLUS_ADC, &raw_value)) {
@@ -3817,6 +4285,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DPLUS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3825,6 +4294,8 @@ void BQ25798Component::update() {
     this->dplus_adc_sensor_->publish_state(value);
   }
 
+
+
   if (this->dminus_adc_sensor_ != nullptr) {
     uint16_t raw_value;
     if (!this->read_byte_16(REG45_DMINUS_ADC, &raw_value)) {
@@ -3832,6 +4303,7 @@ void BQ25798Component::update() {
       return;
     }
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DMINUS_ADC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3839,6 +4311,8 @@ void BQ25798Component::update() {
     }
     this->dminus_adc_sensor_->publish_state(value);
   }
+
+
 
   if (this->dplus_dac_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3855,6 +4329,7 @@ void BQ25798Component::update() {
     }
     this->dplus_dac_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DPLUS_DAC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3862,6 +4337,8 @@ void BQ25798Component::update() {
     }
     this->dplus_dac_sensor_->publish_state(value);
   }
+
+
 
   if (this->dminus_dac_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3878,6 +4355,7 @@ void BQ25798Component::update() {
     }
     this->dminus_dac_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DMINUS_DAC);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3885,6 +4363,8 @@ void BQ25798Component::update() {
     }
     this->dminus_dac_sensor_->publish_state(value);
   }
+
+
 
   if (this->pn_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3901,6 +4381,7 @@ void BQ25798Component::update() {
     }
     this->pn_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->PN);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3908,6 +4389,8 @@ void BQ25798Component::update() {
     }
     this->pn_sensor_->publish_state(value);
   }
+
+
 
   if (this->dev_rev_sensor_ != nullptr) {
     uint8_t raw_value;
@@ -3924,6 +4407,7 @@ void BQ25798Component::update() {
     }
     this->dev_rev_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DEV_REV);
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -3931,6 +4415,7 @@ void BQ25798Component::update() {
     }
     this->dev_rev_sensor_->publish_state(value);
   }
+
 
 }
 

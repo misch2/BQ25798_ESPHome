@@ -13,6 +13,8 @@ void BQ25798Component::setup() {
   bq25798_noi2c = new BQ25798NoI2C();
   bq25798_noi2c->begin(this->address_); // no-op
 
+  // FIXME reset the chip?
+
   uint8_t raw_value;
   if (!this->read_byte({{ settings[0].regname }}, &raw_value)) {
     ESP_LOGE(TAG, "Failed to read from BQ25798 at address 0x%02X", this->address_);
@@ -42,18 +44,13 @@ void BQ25798Component::dump_config() {
   }
   LOG_UPDATE_INTERVAL(this);
 
+  // Dump all the sensors enabled in YAML config
 {%- for def in settings %}
-
 {%-     if def.type == "int" or def.type == "float" or def.type == "enum"  %}
   LOG_SENSOR("  ", "{{ def.name }}", this->{{ def.name | lower }}_sensor_);
 {%-     elif def.type == "bool" %}
   LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->{{ def.name | lower }}_sensor_);
 {%-     endif %}
-
-{%-     if def.mode == "ro" %}
-  ESP_LOGCONFIG(TAG, "  {{ def.name }}: (read-only)"); // FIXME?
-{%-     endif %}
-
 {%- endfor %}
 
 }
@@ -62,6 +59,7 @@ float BQ25798Component::get_setup_priority() const { return setup_priority::DATA
 
 void BQ25798Component::update() {
 {%- for def in settings %}
+
   if (this->{{ def.name | lower }}_sensor_ != nullptr) {
 
 {%-         if def.long_reg %}
@@ -95,6 +93,7 @@ void BQ25798Component::update() {
     this->{{ def.name | lower }}_text_sensor_->publish_state(string_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
 {%-     endif %}
+
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
@@ -102,6 +101,7 @@ void BQ25798Component::update() {
     }
     this->{{ def.name | lower }}_sensor_->publish_state(value);
   }
+
 {% endfor %}
 }
 

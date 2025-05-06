@@ -1,19 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import core
-from esphome.components import i2c, sensor
+from esphome.components import i2c
 from esphome.const import (
-    CONF_ID,
-    CONF_TEMPERATURE,
-    DEVICE_CLASS_TEMPERATURE,
-    STATE_CLASS_MEASUREMENT,
-    UNIT_CELSIUS,
-    UNIT_PERCENT,
-    UNIT_VOLT,
-    UNIT_MILLIAMP,
+    CONF_ID
 )
 
 DEPENDENCIES = ["i2c"]
+CONF_BQ25798_ID = "bq25798_id"
 
 bq25798_ns = cg.esphome_ns.namespace("bq25798")
 
@@ -21,9 +15,8 @@ BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2
 
 # Settings
 {%- for def in settings %}
-{%-     if def.mode == "rw" %}
+{# All settings, not just RW ones #}
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
-{%-     endif %}
 {%- endfor %}
 
 # Configuration schema
@@ -41,22 +34,7 @@ CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798Component),
-
-            # Read-only sensors
-{%- for def in settings %}
-{%-         if def.type == "int" %}
-            cv.Optional("{{ def.name | lower }}"): sensor.sensor_schema(  # FIXME or CONF_BQ25798_{{ def.name}}?
-                unit_of_measurement="FIXME1",
-                accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
-            ),
-{%-         endif %}            
-{%- endfor %}
-
-            # Read-write sensors
-
-
+            # Settings configurable on startup
 {%- for def in settings %}
 {%-     if def.mode == "rw" %}
 {%-         if def.type == "bool" %}
@@ -73,10 +51,15 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("1s"))  # FIXME: Polling interval, is this reasonable default?
+    .extend(cv.polling_component_schema("5s"))  # FIXME: Polling interval, is this reasonable default?
     .extend(i2c.i2c_device_schema({{ default_address_hex }}))
 )
 
+BQ25798_CLIENT_SCHEMA = cv.Schema(
+    {
+        cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
+    }
+)
 
 async def to_code(config):
     cg.add_library(
@@ -89,7 +72,6 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
 
-# FIXME set_.... should just set the variable, nothing else, because the object.setup() will be called later!
     # Chip settings
 {%- for def in settings %}
 {%-     if def.mode == "rw" %}
