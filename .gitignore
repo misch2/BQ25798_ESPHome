@@ -4,3 +4,6 @@
 /.esphome/
 /secrets.yaml
 __pycache__/
+# FIXME: my debug esphome files
+/include/
+esp09*yaml
