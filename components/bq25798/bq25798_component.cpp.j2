@@ -90,23 +90,25 @@ void BQ25798Component::update() {
 }
 
 {%- for def in settings %}
-{%     if def.type == "bool" %}
+{%-     if def.mode == "rw" %}
+
+{%          if def.type == "bool" %}
 void BQ25798Component::set_{{ def.name | lower }}(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "{{ def.name }}", value ? "True" : "False");
   uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->{{ def.name }});
-{%     elif def.type == "int" %}
+{%         elif def.type == "int" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "{{ def.name }}", value, "{{ def.unit }}");
   uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->{{ def.name }});
-{%     elif def.type == "float" %}
+{%         elif def.type == "float" %}
 void BQ25798Component::set_{{ def.name | lower }}(float value) {
   ESP_LOGD(TAG, "Setting %s to %f %s", "{{ def.name }}", value, "{{ def.unit }}");
   uint16_t raw_value = this->bq25798_noi2c->floatToRaw(value, this->bq25798_noi2c->{{ def.name }});
-{%     elif def.type == "enum" %}
+{%         elif def.type == "enum" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value) {
   ESP_LOGD(TAG, "Setting %s to %d ({{ def.name }}_t)", "{{ def.name }}", value);
   uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->{{ def.name }});
-{%-     endif %}
+{%-         endif %}
 
 {%-         if def.long_reg %}
   if (!this->write_byte_16({{ def.regname }}, raw_value)) {
@@ -117,7 +119,9 @@ void BQ25798Component::set_{{ def.name | lower }}(int value) {
     this->mark_failed();
   }
 {%-         endif %}
-};
+};  // function end
+
+{%-     endif %}
 
 {%- endfor %}
 

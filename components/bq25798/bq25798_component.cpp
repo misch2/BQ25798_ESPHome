@@ -3432,6 +3432,7 @@ void BQ25798Component::update() {
 
 }
 
+
 void BQ25798Component::set_vsysmin(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "VSYSMIN", value, "mV");
   uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VSYSMIN);
@@ -3439,7 +3440,8 @@ void BQ25798Component::set_vsysmin(int value) {
   if (!this->write_byte(REG00_Minimal_System_Voltage, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vreg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "VREG", value, "mV");
@@ -3448,7 +3450,8 @@ void BQ25798Component::set_vreg(int value) {
   if (!this->write_byte_16(REG01_Charge_Voltage_Limit, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ichg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "ICHG", value, "mA");
@@ -3457,7 +3460,8 @@ void BQ25798Component::set_ichg(int value) {
   if (!this->write_byte_16(REG03_Charge_Current_Limit, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vindpm(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "VINDPM", value, "mV");
@@ -3466,7 +3470,8 @@ void BQ25798Component::set_vindpm(int value) {
   if (!this->write_byte(REG05_Input_Voltage_Limit, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_iindpm(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "IINDPM", value, "mA");
@@ -3475,7 +3480,8 @@ void BQ25798Component::set_iindpm(int value) {
   if (!this->write_byte_16(REG06_Input_Current_Limit, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vbat_lowv(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VBAT_LOWV_t)", "VBAT_LOWV", value);
@@ -3483,7 +3489,8 @@ void BQ25798Component::set_vbat_lowv(int value) {
   if (!this->write_byte(REG08_Precharge_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_iprechg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "IPRECHG", value, "mA");
@@ -3492,7 +3499,8 @@ void BQ25798Component::set_iprechg(int value) {
   if (!this->write_byte(REG08_Precharge_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_reg_rst(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "REG_RST", value ? "True" : "False");
@@ -3501,7 +3509,8 @@ void BQ25798Component::set_reg_rst(bool value) {
   if (!this->write_byte(REG09_Termination_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_stop_wd_chg(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "STOP_WD_CHG", value ? "True" : "False");
@@ -3510,7 +3519,8 @@ void BQ25798Component::set_stop_wd_chg(bool value) {
   if (!this->write_byte(REG09_Termination_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_iterm(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "ITERM", value, "mA");
@@ -3519,7 +3529,8 @@ void BQ25798Component::set_iterm(int value) {
   if (!this->write_byte(REG09_Termination_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_cell(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (CELL_t)", "CELL", value);
@@ -3527,7 +3538,8 @@ void BQ25798Component::set_cell(int value) {
   if (!this->write_byte(REG0A_Recharge_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_trechg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TRECHG_t)", "TRECHG", value);
@@ -3535,7 +3547,8 @@ void BQ25798Component::set_trechg(int value) {
   if (!this->write_byte(REG0A_Recharge_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vrechg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "VRECHG", value, "mV");
@@ -3544,7 +3557,8 @@ void BQ25798Component::set_vrechg(int value) {
   if (!this->write_byte(REG0A_Recharge_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_votg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "VOTG", value, "mV");
@@ -3553,7 +3567,8 @@ void BQ25798Component::set_votg(int value) {
   if (!this->write_byte_16(REG0B_VOTG_regulation, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_prechg_tmr(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (PRECHG_TMR_t)", "PRECHG_TMR", value);
@@ -3561,7 +3576,8 @@ void BQ25798Component::set_prechg_tmr(int value) {
   if (!this->write_byte(REG0D_IOTG_regulation, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_iotg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d %s", "IOTG", value, "mA");
@@ -3570,7 +3586,8 @@ void BQ25798Component::set_iotg(int value) {
   if (!this->write_byte(REG0D_IOTG_regulation, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_topoff_tmr(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TOPOFF_TMR_t)", "TOPOFF_TMR", value);
@@ -3578,7 +3595,8 @@ void BQ25798Component::set_topoff_tmr(int value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_trichg_tmr(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_TRICHG_TMR", value ? "True" : "False");
@@ -3587,7 +3605,8 @@ void BQ25798Component::set_en_trichg_tmr(bool value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_prechg_tmr(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_PRECHG_TMR", value ? "True" : "False");
@@ -3596,7 +3615,8 @@ void BQ25798Component::set_en_prechg_tmr(bool value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_chg_tmr(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_CHG_TMR", value ? "True" : "False");
@@ -3605,7 +3625,8 @@ void BQ25798Component::set_en_chg_tmr(bool value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_chg_tmr(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (CHG_TMR_t)", "CHG_TMR", value);
@@ -3613,7 +3634,8 @@ void BQ25798Component::set_chg_tmr(int value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_tmr2x_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "TMR2X_EN", value ? "True" : "False");
@@ -3622,7 +3644,8 @@ void BQ25798Component::set_tmr2x_en(bool value) {
   if (!this->write_byte(REG0E_Timer_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_auto_ibatdis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_AUTO_IBATDIS", value ? "True" : "False");
@@ -3631,7 +3654,8 @@ void BQ25798Component::set_en_auto_ibatdis(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_force_ibatdis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "FORCE_IBATDIS", value ? "True" : "False");
@@ -3640,7 +3664,8 @@ void BQ25798Component::set_force_ibatdis(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_chg(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_CHG", value ? "True" : "False");
@@ -3649,7 +3674,8 @@ void BQ25798Component::set_en_chg(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_ico(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_ICO", value ? "True" : "False");
@@ -3658,7 +3684,8 @@ void BQ25798Component::set_en_ico(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_force_ico(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "FORCE_ICO", value ? "True" : "False");
@@ -3667,7 +3694,8 @@ void BQ25798Component::set_force_ico(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_hiz(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_HIZ", value ? "True" : "False");
@@ -3676,7 +3704,8 @@ void BQ25798Component::set_en_hiz(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_term(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_TERM", value ? "True" : "False");
@@ -3685,7 +3714,8 @@ void BQ25798Component::set_en_term(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_backup(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_BACKUP", value ? "True" : "False");
@@ -3694,7 +3724,8 @@ void BQ25798Component::set_en_backup(bool value) {
   if (!this->write_byte(REG0F_Charger_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vbus_backup(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VBUS_BACKUP_t)", "VBUS_BACKUP", value);
@@ -3702,7 +3733,8 @@ void BQ25798Component::set_vbus_backup(int value) {
   if (!this->write_byte(REG10_Charger_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vac_ovp(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VAC_OVP_t)", "VAC_OVP", value);
@@ -3710,7 +3742,8 @@ void BQ25798Component::set_vac_ovp(int value) {
   if (!this->write_byte(REG10_Charger_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_wd_rst(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "WD_RST", value ? "True" : "False");
@@ -3719,7 +3752,8 @@ void BQ25798Component::set_wd_rst(bool value) {
   if (!this->write_byte(REG10_Charger_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_watchdog(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (WATCHDOG_t)", "WATCHDOG", value);
@@ -3727,7 +3761,8 @@ void BQ25798Component::set_watchdog(int value) {
   if (!this->write_byte(REG10_Charger_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_force_indet(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "FORCE_INDET", value ? "True" : "False");
@@ -3736,7 +3771,8 @@ void BQ25798Component::set_force_indet(bool value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_auto_indet_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "AUTO_INDET_EN", value ? "True" : "False");
@@ -3745,7 +3781,8 @@ void BQ25798Component::set_auto_indet_en(bool value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_12v(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_12V", value ? "True" : "False");
@@ -3754,7 +3791,8 @@ void BQ25798Component::set_en_12v(bool value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_9v(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_9V", value ? "True" : "False");
@@ -3763,7 +3801,8 @@ void BQ25798Component::set_en_9v(bool value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_hvdcp_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "HVDCP_EN", value ? "True" : "False");
@@ -3772,7 +3811,8 @@ void BQ25798Component::set_hvdcp_en(bool value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_sdrv_ctrl(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (SDRV_CTRL_t)", "SDRV_CTRL", value);
@@ -3780,7 +3820,8 @@ void BQ25798Component::set_sdrv_ctrl(int value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_sdrv_dly(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (SDRV_DLY_t)", "SDRV_DLY", value);
@@ -3788,7 +3829,8 @@ void BQ25798Component::set_sdrv_dly(int value) {
   if (!this->write_byte(REG11_Charger_Control_2, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_acdrv(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_ACDRV", value ? "True" : "False");
@@ -3797,7 +3839,8 @@ void BQ25798Component::set_dis_acdrv(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_otg(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_OTG", value ? "True" : "False");
@@ -3806,7 +3849,8 @@ void BQ25798Component::set_en_otg(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_pfm_otg_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "PFM_OTG_DIS", value ? "True" : "False");
@@ -3815,7 +3859,8 @@ void BQ25798Component::set_pfm_otg_dis(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_pfm_fwd_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "PFM_FWD_DIS", value ? "True" : "False");
@@ -3824,7 +3869,8 @@ void BQ25798Component::set_pfm_fwd_dis(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_wkup_dly(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (WKUP_DLY_t)", "WKUP_DLY", value);
@@ -3832,7 +3878,8 @@ void BQ25798Component::set_wkup_dly(int value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_ldo(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_LDO", value ? "True" : "False");
@@ -3841,7 +3888,8 @@ void BQ25798Component::set_dis_ldo(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_otg_ooa(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_OTG_OOA", value ? "True" : "False");
@@ -3850,7 +3898,8 @@ void BQ25798Component::set_dis_otg_ooa(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_fwd_ooa(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_FWD_OOA", value ? "True" : "False");
@@ -3859,7 +3908,8 @@ void BQ25798Component::set_dis_fwd_ooa(bool value) {
   if (!this->write_byte(REG12_Charger_Control_3, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_acdrv2(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_ACDRV2", value ? "True" : "False");
@@ -3868,7 +3918,8 @@ void BQ25798Component::set_en_acdrv2(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_acdrv1(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_ACDRV1", value ? "True" : "False");
@@ -3877,7 +3928,8 @@ void BQ25798Component::set_en_acdrv1(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_pwm_freq(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (PWM_FREQ_t)", "PWM_FREQ", value);
@@ -3885,7 +3937,8 @@ void BQ25798Component::set_pwm_freq(int value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_stat(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_STAT", value ? "True" : "False");
@@ -3894,7 +3947,8 @@ void BQ25798Component::set_dis_stat(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_vsys_short(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_VSYS_SHORT", value ? "True" : "False");
@@ -3903,7 +3957,8 @@ void BQ25798Component::set_dis_vsys_short(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dis_votg_uvp(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DIS_VOTG_UVP", value ? "True" : "False");
@@ -3912,7 +3967,8 @@ void BQ25798Component::set_dis_votg_uvp(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_force_vindpm_det(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "FORCE_VINDPM_DET", value ? "True" : "False");
@@ -3921,7 +3977,8 @@ void BQ25798Component::set_force_vindpm_det(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_ibus_ocp(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_IBUS_OCP", value ? "True" : "False");
@@ -3930,7 +3987,8 @@ void BQ25798Component::set_en_ibus_ocp(bool value) {
   if (!this->write_byte(REG13_Charger_Control_4, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_sfet_present(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "SFET_PRESENT", value ? "True" : "False");
@@ -3939,7 +3997,8 @@ void BQ25798Component::set_sfet_present(bool value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_ibat(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_IBAT", value ? "True" : "False");
@@ -3948,7 +4007,8 @@ void BQ25798Component::set_en_ibat(bool value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ibat_reg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (IBAT_REG_t)", "IBAT_REG", value);
@@ -3956,7 +4016,8 @@ void BQ25798Component::set_ibat_reg(int value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_iindpm(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_IINDPM", value ? "True" : "False");
@@ -3965,7 +4026,8 @@ void BQ25798Component::set_en_iindpm(bool value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_extilim(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_EXTILIM", value ? "True" : "False");
@@ -3974,7 +4036,8 @@ void BQ25798Component::set_en_extilim(bool value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_batoc(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_BATOC", value ? "True" : "False");
@@ -3983,7 +4046,8 @@ void BQ25798Component::set_en_batoc(bool value) {
   if (!this->write_byte(REG14_Charger_Control_5, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_voc_pct(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VOC_PCT_t)", "VOC_PCT", value);
@@ -3991,7 +4055,8 @@ void BQ25798Component::set_voc_pct(int value) {
   if (!this->write_byte(REG15_MPPT_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_voc_dly(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VOC_DLY_t)", "VOC_DLY", value);
@@ -3999,7 +4064,8 @@ void BQ25798Component::set_voc_dly(int value) {
   if (!this->write_byte(REG15_MPPT_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_voc_rate(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (VOC_RATE_t)", "VOC_RATE", value);
@@ -4007,7 +4073,8 @@ void BQ25798Component::set_voc_rate(int value) {
   if (!this->write_byte(REG15_MPPT_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_en_mppt(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "EN_MPPT", value ? "True" : "False");
@@ -4016,7 +4083,8 @@ void BQ25798Component::set_en_mppt(bool value) {
   if (!this->write_byte(REG15_MPPT_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_treg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TREG_t)", "TREG", value);
@@ -4024,7 +4092,8 @@ void BQ25798Component::set_treg(int value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_tshut(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TSHUT_t)", "TSHUT", value);
@@ -4032,7 +4101,8 @@ void BQ25798Component::set_tshut(int value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vbus_pd_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VBUS_PD_EN", value ? "True" : "False");
@@ -4041,7 +4111,8 @@ void BQ25798Component::set_vbus_pd_en(bool value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vac1_pd_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VAC1_PD_EN", value ? "True" : "False");
@@ -4050,7 +4121,8 @@ void BQ25798Component::set_vac1_pd_en(bool value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vac2_pd_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VAC2_PD_EN", value ? "True" : "False");
@@ -4059,7 +4131,8 @@ void BQ25798Component::set_vac2_pd_en(bool value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_bkup_acfet1_on(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (BKUP_ACFET1_ON_t)", "BKUP_ACFET1_ON", value);
@@ -4067,7 +4140,8 @@ void BQ25798Component::set_bkup_acfet1_on(int value) {
   if (!this->write_byte(REG16_Temperature_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_jeita_vset(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (JEITA_VSET_t)", "JEITA_VSET", value);
@@ -4075,7 +4149,8 @@ void BQ25798Component::set_jeita_vset(int value) {
   if (!this->write_byte(REG17_NTC_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_jeita_iseth(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (JEITA_ISETH_t)", "JEITA_ISETH", value);
@@ -4083,7 +4158,8 @@ void BQ25798Component::set_jeita_iseth(int value) {
   if (!this->write_byte(REG17_NTC_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_jeita_isetc(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (JEITA_ISETC_t)", "JEITA_ISETC", value);
@@ -4091,7 +4167,8 @@ void BQ25798Component::set_jeita_isetc(int value) {
   if (!this->write_byte(REG17_NTC_Control_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ts_cool(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TS_COOL_t)", "TS_COOL", value);
@@ -4099,7 +4176,8 @@ void BQ25798Component::set_ts_cool(int value) {
   if (!this->write_byte(REG18_NTC_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ts_warm(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (TS_WARM_t)", "TS_WARM", value);
@@ -4107,7 +4185,8 @@ void BQ25798Component::set_ts_warm(int value) {
   if (!this->write_byte(REG18_NTC_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_bhot(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (BHOT_t)", "BHOT", value);
@@ -4115,7 +4194,8 @@ void BQ25798Component::set_bhot(int value) {
   if (!this->write_byte(REG18_NTC_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_bcold(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (BCOLD_t)", "BCOLD", value);
@@ -4123,7 +4203,8 @@ void BQ25798Component::set_bcold(int value) {
   if (!this->write_byte(REG18_NTC_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ts_ignore(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "TS_IGNORE", value ? "True" : "False");
@@ -4132,696 +4213,8 @@ void BQ25798Component::set_ts_ignore(bool value) {
   if (!this->write_byte(REG18_NTC_Control_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
 
-void BQ25798Component::set_ico_ilim(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "ICO_ILIM", value, "mA");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->ICO_ILIM);
-
-  if (!this->write_byte_16(REG19_ICO_Current_Limit, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_iindpm_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (IINDPM_STAT_t)", "IINDPM_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->IINDPM_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vindpm_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VINDPM_STAT_t)", "VINDPM_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VINDPM_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_wd_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (WD_STAT_t)", "WD_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->WD_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_pg_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (PG_STAT_t)", "PG_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->PG_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ac2_present_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (AC2_PRESENT_STAT_t)", "AC2_PRESENT_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->AC2_PRESENT_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ac1_present_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (AC1_PRESENT_STAT_t)", "AC1_PRESENT_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->AC1_PRESENT_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_present_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VBUS_PRESENT_STAT_t)", "VBUS_PRESENT_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBUS_PRESENT_STAT);
-  if (!this->write_byte(REG1B_Charger_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_chg_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (CHG_STAT_t)", "CHG_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->CHG_STAT);
-  if (!this->write_byte(REG1C_Charger_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VBUS_STAT_t)", "VBUS_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBUS_STAT);
-  if (!this->write_byte(REG1C_Charger_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_bc12_done_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "BC12_DONE_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->BC12_DONE_STAT);
-
-  if (!this->write_byte(REG1C_Charger_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ico_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (ICO_STAT_t)", "ICO_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->ICO_STAT);
-  if (!this->write_byte(REG1D_Charger_Status_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_treg_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TREG_STAT_t)", "TREG_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TREG_STAT);
-  if (!this->write_byte(REG1D_Charger_Status_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_dpdm_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (DPDM_STAT_t)", "DPDM_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->DPDM_STAT);
-  if (!this->write_byte(REG1D_Charger_Status_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbat_present_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VBAT_PRESENT_STAT_t)", "VBAT_PRESENT_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBAT_PRESENT_STAT);
-  if (!this->write_byte(REG1D_Charger_Status_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_acrb2_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "ACRB2_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->ACRB2_STAT);
-
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_acrb1_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "ACRB1_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->ACRB1_STAT);
-
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_adc_done_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "ADC_DONE_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->ADC_DONE_STAT);
-
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VSYS_STAT_t)", "VSYS_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VSYS_STAT);
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_chg_tmr_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (CHG_TMR_STAT_t)", "CHG_TMR_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->CHG_TMR_STAT);
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_trichg_tmr_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TRICHG_TMR_STAT_t)", "TRICHG_TMR_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TRICHG_TMR_STAT);
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_prechg_tmr_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (PRECHG_TMR_STAT_t)", "PRECHG_TMR_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->PRECHG_TMR_STAT);
-  if (!this->write_byte(REG1E_Charger_Status_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbatotg_low_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (VBATOTG_LOW_STAT_t)", "VBATOTG_LOW_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBATOTG_LOW_STAT);
-  if (!this->write_byte(REG1F_Charger_Status_4, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_cold_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TS_COLD_STAT_t)", "TS_COLD_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TS_COLD_STAT);
-  if (!this->write_byte(REG1F_Charger_Status_4, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_cool_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TS_COOL_STAT_t)", "TS_COOL_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TS_COOL_STAT);
-  if (!this->write_byte(REG1F_Charger_Status_4, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_warm_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TS_WARM_STAT_t)", "TS_WARM_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TS_WARM_STAT);
-  if (!this->write_byte(REG1F_Charger_Status_4, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_hot_stat(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (TS_HOT_STAT_t)", "TS_HOT_STAT", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->TS_HOT_STAT);
-  if (!this->write_byte(REG1F_Charger_Status_4, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibat_reg_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBAT_REG_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBAT_REG_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBUS_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBUS_OVP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbat_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBAT_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBAT_OVP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibus_ocp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBUS_OCP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBUS_OCP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibat_ocp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBAT_OCP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBAT_OCP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_conv_ocp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "CONV_OCP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->CONV_OCP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac2_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VAC2_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VAC2_OVP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac1_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VAC1_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VAC1_OVP_STAT);
-
-  if (!this->write_byte(REG20_FAULT_Status_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_short_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VSYS_SHORT_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VSYS_SHORT_STAT);
-
-  if (!this->write_byte(REG21_FAULT_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VSYS_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VSYS_OVP_STAT);
-
-  if (!this->write_byte(REG21_FAULT_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_otg_ovp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "OTG_OVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->OTG_OVP_STAT);
-
-  if (!this->write_byte(REG21_FAULT_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_otg_uvp_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "OTG_UVP_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->OTG_UVP_STAT);
-
-  if (!this->write_byte(REG21_FAULT_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_tshut_stat(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TSHUT_STAT", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TSHUT_STAT);
-
-  if (!this->write_byte(REG21_FAULT_Status_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_iindpm_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IINDPM_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IINDPM_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vindpm_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VINDPM_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VINDPM_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_wd_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "WD_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->WD_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_poorsrc_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "POORSRC_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->POORSRC_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_pg_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "PG_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->PG_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ac2_present_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "AC2_PRESENT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->AC2_PRESENT_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ac1_present_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "AC1_PRESENT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->AC1_PRESENT_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_present_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBUS_PRESENT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBUS_PRESENT_FLAG);
-
-  if (!this->write_byte(REG22_Charger_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_chg_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "CHG_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->CHG_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ico_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "ICO_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->ICO_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBUS_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBUS_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_treg_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TREG_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TREG_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbat_present_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBAT_PRESENT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBAT_PRESENT_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_bc1_2_done_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "BC1_2_DONE_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->BC1_2_DONE_FLAG);
-
-  if (!this->write_byte(REG23_Charger_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_dpdm_done_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "DPDM_DONE_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->DPDM_DONE_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_adc_done_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "ADC_DONE_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->ADC_DONE_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VSYS_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VSYS_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_chg_tmr_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "CHG_TMR_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->CHG_TMR_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_trichg_tmr_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TRICHG_TMR_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TRICHG_TMR_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_prechg_tmr_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "PRECHG_TMR_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->PRECHG_TMR_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_topoff_tmr_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TOPOFF_TMR_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TOPOFF_TMR_FLAG);
-
-  if (!this->write_byte(REG24_Charger_Flag_2, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbatotg_low_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBATOTG_LOW_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBATOTG_LOW_FLAG);
-
-  if (!this->write_byte(REG25_Charger_Flag_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_cold_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TS_COLD_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TS_COLD_FLAG);
-
-  if (!this->write_byte(REG25_Charger_Flag_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_cool_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TS_COOL_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TS_COOL_FLAG);
-
-  if (!this->write_byte(REG25_Charger_Flag_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_warm_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TS_WARM_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TS_WARM_FLAG);
-
-  if (!this->write_byte(REG25_Charger_Flag_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_hot_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TS_HOT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TS_HOT_FLAG);
-
-  if (!this->write_byte(REG25_Charger_Flag_3, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibat_reg_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBAT_REG_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBAT_REG_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBUS_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBUS_OVP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbat_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VBAT_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VBAT_OVP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibus_ocp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBUS_OCP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBUS_OCP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibat_ocp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "IBAT_OCP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->IBAT_OCP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_conv_ocp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "CONV_OCP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->CONV_OCP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac2_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VAC2_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VAC2_OVP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac1_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VAC1_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VAC1_OVP_FLAG);
-
-  if (!this->write_byte(REG26_FAULT_Flag_0, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_short_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VSYS_SHORT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VSYS_SHORT_FLAG);
-
-  if (!this->write_byte(REG27_FAULT_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "VSYS_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->VSYS_OVP_FLAG);
-
-  if (!this->write_byte(REG27_FAULT_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_otg_ovp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "OTG_OVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->OTG_OVP_FLAG);
-
-  if (!this->write_byte(REG27_FAULT_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_otg_uvp_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "OTG_UVP_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->OTG_UVP_FLAG);
-
-  if (!this->write_byte(REG27_FAULT_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_tshut_flag(bool value) {
-  ESP_LOGD(TAG, "Setting %s to %s", "TSHUT_FLAG", value ? "True" : "False");
-  uint16_t raw_value = this->bq25798_noi2c->boolToRaw(value, this->bq25798_noi2c->TSHUT_FLAG);
-
-  if (!this->write_byte(REG27_FAULT_Flag_1, raw_value)) {
-    this->mark_failed();
-  }
-};
 
 void BQ25798Component::set_adc_en(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "ADC_EN", value ? "True" : "False");
@@ -4830,7 +4223,8 @@ void BQ25798Component::set_adc_en(bool value) {
   if (!this->write_byte(REG2E_ADC_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_adc_rate(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (ADC_RATE_t)", "ADC_RATE", value);
@@ -4838,7 +4232,8 @@ void BQ25798Component::set_adc_rate(int value) {
   if (!this->write_byte(REG2E_ADC_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_adc_sample(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (ADC_SAMPLE_t)", "ADC_SAMPLE", value);
@@ -4846,7 +4241,8 @@ void BQ25798Component::set_adc_sample(int value) {
   if (!this->write_byte(REG2E_ADC_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_adc_avg(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (ADC_AVG_t)", "ADC_AVG", value);
@@ -4854,7 +4250,8 @@ void BQ25798Component::set_adc_avg(int value) {
   if (!this->write_byte(REG2E_ADC_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_adc_avg_init(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "ADC_AVG_INIT", value ? "True" : "False");
@@ -4863,7 +4260,8 @@ void BQ25798Component::set_adc_avg_init(bool value) {
   if (!this->write_byte(REG2E_ADC_Control, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ibus_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "IBUS_ADC_DIS", value ? "True" : "False");
@@ -4872,7 +4270,8 @@ void BQ25798Component::set_ibus_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ibat_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "IBAT_ADC_DIS", value ? "True" : "False");
@@ -4881,7 +4280,8 @@ void BQ25798Component::set_ibat_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vbus_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VBUS_ADC_DIS", value ? "True" : "False");
@@ -4890,7 +4290,8 @@ void BQ25798Component::set_vbus_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vbat_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VBAT_ADC_DIS", value ? "True" : "False");
@@ -4899,7 +4300,8 @@ void BQ25798Component::set_vbat_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vsys_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VSYS_ADC_DIS", value ? "True" : "False");
@@ -4908,7 +4310,8 @@ void BQ25798Component::set_vsys_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_ts_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "TS_ADC_DIS", value ? "True" : "False");
@@ -4917,7 +4320,8 @@ void BQ25798Component::set_ts_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_tdie_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "TDIE_ADC_DIS", value ? "True" : "False");
@@ -4926,7 +4330,8 @@ void BQ25798Component::set_tdie_adc_dis(bool value) {
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dplus_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DPLUS_ADC_DIS", value ? "True" : "False");
@@ -4935,7 +4340,8 @@ void BQ25798Component::set_dplus_adc_dis(bool value) {
   if (!this->write_byte(REG30_ADC_Function_Disable_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dminus_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "DMINUS_ADC_DIS", value ? "True" : "False");
@@ -4944,7 +4350,8 @@ void BQ25798Component::set_dminus_adc_dis(bool value) {
   if (!this->write_byte(REG30_ADC_Function_Disable_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vac2_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VAC2_ADC_DIS", value ? "True" : "False");
@@ -4953,7 +4360,8 @@ void BQ25798Component::set_vac2_adc_dis(bool value) {
   if (!this->write_byte(REG30_ADC_Function_Disable_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_vac1_adc_dis(bool value) {
   ESP_LOGD(TAG, "Setting %s to %s", "VAC1_ADC_DIS", value ? "True" : "False");
@@ -4962,106 +4370,8 @@ void BQ25798Component::set_vac1_adc_dis(bool value) {
   if (!this->write_byte(REG30_ADC_Function_Disable_1, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
 
-void BQ25798Component::set_ibus_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "IBUS_ADC", value, "mA");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->IBUS_ADC);
-
-  if (!this->write_byte_16(REG31_IBUS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ibat_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "IBAT_ADC", value, "mA");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->IBAT_ADC);
-
-  if (!this->write_byte_16(REG33_IBAT_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbus_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "VBUS_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBUS_ADC);
-
-  if (!this->write_byte_16(REG35_VBUS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac1_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "VAC1_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VAC1_ADC);
-
-  if (!this->write_byte_16(REG37_VAC1_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vac2_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "VAC2_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VAC2_ADC);
-
-  if (!this->write_byte_16(REG39_VAC2_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vbat_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "VBAT_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VBAT_ADC);
-
-  if (!this->write_byte_16(REG3B_VBAT_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_vsys_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "VSYS_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->VSYS_ADC);
-
-  if (!this->write_byte_16(REG3D_VSYS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_ts_adc(float value) {
-  ESP_LOGD(TAG, "Setting %s to %f %s", "TS_ADC", value, "%");
-  uint16_t raw_value = this->bq25798_noi2c->floatToRaw(value, this->bq25798_noi2c->TS_ADC);
-
-  if (!this->write_byte_16(REG3F_TS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_tdie_adc(float value) {
-  ESP_LOGD(TAG, "Setting %s to %f %s", "TDIE_ADC", value, "degC");
-  uint16_t raw_value = this->bq25798_noi2c->floatToRaw(value, this->bq25798_noi2c->TDIE_ADC);
-
-  if (!this->write_byte_16(REG41_TDIE_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_dplus_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "DPLUS_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->DPLUS_ADC);
-
-  if (!this->write_byte_16(REG43_DPLUS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_dminus_adc(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d %s", "DMINUS_ADC", value, "mV");
-  uint16_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->DMINUS_ADC);
-
-  if (!this->write_byte_16(REG45_DMINUS_ADC, raw_value)) {
-    this->mark_failed();
-  }
-};
 
 void BQ25798Component::set_dplus_dac(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (DPLUS_DAC_t)", "DPLUS_DAC", value);
@@ -5069,7 +4379,8 @@ void BQ25798Component::set_dplus_dac(int value) {
   if (!this->write_byte(REG47_DPDM_Driver, raw_value)) {
     this->mark_failed();
   }
-};
+};  // function end
+
 
 void BQ25798Component::set_dminus_dac(int value) {
   ESP_LOGD(TAG, "Setting %s to %d (DMINUS_DAC_t)", "DMINUS_DAC", value);
@@ -5077,23 +4388,7 @@ void BQ25798Component::set_dminus_dac(int value) {
   if (!this->write_byte(REG47_DPDM_Driver, raw_value)) {
     this->mark_failed();
   }
-};
-
-void BQ25798Component::set_pn(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (PN_t)", "PN", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->PN);
-  if (!this->write_byte(REG48_Part_Information, raw_value)) {
-    this->mark_failed();
-  }
-};
-
-void BQ25798Component::set_dev_rev(int value) {
-  ESP_LOGD(TAG, "Setting %s to %d (DEV_REV_t)", "DEV_REV", value);
-  uint8_t raw_value = this->bq25798_noi2c->intToRaw(value, this->bq25798_noi2c->DEV_REV);
-  if (!this->write_byte(REG48_Part_Information, raw_value)) {
-    this->mark_failed();
-  }
-};
+};  // function end
 
 }  // namespace bq25798
 }  // namespace esphome

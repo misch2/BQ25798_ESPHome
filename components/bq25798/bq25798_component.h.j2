@@ -22,17 +22,26 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void update() override;
   
 {%- for def in settings %}
-{%-     if def.type == "bool" %}
+
+{%-     if def.mode == "rw" %}
+{%-       if def.type == "bool" %}
   void set_{{ def.name | lower }}(bool value);
+{%-       elif def.type == "int" %}
+  void set_{{ def.name | lower }}(int value);
+{%-       elif def.type == "float" %}
+  void set_{{ def.name | lower }}(float value);
+{%-       elif def.type == "enum" %}
+  void set_{{ def.name | lower }}(int value);
+{%-       endif %}
+{%-     endif %}
+
+{%-     if def.type == "bool" %}
   void set_{{ def.name | lower }}_sensor(binary_sensor::BinarySensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "int" %}
-  void set_{{ def.name | lower }}(int value);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "float" %}
-  void set_{{ def.name | lower }}(float value);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "enum" %}
-  void set_{{ def.name | lower }}(int value);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
   void set_{{ def.name | lower }}_text_sensor(text_sensor::TextSensor *sensor) { {{ def.name | lower }}_text_sensor_ = sensor; }
 {%-     endif %}
