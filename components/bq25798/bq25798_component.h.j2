@@ -1,32 +1,54 @@
 #pragma once
 
-#include "esphome/components/i2c/i2c.h"
 #include "esphome/core/component.h"
+#include "esphome/components/sensor/sensor.h"
+#include "esphome/components/i2c/i2c.h"
 
 #include "BQ25798ESPHome.h"
+
+#include <cinttypes>
 
 namespace esphome {
 namespace bq25798 {
 
-class BQ25798Component : public i2c::I2CDevice, public Component {
+class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
  public:
   void setup() override;
-  void loop() override;
   void dump_config() override;
+  float get_setup_priority() const override;
+  void update() override;
   
-  // BQ25798 setters
 {%- for def in settings %}
 {%-     if def.type == "bool" %}
   void set_{{ def.name | lower }}(bool value);
+  void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "int" %}
   void set_{{ def.name | lower }}(int value);
+  void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "float" %}
   void set_{{ def.name | lower }}(float value);
+  void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "enum" %}
   void set_{{ def.name | lower }}(int value);
+  void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     endif %}
-{%- endfor %}
+{% endfor %}
 
+ protected:
+{%- for def in settings %}
+{%-     if def.type == "bool" %}
+  sensor::Sensor *{{ def.name | lower }}_sensor_ {nullptr};
+{%-     elif def.type == "int" %}
+  sensor::Sensor *{{ def.name | lower }}_sensor_ {nullptr};
+{%-     elif def.type == "float" %}
+  sensor::Sensor *{{ def.name | lower }}_sensor_ {nullptr};
+{%-     elif def.type == "enum" %}
+  sensor::Sensor *{{ def.name | lower }}_sensor_ {nullptr};
+{%-     endif %}
+{% endfor %}
+
+  private:
+    BQ25798ESPHome *bq25798 = BQ25798ESPHome();
 };  // class BQ25798Component
 
 }  // namespace bq25798
