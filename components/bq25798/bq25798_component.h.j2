@@ -3,7 +3,7 @@
 #include "esphome/components/i2c/i2c.h"
 #include "esphome/core/component.h"
 
-#include "BQ25798.h"
+#include "BQ25798ESPHome.h"
 
 namespace esphome {
 namespace bq25798 {

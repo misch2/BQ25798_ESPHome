@@ -31,18 +31,22 @@ void BQ25798Component::dump_config() {
 {%- for def in settings %}
 {%-     if def.type == "bool" %}
 void BQ25798Component::set_{{ def.name | lower }}(bool value) {
+  ESP_LOGD(TAG, "Setting %s to %s", "{{ def.name }}", value ? "True" : "False");
   // FIXME
 }
 {%-     elif def.type == "int" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value) {
+  ESP_LOGD(TAG, "Setting %s to %d %s", "{{ def.name }}", value, "{{ def.unit }}");
   // FIXME
 }
 {%-     elif def.type == "float" %}
 void BQ25798Component::set_{{ def.name | lower }}(float value) {
+  ESP_LOGD(TAG, "Setting %s to %f %s", "{{ def.name }}", value, "{{ def.unit }}");
   // FIXME
 }
 {%-     elif def.type == "enum" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value) {
+  ESP_LOGD(TAG, "Setting %s to %d", "{{ def.name }}", value);
   // (BQ25798::{{ def.name }}_t)
   // FIXME
 }
