@@ -34,5 +34,9 @@ def process_templates(root_dir, data):
 
 
 if __name__ == "__main__":
-    settings = load_json_config("chip_definitions.json")
-    process_templates(".", settings)
+    if len(sys.argv) > 1:
+        templates_root= sys.argv[1]
+    else:
+        templates_root = "."
+    settings = load_json_config(os.path.join(templates_root, "chip_definitions.json"))
+    process_templates(templates_root, settings)

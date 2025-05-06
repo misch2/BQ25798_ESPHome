@@ -4,7 +4,8 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/i2c/i2c.h"
 
-#include "BQ25798ESPHome.h"
+// Relative path to the BQ25798 library because this file is in the "lib" folder on the same level as the "src" folder which PlatformIO's library manager uses to find libraries.
+#include "../lib/BQ25798NoI2C/BQ25798NoI2C.h"
 
 #include <cinttypes>
 
@@ -48,7 +49,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {% endfor %}
 
   private:
-    BQ25798ESPHome *bq25798 = BQ25798ESPHome();
+    BQ25798NoI2C *bq25798_noi2c {nullptr};
 };  // class BQ25798Component
 
 }  // namespace bq25798

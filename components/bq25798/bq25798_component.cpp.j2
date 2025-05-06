@@ -13,8 +13,10 @@ static const char* TAG = "bq25798.component";
 void BQ25798Component::setup() {
   ESP_LOGCONFIG(TAG, "Setting up BQ25798...");
 
-  bq25798 = new BQ25798ESPHome(this->i2c_);
-  if (!bq25798->begin(this->address_)) {
+  bq25798_noi2c = new BQ25798NoI2C();
+
+  // FIXME
+  if (!bq25798_noi2c->begin(this->address_)) {
     ESP_LOGE(TAG, "Failed to initialize BQ25798!");
     this->mark_failed();
     return;
@@ -39,7 +41,7 @@ void BQ25798Component::dump_config() {
   LOG_UPDATE_INTERVAL(this);
 
 {%- for def in settings %}
-  LOG_SENSOR("  ", "{{ def.name }}", this->{{ def.name | lower }}_);
+  LOG_SENSOR("  ", "{{ def.name }}", this->{{ def.name | lower }}_sensor_);
 {%- endfor %}
 
 }

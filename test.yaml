@@ -21,14 +21,16 @@ i2c:
 bq25798:
   id: bq25798_component_1
   i2c_id: bus_a
-  iindpm: 500 # optional
-  vindpm: 4500 # optional
-  ichg: 1000 # optional
-  adc_en: true # optional
-  adc_rate: ADC_RATE_CONTINUOUS
-  adc_sample: ADC_SAMPLE_15BIT
+  # iindpm: 500 # optional
+  # vindpm: 4500 # optional
+  # ichg: 1000 # optional
+  # adc_en: true # optional
+  # adc_rate: ADC_RATE_CONTINUOUS
+  # adc_sample: ADC_SAMPLE_15BIT
 
-# sensor:
+# At least an empty "sensor" block is required to initialize the component (and make the sensor.h accessible)
+sensor:
+
 #   - platform: bq25798
 #     name: "Test"
 #     id: bq25798_component_1
