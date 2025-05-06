@@ -7,5 +7,14 @@
         "chrono": "cpp",
         "system_error": "cpp",
         "xlocale": "cpp"
+    },
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.j2$",
+                "cmd": "python ${workspaceFolder}/process_templates.py ${workspaceFolder}",
+                "message": "Running ${fileBasenameNoExtension}...",
+            }
+        ]
     }
 }

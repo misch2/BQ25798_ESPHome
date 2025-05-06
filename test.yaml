@@ -31,6 +31,12 @@ bq25798:
 # At least an empty "sensor" block is required to initialize the component (and make the sensor.h accessible)
 sensor:
 
+# dtto:
+binary_sensor:
+
+# dtto:
+text_sensor:
+
 #   - platform: bq25798
 #     name: "Test"
 #     id: bq25798_component_1
