@@ -1,22 +1,35 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import i2c
-from esphome.const import CONF_ID
+from esphome import core
+from esphome.components import i2c, sensor
+from esphome.const import (
+    CONF_ID,
+    CONF_TEMPERATURE,
+    DEVICE_CLASS_TEMPERATURE,
+    STATE_CLASS_MEASUREMENT,
+    UNIT_CELSIUS,
+    UNIT_PERCENT,
+    UNIT_VOLT,
+    UNIT_MILLIAMP,
+)
 
 DEPENDENCIES = ["i2c"]
 
 bq25798_ns = cg.esphome_ns.namespace("bq25798")
-BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.Component, i2c.I2CDevice)
+
+BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2c.I2CDevice)
 
 # Settings
 {%- for def in settings %}
-CONF_{{ def.name}} = "{{ def.name | lower }}"
+{%-     if def.mode == "rw" %}
+CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+{%-     endif %}
 {%- endfor %}
 
 # Configuration schema
 {%- for def in settings %}
 {%-     if def.type == "enum" %}
-ENUM_{{ def.name}} = {
+ENUM_BQ25798_{{ def.name}} = {
 {%-         for enum in def.enum_constants %}
     "{{ enum }}": {{ loop.index0 }},
 {%-         endfor %}
@@ -28,21 +41,39 @@ CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798Component),
-            # Chip settings
+
+            # Read-only sensors
 {%- for def in settings %}
-{%-     if def.type == "bool" %}
-            cv.Optional(CONF_{{ def.name}}): cv.boolean,
-{%-     elif def.type == "int" %}
-            cv.Optional(CONF_{{ def.name}}): cv.int_,
-{%-     elif def.type == "float" %}
-            cv.Optional(CONF_{{ def.name}}): cv.float_,
-{%-     elif def.type == "enum" %}
-            cv.Optional(CONF_{{ def.name}}): cv.enum(ENUM_{{def.name}}),
+{%-         if def.type == "int" %}
+            cv.Optional("{{ def.name | lower }}"): sensor.sensor_schema(  # FIXME or CONF_BQ25798_{{ def.name}}?
+                unit_of_measurement="FIXME1",
+                accuracy_decimals=1,    # FIXME
+                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+            ),
+{%-         endif %}            
+{%- endfor %}
+
+            # Read-write sensors
+
+
+{%- for def in settings %}
+{%-     if def.mode == "rw" %}
+{%-         if def.type == "bool" %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.boolean,
+{%-         elif def.type == "int" %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.int_,
+{%-         elif def.type == "float" %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.float_,
+{%-         elif def.type == "enum" %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.enum(ENUM_BQ25798_{{def.name}}),
+{%-         endif %}
 {%-     endif %}
 {%- endfor %}
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
+    .extend(cv.polling_component_schema("1s"))  # FIXME: Polling interval, is this reasonable default?
     .extend(i2c.i2c_device_schema({{ default_address_hex }}))
 )
 
@@ -58,7 +89,12 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
 
+# FIXME set_.... should just set the variable, nothing else, because the object.setup() will be called later!
+    # Chip settings
 {%- for def in settings %}
-    if {{ def.name | lower }} := config.get(CONF_{{ def.name }}):
-        cg.add(var.set_{{ def.name | lower }}({{ def.name | lower }}))
+{%-     if def.mode == "rw" %}
+    if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
+        cg.add(var.set_{{ def.name | lower }}({{ def.name | lower }}, 0))
+        cg.add(var.on_init_set_{{ def.name | lower }}(True))
+{%-     endif %}
 {% endfor %}
