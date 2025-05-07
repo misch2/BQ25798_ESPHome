@@ -9,7 +9,7 @@ from esphome.const import (
 from .. import (
     CONF_BQ25798_ID,
     BQ25798_CLIENT_SCHEMA,
-    bq25798_ns, 
+    bq25798_ns,
 )
 
 DEPENDENCIES = ["bq25798"]
@@ -20,8 +20,26 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", cg.Component)
 {%- for def in settings %}
 {%-     if def.type == "bool" %}
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
-{%-     endif %}                    
+{%-     endif %}
 {%- endfor %}
+
+
+# 'battery', 'battery_charging', 'carbon_monoxide', 'cold', 'connectivity', 'door', '', 'garage_door', 'gas', 'heat', 'light', 'lock', 'moisture', 'motion', 'moving', 'occupancy', 'opening', 'plug', 'power', 'presence', 'problem', 'running', 'safety', 'smoke', 'sound', 'tamper', 'update', 'vibration', 'window'.
+
+# Usable ones:
+# '', 
+# 'battery', 
+# 'battery_charging', 
+# 'cold', 
+# 'heat', 
+# 'moving', 
+# 'power', 
+# 'presence', 
+# 'problem', 
+# 'running', 
+# 'safety', 
+# 'tamper', 
+# 'update', 
 
 CONFIG_SCHEMA = (
     cv.Schema(
@@ -30,8 +48,12 @@ CONFIG_SCHEMA = (
 
 {%- for def in settings %}
 {%-     if def.type == "bool" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(),
-{%-     endif %}            
+            cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(
+{%-         if def.ha_device_class != "" %}
+                device_class="{{ def.ha_device_class }}",
+{%-         endif %}
+            ),
+{%-     endif %}
 {%- endfor %}
         }
     )
@@ -50,5 +72,5 @@ async def to_code(config):
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await binary_sensor.new_binary_sensor({{ def.name | lower }})
         cg.add(parent.set_{{ def.name | lower }}_binary_sensor(sens))
-{%-     endif %}                    
+{%-     endif %}
 {%- endfor %}

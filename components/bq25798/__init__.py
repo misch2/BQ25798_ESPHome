@@ -832,7 +832,7 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("5s"))  # FIXME: Polling interval, is this reasonable default?
+    .extend(cv.polling_component_schema("10s"))  # FIXME: Polling interval, is this reasonable default?
     .extend(i2c.i2c_device_schema(0x6B))
 )
 

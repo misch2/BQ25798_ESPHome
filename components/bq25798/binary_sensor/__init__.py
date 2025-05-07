@@ -9,7 +9,7 @@ from esphome.const import (
 from .. import (
     CONF_BQ25798_ID,
     BQ25798_CLIENT_SCHEMA,
-    bq25798_ns, 
+    bq25798_ns,
 )
 
 DEPENDENCIES = ["bq25798"]
@@ -131,123 +131,367 @@ CONF_BQ25798_DMINUS_ADC_DIS = "dminus_adc_dis"
 CONF_BQ25798_VAC2_ADC_DIS = "vac2_adc_dis"
 CONF_BQ25798_VAC1_ADC_DIS = "vac1_adc_dis"
 
+
+# 'battery', 'battery_charging', 'carbon_monoxide', 'cold', 'connectivity', 'door', '', 'garage_door', 'gas', 'heat', 'light', 'lock', 'moisture', 'motion', 'moving', 'occupancy', 'opening', 'plug', 'power', 'presence', 'problem', 'running', 'safety', 'smoke', 'sound', 'tamper', 'update', 'vibration', 'window'.
+
+# Usable ones:
+# '', 
+# 'battery', 
+# 'battery_charging', 
+# 'cold', 
+# 'heat', 
+# 'moving', 
+# 'power', 
+# 'presence', 
+# 'problem', 
+# 'running', 
+# 'safety', 
+# 'tamper', 
+# 'update', 
+
 CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798BinarySensor),
-            cv.Optional(CONF_BQ25798_REG_RST): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_STOP_WD_CHG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_TRICHG_TMR): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_PRECHG_TMR): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_CHG_TMR): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TMR2X_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_AUTO_IBATDIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_FORCE_IBATDIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_CHG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_ICO): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_FORCE_ICO): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_HIZ): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_TERM): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_BACKUP): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_WD_RST): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_FORCE_INDET): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_AUTO_INDET_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_12V): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_9V): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_HVDCP_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_ACDRV): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_OTG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_PFM_OTG_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_PFM_FWD_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_LDO): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_OTG_OOA): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_FWD_OOA): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_ACDRV2): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_ACDRV1): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_VSYS_SHORT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DIS_VOTG_UVP): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_FORCE_VINDPM_DET): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_IBUS_OCP): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_SFET_PRESENT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_IBAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_IINDPM): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_EXTILIM): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_BATOC): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_EN_MPPT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_PD_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC1_PD_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC2_PD_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_IGNORE): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_BC12_DONE_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ACRB2_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ACRB1_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ADC_DONE_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBAT_REG_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBAT_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBUS_OCP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBAT_OCP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_CONV_OCP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC2_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC1_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_SHORT_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_OTG_OVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_OTG_UVP_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TSHUT_STAT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IINDPM_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VINDPM_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_WD_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_POORSRC_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_PG_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_AC2_PRESENT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_AC1_PRESENT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_PRESENT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_CHG_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ICO_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TREG_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBAT_PRESENT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_BC1_2_DONE_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DPDM_DONE_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ADC_DONE_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_CHG_TMR_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TRICHG_TMR_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_PRECHG_TMR_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TOPOFF_TMR_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBATOTG_LOW_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_COLD_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_COOL_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_WARM_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_HOT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBAT_REG_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBAT_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBUS_OCP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBAT_OCP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_CONV_OCP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC2_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC1_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_SHORT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_OTG_OVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_OTG_UVP_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TSHUT_FLAG): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ADC_EN): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_ADC_AVG_INIT): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBUS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_IBAT_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBUS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VBAT_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VSYS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_TDIE_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DPLUS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_DMINUS_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC2_ADC_DIS): binary_sensor.binary_sensor_schema(),
-            cv.Optional(CONF_BQ25798_VAC1_ADC_DIS): binary_sensor.binary_sensor_schema(),
+            cv.Optional(CONF_BQ25798_REG_RST): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_STOP_WD_CHG): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_TRICHG_TMR): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_PRECHG_TMR): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_CHG_TMR): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_TMR2X_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_AUTO_IBATDIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_IBATDIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_CHG): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_ICO): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_ICO): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_HIZ): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_TERM): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_BACKUP): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_WD_RST): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_INDET): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_AUTO_INDET_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_12V): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_9V): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_HVDCP_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_ACDRV): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_OTG): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_PFM_OTG_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_PFM_FWD_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_LDO): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_OTG_OOA): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_FWD_OOA): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_ACDRV2): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_ACDRV1): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_VSYS_SHORT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DIS_VOTG_UVP): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_VINDPM_DET): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_IBUS_OCP): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_SFET_PRESENT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_IBAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_IINDPM): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_EXTILIM): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_BATOC): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_EN_MPPT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_PD_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_PD_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_PD_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_TS_IGNORE): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_BC12_DONE_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ACRB2_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ACRB1_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ADC_DONE_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_REG_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_OCP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_OCP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_CONV_OCP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_SHORT_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_OTG_OVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_OTG_UVP_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_TSHUT_STAT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IINDPM_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_VINDPM_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_WD_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_POORSRC_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_PG_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_AC2_PRESENT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_AC1_PRESENT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_PRESENT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_CHG_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="battery_charging",
+            ),
+            cv.Optional(CONF_BQ25798_ICO_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="power",
+            ),
+            cv.Optional(CONF_BQ25798_TREG_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_PRESENT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="battery",
+            ),
+            cv.Optional(CONF_BQ25798_BC1_2_DONE_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="running",
+            ),
+            cv.Optional(CONF_BQ25798_DPDM_DONE_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="running",
+            ),
+            cv.Optional(CONF_BQ25798_ADC_DONE_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="running",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_CHG_TMR_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TRICHG_TMR_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TOPOFF_TMR_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VBATOTG_LOW_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TS_COLD_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TS_COOL_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TS_WARM_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TS_HOT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_REG_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="tamper",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_OCP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_OCP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_CONV_OCP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_SHORT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_OTG_OVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_OTG_UVP_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_TSHUT_FLAG): binary_sensor.binary_sensor_schema(
+                device_class="problem",
+            ),
+            cv.Optional(CONF_BQ25798_ADC_EN): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ADC_AVG_INIT): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_TS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_TDIE_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DPLUS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DMINUS_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_ADC_DIS): binary_sensor.binary_sensor_schema(
+                device_class="",
+            ),
         }
     )
     .extend(BQ25798_CLIENT_SCHEMA)

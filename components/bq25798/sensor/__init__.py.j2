@@ -9,7 +9,6 @@ from esphome.const import (
     DEVICE_CLASS_CURRENT,
     STATE_CLASS_MEASUREMENT,
     UNIT_CELSIUS,
-    UNIT_VOLT,
     UNIT_MILLIAMP,
     UNIT_PERCENT,
 )
