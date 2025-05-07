@@ -4,13 +4,14 @@ from esphome import core
 from esphome.components import i2c, sensor
 from esphome.const import (
     CONF_ID,
-    CONF_TEMPERATURE,
     DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_VOLTAGE,
+    DEVICE_CLASS_CURRENT,
     STATE_CLASS_MEASUREMENT,
     UNIT_CELSIUS,
-    UNIT_PERCENT,
     UNIT_VOLT,
     UNIT_MILLIAMP,
+    UNIT_PERCENT,
 )
 
 from .. import (
@@ -23,391 +24,85 @@ DEPENDENCIES = ["bq25798"]
 
 BQ25798Sensor = bq25798_ns.class_("BQ25798Sensor", cg.Component)
 
-# Settings
-
+# Numeric settings including the enums
 CONF_BQ25798_VSYSMIN = "vsysmin"
-
 CONF_BQ25798_VREG = "vreg"
-
 CONF_BQ25798_ICHG = "ichg"
-
 CONF_BQ25798_VINDPM = "vindpm"
-
 CONF_BQ25798_IINDPM = "iindpm"
-
 CONF_BQ25798_VBAT_LOWV = "vbat_lowv"
-
 CONF_BQ25798_IPRECHG = "iprechg"
-
-CONF_BQ25798_REG_RST = "reg_rst"
-
-CONF_BQ25798_STOP_WD_CHG = "stop_wd_chg"
-
 CONF_BQ25798_ITERM = "iterm"
-
 CONF_BQ25798_CELL = "cell"
-
 CONF_BQ25798_TRECHG = "trechg"
-
 CONF_BQ25798_VRECHG = "vrechg"
-
 CONF_BQ25798_VOTG = "votg"
-
 CONF_BQ25798_PRECHG_TMR = "prechg_tmr"
-
 CONF_BQ25798_IOTG = "iotg"
-
 CONF_BQ25798_TOPOFF_TMR = "topoff_tmr"
-
-CONF_BQ25798_EN_TRICHG_TMR = "en_trichg_tmr"
-
-CONF_BQ25798_EN_PRECHG_TMR = "en_prechg_tmr"
-
-CONF_BQ25798_EN_CHG_TMR = "en_chg_tmr"
-
 CONF_BQ25798_CHG_TMR = "chg_tmr"
-
-CONF_BQ25798_TMR2X_EN = "tmr2x_en"
-
-CONF_BQ25798_EN_AUTO_IBATDIS = "en_auto_ibatdis"
-
-CONF_BQ25798_FORCE_IBATDIS = "force_ibatdis"
-
-CONF_BQ25798_EN_CHG = "en_chg"
-
-CONF_BQ25798_EN_ICO = "en_ico"
-
-CONF_BQ25798_FORCE_ICO = "force_ico"
-
-CONF_BQ25798_EN_HIZ = "en_hiz"
-
-CONF_BQ25798_EN_TERM = "en_term"
-
-CONF_BQ25798_EN_BACKUP = "en_backup"
-
 CONF_BQ25798_VBUS_BACKUP = "vbus_backup"
-
 CONF_BQ25798_VAC_OVP = "vac_ovp"
-
-CONF_BQ25798_WD_RST = "wd_rst"
-
 CONF_BQ25798_WATCHDOG = "watchdog"
-
-CONF_BQ25798_FORCE_INDET = "force_indet"
-
-CONF_BQ25798_AUTO_INDET_EN = "auto_indet_en"
-
-CONF_BQ25798_EN_12V = "en_12v"
-
-CONF_BQ25798_EN_9V = "en_9v"
-
-CONF_BQ25798_HVDCP_EN = "hvdcp_en"
-
 CONF_BQ25798_SDRV_CTRL = "sdrv_ctrl"
-
 CONF_BQ25798_SDRV_DLY = "sdrv_dly"
-
-CONF_BQ25798_DIS_ACDRV = "dis_acdrv"
-
-CONF_BQ25798_EN_OTG = "en_otg"
-
-CONF_BQ25798_PFM_OTG_DIS = "pfm_otg_dis"
-
-CONF_BQ25798_PFM_FWD_DIS = "pfm_fwd_dis"
-
 CONF_BQ25798_WKUP_DLY = "wkup_dly"
-
-CONF_BQ25798_DIS_LDO = "dis_ldo"
-
-CONF_BQ25798_DIS_OTG_OOA = "dis_otg_ooa"
-
-CONF_BQ25798_DIS_FWD_OOA = "dis_fwd_ooa"
-
-CONF_BQ25798_EN_ACDRV2 = "en_acdrv2"
-
-CONF_BQ25798_EN_ACDRV1 = "en_acdrv1"
-
 CONF_BQ25798_PWM_FREQ = "pwm_freq"
-
-CONF_BQ25798_DIS_STAT = "dis_stat"
-
-CONF_BQ25798_DIS_VSYS_SHORT = "dis_vsys_short"
-
-CONF_BQ25798_DIS_VOTG_UVP = "dis_votg_uvp"
-
-CONF_BQ25798_FORCE_VINDPM_DET = "force_vindpm_det"
-
-CONF_BQ25798_EN_IBUS_OCP = "en_ibus_ocp"
-
-CONF_BQ25798_SFET_PRESENT = "sfet_present"
-
-CONF_BQ25798_EN_IBAT = "en_ibat"
-
 CONF_BQ25798_IBAT_REG = "ibat_reg"
-
-CONF_BQ25798_EN_IINDPM = "en_iindpm"
-
-CONF_BQ25798_EN_EXTILIM = "en_extilim"
-
-CONF_BQ25798_EN_BATOC = "en_batoc"
-
 CONF_BQ25798_VOC_PCT = "voc_pct"
-
 CONF_BQ25798_VOC_DLY = "voc_dly"
-
 CONF_BQ25798_VOC_RATE = "voc_rate"
-
-CONF_BQ25798_EN_MPPT = "en_mppt"
-
 CONF_BQ25798_TREG = "treg"
-
 CONF_BQ25798_TSHUT = "tshut"
-
-CONF_BQ25798_VBUS_PD_EN = "vbus_pd_en"
-
-CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
-
-CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
-
 CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
-
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
-
 CONF_BQ25798_JEITA_ISETH = "jeita_iseth"
-
 CONF_BQ25798_JEITA_ISETC = "jeita_isetc"
-
 CONF_BQ25798_TS_COOL = "ts_cool"
-
 CONF_BQ25798_TS_WARM = "ts_warm"
-
 CONF_BQ25798_BHOT = "bhot"
-
 CONF_BQ25798_BCOLD = "bcold"
-
-CONF_BQ25798_TS_IGNORE = "ts_ignore"
-
 CONF_BQ25798_ICO_ILIM = "ico_ilim"
-
 CONF_BQ25798_IINDPM_STAT = "iindpm_stat"
-
 CONF_BQ25798_VINDPM_STAT = "vindpm_stat"
-
 CONF_BQ25798_WD_STAT = "wd_stat"
-
 CONF_BQ25798_PG_STAT = "pg_stat"
-
 CONF_BQ25798_AC2_PRESENT_STAT = "ac2_present_stat"
-
 CONF_BQ25798_AC1_PRESENT_STAT = "ac1_present_stat"
-
 CONF_BQ25798_VBUS_PRESENT_STAT = "vbus_present_stat"
-
 CONF_BQ25798_CHG_STAT = "chg_stat"
-
 CONF_BQ25798_VBUS_STAT = "vbus_stat"
-
-CONF_BQ25798_BC12_DONE_STAT = "bc12_done_stat"
-
 CONF_BQ25798_ICO_STAT = "ico_stat"
-
 CONF_BQ25798_TREG_STAT = "treg_stat"
-
 CONF_BQ25798_DPDM_STAT = "dpdm_stat"
-
 CONF_BQ25798_VBAT_PRESENT_STAT = "vbat_present_stat"
-
-CONF_BQ25798_ACRB2_STAT = "acrb2_stat"
-
-CONF_BQ25798_ACRB1_STAT = "acrb1_stat"
-
-CONF_BQ25798_ADC_DONE_STAT = "adc_done_stat"
-
 CONF_BQ25798_VSYS_STAT = "vsys_stat"
-
 CONF_BQ25798_CHG_TMR_STAT = "chg_tmr_stat"
-
 CONF_BQ25798_TRICHG_TMR_STAT = "trichg_tmr_stat"
-
 CONF_BQ25798_PRECHG_TMR_STAT = "prechg_tmr_stat"
-
 CONF_BQ25798_VBATOTG_LOW_STAT = "vbatotg_low_stat"
-
 CONF_BQ25798_TS_COLD_STAT = "ts_cold_stat"
-
 CONF_BQ25798_TS_COOL_STAT = "ts_cool_stat"
-
 CONF_BQ25798_TS_WARM_STAT = "ts_warm_stat"
-
 CONF_BQ25798_TS_HOT_STAT = "ts_hot_stat"
-
-CONF_BQ25798_IBAT_REG_STAT = "ibat_reg_stat"
-
-CONF_BQ25798_VBUS_OVP_STAT = "vbus_ovp_stat"
-
-CONF_BQ25798_VBAT_OVP_STAT = "vbat_ovp_stat"
-
-CONF_BQ25798_IBUS_OCP_STAT = "ibus_ocp_stat"
-
-CONF_BQ25798_IBAT_OCP_STAT = "ibat_ocp_stat"
-
-CONF_BQ25798_CONV_OCP_STAT = "conv_ocp_stat"
-
-CONF_BQ25798_VAC2_OVP_STAT = "vac2_ovp_stat"
-
-CONF_BQ25798_VAC1_OVP_STAT = "vac1_ovp_stat"
-
-CONF_BQ25798_VSYS_SHORT_STAT = "vsys_short_stat"
-
-CONF_BQ25798_VSYS_OVP_STAT = "vsys_ovp_stat"
-
-CONF_BQ25798_OTG_OVP_STAT = "otg_ovp_stat"
-
-CONF_BQ25798_OTG_UVP_STAT = "otg_uvp_stat"
-
-CONF_BQ25798_TSHUT_STAT = "tshut_stat"
-
-CONF_BQ25798_IINDPM_FLAG = "iindpm_flag"
-
-CONF_BQ25798_VINDPM_FLAG = "vindpm_flag"
-
-CONF_BQ25798_WD_FLAG = "wd_flag"
-
-CONF_BQ25798_POORSRC_FLAG = "poorsrc_flag"
-
-CONF_BQ25798_PG_FLAG = "pg_flag"
-
-CONF_BQ25798_AC2_PRESENT_FLAG = "ac2_present_flag"
-
-CONF_BQ25798_AC1_PRESENT_FLAG = "ac1_present_flag"
-
-CONF_BQ25798_VBUS_PRESENT_FLAG = "vbus_present_flag"
-
-CONF_BQ25798_CHG_FLAG = "chg_flag"
-
-CONF_BQ25798_ICO_FLAG = "ico_flag"
-
-CONF_BQ25798_VBUS_FLAG = "vbus_flag"
-
-CONF_BQ25798_TREG_FLAG = "treg_flag"
-
-CONF_BQ25798_VBAT_PRESENT_FLAG = "vbat_present_flag"
-
-CONF_BQ25798_BC1_2_DONE_FLAG = "bc1_2_done_flag"
-
-CONF_BQ25798_DPDM_DONE_FLAG = "dpdm_done_flag"
-
-CONF_BQ25798_ADC_DONE_FLAG = "adc_done_flag"
-
-CONF_BQ25798_VSYS_FLAG = "vsys_flag"
-
-CONF_BQ25798_CHG_TMR_FLAG = "chg_tmr_flag"
-
-CONF_BQ25798_TRICHG_TMR_FLAG = "trichg_tmr_flag"
-
-CONF_BQ25798_PRECHG_TMR_FLAG = "prechg_tmr_flag"
-
-CONF_BQ25798_TOPOFF_TMR_FLAG = "topoff_tmr_flag"
-
-CONF_BQ25798_VBATOTG_LOW_FLAG = "vbatotg_low_flag"
-
-CONF_BQ25798_TS_COLD_FLAG = "ts_cold_flag"
-
-CONF_BQ25798_TS_COOL_FLAG = "ts_cool_flag"
-
-CONF_BQ25798_TS_WARM_FLAG = "ts_warm_flag"
-
-CONF_BQ25798_TS_HOT_FLAG = "ts_hot_flag"
-
-CONF_BQ25798_IBAT_REG_FLAG = "ibat_reg_flag"
-
-CONF_BQ25798_VBUS_OVP_FLAG = "vbus_ovp_flag"
-
-CONF_BQ25798_VBAT_OVP_FLAG = "vbat_ovp_flag"
-
-CONF_BQ25798_IBUS_OCP_FLAG = "ibus_ocp_flag"
-
-CONF_BQ25798_IBAT_OCP_FLAG = "ibat_ocp_flag"
-
-CONF_BQ25798_CONV_OCP_FLAG = "conv_ocp_flag"
-
-CONF_BQ25798_VAC2_OVP_FLAG = "vac2_ovp_flag"
-
-CONF_BQ25798_VAC1_OVP_FLAG = "vac1_ovp_flag"
-
-CONF_BQ25798_VSYS_SHORT_FLAG = "vsys_short_flag"
-
-CONF_BQ25798_VSYS_OVP_FLAG = "vsys_ovp_flag"
-
-CONF_BQ25798_OTG_OVP_FLAG = "otg_ovp_flag"
-
-CONF_BQ25798_OTG_UVP_FLAG = "otg_uvp_flag"
-
-CONF_BQ25798_TSHUT_FLAG = "tshut_flag"
-
-CONF_BQ25798_ADC_EN = "adc_en"
-
 CONF_BQ25798_ADC_RATE = "adc_rate"
-
 CONF_BQ25798_ADC_SAMPLE = "adc_sample"
-
 CONF_BQ25798_ADC_AVG = "adc_avg"
-
-CONF_BQ25798_ADC_AVG_INIT = "adc_avg_init"
-
-CONF_BQ25798_IBUS_ADC_DIS = "ibus_adc_dis"
-
-CONF_BQ25798_IBAT_ADC_DIS = "ibat_adc_dis"
-
-CONF_BQ25798_VBUS_ADC_DIS = "vbus_adc_dis"
-
-CONF_BQ25798_VBAT_ADC_DIS = "vbat_adc_dis"
-
-CONF_BQ25798_VSYS_ADC_DIS = "vsys_adc_dis"
-
-CONF_BQ25798_TS_ADC_DIS = "ts_adc_dis"
-
-CONF_BQ25798_TDIE_ADC_DIS = "tdie_adc_dis"
-
-CONF_BQ25798_DPLUS_ADC_DIS = "dplus_adc_dis"
-
-CONF_BQ25798_DMINUS_ADC_DIS = "dminus_adc_dis"
-
-CONF_BQ25798_VAC2_ADC_DIS = "vac2_adc_dis"
-
-CONF_BQ25798_VAC1_ADC_DIS = "vac1_adc_dis"
-
 CONF_BQ25798_IBUS_ADC = "ibus_adc"
-
 CONF_BQ25798_IBAT_ADC = "ibat_adc"
-
 CONF_BQ25798_VBUS_ADC = "vbus_adc"
-
 CONF_BQ25798_VAC1_ADC = "vac1_adc"
-
 CONF_BQ25798_VAC2_ADC = "vac2_adc"
-
 CONF_BQ25798_VBAT_ADC = "vbat_adc"
-
 CONF_BQ25798_VSYS_ADC = "vsys_adc"
-
 CONF_BQ25798_TS_ADC = "ts_adc"
-
 CONF_BQ25798_TDIE_ADC = "tdie_adc"
-
 CONF_BQ25798_DPLUS_ADC = "dplus_adc"
-
 CONF_BQ25798_DMINUS_ADC = "dminus_adc"
-
 CONF_BQ25798_DPLUS_DAC = "dplus_dac"
-
 CONF_BQ25798_DMINUS_DAC = "dminus_dac"
-
 CONF_BQ25798_PN = "pn"
-
 CONF_BQ25798_DEV_REV = "dev_rev"
-
-# Configuration schema
 ENUM_BQ25798_VBAT_LOWV = {
     "VBAT_LOWV_PCT_15": 0,
     "VBAT_LOWV_PCT_62": 1,
@@ -739,475 +434,304 @@ CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798Sensor),
-
-            # All sensors
             cv.Optional(CONF_BQ25798_VSYSMIN): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VREG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ICHG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VINDPM): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IINDPM): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBAT_LOWV): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IPRECHG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ITERM): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_CELL): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TRECHG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VRECHG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOTG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_PRECHG_TMR): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IOTG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TOPOFF_TMR): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_CHG_TMR): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_BACKUP): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VAC_OVP): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_WATCHDOG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_SDRV_CTRL): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_SDRV_DLY): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_WKUP_DLY): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_PWM_FREQ): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IBAT_REG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOC_PCT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOC_DLY): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOC_RATE): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TREG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TSHUT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_JEITA_VSET): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_JEITA_ISETH): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_JEITA_ISETC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_COOL): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_WARM): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_BHOT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_BCOLD): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ICO_ILIM): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IINDPM_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VINDPM_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_WD_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_PG_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_AC2_PRESENT_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_AC1_PRESENT_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_PRESENT_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_CHG_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ICO_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TREG_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DPDM_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBAT_PRESENT_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VSYS_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_CHG_TMR_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TRICHG_TMR_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_PRECHG_TMR_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBATOTG_LOW_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_COLD_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_COOL_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_WARM_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_HOT_STAT): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ADC_RATE): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ADC_SAMPLE): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_ADC_AVG): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IBUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IBAT_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_MILLIAMP,
+                device_class=DEVICE_CLASS_CURRENT,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VAC1_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VAC2_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBAT_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VSYS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_PERCENT,
+                accuracy_decimals=2,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TDIE_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement=UNIT_CELSIUS,
+                device_class=DEVICE_CLASS_TEMPERATURE,
+                accuracy_decimals=2,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DPLUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DMINUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                unit_of_measurement="mV",   # FIXME
+                device_class=DEVICE_CLASS_VOLTAGE,
+                accuracy_decimals=0,
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DPLUS_DAC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DMINUS_DAC): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_PN): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DEV_REV): sensor.sensor_schema(
-                unit_of_measurement="FIXME1",
-                #accuracy_decimals=1,    # FIXME
-                device_class=DEVICE_CLASS_TEMPERATURE, # FIXME
-                state_class=STATE_CLASS_MEASUREMENT,    # FIXME
+                state_class=STATE_CLASS_MEASUREMENT,
             ),
         }
     )
