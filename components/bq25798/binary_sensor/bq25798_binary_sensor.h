@@ -1,9 +1,8 @@
 #pragma once
 
+#include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/core/component.h"
 #include "esphome/core/helpers.h"
-
-#include "esphome/components/binary_sensor/binary_sensor.h"
 
 #include "../bq25798_component.h"
 

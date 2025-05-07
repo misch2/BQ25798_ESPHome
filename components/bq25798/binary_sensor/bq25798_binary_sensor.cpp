@@ -7,6 +7,5 @@ namespace bq25798 {
 
 static const char* const TAG = "bq25798.sensor";
 
-
 }  // namespace bq25798
 }  // namespace esphome

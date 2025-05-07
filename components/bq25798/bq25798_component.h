@@ -51,11 +51,11 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_reg_rst(bool value);
   void set_reg_rst(bool value, bool write_to_i2c);
-  void set_reg_rst_sensor(binary_sensor::BinarySensor *sensor) { reg_rst_sensor_ = sensor; }
+  void set_reg_rst_binary_sensor(binary_sensor::BinarySensor *sensor) { reg_rst_binary_sensor_ = sensor; }
 
   void on_init_set_stop_wd_chg(bool value);
   void set_stop_wd_chg(bool value, bool write_to_i2c);
-  void set_stop_wd_chg_sensor(binary_sensor::BinarySensor *sensor) { stop_wd_chg_sensor_ = sensor; }
+  void set_stop_wd_chg_binary_sensor(binary_sensor::BinarySensor *sensor) { stop_wd_chg_binary_sensor_ = sensor; }
 
   void on_init_set_iterm(bool value);
   void set_iterm(int value, bool write_to_i2c);
@@ -95,15 +95,15 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_en_trichg_tmr(bool value);
   void set_en_trichg_tmr(bool value, bool write_to_i2c);
-  void set_en_trichg_tmr_sensor(binary_sensor::BinarySensor *sensor) { en_trichg_tmr_sensor_ = sensor; }
+  void set_en_trichg_tmr_binary_sensor(binary_sensor::BinarySensor *sensor) { en_trichg_tmr_binary_sensor_ = sensor; }
 
   void on_init_set_en_prechg_tmr(bool value);
   void set_en_prechg_tmr(bool value, bool write_to_i2c);
-  void set_en_prechg_tmr_sensor(binary_sensor::BinarySensor *sensor) { en_prechg_tmr_sensor_ = sensor; }
+  void set_en_prechg_tmr_binary_sensor(binary_sensor::BinarySensor *sensor) { en_prechg_tmr_binary_sensor_ = sensor; }
 
   void on_init_set_en_chg_tmr(bool value);
   void set_en_chg_tmr(bool value, bool write_to_i2c);
-  void set_en_chg_tmr_sensor(binary_sensor::BinarySensor *sensor) { en_chg_tmr_sensor_ = sensor; }
+  void set_en_chg_tmr_binary_sensor(binary_sensor::BinarySensor *sensor) { en_chg_tmr_binary_sensor_ = sensor; }
 
   void on_init_set_chg_tmr(bool value);
   void set_chg_tmr(int value, bool write_to_i2c);
@@ -112,39 +112,39 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_tmr2x_en(bool value);
   void set_tmr2x_en(bool value, bool write_to_i2c);
-  void set_tmr2x_en_sensor(binary_sensor::BinarySensor *sensor) { tmr2x_en_sensor_ = sensor; }
+  void set_tmr2x_en_binary_sensor(binary_sensor::BinarySensor *sensor) { tmr2x_en_binary_sensor_ = sensor; }
 
   void on_init_set_en_auto_ibatdis(bool value);
   void set_en_auto_ibatdis(bool value, bool write_to_i2c);
-  void set_en_auto_ibatdis_sensor(binary_sensor::BinarySensor *sensor) { en_auto_ibatdis_sensor_ = sensor; }
+  void set_en_auto_ibatdis_binary_sensor(binary_sensor::BinarySensor *sensor) { en_auto_ibatdis_binary_sensor_ = sensor; }
 
   void on_init_set_force_ibatdis(bool value);
   void set_force_ibatdis(bool value, bool write_to_i2c);
-  void set_force_ibatdis_sensor(binary_sensor::BinarySensor *sensor) { force_ibatdis_sensor_ = sensor; }
+  void set_force_ibatdis_binary_sensor(binary_sensor::BinarySensor *sensor) { force_ibatdis_binary_sensor_ = sensor; }
 
   void on_init_set_en_chg(bool value);
   void set_en_chg(bool value, bool write_to_i2c);
-  void set_en_chg_sensor(binary_sensor::BinarySensor *sensor) { en_chg_sensor_ = sensor; }
+  void set_en_chg_binary_sensor(binary_sensor::BinarySensor *sensor) { en_chg_binary_sensor_ = sensor; }
 
   void on_init_set_en_ico(bool value);
   void set_en_ico(bool value, bool write_to_i2c);
-  void set_en_ico_sensor(binary_sensor::BinarySensor *sensor) { en_ico_sensor_ = sensor; }
+  void set_en_ico_binary_sensor(binary_sensor::BinarySensor *sensor) { en_ico_binary_sensor_ = sensor; }
 
   void on_init_set_force_ico(bool value);
   void set_force_ico(bool value, bool write_to_i2c);
-  void set_force_ico_sensor(binary_sensor::BinarySensor *sensor) { force_ico_sensor_ = sensor; }
+  void set_force_ico_binary_sensor(binary_sensor::BinarySensor *sensor) { force_ico_binary_sensor_ = sensor; }
 
   void on_init_set_en_hiz(bool value);
   void set_en_hiz(bool value, bool write_to_i2c);
-  void set_en_hiz_sensor(binary_sensor::BinarySensor *sensor) { en_hiz_sensor_ = sensor; }
+  void set_en_hiz_binary_sensor(binary_sensor::BinarySensor *sensor) { en_hiz_binary_sensor_ = sensor; }
 
   void on_init_set_en_term(bool value);
   void set_en_term(bool value, bool write_to_i2c);
-  void set_en_term_sensor(binary_sensor::BinarySensor *sensor) { en_term_sensor_ = sensor; }
+  void set_en_term_binary_sensor(binary_sensor::BinarySensor *sensor) { en_term_binary_sensor_ = sensor; }
 
   void on_init_set_en_backup(bool value);
   void set_en_backup(bool value, bool write_to_i2c);
-  void set_en_backup_sensor(binary_sensor::BinarySensor *sensor) { en_backup_sensor_ = sensor; }
+  void set_en_backup_binary_sensor(binary_sensor::BinarySensor *sensor) { en_backup_binary_sensor_ = sensor; }
 
   void on_init_set_vbus_backup(bool value);
   void set_vbus_backup(int value, bool write_to_i2c);
@@ -158,7 +158,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_wd_rst(bool value);
   void set_wd_rst(bool value, bool write_to_i2c);
-  void set_wd_rst_sensor(binary_sensor::BinarySensor *sensor) { wd_rst_sensor_ = sensor; }
+  void set_wd_rst_binary_sensor(binary_sensor::BinarySensor *sensor) { wd_rst_binary_sensor_ = sensor; }
 
   void on_init_set_watchdog(bool value);
   void set_watchdog(int value, bool write_to_i2c);
@@ -167,23 +167,23 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_force_indet(bool value);
   void set_force_indet(bool value, bool write_to_i2c);
-  void set_force_indet_sensor(binary_sensor::BinarySensor *sensor) { force_indet_sensor_ = sensor; }
+  void set_force_indet_binary_sensor(binary_sensor::BinarySensor *sensor) { force_indet_binary_sensor_ = sensor; }
 
   void on_init_set_auto_indet_en(bool value);
   void set_auto_indet_en(bool value, bool write_to_i2c);
-  void set_auto_indet_en_sensor(binary_sensor::BinarySensor *sensor) { auto_indet_en_sensor_ = sensor; }
+  void set_auto_indet_en_binary_sensor(binary_sensor::BinarySensor *sensor) { auto_indet_en_binary_sensor_ = sensor; }
 
   void on_init_set_en_12v(bool value);
   void set_en_12v(bool value, bool write_to_i2c);
-  void set_en_12v_sensor(binary_sensor::BinarySensor *sensor) { en_12v_sensor_ = sensor; }
+  void set_en_12v_binary_sensor(binary_sensor::BinarySensor *sensor) { en_12v_binary_sensor_ = sensor; }
 
   void on_init_set_en_9v(bool value);
   void set_en_9v(bool value, bool write_to_i2c);
-  void set_en_9v_sensor(binary_sensor::BinarySensor *sensor) { en_9v_sensor_ = sensor; }
+  void set_en_9v_binary_sensor(binary_sensor::BinarySensor *sensor) { en_9v_binary_sensor_ = sensor; }
 
   void on_init_set_hvdcp_en(bool value);
   void set_hvdcp_en(bool value, bool write_to_i2c);
-  void set_hvdcp_en_sensor(binary_sensor::BinarySensor *sensor) { hvdcp_en_sensor_ = sensor; }
+  void set_hvdcp_en_binary_sensor(binary_sensor::BinarySensor *sensor) { hvdcp_en_binary_sensor_ = sensor; }
 
   void on_init_set_sdrv_ctrl(bool value);
   void set_sdrv_ctrl(int value, bool write_to_i2c);
@@ -197,19 +197,19 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_dis_acdrv(bool value);
   void set_dis_acdrv(bool value, bool write_to_i2c);
-  void set_dis_acdrv_sensor(binary_sensor::BinarySensor *sensor) { dis_acdrv_sensor_ = sensor; }
+  void set_dis_acdrv_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_acdrv_binary_sensor_ = sensor; }
 
   void on_init_set_en_otg(bool value);
   void set_en_otg(bool value, bool write_to_i2c);
-  void set_en_otg_sensor(binary_sensor::BinarySensor *sensor) { en_otg_sensor_ = sensor; }
+  void set_en_otg_binary_sensor(binary_sensor::BinarySensor *sensor) { en_otg_binary_sensor_ = sensor; }
 
   void on_init_set_pfm_otg_dis(bool value);
   void set_pfm_otg_dis(bool value, bool write_to_i2c);
-  void set_pfm_otg_dis_sensor(binary_sensor::BinarySensor *sensor) { pfm_otg_dis_sensor_ = sensor; }
+  void set_pfm_otg_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { pfm_otg_dis_binary_sensor_ = sensor; }
 
   void on_init_set_pfm_fwd_dis(bool value);
   void set_pfm_fwd_dis(bool value, bool write_to_i2c);
-  void set_pfm_fwd_dis_sensor(binary_sensor::BinarySensor *sensor) { pfm_fwd_dis_sensor_ = sensor; }
+  void set_pfm_fwd_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { pfm_fwd_dis_binary_sensor_ = sensor; }
 
   void on_init_set_wkup_dly(bool value);
   void set_wkup_dly(int value, bool write_to_i2c);
@@ -218,23 +218,23 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_dis_ldo(bool value);
   void set_dis_ldo(bool value, bool write_to_i2c);
-  void set_dis_ldo_sensor(binary_sensor::BinarySensor *sensor) { dis_ldo_sensor_ = sensor; }
+  void set_dis_ldo_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_ldo_binary_sensor_ = sensor; }
 
   void on_init_set_dis_otg_ooa(bool value);
   void set_dis_otg_ooa(bool value, bool write_to_i2c);
-  void set_dis_otg_ooa_sensor(binary_sensor::BinarySensor *sensor) { dis_otg_ooa_sensor_ = sensor; }
+  void set_dis_otg_ooa_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_otg_ooa_binary_sensor_ = sensor; }
 
   void on_init_set_dis_fwd_ooa(bool value);
   void set_dis_fwd_ooa(bool value, bool write_to_i2c);
-  void set_dis_fwd_ooa_sensor(binary_sensor::BinarySensor *sensor) { dis_fwd_ooa_sensor_ = sensor; }
+  void set_dis_fwd_ooa_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_fwd_ooa_binary_sensor_ = sensor; }
 
   void on_init_set_en_acdrv2(bool value);
   void set_en_acdrv2(bool value, bool write_to_i2c);
-  void set_en_acdrv2_sensor(binary_sensor::BinarySensor *sensor) { en_acdrv2_sensor_ = sensor; }
+  void set_en_acdrv2_binary_sensor(binary_sensor::BinarySensor *sensor) { en_acdrv2_binary_sensor_ = sensor; }
 
   void on_init_set_en_acdrv1(bool value);
   void set_en_acdrv1(bool value, bool write_to_i2c);
-  void set_en_acdrv1_sensor(binary_sensor::BinarySensor *sensor) { en_acdrv1_sensor_ = sensor; }
+  void set_en_acdrv1_binary_sensor(binary_sensor::BinarySensor *sensor) { en_acdrv1_binary_sensor_ = sensor; }
 
   void on_init_set_pwm_freq(bool value);
   void set_pwm_freq(int value, bool write_to_i2c);
@@ -243,31 +243,31 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_dis_stat(bool value);
   void set_dis_stat(bool value, bool write_to_i2c);
-  void set_dis_stat_sensor(binary_sensor::BinarySensor *sensor) { dis_stat_sensor_ = sensor; }
+  void set_dis_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_stat_binary_sensor_ = sensor; }
 
   void on_init_set_dis_vsys_short(bool value);
   void set_dis_vsys_short(bool value, bool write_to_i2c);
-  void set_dis_vsys_short_sensor(binary_sensor::BinarySensor *sensor) { dis_vsys_short_sensor_ = sensor; }
+  void set_dis_vsys_short_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_vsys_short_binary_sensor_ = sensor; }
 
   void on_init_set_dis_votg_uvp(bool value);
   void set_dis_votg_uvp(bool value, bool write_to_i2c);
-  void set_dis_votg_uvp_sensor(binary_sensor::BinarySensor *sensor) { dis_votg_uvp_sensor_ = sensor; }
+  void set_dis_votg_uvp_binary_sensor(binary_sensor::BinarySensor *sensor) { dis_votg_uvp_binary_sensor_ = sensor; }
 
   void on_init_set_force_vindpm_det(bool value);
   void set_force_vindpm_det(bool value, bool write_to_i2c);
-  void set_force_vindpm_det_sensor(binary_sensor::BinarySensor *sensor) { force_vindpm_det_sensor_ = sensor; }
+  void set_force_vindpm_det_binary_sensor(binary_sensor::BinarySensor *sensor) { force_vindpm_det_binary_sensor_ = sensor; }
 
   void on_init_set_en_ibus_ocp(bool value);
   void set_en_ibus_ocp(bool value, bool write_to_i2c);
-  void set_en_ibus_ocp_sensor(binary_sensor::BinarySensor *sensor) { en_ibus_ocp_sensor_ = sensor; }
+  void set_en_ibus_ocp_binary_sensor(binary_sensor::BinarySensor *sensor) { en_ibus_ocp_binary_sensor_ = sensor; }
 
   void on_init_set_sfet_present(bool value);
   void set_sfet_present(bool value, bool write_to_i2c);
-  void set_sfet_present_sensor(binary_sensor::BinarySensor *sensor) { sfet_present_sensor_ = sensor; }
+  void set_sfet_present_binary_sensor(binary_sensor::BinarySensor *sensor) { sfet_present_binary_sensor_ = sensor; }
 
   void on_init_set_en_ibat(bool value);
   void set_en_ibat(bool value, bool write_to_i2c);
-  void set_en_ibat_sensor(binary_sensor::BinarySensor *sensor) { en_ibat_sensor_ = sensor; }
+  void set_en_ibat_binary_sensor(binary_sensor::BinarySensor *sensor) { en_ibat_binary_sensor_ = sensor; }
 
   void on_init_set_ibat_reg(bool value);
   void set_ibat_reg(int value, bool write_to_i2c);
@@ -276,15 +276,15 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_en_iindpm(bool value);
   void set_en_iindpm(bool value, bool write_to_i2c);
-  void set_en_iindpm_sensor(binary_sensor::BinarySensor *sensor) { en_iindpm_sensor_ = sensor; }
+  void set_en_iindpm_binary_sensor(binary_sensor::BinarySensor *sensor) { en_iindpm_binary_sensor_ = sensor; }
 
   void on_init_set_en_extilim(bool value);
   void set_en_extilim(bool value, bool write_to_i2c);
-  void set_en_extilim_sensor(binary_sensor::BinarySensor *sensor) { en_extilim_sensor_ = sensor; }
+  void set_en_extilim_binary_sensor(binary_sensor::BinarySensor *sensor) { en_extilim_binary_sensor_ = sensor; }
 
   void on_init_set_en_batoc(bool value);
   void set_en_batoc(bool value, bool write_to_i2c);
-  void set_en_batoc_sensor(binary_sensor::BinarySensor *sensor) { en_batoc_sensor_ = sensor; }
+  void set_en_batoc_binary_sensor(binary_sensor::BinarySensor *sensor) { en_batoc_binary_sensor_ = sensor; }
 
   void on_init_set_voc_pct(bool value);
   void set_voc_pct(int value, bool write_to_i2c);
@@ -303,7 +303,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_en_mppt(bool value);
   void set_en_mppt(bool value, bool write_to_i2c);
-  void set_en_mppt_sensor(binary_sensor::BinarySensor *sensor) { en_mppt_sensor_ = sensor; }
+  void set_en_mppt_binary_sensor(binary_sensor::BinarySensor *sensor) { en_mppt_binary_sensor_ = sensor; }
 
   void on_init_set_treg(bool value);
   void set_treg(int value, bool write_to_i2c);
@@ -317,15 +317,15 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_vbus_pd_en(bool value);
   void set_vbus_pd_en(bool value, bool write_to_i2c);
-  void set_vbus_pd_en_sensor(binary_sensor::BinarySensor *sensor) { vbus_pd_en_sensor_ = sensor; }
+  void set_vbus_pd_en_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_pd_en_binary_sensor_ = sensor; }
 
   void on_init_set_vac1_pd_en(bool value);
   void set_vac1_pd_en(bool value, bool write_to_i2c);
-  void set_vac1_pd_en_sensor(binary_sensor::BinarySensor *sensor) { vac1_pd_en_sensor_ = sensor; }
+  void set_vac1_pd_en_binary_sensor(binary_sensor::BinarySensor *sensor) { vac1_pd_en_binary_sensor_ = sensor; }
 
   void on_init_set_vac2_pd_en(bool value);
   void set_vac2_pd_en(bool value, bool write_to_i2c);
-  void set_vac2_pd_en_sensor(binary_sensor::BinarySensor *sensor) { vac2_pd_en_sensor_ = sensor; }
+  void set_vac2_pd_en_binary_sensor(binary_sensor::BinarySensor *sensor) { vac2_pd_en_binary_sensor_ = sensor; }
 
   void on_init_set_bkup_acfet1_on(bool value);
   void set_bkup_acfet1_on(int value, bool write_to_i2c);
@@ -369,7 +369,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_ts_ignore(bool value);
   void set_ts_ignore(bool value, bool write_to_i2c);
-  void set_ts_ignore_sensor(binary_sensor::BinarySensor *sensor) { ts_ignore_sensor_ = sensor; }
+  void set_ts_ignore_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_ignore_binary_sensor_ = sensor; }
 
   void set_ico_ilim_sensor(sensor::Sensor *sensor) { ico_ilim_sensor_ = sensor; }
 
@@ -400,7 +400,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void set_vbus_stat_sensor(sensor::Sensor *sensor) { vbus_stat_sensor_ = sensor; }
   void set_vbus_stat_text_sensor(text_sensor::TextSensor *sensor) { vbus_stat_text_sensor_ = sensor; }
 
-  void set_bc12_done_stat_sensor(binary_sensor::BinarySensor *sensor) { bc12_done_stat_sensor_ = sensor; }
+  void set_bc12_done_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { bc12_done_stat_binary_sensor_ = sensor; }
 
   void set_ico_stat_sensor(sensor::Sensor *sensor) { ico_stat_sensor_ = sensor; }
   void set_ico_stat_text_sensor(text_sensor::TextSensor *sensor) { ico_stat_text_sensor_ = sensor; }
@@ -414,11 +414,11 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void set_vbat_present_stat_sensor(sensor::Sensor *sensor) { vbat_present_stat_sensor_ = sensor; }
   void set_vbat_present_stat_text_sensor(text_sensor::TextSensor *sensor) { vbat_present_stat_text_sensor_ = sensor; }
 
-  void set_acrb2_stat_sensor(binary_sensor::BinarySensor *sensor) { acrb2_stat_sensor_ = sensor; }
+  void set_acrb2_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { acrb2_stat_binary_sensor_ = sensor; }
 
-  void set_acrb1_stat_sensor(binary_sensor::BinarySensor *sensor) { acrb1_stat_sensor_ = sensor; }
+  void set_acrb1_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { acrb1_stat_binary_sensor_ = sensor; }
 
-  void set_adc_done_stat_sensor(binary_sensor::BinarySensor *sensor) { adc_done_stat_sensor_ = sensor; }
+  void set_adc_done_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { adc_done_stat_binary_sensor_ = sensor; }
 
   void set_vsys_stat_sensor(sensor::Sensor *sensor) { vsys_stat_sensor_ = sensor; }
   void set_vsys_stat_text_sensor(text_sensor::TextSensor *sensor) { vsys_stat_text_sensor_ = sensor; }
@@ -447,113 +447,113 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void set_ts_hot_stat_sensor(sensor::Sensor *sensor) { ts_hot_stat_sensor_ = sensor; }
   void set_ts_hot_stat_text_sensor(text_sensor::TextSensor *sensor) { ts_hot_stat_text_sensor_ = sensor; }
 
-  void set_ibat_reg_stat_sensor(binary_sensor::BinarySensor *sensor) { ibat_reg_stat_sensor_ = sensor; }
+  void set_ibat_reg_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_reg_stat_binary_sensor_ = sensor; }
 
-  void set_vbus_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { vbus_ovp_stat_sensor_ = sensor; }
+  void set_vbus_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_vbat_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { vbat_ovp_stat_sensor_ = sensor; }
+  void set_vbat_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_ibus_ocp_stat_sensor(binary_sensor::BinarySensor *sensor) { ibus_ocp_stat_sensor_ = sensor; }
+  void set_ibus_ocp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { ibus_ocp_stat_binary_sensor_ = sensor; }
 
-  void set_ibat_ocp_stat_sensor(binary_sensor::BinarySensor *sensor) { ibat_ocp_stat_sensor_ = sensor; }
+  void set_ibat_ocp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_ocp_stat_binary_sensor_ = sensor; }
 
-  void set_conv_ocp_stat_sensor(binary_sensor::BinarySensor *sensor) { conv_ocp_stat_sensor_ = sensor; }
+  void set_conv_ocp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { conv_ocp_stat_binary_sensor_ = sensor; }
 
-  void set_vac2_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { vac2_ovp_stat_sensor_ = sensor; }
+  void set_vac2_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vac2_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_vac1_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { vac1_ovp_stat_sensor_ = sensor; }
+  void set_vac1_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vac1_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_vsys_short_stat_sensor(binary_sensor::BinarySensor *sensor) { vsys_short_stat_sensor_ = sensor; }
+  void set_vsys_short_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_short_stat_binary_sensor_ = sensor; }
 
-  void set_vsys_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { vsys_ovp_stat_sensor_ = sensor; }
+  void set_vsys_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_otg_ovp_stat_sensor(binary_sensor::BinarySensor *sensor) { otg_ovp_stat_sensor_ = sensor; }
+  void set_otg_ovp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_ovp_stat_binary_sensor_ = sensor; }
 
-  void set_otg_uvp_stat_sensor(binary_sensor::BinarySensor *sensor) { otg_uvp_stat_sensor_ = sensor; }
+  void set_otg_uvp_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_uvp_stat_binary_sensor_ = sensor; }
 
-  void set_tshut_stat_sensor(binary_sensor::BinarySensor *sensor) { tshut_stat_sensor_ = sensor; }
+  void set_tshut_stat_binary_sensor(binary_sensor::BinarySensor *sensor) { tshut_stat_binary_sensor_ = sensor; }
 
-  void set_iindpm_flag_sensor(binary_sensor::BinarySensor *sensor) { iindpm_flag_sensor_ = sensor; }
+  void set_iindpm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { iindpm_flag_binary_sensor_ = sensor; }
 
-  void set_vindpm_flag_sensor(binary_sensor::BinarySensor *sensor) { vindpm_flag_sensor_ = sensor; }
+  void set_vindpm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vindpm_flag_binary_sensor_ = sensor; }
 
-  void set_wd_flag_sensor(binary_sensor::BinarySensor *sensor) { wd_flag_sensor_ = sensor; }
+  void set_wd_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { wd_flag_binary_sensor_ = sensor; }
 
-  void set_poorsrc_flag_sensor(binary_sensor::BinarySensor *sensor) { poorsrc_flag_sensor_ = sensor; }
+  void set_poorsrc_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { poorsrc_flag_binary_sensor_ = sensor; }
 
-  void set_pg_flag_sensor(binary_sensor::BinarySensor *sensor) { pg_flag_sensor_ = sensor; }
+  void set_pg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { pg_flag_binary_sensor_ = sensor; }
 
-  void set_ac2_present_flag_sensor(binary_sensor::BinarySensor *sensor) { ac2_present_flag_sensor_ = sensor; }
+  void set_ac2_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ac2_present_flag_binary_sensor_ = sensor; }
 
-  void set_ac1_present_flag_sensor(binary_sensor::BinarySensor *sensor) { ac1_present_flag_sensor_ = sensor; }
+  void set_ac1_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ac1_present_flag_binary_sensor_ = sensor; }
 
-  void set_vbus_present_flag_sensor(binary_sensor::BinarySensor *sensor) { vbus_present_flag_sensor_ = sensor; }
+  void set_vbus_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_present_flag_binary_sensor_ = sensor; }
 
-  void set_chg_flag_sensor(binary_sensor::BinarySensor *sensor) { chg_flag_sensor_ = sensor; }
+  void set_chg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { chg_flag_binary_sensor_ = sensor; }
 
-  void set_ico_flag_sensor(binary_sensor::BinarySensor *sensor) { ico_flag_sensor_ = sensor; }
+  void set_ico_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ico_flag_binary_sensor_ = sensor; }
 
-  void set_vbus_flag_sensor(binary_sensor::BinarySensor *sensor) { vbus_flag_sensor_ = sensor; }
+  void set_vbus_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_flag_binary_sensor_ = sensor; }
 
-  void set_treg_flag_sensor(binary_sensor::BinarySensor *sensor) { treg_flag_sensor_ = sensor; }
+  void set_treg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { treg_flag_binary_sensor_ = sensor; }
 
-  void set_vbat_present_flag_sensor(binary_sensor::BinarySensor *sensor) { vbat_present_flag_sensor_ = sensor; }
+  void set_vbat_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_present_flag_binary_sensor_ = sensor; }
 
-  void set_bc1_2_done_flag_sensor(binary_sensor::BinarySensor *sensor) { bc1_2_done_flag_sensor_ = sensor; }
+  void set_bc1_2_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { bc1_2_done_flag_binary_sensor_ = sensor; }
 
-  void set_dpdm_done_flag_sensor(binary_sensor::BinarySensor *sensor) { dpdm_done_flag_sensor_ = sensor; }
+  void set_dpdm_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { dpdm_done_flag_binary_sensor_ = sensor; }
 
-  void set_adc_done_flag_sensor(binary_sensor::BinarySensor *sensor) { adc_done_flag_sensor_ = sensor; }
+  void set_adc_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { adc_done_flag_binary_sensor_ = sensor; }
 
-  void set_vsys_flag_sensor(binary_sensor::BinarySensor *sensor) { vsys_flag_sensor_ = sensor; }
+  void set_vsys_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_flag_binary_sensor_ = sensor; }
 
-  void set_chg_tmr_flag_sensor(binary_sensor::BinarySensor *sensor) { chg_tmr_flag_sensor_ = sensor; }
+  void set_chg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { chg_tmr_flag_binary_sensor_ = sensor; }
 
-  void set_trichg_tmr_flag_sensor(binary_sensor::BinarySensor *sensor) { trichg_tmr_flag_sensor_ = sensor; }
+  void set_trichg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { trichg_tmr_flag_binary_sensor_ = sensor; }
 
-  void set_prechg_tmr_flag_sensor(binary_sensor::BinarySensor *sensor) { prechg_tmr_flag_sensor_ = sensor; }
+  void set_prechg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { prechg_tmr_flag_binary_sensor_ = sensor; }
 
-  void set_topoff_tmr_flag_sensor(binary_sensor::BinarySensor *sensor) { topoff_tmr_flag_sensor_ = sensor; }
+  void set_topoff_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { topoff_tmr_flag_binary_sensor_ = sensor; }
 
-  void set_vbatotg_low_flag_sensor(binary_sensor::BinarySensor *sensor) { vbatotg_low_flag_sensor_ = sensor; }
+  void set_vbatotg_low_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbatotg_low_flag_binary_sensor_ = sensor; }
 
-  void set_ts_cold_flag_sensor(binary_sensor::BinarySensor *sensor) { ts_cold_flag_sensor_ = sensor; }
+  void set_ts_cold_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_cold_flag_binary_sensor_ = sensor; }
 
-  void set_ts_cool_flag_sensor(binary_sensor::BinarySensor *sensor) { ts_cool_flag_sensor_ = sensor; }
+  void set_ts_cool_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_cool_flag_binary_sensor_ = sensor; }
 
-  void set_ts_warm_flag_sensor(binary_sensor::BinarySensor *sensor) { ts_warm_flag_sensor_ = sensor; }
+  void set_ts_warm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_warm_flag_binary_sensor_ = sensor; }
 
-  void set_ts_hot_flag_sensor(binary_sensor::BinarySensor *sensor) { ts_hot_flag_sensor_ = sensor; }
+  void set_ts_hot_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_hot_flag_binary_sensor_ = sensor; }
 
-  void set_ibat_reg_flag_sensor(binary_sensor::BinarySensor *sensor) { ibat_reg_flag_sensor_ = sensor; }
+  void set_ibat_reg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_reg_flag_binary_sensor_ = sensor; }
 
-  void set_vbus_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { vbus_ovp_flag_sensor_ = sensor; }
+  void set_vbus_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_vbat_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { vbat_ovp_flag_sensor_ = sensor; }
+  void set_vbat_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_ibus_ocp_flag_sensor(binary_sensor::BinarySensor *sensor) { ibus_ocp_flag_sensor_ = sensor; }
+  void set_ibus_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibus_ocp_flag_binary_sensor_ = sensor; }
 
-  void set_ibat_ocp_flag_sensor(binary_sensor::BinarySensor *sensor) { ibat_ocp_flag_sensor_ = sensor; }
+  void set_ibat_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_ocp_flag_binary_sensor_ = sensor; }
 
-  void set_conv_ocp_flag_sensor(binary_sensor::BinarySensor *sensor) { conv_ocp_flag_sensor_ = sensor; }
+  void set_conv_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { conv_ocp_flag_binary_sensor_ = sensor; }
 
-  void set_vac2_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { vac2_ovp_flag_sensor_ = sensor; }
+  void set_vac2_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vac2_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_vac1_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { vac1_ovp_flag_sensor_ = sensor; }
+  void set_vac1_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vac1_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_vsys_short_flag_sensor(binary_sensor::BinarySensor *sensor) { vsys_short_flag_sensor_ = sensor; }
+  void set_vsys_short_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_short_flag_binary_sensor_ = sensor; }
 
-  void set_vsys_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { vsys_ovp_flag_sensor_ = sensor; }
+  void set_vsys_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_otg_ovp_flag_sensor(binary_sensor::BinarySensor *sensor) { otg_ovp_flag_sensor_ = sensor; }
+  void set_otg_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_ovp_flag_binary_sensor_ = sensor; }
 
-  void set_otg_uvp_flag_sensor(binary_sensor::BinarySensor *sensor) { otg_uvp_flag_sensor_ = sensor; }
+  void set_otg_uvp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_uvp_flag_binary_sensor_ = sensor; }
 
-  void set_tshut_flag_sensor(binary_sensor::BinarySensor *sensor) { tshut_flag_sensor_ = sensor; }
+  void set_tshut_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { tshut_flag_binary_sensor_ = sensor; }
 
   void on_init_set_adc_en(bool value);
   void set_adc_en(bool value, bool write_to_i2c);
-  void set_adc_en_sensor(binary_sensor::BinarySensor *sensor) { adc_en_sensor_ = sensor; }
+  void set_adc_en_binary_sensor(binary_sensor::BinarySensor *sensor) { adc_en_binary_sensor_ = sensor; }
 
   void on_init_set_adc_rate(bool value);
   void set_adc_rate(int value, bool write_to_i2c);
@@ -572,51 +572,51 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   void on_init_set_adc_avg_init(bool value);
   void set_adc_avg_init(bool value, bool write_to_i2c);
-  void set_adc_avg_init_sensor(binary_sensor::BinarySensor *sensor) { adc_avg_init_sensor_ = sensor; }
+  void set_adc_avg_init_binary_sensor(binary_sensor::BinarySensor *sensor) { adc_avg_init_binary_sensor_ = sensor; }
 
   void on_init_set_ibus_adc_dis(bool value);
   void set_ibus_adc_dis(bool value, bool write_to_i2c);
-  void set_ibus_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { ibus_adc_dis_sensor_ = sensor; }
+  void set_ibus_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { ibus_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_ibat_adc_dis(bool value);
   void set_ibat_adc_dis(bool value, bool write_to_i2c);
-  void set_ibat_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { ibat_adc_dis_sensor_ = sensor; }
+  void set_ibat_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_vbus_adc_dis(bool value);
   void set_vbus_adc_dis(bool value, bool write_to_i2c);
-  void set_vbus_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { vbus_adc_dis_sensor_ = sensor; }
+  void set_vbus_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_vbat_adc_dis(bool value);
   void set_vbat_adc_dis(bool value, bool write_to_i2c);
-  void set_vbat_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { vbat_adc_dis_sensor_ = sensor; }
+  void set_vbat_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_vsys_adc_dis(bool value);
   void set_vsys_adc_dis(bool value, bool write_to_i2c);
-  void set_vsys_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { vsys_adc_dis_sensor_ = sensor; }
+  void set_vsys_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_ts_adc_dis(bool value);
   void set_ts_adc_dis(bool value, bool write_to_i2c);
-  void set_ts_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { ts_adc_dis_sensor_ = sensor; }
+  void set_ts_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_tdie_adc_dis(bool value);
   void set_tdie_adc_dis(bool value, bool write_to_i2c);
-  void set_tdie_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { tdie_adc_dis_sensor_ = sensor; }
+  void set_tdie_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { tdie_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_dplus_adc_dis(bool value);
   void set_dplus_adc_dis(bool value, bool write_to_i2c);
-  void set_dplus_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { dplus_adc_dis_sensor_ = sensor; }
+  void set_dplus_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { dplus_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_dminus_adc_dis(bool value);
   void set_dminus_adc_dis(bool value, bool write_to_i2c);
-  void set_dminus_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { dminus_adc_dis_sensor_ = sensor; }
+  void set_dminus_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { dminus_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_vac2_adc_dis(bool value);
   void set_vac2_adc_dis(bool value, bool write_to_i2c);
-  void set_vac2_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { vac2_adc_dis_sensor_ = sensor; }
+  void set_vac2_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { vac2_adc_dis_binary_sensor_ = sensor; }
 
   void on_init_set_vac1_adc_dis(bool value);
   void set_vac1_adc_dis(bool value, bool write_to_i2c);
-  void set_vac1_adc_dis_sensor(binary_sensor::BinarySensor *sensor) { vac1_adc_dis_sensor_ = sensor; }
+  void set_vac1_adc_dis_binary_sensor(binary_sensor::BinarySensor *sensor) { vac1_adc_dis_binary_sensor_ = sensor; }
 
   void set_ibus_adc_sensor(sensor::Sensor *sensor) { ibus_adc_sensor_ = sensor; }
 
@@ -696,12 +696,12 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_reg_rst_ = false;
   bool reg_rst_ = false;
-  binary_sensor::BinarySensor *reg_rst_sensor_ {nullptr};
+  binary_sensor::BinarySensor *reg_rst_binary_sensor_ {nullptr};
 
 
   bool on_init_set_stop_wd_chg_ = false;
   bool stop_wd_chg_ = false;
-  binary_sensor::BinarySensor *stop_wd_chg_sensor_ {nullptr};
+  binary_sensor::BinarySensor *stop_wd_chg_binary_sensor_ {nullptr};
 
 
   bool on_init_set_iterm_ = false;
@@ -750,17 +750,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_en_trichg_tmr_ = false;
   bool en_trichg_tmr_ = false;
-  binary_sensor::BinarySensor *en_trichg_tmr_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_trichg_tmr_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_prechg_tmr_ = false;
   bool en_prechg_tmr_ = false;
-  binary_sensor::BinarySensor *en_prechg_tmr_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_prechg_tmr_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_chg_tmr_ = false;
   bool en_chg_tmr_ = false;
-  binary_sensor::BinarySensor *en_chg_tmr_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_chg_tmr_binary_sensor_ {nullptr};
 
 
   bool on_init_set_chg_tmr_ = false;
@@ -771,47 +771,47 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_tmr2x_en_ = false;
   bool tmr2x_en_ = false;
-  binary_sensor::BinarySensor *tmr2x_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *tmr2x_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_auto_ibatdis_ = false;
   bool en_auto_ibatdis_ = false;
-  binary_sensor::BinarySensor *en_auto_ibatdis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_auto_ibatdis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_force_ibatdis_ = false;
   bool force_ibatdis_ = false;
-  binary_sensor::BinarySensor *force_ibatdis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *force_ibatdis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_chg_ = false;
   bool en_chg_ = false;
-  binary_sensor::BinarySensor *en_chg_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_chg_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_ico_ = false;
   bool en_ico_ = false;
-  binary_sensor::BinarySensor *en_ico_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_ico_binary_sensor_ {nullptr};
 
 
   bool on_init_set_force_ico_ = false;
   bool force_ico_ = false;
-  binary_sensor::BinarySensor *force_ico_sensor_ {nullptr};
+  binary_sensor::BinarySensor *force_ico_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_hiz_ = false;
   bool en_hiz_ = false;
-  binary_sensor::BinarySensor *en_hiz_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_hiz_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_term_ = false;
   bool en_term_ = false;
-  binary_sensor::BinarySensor *en_term_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_term_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_backup_ = false;
   bool en_backup_ = false;
-  binary_sensor::BinarySensor *en_backup_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_backup_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vbus_backup_ = false;
@@ -828,7 +828,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_wd_rst_ = false;
   bool wd_rst_ = false;
-  binary_sensor::BinarySensor *wd_rst_sensor_ {nullptr};
+  binary_sensor::BinarySensor *wd_rst_binary_sensor_ {nullptr};
 
 
   bool on_init_set_watchdog_ = false;
@@ -839,27 +839,27 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_force_indet_ = false;
   bool force_indet_ = false;
-  binary_sensor::BinarySensor *force_indet_sensor_ {nullptr};
+  binary_sensor::BinarySensor *force_indet_binary_sensor_ {nullptr};
 
 
   bool on_init_set_auto_indet_en_ = false;
   bool auto_indet_en_ = false;
-  binary_sensor::BinarySensor *auto_indet_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *auto_indet_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_12v_ = false;
   bool en_12v_ = false;
-  binary_sensor::BinarySensor *en_12v_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_12v_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_9v_ = false;
   bool en_9v_ = false;
-  binary_sensor::BinarySensor *en_9v_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_9v_binary_sensor_ {nullptr};
 
 
   bool on_init_set_hvdcp_en_ = false;
   bool hvdcp_en_ = false;
-  binary_sensor::BinarySensor *hvdcp_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *hvdcp_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_sdrv_ctrl_ = false;
@@ -876,22 +876,22 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_dis_acdrv_ = false;
   bool dis_acdrv_ = false;
-  binary_sensor::BinarySensor *dis_acdrv_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_acdrv_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_otg_ = false;
   bool en_otg_ = false;
-  binary_sensor::BinarySensor *en_otg_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_otg_binary_sensor_ {nullptr};
 
 
   bool on_init_set_pfm_otg_dis_ = false;
   bool pfm_otg_dis_ = false;
-  binary_sensor::BinarySensor *pfm_otg_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *pfm_otg_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_pfm_fwd_dis_ = false;
   bool pfm_fwd_dis_ = false;
-  binary_sensor::BinarySensor *pfm_fwd_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *pfm_fwd_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_wkup_dly_ = false;
@@ -902,27 +902,27 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_dis_ldo_ = false;
   bool dis_ldo_ = false;
-  binary_sensor::BinarySensor *dis_ldo_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_ldo_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dis_otg_ooa_ = false;
   bool dis_otg_ooa_ = false;
-  binary_sensor::BinarySensor *dis_otg_ooa_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_otg_ooa_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dis_fwd_ooa_ = false;
   bool dis_fwd_ooa_ = false;
-  binary_sensor::BinarySensor *dis_fwd_ooa_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_fwd_ooa_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_acdrv2_ = false;
   bool en_acdrv2_ = false;
-  binary_sensor::BinarySensor *en_acdrv2_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_acdrv2_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_acdrv1_ = false;
   bool en_acdrv1_ = false;
-  binary_sensor::BinarySensor *en_acdrv1_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_acdrv1_binary_sensor_ {nullptr};
 
 
   bool on_init_set_pwm_freq_ = false;
@@ -933,37 +933,37 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_dis_stat_ = false;
   bool dis_stat_ = false;
-  binary_sensor::BinarySensor *dis_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_stat_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dis_vsys_short_ = false;
   bool dis_vsys_short_ = false;
-  binary_sensor::BinarySensor *dis_vsys_short_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_vsys_short_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dis_votg_uvp_ = false;
   bool dis_votg_uvp_ = false;
-  binary_sensor::BinarySensor *dis_votg_uvp_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dis_votg_uvp_binary_sensor_ {nullptr};
 
 
   bool on_init_set_force_vindpm_det_ = false;
   bool force_vindpm_det_ = false;
-  binary_sensor::BinarySensor *force_vindpm_det_sensor_ {nullptr};
+  binary_sensor::BinarySensor *force_vindpm_det_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_ibus_ocp_ = false;
   bool en_ibus_ocp_ = false;
-  binary_sensor::BinarySensor *en_ibus_ocp_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_ibus_ocp_binary_sensor_ {nullptr};
 
 
   bool on_init_set_sfet_present_ = false;
   bool sfet_present_ = false;
-  binary_sensor::BinarySensor *sfet_present_sensor_ {nullptr};
+  binary_sensor::BinarySensor *sfet_present_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_ibat_ = false;
   bool en_ibat_ = false;
-  binary_sensor::BinarySensor *en_ibat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_ibat_binary_sensor_ {nullptr};
 
 
   bool on_init_set_ibat_reg_ = false;
@@ -974,17 +974,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_en_iindpm_ = false;
   bool en_iindpm_ = false;
-  binary_sensor::BinarySensor *en_iindpm_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_iindpm_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_extilim_ = false;
   bool en_extilim_ = false;
-  binary_sensor::BinarySensor *en_extilim_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_extilim_binary_sensor_ {nullptr};
 
 
   bool on_init_set_en_batoc_ = false;
   bool en_batoc_ = false;
-  binary_sensor::BinarySensor *en_batoc_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_batoc_binary_sensor_ {nullptr};
 
 
   bool on_init_set_voc_pct_ = false;
@@ -1007,7 +1007,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_en_mppt_ = false;
   bool en_mppt_ = false;
-  binary_sensor::BinarySensor *en_mppt_sensor_ {nullptr};
+  binary_sensor::BinarySensor *en_mppt_binary_sensor_ {nullptr};
 
 
   bool on_init_set_treg_ = false;
@@ -1024,17 +1024,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_vbus_pd_en_ = false;
   bool vbus_pd_en_ = false;
-  binary_sensor::BinarySensor *vbus_pd_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_pd_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vac1_pd_en_ = false;
   bool vac1_pd_en_ = false;
-  binary_sensor::BinarySensor *vac1_pd_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac1_pd_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vac2_pd_en_ = false;
   bool vac2_pd_en_ = false;
-  binary_sensor::BinarySensor *vac2_pd_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac2_pd_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_bkup_acfet1_on_ = false;
@@ -1087,7 +1087,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_ts_ignore_ = false;
   bool ts_ignore_ = false;
-  binary_sensor::BinarySensor *ts_ignore_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_ignore_binary_sensor_ {nullptr};
 
 
   sensor::Sensor *ico_ilim_sensor_ {nullptr};
@@ -1129,7 +1129,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   text_sensor::TextSensor *vbus_stat_text_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *bc12_done_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *bc12_done_stat_binary_sensor_ {nullptr};
 
 
   sensor::Sensor *ico_stat_sensor_ {nullptr};
@@ -1148,13 +1148,13 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   text_sensor::TextSensor *vbat_present_stat_text_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *acrb2_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *acrb2_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *acrb1_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *acrb1_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *adc_done_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *adc_done_stat_binary_sensor_ {nullptr};
 
 
   sensor::Sensor *vsys_stat_sensor_ {nullptr};
@@ -1193,165 +1193,165 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   text_sensor::TextSensor *ts_hot_stat_text_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibat_reg_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibat_reg_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbus_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbat_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbat_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibus_ocp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibus_ocp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibat_ocp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibat_ocp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *conv_ocp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *conv_ocp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vac2_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac2_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vac1_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac1_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vsys_short_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_short_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vsys_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *otg_ovp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *otg_ovp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *otg_uvp_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *otg_uvp_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *tshut_stat_sensor_ {nullptr};
+  binary_sensor::BinarySensor *tshut_stat_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *iindpm_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *iindpm_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vindpm_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vindpm_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *wd_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *wd_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *poorsrc_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *poorsrc_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *pg_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *pg_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ac2_present_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ac2_present_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ac1_present_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ac1_present_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbus_present_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_present_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *chg_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *chg_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ico_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ico_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbus_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *treg_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *treg_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbat_present_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbat_present_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *bc1_2_done_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *bc1_2_done_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *dpdm_done_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dpdm_done_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *adc_done_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *adc_done_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vsys_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *chg_tmr_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *chg_tmr_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *trichg_tmr_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *trichg_tmr_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *prechg_tmr_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *prechg_tmr_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *topoff_tmr_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *topoff_tmr_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbatotg_low_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbatotg_low_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ts_cold_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_cold_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ts_cool_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_cool_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ts_warm_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_warm_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ts_hot_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_hot_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibat_reg_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibat_reg_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbus_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vbat_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbat_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibus_ocp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibus_ocp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *ibat_ocp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibat_ocp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *conv_ocp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *conv_ocp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vac2_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac2_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vac1_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac1_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vsys_short_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_short_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *vsys_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *otg_ovp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *otg_ovp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *otg_uvp_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *otg_uvp_flag_binary_sensor_ {nullptr};
 
 
-  binary_sensor::BinarySensor *tshut_flag_sensor_ {nullptr};
+  binary_sensor::BinarySensor *tshut_flag_binary_sensor_ {nullptr};
 
 
   bool on_init_set_adc_en_ = false;
   bool adc_en_ = false;
-  binary_sensor::BinarySensor *adc_en_sensor_ {nullptr};
+  binary_sensor::BinarySensor *adc_en_binary_sensor_ {nullptr};
 
 
   bool on_init_set_adc_rate_ = false;
@@ -1374,62 +1374,62 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool on_init_set_adc_avg_init_ = false;
   bool adc_avg_init_ = false;
-  binary_sensor::BinarySensor *adc_avg_init_sensor_ {nullptr};
+  binary_sensor::BinarySensor *adc_avg_init_binary_sensor_ {nullptr};
 
 
   bool on_init_set_ibus_adc_dis_ = false;
   bool ibus_adc_dis_ = false;
-  binary_sensor::BinarySensor *ibus_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibus_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_ibat_adc_dis_ = false;
   bool ibat_adc_dis_ = false;
-  binary_sensor::BinarySensor *ibat_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ibat_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vbus_adc_dis_ = false;
   bool vbus_adc_dis_ = false;
-  binary_sensor::BinarySensor *vbus_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbus_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vbat_adc_dis_ = false;
   bool vbat_adc_dis_ = false;
-  binary_sensor::BinarySensor *vbat_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vbat_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vsys_adc_dis_ = false;
   bool vsys_adc_dis_ = false;
-  binary_sensor::BinarySensor *vsys_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vsys_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_ts_adc_dis_ = false;
   bool ts_adc_dis_ = false;
-  binary_sensor::BinarySensor *ts_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *ts_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_tdie_adc_dis_ = false;
   bool tdie_adc_dis_ = false;
-  binary_sensor::BinarySensor *tdie_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *tdie_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dplus_adc_dis_ = false;
   bool dplus_adc_dis_ = false;
-  binary_sensor::BinarySensor *dplus_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dplus_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_dminus_adc_dis_ = false;
   bool dminus_adc_dis_ = false;
-  binary_sensor::BinarySensor *dminus_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *dminus_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vac2_adc_dis_ = false;
   bool vac2_adc_dis_ = false;
-  binary_sensor::BinarySensor *vac2_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac2_adc_dis_binary_sensor_ {nullptr};
 
 
   bool on_init_set_vac1_adc_dis_ = false;
   bool vac1_adc_dis_ = false;
-  binary_sensor::BinarySensor *vac1_adc_dis_sensor_ {nullptr};
+  binary_sensor::BinarySensor *vac1_adc_dis_binary_sensor_ {nullptr};
 
 
   sensor::Sensor *ibus_adc_sensor_ {nullptr};

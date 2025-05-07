@@ -1,6 +1,6 @@
 #pragma once
 
-#include "esphome/components/sensor/sensor.h"
+#include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/core/component.h"
 #include "esphome/core/helpers.h"
 
@@ -9,9 +9,9 @@
 namespace esphome {
 namespace bq25798 {
 
-class BQ25798Sensor : public sensor::Sensor,
-                      public Component,
-                      public Parented<BQ25798Component> {
+class BQ25798TextSensor : public sensor::Sensor,
+                          public Component,
+                          public Parented<BQ25798Component> {
  public:
  protected:
 };

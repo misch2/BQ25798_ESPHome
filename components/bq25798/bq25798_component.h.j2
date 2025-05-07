@@ -37,7 +37,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {%-     endif %}
 
 {%-     if def.type == "bool" %}
-  void set_{{ def.name | lower }}_sensor(binary_sensor::BinarySensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
+  void set_{{ def.name | lower }}_binary_sensor(binary_sensor::BinarySensor *sensor) { {{ def.name | lower }}_binary_sensor_ = sensor; }
 {%-     elif def.type == "int" %}
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "float" %}
@@ -65,7 +65,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {%-     endif %}
 
 {%-     if def.type == "bool" %}
-  binary_sensor::BinarySensor *{{ def.name | lower }}_sensor_ {nullptr};
+  binary_sensor::BinarySensor *{{ def.name | lower }}_binary_sensor_ {nullptr};
 {%-     elif def.type == "int" %}
   sensor::Sensor *{{ def.name | lower }}_sensor_ {nullptr};
 {%-     elif def.type == "float" %}
