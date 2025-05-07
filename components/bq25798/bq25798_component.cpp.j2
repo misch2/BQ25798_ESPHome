@@ -13,15 +13,26 @@ void BQ25798Component::setup() {
   bq25798_noi2c = new BQ25798NoI2C();
   bq25798_noi2c->begin(this->address_); // no-op
 
-  uint8_t reg_value;
-  if (!this->read_byte({{ settings[0].regname }}, &reg_value)) {
-    ESP_LOGE(TAG, "Failed to read from BQ25798 at address 0x%02X", this->address_);
-     this->mark_failed();
-     return;
+  int pn = get_pn(true);
+  if (pn != static_cast<int>(BQ25798NoI2C::PN_t::PN_BQ25798)) {
+    ESP_LOGE(TAG, "BQ25798 chip not found at address 0x%02X. Read signature: %d", this->address_, pn);
+    this->mark_failed();
+    return;
   }
-  // ^FIXME Maybe check chip ID instead?
 
-  // FIXME reset the chip?
+  int dev_rev = get_dev_rev(true);
+  if (dev_rev != static_cast<int>(BQ25798NoI2C::DEV_REV_t::DEV_REV_BQ25798)) {
+    ESP_LOGE(TAG, "BQ25798 chip at address 0x%02X has unexpected device revision: %d", this->address_, dev_rev);
+    this->mark_failed();
+    return;
+  }
+  
+  ESP_LOGCONFIG(TAG, "Resetting the chip...");
+  set_reg_rst(true, true); 
+  while (get_reg_rst(true)) {
+    delay(1); // wait for the chip to reset
+  }
+  ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
 {%- for def in settings %}
 {%-     if def.mode == "rw" %}
@@ -60,104 +71,95 @@ void BQ25798Component::dump_config() {
 float BQ25798Component::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Component::update() {
+  bool needs_2nd_read;
+
 {%- for def in settings %}
 
 {%-     if def.type == "int" or def.type == "float" %}
   if (this->{{ def.name | lower }}_sensor_ != nullptr) {
-    // ESP_LOGD(TAG, "Reading this->{{ def.name | lower }}_sensor_ from I2C register {{ def.regname }}...");
+    this->{{ def.name | lower }}_sensor_->publish_state(get_{{ def.name | lower }}(true));
+  }
 {%-     elif def.type == "bool" %}
   if (this->{{ def.name | lower }}_binary_sensor_ != nullptr) {
-    // ESP_LOGD(TAG, "Reading this->{{ def.name | lower }}_binary_sensor_ from I2C register {{ def.regname }}...");
+    this->{{ def.name | lower }}_binary_sensor_->publish_state(get_{{ def.name | lower }}(true));
+  }
 {%-     elif def.type == "enum" %}
-  if (this->{{ def.name | lower }}_sensor_ != nullptr || this->{{ def.name | lower }}_text_sensor_ != nullptr) {
-    // ESP_LOGD(TAG, "Reading this->{{ def.name | lower }}_sensor_ and/or this->{{ def.name | lower }}_text_sensor_ from I2C register {{ def.regname }}...");
-
+  // exception: process both int and string values
+  needs_2nd_read = true;
+  if (this->{{ def.name | lower }}_sensor_ != nullptr) {
+    this->{{ def.name | lower }}_sensor_->publish_state(get_{{ def.name | lower }}(true));
+    needs_2nd_read = false;
+  }
+  if (this->{{ def.name | lower }}_text_sensor_ != nullptr) {
+    this->{{ def.name | lower }}_text_sensor_->publish_state(get_{{ def.name | lower }}_string(needs_2nd_read));
+  }
 {%-     endif %}
 
+{% endfor %}
+}
+
+{%- for def in settings %}
+
+{# Getters for all #}
+{%-         if def.type == "bool" %}
+bool BQ25798Component::get_{{ def.name | lower }}(bool read_from_i2c) {
+{%-         elif def.type == "int" %}
+int BQ25798Component::get_{{ def.name | lower }}(bool read_from_i2c) {
+{%-         elif def.type == "float" %}
+float BQ25798Component::get_{{ def.name | lower }}(bool read_from_i2c) {
+{%-         elif def.type == "enum" %}
+int BQ25798Component::get_{{ def.name | lower }}(bool read_from_i2c) {
+{%-         endif %}
+
+  if (read_from_i2c && this->bq25798_noi2c != nullptr) {
     // read the value from the chip
 {%-         if def.long_reg %}
     uint16_t reg_value;
     if (!this->read_byte_16({{ def.regname }}, &reg_value)) {
       this->mark_failed();
-      return;
     }
 // ESP_LOGD(TAG, "  received raw 16-bit register value: 0x%04X", reg_value);    
 {%-         else %}
     uint8_t reg_value;
     if (!this->read_byte({{ def.regname }}, &reg_value)) {
       this->mark_failed();
-      return;
     }
 // ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }}, reg_value);
 {%-         endif %}
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> {{ def.shift }}) & BITLENGTH_TO_MASK({{ def.bits }});
-// ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
+    // ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
 
-{%-     if def.type == "bool" %}
-    bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->{{ def.name }});
-    // ESP_LOGD(TAG, "  converted to bool: %d", value);
-    if (this->bq25798_noi2c->lastError()) {
-      this->status_set_warning();
-      this->bq25798_noi2c->clearError();
-      return;
-    }
-    if (this->{{ def.name | lower }}_binary_sensor_ != nullptr) {
-      this->{{ def.name | lower }}_binary_sensor_->publish_state(value);
-    }
-{%-     elif def.type == "int" %}
-    int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
-    // ESP_LOGD(TAG, "  converted to int: %d", value);
-    if (this->bq25798_noi2c->lastError()) {
-      this->status_set_warning();
-      this->bq25798_noi2c->clearError();
-      return;
-    }
-    if (this->{{ def.name | lower }}_sensor_ != nullptr) {
-      this->{{ def.name | lower }}_sensor_->publish_state(value);
-    }
-{%-     elif def.type == "float" %}
-    float value = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->{{ def.name }});
-    // ESP_LOGD(TAG, "  converted to float: %f", value);
-    if (this->bq25798_noi2c->lastError()) {
-      this->status_set_warning();
-      this->bq25798_noi2c->clearError();
-      return;
-    }
-    if (this->{{ def.name | lower }}_sensor_ != nullptr) {
-      this->{{ def.name | lower }}_sensor_->publish_state(value);
-    }
-{%-     elif def.type == "enum" %}
-    // exception: process both int and string values
-    const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->{{ def.name }});
-    // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
-    if (this->bq25798_noi2c->lastError()) {
-      this->status_set_warning();
-      this->bq25798_noi2c->clearError();
-      return;
-    }
-    if (this->{{ def.name | lower }}_text_sensor_ != nullptr) {
-      this->{{ def.name | lower }}_text_sensor_->publish_state(string_value);
-    }
+{%-         if def.type == "bool" %}
+    {{ def.name | lower }}_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->{{ def.name }});
+{%-         elif def.type == "int" %}
+    {{ def.name | lower }}_ = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
+{%-         elif def.type == "float" %}
+    {{ def.name | lower }}_ = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->{{ def.name }});
+{%-         elif def.type == "enum" %}
+    {{ def.name | lower }}_ = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
+{%-         endif %}
 
-    int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
-    // ESP_LOGD(TAG, "  converted to enum.int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
       this->bq25798_noi2c->clearError();
-      return;
     }
-    if (this->{{ def.name | lower }}_sensor_ != nullptr) {
-      this->{{ def.name | lower }}_sensor_->publish_state(value);
-    }
-{%-     endif %}
   }
 
-{% endfor %}
-}
+  return {{ def.name | lower }}_;
+} // getter
 
-{%- for def in settings %}
+{%-         if def.type == "enum" %}
+const char* BQ25798Component::get_{{ def.name | lower }}_string(bool read_from_i2c) {
+  int value = get_{{ def.name | lower }}(read_from_i2c);
+  return this->bq25798_noi2c->toString(value, this->bq25798_noi2c->{{ def.name }}_strings);  // not nice, should not access toString() and strings array directly
+}
+{%-         endif %}
+
+
+
+{# Setters for writeable only #}
 {%-     if def.mode == "rw" %}
 
 void BQ25798Component::on_init_set_{{ def.name | lower }}(bool value) {
@@ -200,7 +202,6 @@ void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) 
     this->mark_failed();
     return;
   }
-
 // ESP_LOGD(TAG, "  received raw 16-bit register %02X value: 0x%04X", {{ def.regname }}, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
@@ -208,18 +209,15 @@ void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) 
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
 //ESP_LOGD(TAG, "  new register value: 0x%04X", reg_value);
-
   if (!this->write_byte_16({{ def.regname }}, reg_value)) {
     this->mark_failed();
   }
 {%-         else %}
-
  uint8_t reg_value;
   if (!this->read_byte({{ def.regname }}, &reg_value)) {
     this->mark_failed();
     return;
   }
-
 // ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }}, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
@@ -227,12 +225,11 @@ void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) 
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
 // ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
-
   if (!this->write_byte({{ def.regname }}, reg_value)) {
     this->mark_failed();
   }
 {%-         endif %}
-  } // if (write_to_i2c && this->bq25798_noi2c != nullptr)
+  } // if (_write)
 };  // function end
 
 {%-     endif %}

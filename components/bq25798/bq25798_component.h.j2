@@ -37,12 +37,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {%-     endif %}
 
 {%-     if def.type == "bool" %}
+  bool get_{{ def.name | lower }}(bool read_from_i2c);
   void set_{{ def.name | lower }}_binary_sensor(binary_sensor::BinarySensor *sensor) { {{ def.name | lower }}_binary_sensor_ = sensor; }
 {%-     elif def.type == "int" %}
+  int get_{{ def.name | lower }}(bool read_from_i2c);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "float" %}
+  float get_{{ def.name | lower }}(bool read_from_i2c);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
 {%-     elif def.type == "enum" %}
+  int get_{{ def.name | lower }}(bool read_from_i2c);
+  const char* get_{{ def.name | lower }}_string(bool read_from_i2c);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }
   void set_{{ def.name | lower }}_text_sensor(text_sensor::TextSensor *sensor) { {{ def.name | lower }}_text_sensor_ = sensor; }
 {%-     endif %}
@@ -51,8 +56,6 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
  protected:
 {%- for def in settings %}
 
-{%-     if def.mode == "rw" %}
-  bool on_init_set_{{ def.name | lower }}_ = false;
 {%-         if def.type == "bool" %}
   bool {{ def.name | lower }}_ = false;
 {%-         elif def.type == "int" %}
@@ -62,6 +65,9 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {%-         elif def.type == "enum" %}
   int {{ def.name | lower }}_ = 0;
 {%-         endif %}
+
+{%-     if def.mode == "rw" %}
+  bool on_init_set_{{ def.name | lower }}_ = false;
 {%-     endif %}
 
 {%-     if def.type == "bool" %}
