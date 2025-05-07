@@ -131,23 +131,19 @@ CONF_BQ25798_DMINUS_ADC_DIS = "dminus_adc_dis"
 CONF_BQ25798_VAC2_ADC_DIS = "vac2_adc_dis"
 CONF_BQ25798_VAC1_ADC_DIS = "vac1_adc_dis"
 
-
-# 'battery', 'battery_charging', 'carbon_monoxide', 'cold', 'connectivity', 'door', '', 'garage_door', 'gas', 'heat', 'light', 'lock', 'moisture', 'motion', 'moving', 'occupancy', 'opening', 'plug', 'power', 'presence', 'problem', 'running', 'safety', 'smoke', 'sound', 'tamper', 'update', 'vibration', 'window'.
+# See https://www.home-assistant.io/integrations/binary_sensor/#device-class for the list of binary sensor device classes
 
 # Usable ones:
-# '', 
-# 'battery', 
-# 'battery_charging', 
-# 'cold', 
-# 'heat', 
-# 'moving', 
-# 'power', 
-# 'presence', 
-# 'problem', 
-# 'running', 
-# 'safety', 
-# 'tamper', 
-# 'update', 
+# '',                  =       on / off
+# 'battery',           =      low / normal               OK = FALSE
+# 'battery_charging',  = charging / not charging
+# 'cold',              =     cold / normal               OK = FALSE
+# 'heat',              =      hot / normal               OK = FALSE
+# 'power',             =       on / off                  OK = TRUE
+# 'problem',           =  problem / ok                   OK = FALSE
+# 'running',           =  running / not running
+# 'safety',            =   unsafe / safe                 OK = FALSE
+# 'tamper',            = tampered / clear                OK = FALSE
 
 CONFIG_SCHEMA = (
     cv.Schema(
@@ -337,16 +333,14 @@ CONFIG_SCHEMA = (
                 device_class="",
             ),
             cv.Optional(CONF_BQ25798_IINDPM_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="power",
             ),
             cv.Optional(CONF_BQ25798_VINDPM_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="power",
             ),
             cv.Optional(CONF_BQ25798_WD_FLAG): binary_sensor.binary_sensor_schema(
                 device_class="problem",
             ),
             cv.Optional(CONF_BQ25798_POORSRC_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="power",
+                device_class="problem",
             ),
             cv.Optional(CONF_BQ25798_PG_FLAG): binary_sensor.binary_sensor_schema(
                 device_class="power",
@@ -361,7 +355,7 @@ CONFIG_SCHEMA = (
                 device_class="power",
             ),
             cv.Optional(CONF_BQ25798_CHG_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="battery_charging",
+                device_class="power",
             ),
             cv.Optional(CONF_BQ25798_ICO_FLAG): binary_sensor.binary_sensor_schema(
                 device_class="power",
@@ -376,13 +370,10 @@ CONFIG_SCHEMA = (
                 device_class="battery",
             ),
             cv.Optional(CONF_BQ25798_BC1_2_DONE_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="running",
             ),
             cv.Optional(CONF_BQ25798_DPDM_DONE_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="running",
             ),
             cv.Optional(CONF_BQ25798_ADC_DONE_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="running",
             ),
             cv.Optional(CONF_BQ25798_VSYS_FLAG): binary_sensor.binary_sensor_schema(
                 device_class="problem",
@@ -415,7 +406,7 @@ CONFIG_SCHEMA = (
                 device_class="problem",
             ),
             cv.Optional(CONF_BQ25798_IBAT_REG_FLAG): binary_sensor.binary_sensor_schema(
-                device_class="tamper",
+                device_class="battery",
             ),
             cv.Optional(CONF_BQ25798_VBUS_OVP_FLAG): binary_sensor.binary_sensor_schema(
                 device_class="problem",

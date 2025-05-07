@@ -23,23 +23,19 @@ CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
 {%-     endif %}
 {%- endfor %}
 
-
-# 'battery', 'battery_charging', 'carbon_monoxide', 'cold', 'connectivity', 'door', '', 'garage_door', 'gas', 'heat', 'light', 'lock', 'moisture', 'motion', 'moving', 'occupancy', 'opening', 'plug', 'power', 'presence', 'problem', 'running', 'safety', 'smoke', 'sound', 'tamper', 'update', 'vibration', 'window'.
+# See https://www.home-assistant.io/integrations/binary_sensor/#device-class for the list of binary sensor device classes
 
 # Usable ones:
-# '', 
-# 'battery', 
-# 'battery_charging', 
-# 'cold', 
-# 'heat', 
-# 'moving', 
-# 'power', 
-# 'presence', 
-# 'problem', 
-# 'running', 
-# 'safety', 
-# 'tamper', 
-# 'update', 
+# '',                  =       on / off
+# 'battery',           =      low / normal               OK = FALSE
+# 'battery_charging',  = charging / not charging
+# 'cold',              =     cold / normal               OK = FALSE
+# 'heat',              =      hot / normal               OK = FALSE
+# 'power',             =       on / off                  OK = TRUE
+# 'problem',           =  problem / ok                   OK = FALSE
+# 'running',           =  running / not running
+# 'safety',            =   unsafe / safe                 OK = FALSE
+# 'tamper',            = tampered / clear                OK = FALSE
 
 CONFIG_SCHEMA = (
     cv.Schema(
