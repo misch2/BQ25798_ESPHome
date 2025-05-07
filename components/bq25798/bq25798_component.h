@@ -645,120 +645,198 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   bool get_iindpm_flag(bool read_from_i2c);
   void set_iindpm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { iindpm_flag_binary_sensor_ = sensor; }
+  void clear_flag_iindpm_flag() { iindpm_flag_ = false; }
+  void raise_flag_iindpm_flag() { iindpm_flag_ = true; }
 
   bool get_vindpm_flag(bool read_from_i2c);
   void set_vindpm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vindpm_flag_binary_sensor_ = sensor; }
+  void clear_flag_vindpm_flag() { vindpm_flag_ = false; }
+  void raise_flag_vindpm_flag() { vindpm_flag_ = true; }
 
   bool get_wd_flag(bool read_from_i2c);
   void set_wd_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { wd_flag_binary_sensor_ = sensor; }
+  void clear_flag_wd_flag() { wd_flag_ = false; }
+  void raise_flag_wd_flag() { wd_flag_ = true; }
 
   bool get_poorsrc_flag(bool read_from_i2c);
   void set_poorsrc_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { poorsrc_flag_binary_sensor_ = sensor; }
+  void clear_flag_poorsrc_flag() { poorsrc_flag_ = false; }
+  void raise_flag_poorsrc_flag() { poorsrc_flag_ = true; }
 
   bool get_pg_flag(bool read_from_i2c);
   void set_pg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { pg_flag_binary_sensor_ = sensor; }
+  void clear_flag_pg_flag() { pg_flag_ = false; }
+  void raise_flag_pg_flag() { pg_flag_ = true; }
 
   bool get_ac2_present_flag(bool read_from_i2c);
   void set_ac2_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ac2_present_flag_binary_sensor_ = sensor; }
+  void clear_flag_ac2_present_flag() { ac2_present_flag_ = false; }
+  void raise_flag_ac2_present_flag() { ac2_present_flag_ = true; }
 
   bool get_ac1_present_flag(bool read_from_i2c);
   void set_ac1_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ac1_present_flag_binary_sensor_ = sensor; }
+  void clear_flag_ac1_present_flag() { ac1_present_flag_ = false; }
+  void raise_flag_ac1_present_flag() { ac1_present_flag_ = true; }
 
   bool get_vbus_present_flag(bool read_from_i2c);
   void set_vbus_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_present_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbus_present_flag() { vbus_present_flag_ = false; }
+  void raise_flag_vbus_present_flag() { vbus_present_flag_ = true; }
 
   bool get_chg_flag(bool read_from_i2c);
   void set_chg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { chg_flag_binary_sensor_ = sensor; }
+  void clear_flag_chg_flag() { chg_flag_ = false; }
+  void raise_flag_chg_flag() { chg_flag_ = true; }
 
   bool get_ico_flag(bool read_from_i2c);
   void set_ico_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ico_flag_binary_sensor_ = sensor; }
+  void clear_flag_ico_flag() { ico_flag_ = false; }
+  void raise_flag_ico_flag() { ico_flag_ = true; }
 
   bool get_vbus_flag(bool read_from_i2c);
   void set_vbus_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbus_flag() { vbus_flag_ = false; }
+  void raise_flag_vbus_flag() { vbus_flag_ = true; }
 
   bool get_treg_flag(bool read_from_i2c);
   void set_treg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { treg_flag_binary_sensor_ = sensor; }
+  void clear_flag_treg_flag() { treg_flag_ = false; }
+  void raise_flag_treg_flag() { treg_flag_ = true; }
 
   bool get_vbat_present_flag(bool read_from_i2c);
   void set_vbat_present_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_present_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbat_present_flag() { vbat_present_flag_ = false; }
+  void raise_flag_vbat_present_flag() { vbat_present_flag_ = true; }
 
   bool get_bc1_2_done_flag(bool read_from_i2c);
   void set_bc1_2_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { bc1_2_done_flag_binary_sensor_ = sensor; }
+  void clear_flag_bc1_2_done_flag() { bc1_2_done_flag_ = false; }
+  void raise_flag_bc1_2_done_flag() { bc1_2_done_flag_ = true; }
 
   bool get_dpdm_done_flag(bool read_from_i2c);
   void set_dpdm_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { dpdm_done_flag_binary_sensor_ = sensor; }
+  void clear_flag_dpdm_done_flag() { dpdm_done_flag_ = false; }
+  void raise_flag_dpdm_done_flag() { dpdm_done_flag_ = true; }
 
   bool get_adc_done_flag(bool read_from_i2c);
   void set_adc_done_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { adc_done_flag_binary_sensor_ = sensor; }
+  void clear_flag_adc_done_flag() { adc_done_flag_ = false; }
+  void raise_flag_adc_done_flag() { adc_done_flag_ = true; }
 
   bool get_vsys_flag(bool read_from_i2c);
   void set_vsys_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_flag_binary_sensor_ = sensor; }
+  void clear_flag_vsys_flag() { vsys_flag_ = false; }
+  void raise_flag_vsys_flag() { vsys_flag_ = true; }
 
   bool get_chg_tmr_flag(bool read_from_i2c);
   void set_chg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { chg_tmr_flag_binary_sensor_ = sensor; }
+  void clear_flag_chg_tmr_flag() { chg_tmr_flag_ = false; }
+  void raise_flag_chg_tmr_flag() { chg_tmr_flag_ = true; }
 
   bool get_trichg_tmr_flag(bool read_from_i2c);
   void set_trichg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { trichg_tmr_flag_binary_sensor_ = sensor; }
+  void clear_flag_trichg_tmr_flag() { trichg_tmr_flag_ = false; }
+  void raise_flag_trichg_tmr_flag() { trichg_tmr_flag_ = true; }
 
   bool get_prechg_tmr_flag(bool read_from_i2c);
   void set_prechg_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { prechg_tmr_flag_binary_sensor_ = sensor; }
+  void clear_flag_prechg_tmr_flag() { prechg_tmr_flag_ = false; }
+  void raise_flag_prechg_tmr_flag() { prechg_tmr_flag_ = true; }
 
   bool get_topoff_tmr_flag(bool read_from_i2c);
   void set_topoff_tmr_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { topoff_tmr_flag_binary_sensor_ = sensor; }
+  void clear_flag_topoff_tmr_flag() { topoff_tmr_flag_ = false; }
+  void raise_flag_topoff_tmr_flag() { topoff_tmr_flag_ = true; }
 
   bool get_vbatotg_low_flag(bool read_from_i2c);
   void set_vbatotg_low_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbatotg_low_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbatotg_low_flag() { vbatotg_low_flag_ = false; }
+  void raise_flag_vbatotg_low_flag() { vbatotg_low_flag_ = true; }
 
   bool get_ts_cold_flag(bool read_from_i2c);
   void set_ts_cold_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_cold_flag_binary_sensor_ = sensor; }
+  void clear_flag_ts_cold_flag() { ts_cold_flag_ = false; }
+  void raise_flag_ts_cold_flag() { ts_cold_flag_ = true; }
 
   bool get_ts_cool_flag(bool read_from_i2c);
   void set_ts_cool_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_cool_flag_binary_sensor_ = sensor; }
+  void clear_flag_ts_cool_flag() { ts_cool_flag_ = false; }
+  void raise_flag_ts_cool_flag() { ts_cool_flag_ = true; }
 
   bool get_ts_warm_flag(bool read_from_i2c);
   void set_ts_warm_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_warm_flag_binary_sensor_ = sensor; }
+  void clear_flag_ts_warm_flag() { ts_warm_flag_ = false; }
+  void raise_flag_ts_warm_flag() { ts_warm_flag_ = true; }
 
   bool get_ts_hot_flag(bool read_from_i2c);
   void set_ts_hot_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ts_hot_flag_binary_sensor_ = sensor; }
+  void clear_flag_ts_hot_flag() { ts_hot_flag_ = false; }
+  void raise_flag_ts_hot_flag() { ts_hot_flag_ = true; }
 
   bool get_ibat_reg_flag(bool read_from_i2c);
   void set_ibat_reg_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_reg_flag_binary_sensor_ = sensor; }
+  void clear_flag_ibat_reg_flag() { ibat_reg_flag_ = false; }
+  void raise_flag_ibat_reg_flag() { ibat_reg_flag_ = true; }
 
   bool get_vbus_ovp_flag(bool read_from_i2c);
   void set_vbus_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbus_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbus_ovp_flag() { vbus_ovp_flag_ = false; }
+  void raise_flag_vbus_ovp_flag() { vbus_ovp_flag_ = true; }
 
   bool get_vbat_ovp_flag(bool read_from_i2c);
   void set_vbat_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vbat_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_vbat_ovp_flag() { vbat_ovp_flag_ = false; }
+  void raise_flag_vbat_ovp_flag() { vbat_ovp_flag_ = true; }
 
   bool get_ibus_ocp_flag(bool read_from_i2c);
   void set_ibus_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibus_ocp_flag_binary_sensor_ = sensor; }
+  void clear_flag_ibus_ocp_flag() { ibus_ocp_flag_ = false; }
+  void raise_flag_ibus_ocp_flag() { ibus_ocp_flag_ = true; }
 
   bool get_ibat_ocp_flag(bool read_from_i2c);
   void set_ibat_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { ibat_ocp_flag_binary_sensor_ = sensor; }
+  void clear_flag_ibat_ocp_flag() { ibat_ocp_flag_ = false; }
+  void raise_flag_ibat_ocp_flag() { ibat_ocp_flag_ = true; }
 
   bool get_conv_ocp_flag(bool read_from_i2c);
   void set_conv_ocp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { conv_ocp_flag_binary_sensor_ = sensor; }
+  void clear_flag_conv_ocp_flag() { conv_ocp_flag_ = false; }
+  void raise_flag_conv_ocp_flag() { conv_ocp_flag_ = true; }
 
   bool get_vac2_ovp_flag(bool read_from_i2c);
   void set_vac2_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vac2_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_vac2_ovp_flag() { vac2_ovp_flag_ = false; }
+  void raise_flag_vac2_ovp_flag() { vac2_ovp_flag_ = true; }
 
   bool get_vac1_ovp_flag(bool read_from_i2c);
   void set_vac1_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vac1_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_vac1_ovp_flag() { vac1_ovp_flag_ = false; }
+  void raise_flag_vac1_ovp_flag() { vac1_ovp_flag_ = true; }
 
   bool get_vsys_short_flag(bool read_from_i2c);
   void set_vsys_short_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_short_flag_binary_sensor_ = sensor; }
+  void clear_flag_vsys_short_flag() { vsys_short_flag_ = false; }
+  void raise_flag_vsys_short_flag() { vsys_short_flag_ = true; }
 
   bool get_vsys_ovp_flag(bool read_from_i2c);
   void set_vsys_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { vsys_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_vsys_ovp_flag() { vsys_ovp_flag_ = false; }
+  void raise_flag_vsys_ovp_flag() { vsys_ovp_flag_ = true; }
 
   bool get_otg_ovp_flag(bool read_from_i2c);
   void set_otg_ovp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_ovp_flag_binary_sensor_ = sensor; }
+  void clear_flag_otg_ovp_flag() { otg_ovp_flag_ = false; }
+  void raise_flag_otg_ovp_flag() { otg_ovp_flag_ = true; }
 
   bool get_otg_uvp_flag(bool read_from_i2c);
   void set_otg_uvp_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { otg_uvp_flag_binary_sensor_ = sensor; }
+  void clear_flag_otg_uvp_flag() { otg_uvp_flag_ = false; }
+  void raise_flag_otg_uvp_flag() { otg_uvp_flag_ = true; }
 
   bool get_tshut_flag(bool read_from_i2c);
   void set_tshut_flag_binary_sensor(binary_sensor::BinarySensor *sensor) { tshut_flag_binary_sensor_ = sensor; }
+  void clear_flag_tshut_flag() { tshut_flag_ = false; }
+  void raise_flag_tshut_flag() { tshut_flag_ = true; }
 
   void on_init_set_adc_en(bool value);
   void set_adc_en(bool value, bool write_to_i2c);

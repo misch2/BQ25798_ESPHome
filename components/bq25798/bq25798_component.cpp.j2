@@ -132,7 +132,15 @@ int BQ25798Component::get_{{ def.name | lower }}(bool read_from_i2c) {
     // ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
 
 {%-         if def.type == "bool" %}
+{%              if def.name.endswith("_FLAG") %}
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_{{ def.name | lower }} = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->{{ def.name }});
+    if (tmp_{{ def.name | lower }}) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_{{ def.name | lower }}();
+    }
+{%              else %}
     {{ def.name | lower }}_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->{{ def.name }});
+{%              endif %}
 {%-         elif def.type == "int" %}
     {{ def.name | lower }}_ = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->{{ def.name }});
 {%-         elif def.type == "float" %}

@@ -2321,7 +2321,9 @@ bool BQ25798Component::get_reg_rst(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     reg_rst_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->REG_RST);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -2380,7 +2382,9 @@ bool BQ25798Component::get_stop_wd_chg(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     stop_wd_chg_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->STOP_WD_CHG);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -2923,7 +2927,9 @@ bool BQ25798Component::get_en_trichg_tmr(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_trichg_tmr_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TRICHG_TMR);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -2982,7 +2988,9 @@ bool BQ25798Component::get_en_prechg_tmr(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_prechg_tmr_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_PRECHG_TMR);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3041,7 +3049,9 @@ bool BQ25798Component::get_en_chg_tmr(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_chg_tmr_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG_TMR);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3162,7 +3172,9 @@ bool BQ25798Component::get_tmr2x_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     tmr2x_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TMR2X_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3221,7 +3233,9 @@ bool BQ25798Component::get_en_auto_ibatdis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_auto_ibatdis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_AUTO_IBATDIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3280,7 +3294,9 @@ bool BQ25798Component::get_force_ibatdis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     force_ibatdis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_IBATDIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3339,7 +3355,9 @@ bool BQ25798Component::get_en_chg(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_chg_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3398,7 +3416,9 @@ bool BQ25798Component::get_en_ico(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_ico_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ICO);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3457,7 +3477,9 @@ bool BQ25798Component::get_force_ico(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     force_ico_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_ICO);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3516,7 +3538,9 @@ bool BQ25798Component::get_en_hiz(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_hiz_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_HIZ);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3575,7 +3599,9 @@ bool BQ25798Component::get_en_term(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_term_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TERM);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3634,7 +3660,9 @@ bool BQ25798Component::get_en_backup(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_backup_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BACKUP);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3817,7 +3845,9 @@ bool BQ25798Component::get_wd_rst(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     wd_rst_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_RST);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3938,7 +3968,9 @@ bool BQ25798Component::get_force_indet(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     force_indet_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_INDET);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -3997,7 +4029,9 @@ bool BQ25798Component::get_auto_indet_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     auto_indet_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AUTO_INDET_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4056,7 +4090,9 @@ bool BQ25798Component::get_en_12v(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_12v_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_12V);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4115,7 +4151,9 @@ bool BQ25798Component::get_en_9v(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_9v_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_9V);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4174,7 +4212,9 @@ bool BQ25798Component::get_hvdcp_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     hvdcp_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->HVDCP_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4357,7 +4397,9 @@ bool BQ25798Component::get_dis_acdrv(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_acdrv_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_ACDRV);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4416,7 +4458,9 @@ bool BQ25798Component::get_en_otg(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_otg_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_OTG);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4475,7 +4519,9 @@ bool BQ25798Component::get_pfm_otg_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     pfm_otg_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_OTG_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4534,7 +4580,9 @@ bool BQ25798Component::get_pfm_fwd_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     pfm_fwd_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_FWD_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4655,7 +4703,9 @@ bool BQ25798Component::get_dis_ldo(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_ldo_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_LDO);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4714,7 +4764,9 @@ bool BQ25798Component::get_dis_otg_ooa(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_otg_ooa_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_OTG_OOA);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4773,7 +4825,9 @@ bool BQ25798Component::get_dis_fwd_ooa(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_fwd_ooa_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_FWD_OOA);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4832,7 +4886,9 @@ bool BQ25798Component::get_en_acdrv2(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_acdrv2_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV2);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -4891,7 +4947,9 @@ bool BQ25798Component::get_en_acdrv1(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_acdrv1_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV1);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5012,7 +5070,9 @@ bool BQ25798Component::get_dis_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5071,7 +5131,9 @@ bool BQ25798Component::get_dis_vsys_short(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_vsys_short_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VSYS_SHORT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5130,7 +5192,9 @@ bool BQ25798Component::get_dis_votg_uvp(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dis_votg_uvp_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VOTG_UVP);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5189,7 +5253,9 @@ bool BQ25798Component::get_force_vindpm_det(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     force_vindpm_det_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_VINDPM_DET);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5248,7 +5314,9 @@ bool BQ25798Component::get_en_ibus_ocp(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_ibus_ocp_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBUS_OCP);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5307,7 +5375,9 @@ bool BQ25798Component::get_sfet_present(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     sfet_present_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->SFET_PRESENT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5366,7 +5436,9 @@ bool BQ25798Component::get_en_ibat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_ibat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5487,7 +5559,9 @@ bool BQ25798Component::get_en_iindpm(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_iindpm_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IINDPM);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5546,7 +5620,9 @@ bool BQ25798Component::get_en_extilim(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_extilim_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_EXTILIM);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5605,7 +5681,9 @@ bool BQ25798Component::get_en_batoc(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_batoc_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BATOC);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -5850,7 +5928,9 @@ bool BQ25798Component::get_en_mppt(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     en_mppt_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_MPPT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -6033,7 +6113,9 @@ bool BQ25798Component::get_vbus_pd_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vbus_pd_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PD_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -6092,7 +6174,9 @@ bool BQ25798Component::get_vac1_pd_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac1_pd_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_PD_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -6151,7 +6235,9 @@ bool BQ25798Component::get_vac2_pd_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac2_pd_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_PD_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -6706,7 +6792,9 @@ bool BQ25798Component::get_ts_ignore(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ts_ignore_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_IGNORE);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7091,7 +7179,9 @@ bool BQ25798Component::get_bc12_done_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     bc12_done_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC12_DONE_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7252,7 +7342,9 @@ bool BQ25798Component::get_acrb2_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     acrb2_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB2_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7281,7 +7373,9 @@ bool BQ25798Component::get_acrb1_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     acrb1_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB1_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7310,7 +7404,9 @@ bool BQ25798Component::get_adc_done_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     adc_done_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7636,7 +7732,9 @@ bool BQ25798Component::get_ibat_reg_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ibat_reg_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7665,7 +7763,9 @@ bool BQ25798Component::get_vbus_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vbus_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7694,7 +7794,9 @@ bool BQ25798Component::get_vbat_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vbat_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7723,7 +7825,9 @@ bool BQ25798Component::get_ibus_ocp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ibus_ocp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7752,7 +7856,9 @@ bool BQ25798Component::get_ibat_ocp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ibat_ocp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7781,7 +7887,9 @@ bool BQ25798Component::get_conv_ocp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     conv_ocp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7810,7 +7918,9 @@ bool BQ25798Component::get_vac2_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac2_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7839,7 +7949,9 @@ bool BQ25798Component::get_vac1_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac1_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7868,7 +7980,9 @@ bool BQ25798Component::get_vsys_short_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vsys_short_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7897,7 +8011,9 @@ bool BQ25798Component::get_vsys_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vsys_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7926,7 +8042,9 @@ bool BQ25798Component::get_otg_ovp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     otg_ovp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7955,7 +8073,9 @@ bool BQ25798Component::get_otg_uvp_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     otg_uvp_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -7984,7 +8104,9 @@ bool BQ25798Component::get_tshut_stat(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     tshut_stat_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_STAT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8013,7 +8135,13 @@ bool BQ25798Component::get_iindpm_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
-    iindpm_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IINDPM_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_iindpm_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IINDPM_FLAG);
+    if (tmp_iindpm_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_iindpm_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8042,7 +8170,13 @@ bool BQ25798Component::get_vindpm_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vindpm_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VINDPM_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vindpm_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VINDPM_FLAG);
+    if (tmp_vindpm_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vindpm_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8071,7 +8205,13 @@ bool BQ25798Component::get_wd_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
-    wd_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_wd_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_FLAG);
+    if (tmp_wd_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_wd_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8100,7 +8240,13 @@ bool BQ25798Component::get_poorsrc_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    poorsrc_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->POORSRC_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_poorsrc_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->POORSRC_FLAG);
+    if (tmp_poorsrc_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_poorsrc_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8129,7 +8275,13 @@ bool BQ25798Component::get_pg_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
-    pg_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PG_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_pg_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PG_FLAG);
+    if (tmp_pg_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_pg_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8158,7 +8310,13 @@ bool BQ25798Component::get_ac2_present_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ac2_present_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC2_PRESENT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ac2_present_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC2_PRESENT_FLAG);
+    if (tmp_ac2_present_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ac2_present_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8187,7 +8345,13 @@ bool BQ25798Component::get_ac1_present_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ac1_present_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC1_PRESENT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ac1_present_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC1_PRESENT_FLAG);
+    if (tmp_ac1_present_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ac1_present_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8216,7 +8380,13 @@ bool BQ25798Component::get_vbus_present_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbus_present_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PRESENT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbus_present_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PRESENT_FLAG);
+    if (tmp_vbus_present_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbus_present_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8245,7 +8415,13 @@ bool BQ25798Component::get_chg_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
-    chg_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_chg_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_FLAG);
+    if (tmp_chg_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_chg_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8274,7 +8450,13 @@ bool BQ25798Component::get_ico_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ico_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ICO_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ico_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ICO_FLAG);
+    if (tmp_ico_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ico_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8303,7 +8485,13 @@ bool BQ25798Component::get_vbus_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbus_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbus_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_FLAG);
+    if (tmp_vbus_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbus_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8332,7 +8520,13 @@ bool BQ25798Component::get_treg_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    treg_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TREG_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_treg_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TREG_FLAG);
+    if (tmp_treg_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_treg_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8361,7 +8555,13 @@ bool BQ25798Component::get_vbat_present_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbat_present_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_PRESENT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbat_present_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_PRESENT_FLAG);
+    if (tmp_vbat_present_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbat_present_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8390,7 +8590,13 @@ bool BQ25798Component::get_bc1_2_done_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
-    bc1_2_done_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC1_2_DONE_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_bc1_2_done_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC1_2_DONE_FLAG);
+    if (tmp_bc1_2_done_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_bc1_2_done_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8419,7 +8625,13 @@ bool BQ25798Component::get_dpdm_done_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
-    dpdm_done_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPDM_DONE_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_dpdm_done_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPDM_DONE_FLAG);
+    if (tmp_dpdm_done_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_dpdm_done_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8448,7 +8660,13 @@ bool BQ25798Component::get_adc_done_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
-    adc_done_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_adc_done_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_FLAG);
+    if (tmp_adc_done_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_adc_done_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8477,7 +8695,13 @@ bool BQ25798Component::get_vsys_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vsys_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vsys_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_FLAG);
+    if (tmp_vsys_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vsys_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8506,7 +8730,13 @@ bool BQ25798Component::get_chg_tmr_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
-    chg_tmr_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_TMR_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_chg_tmr_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_TMR_FLAG);
+    if (tmp_chg_tmr_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_chg_tmr_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8535,7 +8765,13 @@ bool BQ25798Component::get_trichg_tmr_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    trichg_tmr_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TRICHG_TMR_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_trichg_tmr_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TRICHG_TMR_FLAG);
+    if (tmp_trichg_tmr_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_trichg_tmr_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8564,7 +8800,13 @@ bool BQ25798Component::get_prechg_tmr_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
-    prechg_tmr_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PRECHG_TMR_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_prechg_tmr_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PRECHG_TMR_FLAG);
+    if (tmp_prechg_tmr_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_prechg_tmr_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8593,7 +8835,13 @@ bool BQ25798Component::get_topoff_tmr_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
-    topoff_tmr_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TOPOFF_TMR_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_topoff_tmr_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TOPOFF_TMR_FLAG);
+    if (tmp_topoff_tmr_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_topoff_tmr_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8622,7 +8870,13 @@ bool BQ25798Component::get_vbatotg_low_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbatotg_low_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBATOTG_LOW_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbatotg_low_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBATOTG_LOW_FLAG);
+    if (tmp_vbatotg_low_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbatotg_low_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8651,7 +8905,13 @@ bool BQ25798Component::get_ts_cold_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ts_cold_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COLD_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ts_cold_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COLD_FLAG);
+    if (tmp_ts_cold_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ts_cold_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8680,7 +8940,13 @@ bool BQ25798Component::get_ts_cool_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ts_cool_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COOL_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ts_cool_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COOL_FLAG);
+    if (tmp_ts_cool_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ts_cool_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8709,7 +8975,13 @@ bool BQ25798Component::get_ts_warm_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ts_warm_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_WARM_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ts_warm_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_WARM_FLAG);
+    if (tmp_ts_warm_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ts_warm_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8738,7 +9010,13 @@ bool BQ25798Component::get_ts_hot_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ts_hot_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_HOT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ts_hot_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_HOT_FLAG);
+    if (tmp_ts_hot_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ts_hot_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8767,7 +9045,13 @@ bool BQ25798Component::get_ibat_reg_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ibat_reg_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ibat_reg_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_FLAG);
+    if (tmp_ibat_reg_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ibat_reg_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8796,7 +9080,13 @@ bool BQ25798Component::get_vbus_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbus_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbus_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_FLAG);
+    if (tmp_vbus_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbus_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8825,7 +9115,13 @@ bool BQ25798Component::get_vbat_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vbat_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vbat_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_FLAG);
+    if (tmp_vbat_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vbat_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8854,7 +9150,13 @@ bool BQ25798Component::get_ibus_ocp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ibus_ocp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ibus_ocp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_FLAG);
+    if (tmp_ibus_ocp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ibus_ocp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8883,7 +9185,13 @@ bool BQ25798Component::get_ibat_ocp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
-    ibat_ocp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_ibat_ocp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_FLAG);
+    if (tmp_ibat_ocp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_ibat_ocp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8912,7 +9220,13 @@ bool BQ25798Component::get_conv_ocp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    conv_ocp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_conv_ocp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_FLAG);
+    if (tmp_conv_ocp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_conv_ocp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8941,7 +9255,13 @@ bool BQ25798Component::get_vac2_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vac2_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vac2_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_FLAG);
+    if (tmp_vac2_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vac2_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8970,7 +9290,13 @@ bool BQ25798Component::get_vac1_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vac1_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vac1_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_FLAG);
+    if (tmp_vac1_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vac1_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -8999,7 +9325,13 @@ bool BQ25798Component::get_vsys_short_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vsys_short_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vsys_short_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_FLAG);
+    if (tmp_vsys_short_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vsys_short_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9028,7 +9360,13 @@ bool BQ25798Component::get_vsys_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
-    vsys_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_vsys_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_FLAG);
+    if (tmp_vsys_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_vsys_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9057,7 +9395,13 @@ bool BQ25798Component::get_otg_ovp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
-    otg_ovp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_otg_ovp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_FLAG);
+    if (tmp_otg_ovp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_otg_ovp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9086,7 +9430,13 @@ bool BQ25798Component::get_otg_uvp_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
-    otg_uvp_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_otg_uvp_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_FLAG);
+    if (tmp_otg_uvp_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_otg_uvp_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9115,7 +9465,13 @@ bool BQ25798Component::get_tshut_flag(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
-    tshut_flag_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_FLAG);
+
+    // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+    bool tmp_tshut_flag = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_FLAG);
+    if (tmp_tshut_flag) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+      raise_flag_tshut_flag();
+    }
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9144,7 +9500,9 @@ bool BQ25798Component::get_adc_en(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     adc_en_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_EN);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9389,7 +9747,9 @@ bool BQ25798Component::get_adc_avg_init(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     adc_avg_init_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_AVG_INIT);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9448,7 +9808,9 @@ bool BQ25798Component::get_ibus_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ibus_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9507,7 +9869,9 @@ bool BQ25798Component::get_ibat_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ibat_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9566,7 +9930,9 @@ bool BQ25798Component::get_vbus_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vbus_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9625,7 +9991,9 @@ bool BQ25798Component::get_vbat_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vbat_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9684,7 +10052,9 @@ bool BQ25798Component::get_vsys_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vsys_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9743,7 +10113,9 @@ bool BQ25798Component::get_ts_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     ts_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9802,7 +10174,9 @@ bool BQ25798Component::get_tdie_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     tdie_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TDIE_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9861,7 +10235,9 @@ bool BQ25798Component::get_dplus_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dplus_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPLUS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9920,7 +10296,9 @@ bool BQ25798Component::get_dminus_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     dminus_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DMINUS_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -9979,7 +10357,9 @@ bool BQ25798Component::get_vac2_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac2_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();
@@ -10038,7 +10418,9 @@ bool BQ25798Component::get_vac1_adc_dis(bool read_from_i2c) {
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+
     vac1_adc_dis_ = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_ADC_DIS);
+
 
     if (this->bq25798_noi2c->lastError()) {
       this->status_set_warning();

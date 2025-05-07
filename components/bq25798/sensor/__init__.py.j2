@@ -1,7 +1,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import core
-from esphome.components import i2c, sensor
+from esphome.components import sensor
 from esphome.const import (
     CONF_ID,
     DEVICE_CLASS_TEMPERATURE,

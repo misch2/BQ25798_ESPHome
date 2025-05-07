@@ -39,6 +39,10 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {%-     if def.type == "bool" %}
   bool get_{{ def.name | lower }}(bool read_from_i2c);
   void set_{{ def.name | lower }}_binary_sensor(binary_sensor::BinarySensor *sensor) { {{ def.name | lower }}_binary_sensor_ = sensor; }
+{%-         if def.name.endswith("_FLAG") %}
+  void clear_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = false; }
+  void raise_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = true; }
+{%-         endif %}
 {%-     elif def.type == "int" %}
   int get_{{ def.name | lower }}(bool read_from_i2c);
   void set_{{ def.name | lower }}_sensor(sensor::Sensor *sensor) { {{ def.name | lower }}_sensor_ = sensor; }

@@ -1,0 +1,17 @@
+#include "reset_button.h"
+
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.button";
+
+void ResetButton::press_action() {
+    ESP_LOGE(TAG, "Button pressed, executing action...");    // FIXME LOGE instead of LOGD
+    // set the reset bit to 1 or 0 based on the button state
+    this->parent_->set_reg_rst(true, true); 
+}
+
+}  // namespace bq25798
+}  // namespace esphome
