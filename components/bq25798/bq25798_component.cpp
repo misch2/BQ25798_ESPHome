@@ -13,8 +13,6 @@ void BQ25798Component::setup() {
   bq25798_noi2c = new BQ25798NoI2C();
   bq25798_noi2c->begin(this->address_); // no-op
 
-  // FIXME reset the chip?
-
   uint8_t reg_value;
   if (!this->read_byte(REG00_Minimal_System_Voltage, &reg_value)) {
     ESP_LOGE(TAG, "Failed to read from BQ25798 at address 0x%02X", this->address_);
@@ -22,6 +20,8 @@ void BQ25798Component::setup() {
      return;
   }
   // ^FIXME Maybe check chip ID instead?
+
+  // FIXME reset the chip?
   if (on_init_set_vsysmin_) {
     set_vsysmin(vsysmin_, true);
   }
@@ -595,11 +595,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG00_Minimal_System_Voltage\") value: 0x%02X", REG00_Minimal_System_Voltage, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(6);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (6 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (6 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VSYSMIN);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -626,7 +626,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(11);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (11 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (11 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VREG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -653,7 +653,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(9);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ICHG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -676,11 +676,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG05_Input_Voltage_Limit\") value: 0x%02X", REG05_Input_Voltage_Limit, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(8);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (8 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (8 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VINDPM);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -707,7 +707,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(9);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IINDPM);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -730,11 +730,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG08_Precharge_Control\") value: 0x%02X", REG08_Precharge_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBAT_LOWV);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -769,11 +769,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG08_Precharge_Control\") value: 0x%02X", REG08_Precharge_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(6);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (6 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (6 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IPRECHG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -796,11 +796,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->REG_RST);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -823,11 +823,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->STOP_WD_CHG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -850,11 +850,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(5);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (5 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (5 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ITERM);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -877,11 +877,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->CELL);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -916,11 +916,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TRECHG);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -955,11 +955,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(4);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (4 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (4 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VRECHG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -986,7 +986,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(11);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (11 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (11 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VOTG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1009,11 +1009,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0D_IOTG_regulation\") value: 0x%02X", REG0D_IOTG_regulation, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->PRECHG_TMR);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1048,11 +1048,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0D_IOTG_regulation\") value: 0x%02X", REG0D_IOTG_regulation, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(7);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (7 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (7 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IOTG);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1075,11 +1075,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TOPOFF_TMR);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1114,11 +1114,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TRICHG_TMR);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1141,11 +1141,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_PRECHG_TMR);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1168,11 +1168,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG_TMR);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1195,11 +1195,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->CHG_TMR);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1234,11 +1234,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TMR2X_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1261,11 +1261,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_AUTO_IBATDIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1288,11 +1288,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_IBATDIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1315,11 +1315,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_CHG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1342,11 +1342,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ICO);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1369,11 +1369,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_ICO);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1396,11 +1396,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_HIZ);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1423,11 +1423,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_TERM);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1450,11 +1450,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BACKUP);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1477,11 +1477,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBUS_BACKUP);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1516,11 +1516,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VAC_OVP);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1555,11 +1555,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_RST);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1582,11 +1582,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->WATCHDOG);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1621,11 +1621,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_INDET);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1648,11 +1648,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AUTO_INDET_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1675,11 +1675,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_12V);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1702,11 +1702,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_9V);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1729,11 +1729,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->HVDCP_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1756,11 +1756,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->SDRV_CTRL);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1795,11 +1795,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->SDRV_DLY);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1834,11 +1834,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_ACDRV);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1861,11 +1861,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_OTG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1888,11 +1888,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_OTG_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1915,11 +1915,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PFM_FWD_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -1942,11 +1942,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->WKUP_DLY);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -1981,11 +1981,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_LDO);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2008,11 +2008,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_OTG_OOA);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2035,11 +2035,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_FWD_OOA);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2062,11 +2062,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV2);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2089,11 +2089,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_ACDRV1);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2116,11 +2116,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->PWM_FREQ);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2155,11 +2155,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2182,11 +2182,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VSYS_SHORT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2209,11 +2209,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DIS_VOTG_UVP);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2236,11 +2236,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->FORCE_VINDPM_DET);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2263,11 +2263,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBUS_OCP);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2290,11 +2290,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->SFET_PRESENT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2317,11 +2317,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IBAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2344,11 +2344,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->IBAT_REG);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2383,11 +2383,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_IINDPM);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2410,11 +2410,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_EXTILIM);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2437,11 +2437,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_BATOC);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2464,11 +2464,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VOC_PCT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2503,11 +2503,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VOC_DLY);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2542,11 +2542,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VOC_RATE);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2581,11 +2581,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->EN_MPPT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2608,11 +2608,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TREG);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2647,11 +2647,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TSHUT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2686,11 +2686,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PD_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2713,11 +2713,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_PD_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2740,11 +2740,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_PD_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -2767,11 +2767,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->BKUP_ACFET1_ON);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2806,11 +2806,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->JEITA_VSET);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2845,11 +2845,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->JEITA_ISETH);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2884,11 +2884,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->JEITA_ISETC);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2923,11 +2923,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_COOL);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -2962,11 +2962,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_WARM);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3001,11 +3001,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->BHOT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3040,11 +3040,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->BCOLD);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3079,11 +3079,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_IGNORE);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3110,7 +3110,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(9);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (9 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->ICO_ILIM);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3133,11 +3133,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->IINDPM_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3172,11 +3172,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VINDPM_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3211,11 +3211,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->WD_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3250,11 +3250,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->PG_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3289,11 +3289,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->AC2_PRESENT_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3328,11 +3328,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->AC1_PRESENT_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3367,11 +3367,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1B_Charger_Status_0\") value: 0x%02X", REG1B_Charger_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBUS_PRESENT_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3406,11 +3406,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1C_Charger_Status_1\") value: 0x%02X", REG1C_Charger_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->CHG_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3445,11 +3445,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1C_Charger_Status_1\") value: 0x%02X", REG1C_Charger_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(4);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (4 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (4 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBUS_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3484,11 +3484,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1C_Charger_Status_1\") value: 0x%02X", REG1C_Charger_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC12_DONE_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3511,11 +3511,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1D_Charger_Status_2\") value: 0x%02X", REG1D_Charger_Status_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->ICO_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3550,11 +3550,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1D_Charger_Status_2\") value: 0x%02X", REG1D_Charger_Status_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TREG_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3589,11 +3589,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1D_Charger_Status_2\") value: 0x%02X", REG1D_Charger_Status_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->DPDM_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3628,11 +3628,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1D_Charger_Status_2\") value: 0x%02X", REG1D_Charger_Status_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBAT_PRESENT_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3667,11 +3667,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB2_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3694,11 +3694,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ACRB1_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3721,11 +3721,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -3748,11 +3748,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VSYS_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3787,11 +3787,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->CHG_TMR_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3826,11 +3826,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TRICHG_TMR_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3865,11 +3865,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1E_Charger_Status_3\") value: 0x%02X", REG1E_Charger_Status_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->PRECHG_TMR_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3904,11 +3904,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1F_Charger_Status_4\") value: 0x%02X", REG1F_Charger_Status_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->VBATOTG_LOW_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3943,11 +3943,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1F_Charger_Status_4\") value: 0x%02X", REG1F_Charger_Status_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_COLD_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -3982,11 +3982,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1F_Charger_Status_4\") value: 0x%02X", REG1F_Charger_Status_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_COOL_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -4021,11 +4021,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1F_Charger_Status_4\") value: 0x%02X", REG1F_Charger_Status_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_WARM_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -4060,11 +4060,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG1F_Charger_Status_4\") value: 0x%02X", REG1F_Charger_Status_4, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->TS_HOT_STAT);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -4099,11 +4099,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4126,11 +4126,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4153,11 +4153,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4180,11 +4180,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4207,11 +4207,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4234,11 +4234,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4261,11 +4261,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4288,11 +4288,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG20_FAULT_Status_0\") value: 0x%02X", REG20_FAULT_Status_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4315,11 +4315,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG21_FAULT_Status_1\") value: 0x%02X", REG21_FAULT_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4342,11 +4342,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG21_FAULT_Status_1\") value: 0x%02X", REG21_FAULT_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4369,11 +4369,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG21_FAULT_Status_1\") value: 0x%02X", REG21_FAULT_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4396,11 +4396,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG21_FAULT_Status_1\") value: 0x%02X", REG21_FAULT_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4423,11 +4423,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG21_FAULT_Status_1\") value: 0x%02X", REG21_FAULT_Status_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_STAT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4450,11 +4450,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IINDPM_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4477,11 +4477,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VINDPM_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4504,11 +4504,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->WD_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4531,11 +4531,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->POORSRC_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4558,11 +4558,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PG_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4585,11 +4585,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC2_PRESENT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4612,11 +4612,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->AC1_PRESENT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4639,11 +4639,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG22_Charger_Flag_0\") value: 0x%02X", REG22_Charger_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_PRESENT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4666,11 +4666,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4693,11 +4693,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ICO_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4720,11 +4720,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4747,11 +4747,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TREG_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4774,11 +4774,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_PRESENT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4801,11 +4801,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG23_Charger_Flag_1\") value: 0x%02X", REG23_Charger_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->BC1_2_DONE_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4828,11 +4828,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPDM_DONE_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4855,11 +4855,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_DONE_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4882,11 +4882,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4909,11 +4909,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CHG_TMR_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4936,11 +4936,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TRICHG_TMR_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4963,11 +4963,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->PRECHG_TMR_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -4990,11 +4990,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG24_Charger_Flag_2\") value: 0x%02X", REG24_Charger_Flag_2, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TOPOFF_TMR_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5017,11 +5017,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG25_Charger_Flag_3\") value: 0x%02X", REG25_Charger_Flag_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBATOTG_LOW_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5044,11 +5044,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG25_Charger_Flag_3\") value: 0x%02X", REG25_Charger_Flag_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COLD_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5071,11 +5071,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG25_Charger_Flag_3\") value: 0x%02X", REG25_Charger_Flag_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_COOL_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5098,11 +5098,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG25_Charger_Flag_3\") value: 0x%02X", REG25_Charger_Flag_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_WARM_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5125,11 +5125,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG25_Charger_Flag_3\") value: 0x%02X", REG25_Charger_Flag_3, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_HOT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5152,11 +5152,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_REG_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5179,11 +5179,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5206,11 +5206,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5233,11 +5233,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_OCP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5260,11 +5260,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_OCP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5287,11 +5287,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->CONV_OCP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5314,11 +5314,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5341,11 +5341,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG26_FAULT_Flag_0\") value: 0x%02X", REG26_FAULT_Flag_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5368,11 +5368,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG27_FAULT_Flag_1\") value: 0x%02X", REG27_FAULT_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_SHORT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5395,11 +5395,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG27_FAULT_Flag_1\") value: 0x%02X", REG27_FAULT_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5422,11 +5422,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG27_FAULT_Flag_1\") value: 0x%02X", REG27_FAULT_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_OVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5449,11 +5449,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG27_FAULT_Flag_1\") value: 0x%02X", REG27_FAULT_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->OTG_UVP_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5476,11 +5476,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG27_FAULT_Flag_1\") value: 0x%02X", REG27_FAULT_Flag_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TSHUT_FLAG);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5503,11 +5503,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_EN);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5530,11 +5530,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->ADC_RATE);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -5569,11 +5569,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(2);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (2 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->ADC_SAMPLE);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -5608,11 +5608,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->ADC_AVG);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -5647,11 +5647,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->ADC_AVG_INIT);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5674,11 +5674,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBUS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5701,11 +5701,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->IBAT_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5728,11 +5728,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBUS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5755,11 +5755,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VBAT_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5782,11 +5782,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VSYS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5809,11 +5809,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5836,11 +5836,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 1) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 1) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->TDIE_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5863,11 +5863,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DPLUS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5890,11 +5890,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->DMINUS_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5917,11 +5917,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC2_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5944,11 +5944,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 4) & BITLENGTH_TO_MASK(1);
-    // ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 4) and masked (1 bits) raw value: 0x%04X", raw_value);
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->VAC1_ADC_DIS);
     // ESP_LOGD(TAG, "  converted to bool: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -5975,7 +5975,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IBUS_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6002,7 +6002,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->IBAT_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6029,7 +6029,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBUS_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6056,7 +6056,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VAC1_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6083,7 +6083,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VAC2_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6110,7 +6110,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VBAT_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6137,7 +6137,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->VSYS_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6164,7 +6164,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     float value = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->TS_ADC);
     // ESP_LOGD(TAG, "  converted to float: %f", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6191,7 +6191,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     float value = this->bq25798_noi2c->rawToFloat(raw_value, this->bq25798_noi2c->TDIE_ADC);
     // ESP_LOGD(TAG, "  converted to float: %f", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6218,7 +6218,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DPLUS_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6245,7 +6245,7 @@ void BQ25798Component::update() {
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(16);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (16 bits) raw value: 0x%04X", raw_value);
     int value = this->bq25798_noi2c->rawToInt(raw_value, this->bq25798_noi2c->DMINUS_ADC);
     // ESP_LOGD(TAG, "  converted to int: %d", value);
     if (this->bq25798_noi2c->lastError()) {
@@ -6268,11 +6268,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG47_DPDM_Driver\") value: 0x%02X", REG47_DPDM_Driver, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 5) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 5) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->DPLUS_DAC);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -6307,11 +6307,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG47_DPDM_Driver\") value: 0x%02X", REG47_DPDM_Driver, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 2) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 2) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 2) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->DMINUS_DAC);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -6346,11 +6346,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG48_Part_Information\") value: 0x%02X", REG48_Part_Information, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 3) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 3) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 3) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->PN);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -6385,11 +6385,11 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG48_Part_Information\") value: 0x%02X", REG48_Part_Information, reg_value);
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> 0) & BITLENGTH_TO_MASK(3);
-    // ESP_LOGD(TAG, "  shifted (>> 0) and masked (3 bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> 0) and masked (3 bits) raw value: 0x%04X", raw_value);
     // exception: process both int and string values
     const char* string_value = this->bq25798_noi2c->rawToString(raw_value, this->bq25798_noi2c->DEV_REV);
     // ESP_LOGD(TAG, "  converted to enum.string: %s", string_value);
@@ -6436,13 +6436,13 @@ void BQ25798Component::set_vsysmin(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG00_Minimal_System_Voltage, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG00_Minimal_System_Voltage\") value: 0x%02X", REG00_Minimal_System_Voltage, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(6) << 0);
-//ESP_LOGD(TAG, "  masked (6 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (6 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(6)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG00_Minimal_System_Voltage, reg_value)) {
     this->mark_failed();
@@ -6533,13 +6533,13 @@ void BQ25798Component::set_vindpm(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG05_Input_Voltage_Limit, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG05_Input_Voltage_Limit\") value: 0x%02X", REG05_Input_Voltage_Limit, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(8) << 0);
-//ESP_LOGD(TAG, "  masked (8 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (8 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(8)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG05_Input_Voltage_Limit, reg_value)) {
     this->mark_failed();
@@ -6597,13 +6597,13 @@ void BQ25798Component::set_vbat_lowv(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG08_Precharge_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG08_Precharge_Control\") value: 0x%02X", REG08_Precharge_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     this->mark_failed();
@@ -6630,13 +6630,13 @@ void BQ25798Component::set_iprechg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG08_Precharge_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG08_Precharge_Control\") value: 0x%02X", REG08_Precharge_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(6) << 0);
-//ESP_LOGD(TAG, "  masked (6 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (6 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(6)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     this->mark_failed();
@@ -6663,13 +6663,13 @@ void BQ25798Component::set_reg_rst(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG09_Termination_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     this->mark_failed();
@@ -6696,13 +6696,13 @@ void BQ25798Component::set_stop_wd_chg(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG09_Termination_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     this->mark_failed();
@@ -6729,13 +6729,13 @@ void BQ25798Component::set_iterm(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG09_Termination_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG09_Termination_Control\") value: 0x%02X", REG09_Termination_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(5) << 0);
-//ESP_LOGD(TAG, "  masked (5 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (5 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(5)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     this->mark_failed();
@@ -6761,13 +6761,13 @@ void BQ25798Component::set_cell(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0A_Recharge_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     this->mark_failed();
@@ -6793,13 +6793,13 @@ void BQ25798Component::set_trechg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0A_Recharge_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     this->mark_failed();
@@ -6826,13 +6826,13 @@ void BQ25798Component::set_vrechg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0A_Recharge_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0A_Recharge_Control\") value: 0x%02X", REG0A_Recharge_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(4) << 0);
-//ESP_LOGD(TAG, "  masked (4 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (4 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(4)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     this->mark_failed();
@@ -6890,13 +6890,13 @@ void BQ25798Component::set_prechg_tmr(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0D_IOTG_regulation, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0D_IOTG_regulation\") value: 0x%02X", REG0D_IOTG_regulation, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     this->mark_failed();
@@ -6923,13 +6923,13 @@ void BQ25798Component::set_iotg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0D_IOTG_regulation, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0D_IOTG_regulation\") value: 0x%02X", REG0D_IOTG_regulation, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(7) << 0);
-//ESP_LOGD(TAG, "  masked (7 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (7 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(7)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     this->mark_failed();
@@ -6955,13 +6955,13 @@ void BQ25798Component::set_topoff_tmr(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -6988,13 +6988,13 @@ void BQ25798Component::set_en_trichg_tmr(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -7021,13 +7021,13 @@ void BQ25798Component::set_en_prechg_tmr(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -7054,13 +7054,13 @@ void BQ25798Component::set_en_chg_tmr(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -7086,13 +7086,13 @@ void BQ25798Component::set_chg_tmr(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -7119,13 +7119,13 @@ void BQ25798Component::set_tmr2x_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0E_Timer_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0E_Timer_Control\") value: 0x%02X", REG0E_Timer_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     this->mark_failed();
@@ -7152,13 +7152,13 @@ void BQ25798Component::set_en_auto_ibatdis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7185,13 +7185,13 @@ void BQ25798Component::set_force_ibatdis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7218,13 +7218,13 @@ void BQ25798Component::set_en_chg(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7251,13 +7251,13 @@ void BQ25798Component::set_en_ico(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7284,13 +7284,13 @@ void BQ25798Component::set_force_ico(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7317,13 +7317,13 @@ void BQ25798Component::set_en_hiz(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7350,13 +7350,13 @@ void BQ25798Component::set_en_term(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7383,13 +7383,13 @@ void BQ25798Component::set_en_backup(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG0F_Charger_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG0F_Charger_Control_0\") value: 0x%02X", REG0F_Charger_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     this->mark_failed();
@@ -7415,13 +7415,13 @@ void BQ25798Component::set_vbus_backup(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG10_Charger_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     this->mark_failed();
@@ -7447,13 +7447,13 @@ void BQ25798Component::set_vac_ovp(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG10_Charger_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     this->mark_failed();
@@ -7480,13 +7480,13 @@ void BQ25798Component::set_wd_rst(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG10_Charger_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     this->mark_failed();
@@ -7512,13 +7512,13 @@ void BQ25798Component::set_watchdog(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG10_Charger_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG10_Charger_Control_1\") value: 0x%02X", REG10_Charger_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 0);
-//ESP_LOGD(TAG, "  masked (3 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (3 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     this->mark_failed();
@@ -7545,13 +7545,13 @@ void BQ25798Component::set_force_indet(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7578,13 +7578,13 @@ void BQ25798Component::set_auto_indet_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7611,13 +7611,13 @@ void BQ25798Component::set_en_12v(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7644,13 +7644,13 @@ void BQ25798Component::set_en_9v(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7677,13 +7677,13 @@ void BQ25798Component::set_hvdcp_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7709,13 +7709,13 @@ void BQ25798Component::set_sdrv_ctrl(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7741,13 +7741,13 @@ void BQ25798Component::set_sdrv_dly(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG11_Charger_Control_2, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG11_Charger_Control_2\") value: 0x%02X", REG11_Charger_Control_2, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     this->mark_failed();
@@ -7774,13 +7774,13 @@ void BQ25798Component::set_dis_acdrv(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7807,13 +7807,13 @@ void BQ25798Component::set_en_otg(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7840,13 +7840,13 @@ void BQ25798Component::set_pfm_otg_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7873,13 +7873,13 @@ void BQ25798Component::set_pfm_fwd_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7905,13 +7905,13 @@ void BQ25798Component::set_wkup_dly(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7938,13 +7938,13 @@ void BQ25798Component::set_dis_ldo(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -7971,13 +7971,13 @@ void BQ25798Component::set_dis_otg_ooa(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -8004,13 +8004,13 @@ void BQ25798Component::set_dis_fwd_ooa(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG12_Charger_Control_3, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG12_Charger_Control_3\") value: 0x%02X", REG12_Charger_Control_3, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     this->mark_failed();
@@ -8037,13 +8037,13 @@ void BQ25798Component::set_en_acdrv2(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8070,13 +8070,13 @@ void BQ25798Component::set_en_acdrv1(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8102,13 +8102,13 @@ void BQ25798Component::set_pwm_freq(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8135,13 +8135,13 @@ void BQ25798Component::set_dis_stat(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8168,13 +8168,13 @@ void BQ25798Component::set_dis_vsys_short(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8201,13 +8201,13 @@ void BQ25798Component::set_dis_votg_uvp(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8234,13 +8234,13 @@ void BQ25798Component::set_force_vindpm_det(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8267,13 +8267,13 @@ void BQ25798Component::set_en_ibus_ocp(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG13_Charger_Control_4, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG13_Charger_Control_4\") value: 0x%02X", REG13_Charger_Control_4, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     this->mark_failed();
@@ -8300,13 +8300,13 @@ void BQ25798Component::set_sfet_present(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8333,13 +8333,13 @@ void BQ25798Component::set_en_ibat(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8365,13 +8365,13 @@ void BQ25798Component::set_ibat_reg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 3);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8398,13 +8398,13 @@ void BQ25798Component::set_en_iindpm(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8431,13 +8431,13 @@ void BQ25798Component::set_en_extilim(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8464,13 +8464,13 @@ void BQ25798Component::set_en_batoc(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG14_Charger_Control_5, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG14_Charger_Control_5\") value: 0x%02X", REG14_Charger_Control_5, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     this->mark_failed();
@@ -8496,13 +8496,13 @@ void BQ25798Component::set_voc_pct(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG15_MPPT_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
-//ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     this->mark_failed();
@@ -8528,13 +8528,13 @@ void BQ25798Component::set_voc_dly(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG15_MPPT_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     this->mark_failed();
@@ -8560,13 +8560,13 @@ void BQ25798Component::set_voc_rate(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG15_MPPT_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 2);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     this->mark_failed();
@@ -8593,13 +8593,13 @@ void BQ25798Component::set_en_mppt(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG15_MPPT_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG15_MPPT_Control\") value: 0x%02X", REG15_MPPT_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     this->mark_failed();
@@ -8625,13 +8625,13 @@ void BQ25798Component::set_treg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8657,13 +8657,13 @@ void BQ25798Component::set_tshut(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8690,13 +8690,13 @@ void BQ25798Component::set_vbus_pd_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8723,13 +8723,13 @@ void BQ25798Component::set_vac1_pd_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8756,13 +8756,13 @@ void BQ25798Component::set_vac2_pd_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8788,13 +8788,13 @@ void BQ25798Component::set_bkup_acfet1_on(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG16_Temperature_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG16_Temperature_Control\") value: 0x%02X", REG16_Temperature_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     this->mark_failed();
@@ -8820,13 +8820,13 @@ void BQ25798Component::set_jeita_vset(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG17_NTC_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
-//ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     this->mark_failed();
@@ -8852,13 +8852,13 @@ void BQ25798Component::set_jeita_iseth(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG17_NTC_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 3);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     this->mark_failed();
@@ -8884,13 +8884,13 @@ void BQ25798Component::set_jeita_isetc(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG17_NTC_Control_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG17_NTC_Control_0\") value: 0x%02X", REG17_NTC_Control_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     this->mark_failed();
@@ -8916,13 +8916,13 @@ void BQ25798Component::set_ts_cool(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG18_NTC_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     this->mark_failed();
@@ -8948,13 +8948,13 @@ void BQ25798Component::set_ts_warm(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG18_NTC_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     this->mark_failed();
@@ -8980,13 +8980,13 @@ void BQ25798Component::set_bhot(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG18_NTC_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 2);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     this->mark_failed();
@@ -9012,13 +9012,13 @@ void BQ25798Component::set_bcold(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG18_NTC_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     this->mark_failed();
@@ -9045,13 +9045,13 @@ void BQ25798Component::set_ts_ignore(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG18_NTC_Control_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG18_NTC_Control_1\") value: 0x%02X", REG18_NTC_Control_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 0) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     this->mark_failed();
@@ -9078,13 +9078,13 @@ void BQ25798Component::set_adc_en(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2E_ADC_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     this->mark_failed();
@@ -9110,13 +9110,13 @@ void BQ25798Component::set_adc_rate(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2E_ADC_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     this->mark_failed();
@@ -9142,13 +9142,13 @@ void BQ25798Component::set_adc_sample(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2E_ADC_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
-//ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (2 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     this->mark_failed();
@@ -9174,13 +9174,13 @@ void BQ25798Component::set_adc_avg(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2E_ADC_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     this->mark_failed();
@@ -9207,13 +9207,13 @@ void BQ25798Component::set_adc_avg_init(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2E_ADC_Control, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2E_ADC_Control\") value: 0x%02X", REG2E_ADC_Control, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     this->mark_failed();
@@ -9240,13 +9240,13 @@ void BQ25798Component::set_ibus_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9273,13 +9273,13 @@ void BQ25798Component::set_ibat_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9306,13 +9306,13 @@ void BQ25798Component::set_vbus_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9339,13 +9339,13 @@ void BQ25798Component::set_vbat_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9372,13 +9372,13 @@ void BQ25798Component::set_vsys_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 3) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9405,13 +9405,13 @@ void BQ25798Component::set_ts_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9438,13 +9438,13 @@ void BQ25798Component::set_tdie_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG2F_ADC_Function_Disable_0\") value: 0x%02X", REG2F_ADC_Function_Disable_0, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 1) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     this->mark_failed();
@@ -9471,13 +9471,13 @@ void BQ25798Component::set_dplus_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 7) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     this->mark_failed();
@@ -9504,13 +9504,13 @@ void BQ25798Component::set_dminus_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 6) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     this->mark_failed();
@@ -9537,13 +9537,13 @@ void BQ25798Component::set_vac2_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     this->mark_failed();
@@ -9570,13 +9570,13 @@ void BQ25798Component::set_vac1_adc_dis(bool value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG30_ADC_Function_Disable_1\") value: 0x%02X", REG30_ADC_Function_Disable_1, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
-//ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (1 bits shifted by 4) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     this->mark_failed();
@@ -9602,13 +9602,13 @@ void BQ25798Component::set_dplus_dac(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG47_DPDM_Driver, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG47_DPDM_Driver\") value: 0x%02X", REG47_DPDM_Driver, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
-//ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (3 bits shifted by 5) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     this->mark_failed();
@@ -9634,13 +9634,13 @@ void BQ25798Component::set_dminus_dac(int value, bool write_to_i2c) {
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", REG47_DPDM_Driver, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"REG47_DPDM_Driver\") value: 0x%02X", REG47_DPDM_Driver, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 2);
-//ESP_LOGD(TAG, "  masked (3 bits shifted by 2) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked (3 bits shifted by 2) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 2);
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     this->mark_failed();

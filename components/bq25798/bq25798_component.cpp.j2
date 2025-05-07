@@ -13,8 +13,6 @@ void BQ25798Component::setup() {
   bq25798_noi2c = new BQ25798NoI2C();
   bq25798_noi2c->begin(this->address_); // no-op
 
-  // FIXME reset the chip?
-
   uint8_t reg_value;
   if (!this->read_byte({{ settings[0].regname }}, &reg_value)) {
     ESP_LOGE(TAG, "Failed to read from BQ25798 at address 0x%02X", this->address_);
@@ -22,6 +20,8 @@ void BQ25798Component::setup() {
      return;
   }
   // ^FIXME Maybe check chip ID instead?
+
+  // FIXME reset the chip?
 
 {%- for def in settings %}
 {%-     if def.mode == "rw" %}
@@ -88,12 +88,12 @@ void BQ25798Component::update() {
       this->mark_failed();
       return;
     }
-// ESP_LOGD(TAG, "  received raw 8-bit register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }}, reg_value);
 {%-         endif %}
 
     // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> {{ def.shift }}) & BITLENGTH_TO_MASK({{ def.bits }});
-    // ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
+// ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
 
 {%-     if def.type == "bool" %}
     bool value = this->bq25798_noi2c->rawToBool(raw_value, this->bq25798_noi2c->{{ def.name }});
@@ -220,13 +220,13 @@ void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) 
     return;
   }
 
-//ESP_LOGD(TAG, "  received raw 8-bit register %02X value: 0x%02X", {{ def.regname }}, reg_value);
+// ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }}, reg_value);
 // mask out the bits we are going to change
   reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
-//ESP_LOGD(TAG, "  masked ({{ def.bits }} bits shifted by {{ def.shift }}) register value: 0x%02X", reg_value);  
+// ESP_LOGD(TAG, "  masked ({{ def.bits }} bits shifted by {{ def.shift }}) register value: 0x%02X", reg_value);  
 // shift the new value into place and mask it
   reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
-//ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+// ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
 
   if (!this->write_byte({{ def.regname }}, reg_value)) {
     this->mark_failed();
