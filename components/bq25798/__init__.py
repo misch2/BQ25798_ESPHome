@@ -14,387 +14,196 @@ bq25798_ns = cg.esphome_ns.namespace("bq25798")
 BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2c.I2CDevice)
 
 # Settings
-
 CONF_BQ25798_VSYSMIN = "vsysmin"
-
 CONF_BQ25798_VREG = "vreg"
-
 CONF_BQ25798_ICHG = "ichg"
-
 CONF_BQ25798_VINDPM = "vindpm"
-
 CONF_BQ25798_IINDPM = "iindpm"
-
 CONF_BQ25798_VBAT_LOWV = "vbat_lowv"
-
 CONF_BQ25798_IPRECHG = "iprechg"
-
 CONF_BQ25798_REG_RST = "reg_rst"
-
 CONF_BQ25798_STOP_WD_CHG = "stop_wd_chg"
-
 CONF_BQ25798_ITERM = "iterm"
-
 CONF_BQ25798_CELL = "cell"
-
 CONF_BQ25798_TRECHG = "trechg"
-
 CONF_BQ25798_VRECHG = "vrechg"
-
 CONF_BQ25798_VOTG = "votg"
-
 CONF_BQ25798_PRECHG_TMR = "prechg_tmr"
-
 CONF_BQ25798_IOTG = "iotg"
-
 CONF_BQ25798_TOPOFF_TMR = "topoff_tmr"
-
 CONF_BQ25798_EN_TRICHG_TMR = "en_trichg_tmr"
-
 CONF_BQ25798_EN_PRECHG_TMR = "en_prechg_tmr"
-
 CONF_BQ25798_EN_CHG_TMR = "en_chg_tmr"
-
 CONF_BQ25798_CHG_TMR = "chg_tmr"
-
 CONF_BQ25798_TMR2X_EN = "tmr2x_en"
-
 CONF_BQ25798_EN_AUTO_IBATDIS = "en_auto_ibatdis"
-
 CONF_BQ25798_FORCE_IBATDIS = "force_ibatdis"
-
 CONF_BQ25798_EN_CHG = "en_chg"
-
 CONF_BQ25798_EN_ICO = "en_ico"
-
 CONF_BQ25798_FORCE_ICO = "force_ico"
-
 CONF_BQ25798_EN_HIZ = "en_hiz"
-
 CONF_BQ25798_EN_TERM = "en_term"
-
 CONF_BQ25798_EN_BACKUP = "en_backup"
-
 CONF_BQ25798_VBUS_BACKUP = "vbus_backup"
-
 CONF_BQ25798_VAC_OVP = "vac_ovp"
-
 CONF_BQ25798_WD_RST = "wd_rst"
-
 CONF_BQ25798_WATCHDOG = "watchdog"
-
 CONF_BQ25798_FORCE_INDET = "force_indet"
-
 CONF_BQ25798_AUTO_INDET_EN = "auto_indet_en"
-
 CONF_BQ25798_EN_12V = "en_12v"
-
 CONF_BQ25798_EN_9V = "en_9v"
-
 CONF_BQ25798_HVDCP_EN = "hvdcp_en"
-
 CONF_BQ25798_SDRV_CTRL = "sdrv_ctrl"
-
 CONF_BQ25798_SDRV_DLY = "sdrv_dly"
-
 CONF_BQ25798_DIS_ACDRV = "dis_acdrv"
-
 CONF_BQ25798_EN_OTG = "en_otg"
-
 CONF_BQ25798_PFM_OTG_DIS = "pfm_otg_dis"
-
 CONF_BQ25798_PFM_FWD_DIS = "pfm_fwd_dis"
-
 CONF_BQ25798_WKUP_DLY = "wkup_dly"
-
 CONF_BQ25798_DIS_LDO = "dis_ldo"
-
 CONF_BQ25798_DIS_OTG_OOA = "dis_otg_ooa"
-
 CONF_BQ25798_DIS_FWD_OOA = "dis_fwd_ooa"
-
 CONF_BQ25798_EN_ACDRV2 = "en_acdrv2"
-
 CONF_BQ25798_EN_ACDRV1 = "en_acdrv1"
-
 CONF_BQ25798_PWM_FREQ = "pwm_freq"
-
 CONF_BQ25798_DIS_STAT = "dis_stat"
-
 CONF_BQ25798_DIS_VSYS_SHORT = "dis_vsys_short"
-
 CONF_BQ25798_DIS_VOTG_UVP = "dis_votg_uvp"
-
 CONF_BQ25798_FORCE_VINDPM_DET = "force_vindpm_det"
-
 CONF_BQ25798_EN_IBUS_OCP = "en_ibus_ocp"
-
 CONF_BQ25798_SFET_PRESENT = "sfet_present"
-
 CONF_BQ25798_EN_IBAT = "en_ibat"
-
 CONF_BQ25798_IBAT_REG = "ibat_reg"
-
 CONF_BQ25798_EN_IINDPM = "en_iindpm"
-
 CONF_BQ25798_EN_EXTILIM = "en_extilim"
-
 CONF_BQ25798_EN_BATOC = "en_batoc"
-
 CONF_BQ25798_VOC_PCT = "voc_pct"
-
 CONF_BQ25798_VOC_DLY = "voc_dly"
-
 CONF_BQ25798_VOC_RATE = "voc_rate"
-
 CONF_BQ25798_EN_MPPT = "en_mppt"
-
 CONF_BQ25798_TREG = "treg"
-
 CONF_BQ25798_TSHUT = "tshut"
-
 CONF_BQ25798_VBUS_PD_EN = "vbus_pd_en"
-
 CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
-
 CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
-
 CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
-
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
-
 CONF_BQ25798_JEITA_ISETH = "jeita_iseth"
-
 CONF_BQ25798_JEITA_ISETC = "jeita_isetc"
-
 CONF_BQ25798_TS_COOL = "ts_cool"
-
 CONF_BQ25798_TS_WARM = "ts_warm"
-
 CONF_BQ25798_BHOT = "bhot"
-
 CONF_BQ25798_BCOLD = "bcold"
-
 CONF_BQ25798_TS_IGNORE = "ts_ignore"
-
 CONF_BQ25798_ICO_ILIM = "ico_ilim"
-
 CONF_BQ25798_IINDPM_STAT = "iindpm_stat"
-
 CONF_BQ25798_VINDPM_STAT = "vindpm_stat"
-
 CONF_BQ25798_WD_STAT = "wd_stat"
-
 CONF_BQ25798_PG_STAT = "pg_stat"
-
 CONF_BQ25798_AC2_PRESENT_STAT = "ac2_present_stat"
-
 CONF_BQ25798_AC1_PRESENT_STAT = "ac1_present_stat"
-
 CONF_BQ25798_VBUS_PRESENT_STAT = "vbus_present_stat"
-
 CONF_BQ25798_CHG_STAT = "chg_stat"
-
 CONF_BQ25798_VBUS_STAT = "vbus_stat"
-
 CONF_BQ25798_BC12_DONE_STAT = "bc12_done_stat"
-
 CONF_BQ25798_ICO_STAT = "ico_stat"
-
 CONF_BQ25798_TREG_STAT = "treg_stat"
-
 CONF_BQ25798_DPDM_STAT = "dpdm_stat"
-
 CONF_BQ25798_VBAT_PRESENT_STAT = "vbat_present_stat"
-
 CONF_BQ25798_ACRB2_STAT = "acrb2_stat"
-
 CONF_BQ25798_ACRB1_STAT = "acrb1_stat"
-
 CONF_BQ25798_ADC_DONE_STAT = "adc_done_stat"
-
 CONF_BQ25798_VSYS_STAT = "vsys_stat"
-
 CONF_BQ25798_CHG_TMR_STAT = "chg_tmr_stat"
-
 CONF_BQ25798_TRICHG_TMR_STAT = "trichg_tmr_stat"
-
 CONF_BQ25798_PRECHG_TMR_STAT = "prechg_tmr_stat"
-
 CONF_BQ25798_VBATOTG_LOW_STAT = "vbatotg_low_stat"
-
 CONF_BQ25798_TS_COLD_STAT = "ts_cold_stat"
-
 CONF_BQ25798_TS_COOL_STAT = "ts_cool_stat"
-
 CONF_BQ25798_TS_WARM_STAT = "ts_warm_stat"
-
 CONF_BQ25798_TS_HOT_STAT = "ts_hot_stat"
-
 CONF_BQ25798_IBAT_REG_STAT = "ibat_reg_stat"
-
 CONF_BQ25798_VBUS_OVP_STAT = "vbus_ovp_stat"
-
 CONF_BQ25798_VBAT_OVP_STAT = "vbat_ovp_stat"
-
 CONF_BQ25798_IBUS_OCP_STAT = "ibus_ocp_stat"
-
 CONF_BQ25798_IBAT_OCP_STAT = "ibat_ocp_stat"
-
 CONF_BQ25798_CONV_OCP_STAT = "conv_ocp_stat"
-
 CONF_BQ25798_VAC2_OVP_STAT = "vac2_ovp_stat"
-
 CONF_BQ25798_VAC1_OVP_STAT = "vac1_ovp_stat"
-
 CONF_BQ25798_VSYS_SHORT_STAT = "vsys_short_stat"
-
 CONF_BQ25798_VSYS_OVP_STAT = "vsys_ovp_stat"
-
 CONF_BQ25798_OTG_OVP_STAT = "otg_ovp_stat"
-
 CONF_BQ25798_OTG_UVP_STAT = "otg_uvp_stat"
-
 CONF_BQ25798_TSHUT_STAT = "tshut_stat"
-
 CONF_BQ25798_IINDPM_FLAG = "iindpm_flag"
-
 CONF_BQ25798_VINDPM_FLAG = "vindpm_flag"
-
 CONF_BQ25798_WD_FLAG = "wd_flag"
-
 CONF_BQ25798_POORSRC_FLAG = "poorsrc_flag"
-
 CONF_BQ25798_PG_FLAG = "pg_flag"
-
 CONF_BQ25798_AC2_PRESENT_FLAG = "ac2_present_flag"
-
 CONF_BQ25798_AC1_PRESENT_FLAG = "ac1_present_flag"
-
 CONF_BQ25798_VBUS_PRESENT_FLAG = "vbus_present_flag"
-
 CONF_BQ25798_CHG_FLAG = "chg_flag"
-
 CONF_BQ25798_ICO_FLAG = "ico_flag"
-
 CONF_BQ25798_VBUS_FLAG = "vbus_flag"
-
 CONF_BQ25798_TREG_FLAG = "treg_flag"
-
 CONF_BQ25798_VBAT_PRESENT_FLAG = "vbat_present_flag"
-
 CONF_BQ25798_BC1_2_DONE_FLAG = "bc1_2_done_flag"
-
 CONF_BQ25798_DPDM_DONE_FLAG = "dpdm_done_flag"
-
 CONF_BQ25798_ADC_DONE_FLAG = "adc_done_flag"
-
 CONF_BQ25798_VSYS_FLAG = "vsys_flag"
-
 CONF_BQ25798_CHG_TMR_FLAG = "chg_tmr_flag"
-
 CONF_BQ25798_TRICHG_TMR_FLAG = "trichg_tmr_flag"
-
 CONF_BQ25798_PRECHG_TMR_FLAG = "prechg_tmr_flag"
-
 CONF_BQ25798_TOPOFF_TMR_FLAG = "topoff_tmr_flag"
-
 CONF_BQ25798_VBATOTG_LOW_FLAG = "vbatotg_low_flag"
-
 CONF_BQ25798_TS_COLD_FLAG = "ts_cold_flag"
-
 CONF_BQ25798_TS_COOL_FLAG = "ts_cool_flag"
-
 CONF_BQ25798_TS_WARM_FLAG = "ts_warm_flag"
-
 CONF_BQ25798_TS_HOT_FLAG = "ts_hot_flag"
-
 CONF_BQ25798_IBAT_REG_FLAG = "ibat_reg_flag"
-
 CONF_BQ25798_VBUS_OVP_FLAG = "vbus_ovp_flag"
-
 CONF_BQ25798_VBAT_OVP_FLAG = "vbat_ovp_flag"
-
 CONF_BQ25798_IBUS_OCP_FLAG = "ibus_ocp_flag"
-
 CONF_BQ25798_IBAT_OCP_FLAG = "ibat_ocp_flag"
-
 CONF_BQ25798_CONV_OCP_FLAG = "conv_ocp_flag"
-
 CONF_BQ25798_VAC2_OVP_FLAG = "vac2_ovp_flag"
-
 CONF_BQ25798_VAC1_OVP_FLAG = "vac1_ovp_flag"
-
 CONF_BQ25798_VSYS_SHORT_FLAG = "vsys_short_flag"
-
 CONF_BQ25798_VSYS_OVP_FLAG = "vsys_ovp_flag"
-
 CONF_BQ25798_OTG_OVP_FLAG = "otg_ovp_flag"
-
 CONF_BQ25798_OTG_UVP_FLAG = "otg_uvp_flag"
-
 CONF_BQ25798_TSHUT_FLAG = "tshut_flag"
-
 CONF_BQ25798_ADC_EN = "adc_en"
-
 CONF_BQ25798_ADC_RATE = "adc_rate"
-
 CONF_BQ25798_ADC_SAMPLE = "adc_sample"
-
 CONF_BQ25798_ADC_AVG = "adc_avg"
-
 CONF_BQ25798_ADC_AVG_INIT = "adc_avg_init"
-
 CONF_BQ25798_IBUS_ADC_DIS = "ibus_adc_dis"
-
 CONF_BQ25798_IBAT_ADC_DIS = "ibat_adc_dis"
-
 CONF_BQ25798_VBUS_ADC_DIS = "vbus_adc_dis"
-
 CONF_BQ25798_VBAT_ADC_DIS = "vbat_adc_dis"
-
 CONF_BQ25798_VSYS_ADC_DIS = "vsys_adc_dis"
-
 CONF_BQ25798_TS_ADC_DIS = "ts_adc_dis"
-
 CONF_BQ25798_TDIE_ADC_DIS = "tdie_adc_dis"
-
 CONF_BQ25798_DPLUS_ADC_DIS = "dplus_adc_dis"
-
 CONF_BQ25798_DMINUS_ADC_DIS = "dminus_adc_dis"
-
 CONF_BQ25798_VAC2_ADC_DIS = "vac2_adc_dis"
-
 CONF_BQ25798_VAC1_ADC_DIS = "vac1_adc_dis"
-
 CONF_BQ25798_IBUS_ADC = "ibus_adc"
-
 CONF_BQ25798_IBAT_ADC = "ibat_adc"
-
 CONF_BQ25798_VBUS_ADC = "vbus_adc"
-
 CONF_BQ25798_VAC1_ADC = "vac1_adc"
-
 CONF_BQ25798_VAC2_ADC = "vac2_adc"
-
 CONF_BQ25798_VBAT_ADC = "vbat_adc"
-
 CONF_BQ25798_VSYS_ADC = "vsys_adc"
-
 CONF_BQ25798_TS_ADC = "ts_adc"
-
 CONF_BQ25798_TDIE_ADC = "tdie_adc"
-
 CONF_BQ25798_DPLUS_ADC = "dplus_adc"
-
 CONF_BQ25798_DMINUS_ADC = "dminus_adc"
-
 CONF_BQ25798_DPLUS_DAC = "dplus_dac"
-
 CONF_BQ25798_DMINUS_DAC = "dminus_dac"
-
 CONF_BQ25798_PN = "pn"
-
 CONF_BQ25798_DEV_REV = "dev_rev"
 
 # Configuration schema
@@ -857,487 +666,297 @@ async def to_code(config):
     if vsysmin := config.get(CONF_BQ25798_VSYSMIN):
         cg.add(var.set_vsysmin(vsysmin, 0))
         cg.add(var.on_init_set_vsysmin(True))
-
     if vreg := config.get(CONF_BQ25798_VREG):
         cg.add(var.set_vreg(vreg, 0))
         cg.add(var.on_init_set_vreg(True))
-
     if ichg := config.get(CONF_BQ25798_ICHG):
         cg.add(var.set_ichg(ichg, 0))
         cg.add(var.on_init_set_ichg(True))
-
     if vindpm := config.get(CONF_BQ25798_VINDPM):
         cg.add(var.set_vindpm(vindpm, 0))
         cg.add(var.on_init_set_vindpm(True))
-
     if iindpm := config.get(CONF_BQ25798_IINDPM):
         cg.add(var.set_iindpm(iindpm, 0))
         cg.add(var.on_init_set_iindpm(True))
-
     if vbat_lowv := config.get(CONF_BQ25798_VBAT_LOWV):
         cg.add(var.set_vbat_lowv(vbat_lowv, 0))
         cg.add(var.on_init_set_vbat_lowv(True))
-
     if iprechg := config.get(CONF_BQ25798_IPRECHG):
         cg.add(var.set_iprechg(iprechg, 0))
         cg.add(var.on_init_set_iprechg(True))
-
     if reg_rst := config.get(CONF_BQ25798_REG_RST):
         cg.add(var.set_reg_rst(reg_rst, 0))
         cg.add(var.on_init_set_reg_rst(True))
-
     if stop_wd_chg := config.get(CONF_BQ25798_STOP_WD_CHG):
         cg.add(var.set_stop_wd_chg(stop_wd_chg, 0))
         cg.add(var.on_init_set_stop_wd_chg(True))
-
     if iterm := config.get(CONF_BQ25798_ITERM):
         cg.add(var.set_iterm(iterm, 0))
         cg.add(var.on_init_set_iterm(True))
-
     if cell := config.get(CONF_BQ25798_CELL):
         cg.add(var.set_cell(cell, 0))
         cg.add(var.on_init_set_cell(True))
-
     if trechg := config.get(CONF_BQ25798_TRECHG):
         cg.add(var.set_trechg(trechg, 0))
         cg.add(var.on_init_set_trechg(True))
-
     if vrechg := config.get(CONF_BQ25798_VRECHG):
         cg.add(var.set_vrechg(vrechg, 0))
         cg.add(var.on_init_set_vrechg(True))
-
     if votg := config.get(CONF_BQ25798_VOTG):
         cg.add(var.set_votg(votg, 0))
         cg.add(var.on_init_set_votg(True))
-
     if prechg_tmr := config.get(CONF_BQ25798_PRECHG_TMR):
         cg.add(var.set_prechg_tmr(prechg_tmr, 0))
         cg.add(var.on_init_set_prechg_tmr(True))
-
     if iotg := config.get(CONF_BQ25798_IOTG):
         cg.add(var.set_iotg(iotg, 0))
         cg.add(var.on_init_set_iotg(True))
-
     if topoff_tmr := config.get(CONF_BQ25798_TOPOFF_TMR):
         cg.add(var.set_topoff_tmr(topoff_tmr, 0))
         cg.add(var.on_init_set_topoff_tmr(True))
-
     if en_trichg_tmr := config.get(CONF_BQ25798_EN_TRICHG_TMR):
         cg.add(var.set_en_trichg_tmr(en_trichg_tmr, 0))
         cg.add(var.on_init_set_en_trichg_tmr(True))
-
     if en_prechg_tmr := config.get(CONF_BQ25798_EN_PRECHG_TMR):
         cg.add(var.set_en_prechg_tmr(en_prechg_tmr, 0))
         cg.add(var.on_init_set_en_prechg_tmr(True))
-
     if en_chg_tmr := config.get(CONF_BQ25798_EN_CHG_TMR):
         cg.add(var.set_en_chg_tmr(en_chg_tmr, 0))
         cg.add(var.on_init_set_en_chg_tmr(True))
-
     if chg_tmr := config.get(CONF_BQ25798_CHG_TMR):
         cg.add(var.set_chg_tmr(chg_tmr, 0))
         cg.add(var.on_init_set_chg_tmr(True))
-
     if tmr2x_en := config.get(CONF_BQ25798_TMR2X_EN):
         cg.add(var.set_tmr2x_en(tmr2x_en, 0))
         cg.add(var.on_init_set_tmr2x_en(True))
-
     if en_auto_ibatdis := config.get(CONF_BQ25798_EN_AUTO_IBATDIS):
         cg.add(var.set_en_auto_ibatdis(en_auto_ibatdis, 0))
         cg.add(var.on_init_set_en_auto_ibatdis(True))
-
     if force_ibatdis := config.get(CONF_BQ25798_FORCE_IBATDIS):
         cg.add(var.set_force_ibatdis(force_ibatdis, 0))
         cg.add(var.on_init_set_force_ibatdis(True))
-
     if en_chg := config.get(CONF_BQ25798_EN_CHG):
         cg.add(var.set_en_chg(en_chg, 0))
         cg.add(var.on_init_set_en_chg(True))
-
     if en_ico := config.get(CONF_BQ25798_EN_ICO):
         cg.add(var.set_en_ico(en_ico, 0))
         cg.add(var.on_init_set_en_ico(True))
-
     if force_ico := config.get(CONF_BQ25798_FORCE_ICO):
         cg.add(var.set_force_ico(force_ico, 0))
         cg.add(var.on_init_set_force_ico(True))
-
     if en_hiz := config.get(CONF_BQ25798_EN_HIZ):
         cg.add(var.set_en_hiz(en_hiz, 0))
         cg.add(var.on_init_set_en_hiz(True))
-
     if en_term := config.get(CONF_BQ25798_EN_TERM):
         cg.add(var.set_en_term(en_term, 0))
         cg.add(var.on_init_set_en_term(True))
-
     if en_backup := config.get(CONF_BQ25798_EN_BACKUP):
         cg.add(var.set_en_backup(en_backup, 0))
         cg.add(var.on_init_set_en_backup(True))
-
     if vbus_backup := config.get(CONF_BQ25798_VBUS_BACKUP):
         cg.add(var.set_vbus_backup(vbus_backup, 0))
         cg.add(var.on_init_set_vbus_backup(True))
-
     if vac_ovp := config.get(CONF_BQ25798_VAC_OVP):
         cg.add(var.set_vac_ovp(vac_ovp, 0))
         cg.add(var.on_init_set_vac_ovp(True))
-
     if wd_rst := config.get(CONF_BQ25798_WD_RST):
         cg.add(var.set_wd_rst(wd_rst, 0))
         cg.add(var.on_init_set_wd_rst(True))
-
     if watchdog := config.get(CONF_BQ25798_WATCHDOG):
         cg.add(var.set_watchdog(watchdog, 0))
         cg.add(var.on_init_set_watchdog(True))
-
     if force_indet := config.get(CONF_BQ25798_FORCE_INDET):
         cg.add(var.set_force_indet(force_indet, 0))
         cg.add(var.on_init_set_force_indet(True))
-
     if auto_indet_en := config.get(CONF_BQ25798_AUTO_INDET_EN):
         cg.add(var.set_auto_indet_en(auto_indet_en, 0))
         cg.add(var.on_init_set_auto_indet_en(True))
-
     if en_12v := config.get(CONF_BQ25798_EN_12V):
         cg.add(var.set_en_12v(en_12v, 0))
         cg.add(var.on_init_set_en_12v(True))
-
     if en_9v := config.get(CONF_BQ25798_EN_9V):
         cg.add(var.set_en_9v(en_9v, 0))
         cg.add(var.on_init_set_en_9v(True))
-
     if hvdcp_en := config.get(CONF_BQ25798_HVDCP_EN):
         cg.add(var.set_hvdcp_en(hvdcp_en, 0))
         cg.add(var.on_init_set_hvdcp_en(True))
-
     if sdrv_ctrl := config.get(CONF_BQ25798_SDRV_CTRL):
         cg.add(var.set_sdrv_ctrl(sdrv_ctrl, 0))
         cg.add(var.on_init_set_sdrv_ctrl(True))
-
     if sdrv_dly := config.get(CONF_BQ25798_SDRV_DLY):
         cg.add(var.set_sdrv_dly(sdrv_dly, 0))
         cg.add(var.on_init_set_sdrv_dly(True))
-
     if dis_acdrv := config.get(CONF_BQ25798_DIS_ACDRV):
         cg.add(var.set_dis_acdrv(dis_acdrv, 0))
         cg.add(var.on_init_set_dis_acdrv(True))
-
     if en_otg := config.get(CONF_BQ25798_EN_OTG):
         cg.add(var.set_en_otg(en_otg, 0))
         cg.add(var.on_init_set_en_otg(True))
-
     if pfm_otg_dis := config.get(CONF_BQ25798_PFM_OTG_DIS):
         cg.add(var.set_pfm_otg_dis(pfm_otg_dis, 0))
         cg.add(var.on_init_set_pfm_otg_dis(True))
-
     if pfm_fwd_dis := config.get(CONF_BQ25798_PFM_FWD_DIS):
         cg.add(var.set_pfm_fwd_dis(pfm_fwd_dis, 0))
         cg.add(var.on_init_set_pfm_fwd_dis(True))
-
     if wkup_dly := config.get(CONF_BQ25798_WKUP_DLY):
         cg.add(var.set_wkup_dly(wkup_dly, 0))
         cg.add(var.on_init_set_wkup_dly(True))
-
     if dis_ldo := config.get(CONF_BQ25798_DIS_LDO):
         cg.add(var.set_dis_ldo(dis_ldo, 0))
         cg.add(var.on_init_set_dis_ldo(True))
-
     if dis_otg_ooa := config.get(CONF_BQ25798_DIS_OTG_OOA):
         cg.add(var.set_dis_otg_ooa(dis_otg_ooa, 0))
         cg.add(var.on_init_set_dis_otg_ooa(True))
-
     if dis_fwd_ooa := config.get(CONF_BQ25798_DIS_FWD_OOA):
         cg.add(var.set_dis_fwd_ooa(dis_fwd_ooa, 0))
         cg.add(var.on_init_set_dis_fwd_ooa(True))
-
     if en_acdrv2 := config.get(CONF_BQ25798_EN_ACDRV2):
         cg.add(var.set_en_acdrv2(en_acdrv2, 0))
         cg.add(var.on_init_set_en_acdrv2(True))
-
     if en_acdrv1 := config.get(CONF_BQ25798_EN_ACDRV1):
         cg.add(var.set_en_acdrv1(en_acdrv1, 0))
         cg.add(var.on_init_set_en_acdrv1(True))
-
     if pwm_freq := config.get(CONF_BQ25798_PWM_FREQ):
         cg.add(var.set_pwm_freq(pwm_freq, 0))
         cg.add(var.on_init_set_pwm_freq(True))
-
     if dis_stat := config.get(CONF_BQ25798_DIS_STAT):
         cg.add(var.set_dis_stat(dis_stat, 0))
         cg.add(var.on_init_set_dis_stat(True))
-
     if dis_vsys_short := config.get(CONF_BQ25798_DIS_VSYS_SHORT):
         cg.add(var.set_dis_vsys_short(dis_vsys_short, 0))
         cg.add(var.on_init_set_dis_vsys_short(True))
-
     if dis_votg_uvp := config.get(CONF_BQ25798_DIS_VOTG_UVP):
         cg.add(var.set_dis_votg_uvp(dis_votg_uvp, 0))
         cg.add(var.on_init_set_dis_votg_uvp(True))
-
     if force_vindpm_det := config.get(CONF_BQ25798_FORCE_VINDPM_DET):
         cg.add(var.set_force_vindpm_det(force_vindpm_det, 0))
         cg.add(var.on_init_set_force_vindpm_det(True))
-
     if en_ibus_ocp := config.get(CONF_BQ25798_EN_IBUS_OCP):
         cg.add(var.set_en_ibus_ocp(en_ibus_ocp, 0))
         cg.add(var.on_init_set_en_ibus_ocp(True))
-
     if sfet_present := config.get(CONF_BQ25798_SFET_PRESENT):
         cg.add(var.set_sfet_present(sfet_present, 0))
         cg.add(var.on_init_set_sfet_present(True))
-
     if en_ibat := config.get(CONF_BQ25798_EN_IBAT):
         cg.add(var.set_en_ibat(en_ibat, 0))
         cg.add(var.on_init_set_en_ibat(True))
-
     if ibat_reg := config.get(CONF_BQ25798_IBAT_REG):
         cg.add(var.set_ibat_reg(ibat_reg, 0))
         cg.add(var.on_init_set_ibat_reg(True))
-
     if en_iindpm := config.get(CONF_BQ25798_EN_IINDPM):
         cg.add(var.set_en_iindpm(en_iindpm, 0))
         cg.add(var.on_init_set_en_iindpm(True))
-
     if en_extilim := config.get(CONF_BQ25798_EN_EXTILIM):
         cg.add(var.set_en_extilim(en_extilim, 0))
         cg.add(var.on_init_set_en_extilim(True))
-
     if en_batoc := config.get(CONF_BQ25798_EN_BATOC):
         cg.add(var.set_en_batoc(en_batoc, 0))
         cg.add(var.on_init_set_en_batoc(True))
-
     if voc_pct := config.get(CONF_BQ25798_VOC_PCT):
         cg.add(var.set_voc_pct(voc_pct, 0))
         cg.add(var.on_init_set_voc_pct(True))
-
     if voc_dly := config.get(CONF_BQ25798_VOC_DLY):
         cg.add(var.set_voc_dly(voc_dly, 0))
         cg.add(var.on_init_set_voc_dly(True))
-
     if voc_rate := config.get(CONF_BQ25798_VOC_RATE):
         cg.add(var.set_voc_rate(voc_rate, 0))
         cg.add(var.on_init_set_voc_rate(True))
-
     if en_mppt := config.get(CONF_BQ25798_EN_MPPT):
         cg.add(var.set_en_mppt(en_mppt, 0))
         cg.add(var.on_init_set_en_mppt(True))
-
     if treg := config.get(CONF_BQ25798_TREG):
         cg.add(var.set_treg(treg, 0))
         cg.add(var.on_init_set_treg(True))
-
     if tshut := config.get(CONF_BQ25798_TSHUT):
         cg.add(var.set_tshut(tshut, 0))
         cg.add(var.on_init_set_tshut(True))
-
     if vbus_pd_en := config.get(CONF_BQ25798_VBUS_PD_EN):
         cg.add(var.set_vbus_pd_en(vbus_pd_en, 0))
         cg.add(var.on_init_set_vbus_pd_en(True))
-
     if vac1_pd_en := config.get(CONF_BQ25798_VAC1_PD_EN):
         cg.add(var.set_vac1_pd_en(vac1_pd_en, 0))
         cg.add(var.on_init_set_vac1_pd_en(True))
-
     if vac2_pd_en := config.get(CONF_BQ25798_VAC2_PD_EN):
         cg.add(var.set_vac2_pd_en(vac2_pd_en, 0))
         cg.add(var.on_init_set_vac2_pd_en(True))
-
     if bkup_acfet1_on := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
         cg.add(var.set_bkup_acfet1_on(bkup_acfet1_on, 0))
         cg.add(var.on_init_set_bkup_acfet1_on(True))
-
     if jeita_vset := config.get(CONF_BQ25798_JEITA_VSET):
         cg.add(var.set_jeita_vset(jeita_vset, 0))
         cg.add(var.on_init_set_jeita_vset(True))
-
     if jeita_iseth := config.get(CONF_BQ25798_JEITA_ISETH):
         cg.add(var.set_jeita_iseth(jeita_iseth, 0))
         cg.add(var.on_init_set_jeita_iseth(True))
-
     if jeita_isetc := config.get(CONF_BQ25798_JEITA_ISETC):
         cg.add(var.set_jeita_isetc(jeita_isetc, 0))
         cg.add(var.on_init_set_jeita_isetc(True))
-
     if ts_cool := config.get(CONF_BQ25798_TS_COOL):
         cg.add(var.set_ts_cool(ts_cool, 0))
         cg.add(var.on_init_set_ts_cool(True))
-
     if ts_warm := config.get(CONF_BQ25798_TS_WARM):
         cg.add(var.set_ts_warm(ts_warm, 0))
         cg.add(var.on_init_set_ts_warm(True))
-
     if bhot := config.get(CONF_BQ25798_BHOT):
         cg.add(var.set_bhot(bhot, 0))
         cg.add(var.on_init_set_bhot(True))
-
     if bcold := config.get(CONF_BQ25798_BCOLD):
         cg.add(var.set_bcold(bcold, 0))
         cg.add(var.on_init_set_bcold(True))
-
     if ts_ignore := config.get(CONF_BQ25798_TS_IGNORE):
         cg.add(var.set_ts_ignore(ts_ignore, 0))
         cg.add(var.on_init_set_ts_ignore(True))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     if adc_en := config.get(CONF_BQ25798_ADC_EN):
         cg.add(var.set_adc_en(adc_en, 0))
         cg.add(var.on_init_set_adc_en(True))
-
     if adc_rate := config.get(CONF_BQ25798_ADC_RATE):
         cg.add(var.set_adc_rate(adc_rate, 0))
         cg.add(var.on_init_set_adc_rate(True))
-
     if adc_sample := config.get(CONF_BQ25798_ADC_SAMPLE):
         cg.add(var.set_adc_sample(adc_sample, 0))
         cg.add(var.on_init_set_adc_sample(True))
-
     if adc_avg := config.get(CONF_BQ25798_ADC_AVG):
         cg.add(var.set_adc_avg(adc_avg, 0))
         cg.add(var.on_init_set_adc_avg(True))
-
     if adc_avg_init := config.get(CONF_BQ25798_ADC_AVG_INIT):
         cg.add(var.set_adc_avg_init(adc_avg_init, 0))
         cg.add(var.on_init_set_adc_avg_init(True))
-
     if ibus_adc_dis := config.get(CONF_BQ25798_IBUS_ADC_DIS):
         cg.add(var.set_ibus_adc_dis(ibus_adc_dis, 0))
         cg.add(var.on_init_set_ibus_adc_dis(True))
-
     if ibat_adc_dis := config.get(CONF_BQ25798_IBAT_ADC_DIS):
         cg.add(var.set_ibat_adc_dis(ibat_adc_dis, 0))
         cg.add(var.on_init_set_ibat_adc_dis(True))
-
     if vbus_adc_dis := config.get(CONF_BQ25798_VBUS_ADC_DIS):
         cg.add(var.set_vbus_adc_dis(vbus_adc_dis, 0))
         cg.add(var.on_init_set_vbus_adc_dis(True))
-
     if vbat_adc_dis := config.get(CONF_BQ25798_VBAT_ADC_DIS):
         cg.add(var.set_vbat_adc_dis(vbat_adc_dis, 0))
         cg.add(var.on_init_set_vbat_adc_dis(True))
-
     if vsys_adc_dis := config.get(CONF_BQ25798_VSYS_ADC_DIS):
         cg.add(var.set_vsys_adc_dis(vsys_adc_dis, 0))
         cg.add(var.on_init_set_vsys_adc_dis(True))
-
     if ts_adc_dis := config.get(CONF_BQ25798_TS_ADC_DIS):
         cg.add(var.set_ts_adc_dis(ts_adc_dis, 0))
         cg.add(var.on_init_set_ts_adc_dis(True))
-
     if tdie_adc_dis := config.get(CONF_BQ25798_TDIE_ADC_DIS):
         cg.add(var.set_tdie_adc_dis(tdie_adc_dis, 0))
         cg.add(var.on_init_set_tdie_adc_dis(True))
-
     if dplus_adc_dis := config.get(CONF_BQ25798_DPLUS_ADC_DIS):
         cg.add(var.set_dplus_adc_dis(dplus_adc_dis, 0))
         cg.add(var.on_init_set_dplus_adc_dis(True))
-
     if dminus_adc_dis := config.get(CONF_BQ25798_DMINUS_ADC_DIS):
         cg.add(var.set_dminus_adc_dis(dminus_adc_dis, 0))
         cg.add(var.on_init_set_dminus_adc_dis(True))
-
     if vac2_adc_dis := config.get(CONF_BQ25798_VAC2_ADC_DIS):
         cg.add(var.set_vac2_adc_dis(vac2_adc_dis, 0))
         cg.add(var.on_init_set_vac2_adc_dis(True))
-
     if vac1_adc_dis := config.get(CONF_BQ25798_VAC1_ADC_DIS):
         cg.add(var.set_vac1_adc_dis(vac1_adc_dis, 0))
         cg.add(var.on_init_set_vac1_adc_dis(True))
-
-
-
-
-
-
-
-
-
-
-
-
     if dplus_dac := config.get(CONF_BQ25798_DPLUS_DAC):
         cg.add(var.set_dplus_dac(dplus_dac, 0))
         cg.add(var.on_init_set_dplus_dac(True))
-
     if dminus_dac := config.get(CONF_BQ25798_DMINUS_DAC):
         cg.add(var.set_dminus_dac(dminus_dac, 0))
         cg.add(var.on_init_set_dminus_dac(True))
-
-

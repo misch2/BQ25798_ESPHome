@@ -20,83 +20,84 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void dump_config() override;
   float get_setup_priority() const override;
   void update() override;
-  
+
 {% for def in settings %}
-
-{%-     if def.mode == "rw" %}
+  // {{ def.name }} - {{ def.description }}
+{# Setters #}
+{%     if def.mode == "rw" %}
   void on_init_set_{{ def.name | lower }}(bool value);
-{%-       if def.type == "bool" %}
+{%       if def.type == "bool" %}
   void set_{{ def.name | lower }}(bool value, bool write_to_i2c);
-{%-       elif def.type == "int" %}
+{%       elif def.type == "int" %}
   void set_{{ def.name | lower }}(int value, bool write_to_i2c);
-{%-       elif def.type == "float" %}
+{%       elif def.type == "float" %}
   void set_{{ def.name | lower }}(float value, bool write_to_i2c);
-{%-       elif def.type == "enum" %}
+{%       elif def.type == "enum" %}
   void set_{{ def.name | lower }}(int value, bool write_to_i2c);
-{%-       endif %}
-{%-     endif %}
-
-{%-     if def.type == "bool" %}
+{%       endif %}
+{%     endif %}
+{# Getters #}
+{%     if def.type == "bool" %}
   bool get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor) { 
-    binary_sensor_{{ def.name | lower }} = sensor; 
+  void assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor) {
+    binary_sensor_{{ def.name | lower }} = sensor;
   }
-{%-         if def.name.is_flag %}
+{%         if def.name.is_flag %}
   void clear_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = false; }
   void raise_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = true; }
-{%-         endif %}
-{%-     elif def.type == "int" %}
+{%         endif %}
+{%     elif def.type == "int" %}
   int get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) { 
-    sensor_{{ def.name | lower }} = sensor; 
+  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
+    sensor_{{ def.name | lower }} = sensor;
   }
-{%-     elif def.type == "float" %}
+{%     elif def.type == "float" %}
   float get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) { 
-    sensor_{{ def.name | lower }} = sensor; 
+  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
+    sensor_{{ def.name | lower }} = sensor;
   }
-{%-     elif def.type == "enum" %}
+{%     elif def.type == "enum" %}
   int get_{{ def.name | lower }}(bool read_from_i2c);
   const char* get_{{ def.name | lower }}_string(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) { 
-    sensor_{{ def.name | lower }} = sensor; 
+  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
+    sensor_{{ def.name | lower }} = sensor;
   }
-  void assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor) { 
-    text_sensor_{{ def.name | lower }} = sensor; 
+  void assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor) {
+    text_sensor_{{ def.name | lower }} = sensor;
   }
-{%-     endif %}
+{%     endif %}
 
-{% endfor %}
+{% endfor -%}
 
  protected:
 {% for def in settings %}
-
-{%-         if def.type == "bool" %}
+{# #}
+{%         if def.type == "bool" %}
   bool last_value_{{ def.name | lower }} = false;
-{%-         elif def.type == "int" %}
+{%         elif def.type == "int" %}
   int last_value_{{ def.name | lower }} = 0;
-{%-         elif def.type == "float" %}
+{%         elif def.type == "float" %}
   float last_value_{{ def.name | lower }} = 0.0f;
-{%-         elif def.type == "enum" %}
+{%         elif def.type == "enum" %}
   int last_value_{{ def.name | lower }} = 0;
-{%-         endif %}
-
-{%-     if def.mode == "rw" %}
+{%         endif %}
+{# #}
+{%     if def.mode == "rw" %}
   bool on_init_set_{{ def.name | lower }}_ = false;
-{%-     endif %}
-
-{%-     if def.type == "bool" %}
+{%     endif %}
+{# #}
+{%     if def.type == "bool" %}
   binary_sensor::BinarySensor *binary_sensor_{{ def.name | lower }} {nullptr};
-{%-     elif def.type == "int" %}
+{%     elif def.type == "int" %}
   sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
-{%-     elif def.type == "float" %}
+{%     elif def.type == "float" %}
   sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
-{%-     elif def.type == "enum" %}
+{%     elif def.type == "enum" %}
   sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
   text_sensor::TextSensor *text_sensor_{{ def.name | lower }} {nullptr};
-{%-     endif %}
+{%     endif %}
 
-{% endfor %}
+{% endfor -%}
 
   private:
     BQ25798NoI2C *bq25798_noi2c {nullptr};

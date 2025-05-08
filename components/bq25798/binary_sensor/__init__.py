@@ -149,6 +149,7 @@ CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798BinarySensor),
+
             cv.Optional(CONF_BQ25798_REG_RST): binary_sensor.binary_sensor_schema(
 #FIXME                device_class="",
             ),

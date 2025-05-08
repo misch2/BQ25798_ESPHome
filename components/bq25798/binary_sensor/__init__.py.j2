@@ -17,11 +17,11 @@ DEPENDENCIES = ["bq25798"]
 BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", cg.Component)
 
 # Boolean settings
-{%- for def in settings %}
-{%-     if def.type == "bool" %}
+{% for def in settings %}
+{%     if def.type == "bool" %}
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
-{%-     endif %}
-{%- endfor %}
+{%     endif %}
+{% endfor %}
 
 # See https://www.home-assistant.io/integrations/binary_sensor/#device-class for the list of binary sensor device classes
 
@@ -42,15 +42,15 @@ CONFIG_SCHEMA = (
         {
             cv.GenerateID(): cv.declare_id(BQ25798BinarySensor),
 
-{%- for def in settings %}
-{%-     if def.type == "bool" %}
+{% for def in settings %}
+{%     if def.type == "bool" %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(
-{%-         if def.ha_device_class != "" %}
+{%         if def.ha_device_class != "" %}
 #FIXME                device_class="{{ def.ha_device_class }}",
-{%-         endif %}
+{%         endif %}
             ),
-{%-     endif %}
-{%- endfor %}
+{%     endif %}
+{% endfor %}
         }
     )
     .extend(BQ25798_CLIENT_SCHEMA)
@@ -63,10 +63,10 @@ async def to_code(config):
     parent = await cg.get_variable(config[CONF_BQ25798_ID])
 
     # Sensors
-{%- for def in settings %}
-{%-     if def.type == "bool" %}
+{% for def in settings %}
+{%     if def.type == "bool" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await binary_sensor.new_binary_sensor({{ def.name | lower }})
         cg.add(parent.assign_binary_sensor_{{ def.name | lower }}(sens))
-{%-     endif %}
-{%- endfor %}
+{%     endif %}
+{% endfor %}
