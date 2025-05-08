@@ -13,7 +13,7 @@ void ClearFlagsButton::press_action() {
     ESP_LOGW(TAG, "ClearFlagsButton pressed. Executing action...");
 
 {%- for def in settings %}
-{%     if def.type == "bool" and def.name.endswith("_FLAG") %}
+{%     if def.is_flag %}
     this->parent_->clear_flag_{{ def.name | lower }}();
 {%     endif %}
 {% endfor %}

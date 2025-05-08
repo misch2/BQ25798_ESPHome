@@ -84,6 +84,6 @@ async def to_code(config):
 {%-     if def.type == "int" or def.type == "float" or def.type == "enum" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await sensor.new_sensor({{ def.name | lower }})
-        cg.add(parent.set_{{ def.name | lower }}_sensor(sens))
+        cg.add(parent.assign_sensor_{{ def.name | lower }}(sens))
 {%-     endif %}                    
 {% endfor %}

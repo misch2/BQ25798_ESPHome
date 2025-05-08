@@ -49,6 +49,6 @@ async def to_code(config):
 {%-     if def.type == "enum" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await text_sensor.new_text_sensor({{ def.name | lower }})
-        cg.add(parent.set_{{ def.name | lower }}_text_sensor(sens))
+        cg.add(parent.assign_text_sensor_{{ def.name | lower }}(sens))
 {%-     endif %}                    
 {%- endfor %}
