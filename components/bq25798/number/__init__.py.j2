@@ -43,14 +43,13 @@ CONFIG_SCHEMA = (
 {% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): number.number_schema(
                 {{ className }},
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="{{ def.unit }}",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
 {%     endif %}
 {% endfor %}
     })
-    .extend(cv.polling_component_schema("10s")) # FIXME?
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):

@@ -18,12 +18,12 @@ void BQ25798VsysminNumber::dump_config() {
 }
 
 void BQ25798VsysminNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VsysminNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VsysminNumber...");
   this->publish_state(this->parent_->get_vsysmin(true));
 }
 
 void BQ25798VsysminNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VsysminNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VsysminNumber...");
   this->parent_->set_vsysmin(new_value, true);
   this->publish_state(state);
 }
@@ -41,12 +41,12 @@ void BQ25798VregNumber::dump_config() {
 }
 
 void BQ25798VregNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VregNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VregNumber...");
   this->publish_state(this->parent_->get_vreg(true));
 }
 
 void BQ25798VregNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VregNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VregNumber...");
   this->parent_->set_vreg(new_value, true);
   this->publish_state(state);
 }
@@ -64,12 +64,12 @@ void BQ25798IchgNumber::dump_config() {
 }
 
 void BQ25798IchgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798IchgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798IchgNumber...");
   this->publish_state(this->parent_->get_ichg(true));
 }
 
 void BQ25798IchgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798IchgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798IchgNumber...");
   this->parent_->set_ichg(new_value, true);
   this->publish_state(state);
 }
@@ -87,12 +87,12 @@ void BQ25798VindpmNumber::dump_config() {
 }
 
 void BQ25798VindpmNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VindpmNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VindpmNumber...");
   this->publish_state(this->parent_->get_vindpm(true));
 }
 
 void BQ25798VindpmNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VindpmNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VindpmNumber...");
   this->parent_->set_vindpm(new_value, true);
   this->publish_state(state);
 }
@@ -110,12 +110,12 @@ void BQ25798IindpmNumber::dump_config() {
 }
 
 void BQ25798IindpmNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798IindpmNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798IindpmNumber...");
   this->publish_state(this->parent_->get_iindpm(true));
 }
 
 void BQ25798IindpmNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798IindpmNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798IindpmNumber...");
   this->parent_->set_iindpm(new_value, true);
   this->publish_state(state);
 }
@@ -133,12 +133,12 @@ void BQ25798VbatLowvNumber::dump_config() {
 }
 
 void BQ25798VbatLowvNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VbatLowvNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VbatLowvNumber...");
   this->publish_state(this->parent_->get_vbat_lowv(true));
 }
 
 void BQ25798VbatLowvNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VbatLowvNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VbatLowvNumber...");
   this->parent_->set_vbat_lowv(new_value, true);
   this->publish_state(state);
 }
@@ -156,12 +156,12 @@ void BQ25798IprechgNumber::dump_config() {
 }
 
 void BQ25798IprechgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798IprechgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798IprechgNumber...");
   this->publish_state(this->parent_->get_iprechg(true));
 }
 
 void BQ25798IprechgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798IprechgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798IprechgNumber...");
   this->parent_->set_iprechg(new_value, true);
   this->publish_state(state);
 }
@@ -179,12 +179,12 @@ void BQ25798ItermNumber::dump_config() {
 }
 
 void BQ25798ItermNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798ItermNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798ItermNumber...");
   this->publish_state(this->parent_->get_iterm(true));
 }
 
 void BQ25798ItermNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798ItermNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798ItermNumber...");
   this->parent_->set_iterm(new_value, true);
   this->publish_state(state);
 }
@@ -202,12 +202,12 @@ void BQ25798CellNumber::dump_config() {
 }
 
 void BQ25798CellNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798CellNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798CellNumber...");
   this->publish_state(this->parent_->get_cell(true));
 }
 
 void BQ25798CellNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798CellNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798CellNumber...");
   this->parent_->set_cell(new_value, true);
   this->publish_state(state);
 }
@@ -225,12 +225,12 @@ void BQ25798TrechgNumber::dump_config() {
 }
 
 void BQ25798TrechgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TrechgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TrechgNumber...");
   this->publish_state(this->parent_->get_trechg(true));
 }
 
 void BQ25798TrechgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TrechgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TrechgNumber...");
   this->parent_->set_trechg(new_value, true);
   this->publish_state(state);
 }
@@ -248,12 +248,12 @@ void BQ25798VrechgNumber::dump_config() {
 }
 
 void BQ25798VrechgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VrechgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VrechgNumber...");
   this->publish_state(this->parent_->get_vrechg(true));
 }
 
 void BQ25798VrechgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VrechgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VrechgNumber...");
   this->parent_->set_vrechg(new_value, true);
   this->publish_state(state);
 }
@@ -271,12 +271,12 @@ void BQ25798VotgNumber::dump_config() {
 }
 
 void BQ25798VotgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VotgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VotgNumber...");
   this->publish_state(this->parent_->get_votg(true));
 }
 
 void BQ25798VotgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VotgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VotgNumber...");
   this->parent_->set_votg(new_value, true);
   this->publish_state(state);
 }
@@ -294,12 +294,12 @@ void BQ25798PrechgTmrNumber::dump_config() {
 }
 
 void BQ25798PrechgTmrNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798PrechgTmrNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798PrechgTmrNumber...");
   this->publish_state(this->parent_->get_prechg_tmr(true));
 }
 
 void BQ25798PrechgTmrNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798PrechgTmrNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798PrechgTmrNumber...");
   this->parent_->set_prechg_tmr(new_value, true);
   this->publish_state(state);
 }
@@ -317,12 +317,12 @@ void BQ25798IotgNumber::dump_config() {
 }
 
 void BQ25798IotgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798IotgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798IotgNumber...");
   this->publish_state(this->parent_->get_iotg(true));
 }
 
 void BQ25798IotgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798IotgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798IotgNumber...");
   this->parent_->set_iotg(new_value, true);
   this->publish_state(state);
 }
@@ -340,12 +340,12 @@ void BQ25798TopoffTmrNumber::dump_config() {
 }
 
 void BQ25798TopoffTmrNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TopoffTmrNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TopoffTmrNumber...");
   this->publish_state(this->parent_->get_topoff_tmr(true));
 }
 
 void BQ25798TopoffTmrNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TopoffTmrNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TopoffTmrNumber...");
   this->parent_->set_topoff_tmr(new_value, true);
   this->publish_state(state);
 }
@@ -363,12 +363,12 @@ void BQ25798ChgTmrNumber::dump_config() {
 }
 
 void BQ25798ChgTmrNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798ChgTmrNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798ChgTmrNumber...");
   this->publish_state(this->parent_->get_chg_tmr(true));
 }
 
 void BQ25798ChgTmrNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798ChgTmrNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798ChgTmrNumber...");
   this->parent_->set_chg_tmr(new_value, true);
   this->publish_state(state);
 }
@@ -386,12 +386,12 @@ void BQ25798VbusBackupNumber::dump_config() {
 }
 
 void BQ25798VbusBackupNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VbusBackupNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VbusBackupNumber...");
   this->publish_state(this->parent_->get_vbus_backup(true));
 }
 
 void BQ25798VbusBackupNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VbusBackupNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VbusBackupNumber...");
   this->parent_->set_vbus_backup(new_value, true);
   this->publish_state(state);
 }
@@ -409,12 +409,12 @@ void BQ25798VacOvpNumber::dump_config() {
 }
 
 void BQ25798VacOvpNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VacOvpNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VacOvpNumber...");
   this->publish_state(this->parent_->get_vac_ovp(true));
 }
 
 void BQ25798VacOvpNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VacOvpNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VacOvpNumber...");
   this->parent_->set_vac_ovp(new_value, true);
   this->publish_state(state);
 }
@@ -432,12 +432,12 @@ void BQ25798WatchdogNumber::dump_config() {
 }
 
 void BQ25798WatchdogNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798WatchdogNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798WatchdogNumber...");
   this->publish_state(this->parent_->get_watchdog(true));
 }
 
 void BQ25798WatchdogNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798WatchdogNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798WatchdogNumber...");
   this->parent_->set_watchdog(new_value, true);
   this->publish_state(state);
 }
@@ -455,12 +455,12 @@ void BQ25798SdrvCtrlNumber::dump_config() {
 }
 
 void BQ25798SdrvCtrlNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798SdrvCtrlNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798SdrvCtrlNumber...");
   this->publish_state(this->parent_->get_sdrv_ctrl(true));
 }
 
 void BQ25798SdrvCtrlNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798SdrvCtrlNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798SdrvCtrlNumber...");
   this->parent_->set_sdrv_ctrl(new_value, true);
   this->publish_state(state);
 }
@@ -478,12 +478,12 @@ void BQ25798SdrvDlyNumber::dump_config() {
 }
 
 void BQ25798SdrvDlyNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798SdrvDlyNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798SdrvDlyNumber...");
   this->publish_state(this->parent_->get_sdrv_dly(true));
 }
 
 void BQ25798SdrvDlyNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798SdrvDlyNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798SdrvDlyNumber...");
   this->parent_->set_sdrv_dly(new_value, true);
   this->publish_state(state);
 }
@@ -501,12 +501,12 @@ void BQ25798WkupDlyNumber::dump_config() {
 }
 
 void BQ25798WkupDlyNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798WkupDlyNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798WkupDlyNumber...");
   this->publish_state(this->parent_->get_wkup_dly(true));
 }
 
 void BQ25798WkupDlyNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798WkupDlyNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798WkupDlyNumber...");
   this->parent_->set_wkup_dly(new_value, true);
   this->publish_state(state);
 }
@@ -524,12 +524,12 @@ void BQ25798PwmFreqNumber::dump_config() {
 }
 
 void BQ25798PwmFreqNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798PwmFreqNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798PwmFreqNumber...");
   this->publish_state(this->parent_->get_pwm_freq(true));
 }
 
 void BQ25798PwmFreqNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798PwmFreqNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798PwmFreqNumber...");
   this->parent_->set_pwm_freq(new_value, true);
   this->publish_state(state);
 }
@@ -547,12 +547,12 @@ void BQ25798IbatRegNumber::dump_config() {
 }
 
 void BQ25798IbatRegNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798IbatRegNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798IbatRegNumber...");
   this->publish_state(this->parent_->get_ibat_reg(true));
 }
 
 void BQ25798IbatRegNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798IbatRegNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798IbatRegNumber...");
   this->parent_->set_ibat_reg(new_value, true);
   this->publish_state(state);
 }
@@ -570,12 +570,12 @@ void BQ25798VocPctNumber::dump_config() {
 }
 
 void BQ25798VocPctNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VocPctNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VocPctNumber...");
   this->publish_state(this->parent_->get_voc_pct(true));
 }
 
 void BQ25798VocPctNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VocPctNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VocPctNumber...");
   this->parent_->set_voc_pct(new_value, true);
   this->publish_state(state);
 }
@@ -593,12 +593,12 @@ void BQ25798VocDlyNumber::dump_config() {
 }
 
 void BQ25798VocDlyNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VocDlyNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VocDlyNumber...");
   this->publish_state(this->parent_->get_voc_dly(true));
 }
 
 void BQ25798VocDlyNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VocDlyNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VocDlyNumber...");
   this->parent_->set_voc_dly(new_value, true);
   this->publish_state(state);
 }
@@ -616,12 +616,12 @@ void BQ25798VocRateNumber::dump_config() {
 }
 
 void BQ25798VocRateNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798VocRateNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798VocRateNumber...");
   this->publish_state(this->parent_->get_voc_rate(true));
 }
 
 void BQ25798VocRateNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798VocRateNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798VocRateNumber...");
   this->parent_->set_voc_rate(new_value, true);
   this->publish_state(state);
 }
@@ -639,12 +639,12 @@ void BQ25798TregNumber::dump_config() {
 }
 
 void BQ25798TregNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TregNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TregNumber...");
   this->publish_state(this->parent_->get_treg(true));
 }
 
 void BQ25798TregNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TregNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TregNumber...");
   this->parent_->set_treg(new_value, true);
   this->publish_state(state);
 }
@@ -662,12 +662,12 @@ void BQ25798TshutNumber::dump_config() {
 }
 
 void BQ25798TshutNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TshutNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TshutNumber...");
   this->publish_state(this->parent_->get_tshut(true));
 }
 
 void BQ25798TshutNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TshutNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TshutNumber...");
   this->parent_->set_tshut(new_value, true);
   this->publish_state(state);
 }
@@ -685,12 +685,12 @@ void BQ25798BkupAcfet1OnNumber::dump_config() {
 }
 
 void BQ25798BkupAcfet1OnNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798BkupAcfet1OnNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798BkupAcfet1OnNumber...");
   this->publish_state(this->parent_->get_bkup_acfet1_on(true));
 }
 
 void BQ25798BkupAcfet1OnNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798BkupAcfet1OnNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798BkupAcfet1OnNumber...");
   this->parent_->set_bkup_acfet1_on(new_value, true);
   this->publish_state(state);
 }
@@ -708,12 +708,12 @@ void BQ25798JeitaVsetNumber::dump_config() {
 }
 
 void BQ25798JeitaVsetNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798JeitaVsetNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798JeitaVsetNumber...");
   this->publish_state(this->parent_->get_jeita_vset(true));
 }
 
 void BQ25798JeitaVsetNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798JeitaVsetNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798JeitaVsetNumber...");
   this->parent_->set_jeita_vset(new_value, true);
   this->publish_state(state);
 }
@@ -731,12 +731,12 @@ void BQ25798JeitaIsethNumber::dump_config() {
 }
 
 void BQ25798JeitaIsethNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798JeitaIsethNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798JeitaIsethNumber...");
   this->publish_state(this->parent_->get_jeita_iseth(true));
 }
 
 void BQ25798JeitaIsethNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798JeitaIsethNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798JeitaIsethNumber...");
   this->parent_->set_jeita_iseth(new_value, true);
   this->publish_state(state);
 }
@@ -754,12 +754,12 @@ void BQ25798JeitaIsetcNumber::dump_config() {
 }
 
 void BQ25798JeitaIsetcNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798JeitaIsetcNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798JeitaIsetcNumber...");
   this->publish_state(this->parent_->get_jeita_isetc(true));
 }
 
 void BQ25798JeitaIsetcNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798JeitaIsetcNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798JeitaIsetcNumber...");
   this->parent_->set_jeita_isetc(new_value, true);
   this->publish_state(state);
 }
@@ -777,12 +777,12 @@ void BQ25798TsCoolNumber::dump_config() {
 }
 
 void BQ25798TsCoolNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TsCoolNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TsCoolNumber...");
   this->publish_state(this->parent_->get_ts_cool(true));
 }
 
 void BQ25798TsCoolNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TsCoolNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TsCoolNumber...");
   this->parent_->set_ts_cool(new_value, true);
   this->publish_state(state);
 }
@@ -800,12 +800,12 @@ void BQ25798TsWarmNumber::dump_config() {
 }
 
 void BQ25798TsWarmNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798TsWarmNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798TsWarmNumber...");
   this->publish_state(this->parent_->get_ts_warm(true));
 }
 
 void BQ25798TsWarmNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798TsWarmNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798TsWarmNumber...");
   this->parent_->set_ts_warm(new_value, true);
   this->publish_state(state);
 }
@@ -823,12 +823,12 @@ void BQ25798BhotNumber::dump_config() {
 }
 
 void BQ25798BhotNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798BhotNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798BhotNumber...");
   this->publish_state(this->parent_->get_bhot(true));
 }
 
 void BQ25798BhotNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798BhotNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798BhotNumber...");
   this->parent_->set_bhot(new_value, true);
   this->publish_state(state);
 }
@@ -846,12 +846,12 @@ void BQ25798BcoldNumber::dump_config() {
 }
 
 void BQ25798BcoldNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798BcoldNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798BcoldNumber...");
   this->publish_state(this->parent_->get_bcold(true));
 }
 
 void BQ25798BcoldNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798BcoldNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798BcoldNumber...");
   this->parent_->set_bcold(new_value, true);
   this->publish_state(state);
 }
@@ -869,12 +869,12 @@ void BQ25798AdcRateNumber::dump_config() {
 }
 
 void BQ25798AdcRateNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798AdcRateNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798AdcRateNumber...");
   this->publish_state(this->parent_->get_adc_rate(true));
 }
 
 void BQ25798AdcRateNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798AdcRateNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798AdcRateNumber...");
   this->parent_->set_adc_rate(new_value, true);
   this->publish_state(state);
 }
@@ -892,12 +892,12 @@ void BQ25798AdcSampleNumber::dump_config() {
 }
 
 void BQ25798AdcSampleNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798AdcSampleNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798AdcSampleNumber...");
   this->publish_state(this->parent_->get_adc_sample(true));
 }
 
 void BQ25798AdcSampleNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798AdcSampleNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798AdcSampleNumber...");
   this->parent_->set_adc_sample(new_value, true);
   this->publish_state(state);
 }
@@ -915,12 +915,12 @@ void BQ25798AdcAvgNumber::dump_config() {
 }
 
 void BQ25798AdcAvgNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798AdcAvgNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798AdcAvgNumber...");
   this->publish_state(this->parent_->get_adc_avg(true));
 }
 
 void BQ25798AdcAvgNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798AdcAvgNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798AdcAvgNumber...");
   this->parent_->set_adc_avg(new_value, true);
   this->publish_state(state);
 }
@@ -938,12 +938,12 @@ void BQ25798DplusDacNumber::dump_config() {
 }
 
 void BQ25798DplusDacNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798DplusDacNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798DplusDacNumber...");
   this->publish_state(this->parent_->get_dplus_dac(true));
 }
 
 void BQ25798DplusDacNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798DplusDacNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798DplusDacNumber...");
   this->parent_->set_dplus_dac(new_value, true);
   this->publish_state(state);
 }
@@ -961,12 +961,12 @@ void BQ25798DminusDacNumber::dump_config() {
 }
 
 void BQ25798DminusDacNumber::update() {
-  ESP_LOGD(TAG, "Updating BQ25798DminusDacNumber..."); // FIXME
+  //ESP_LOGD(TAG, "Updating BQ25798DminusDacNumber...");
   this->publish_state(this->parent_->get_dminus_dac(true));
 }
 
 void BQ25798DminusDacNumber::control(float new_value) {
-  ESP_LOGD(TAG, "Controlling BQ25798DminusDacNumber...");  // FIXME
+  //ESP_LOGD(TAG, "Controlling BQ25798DminusDacNumber...");
   this->parent_->set_dminus_dac(new_value, true);
   this->publish_state(state);
 }

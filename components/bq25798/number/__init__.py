@@ -150,258 +150,216 @@ CONFIG_SCHEMA = (
 
             cv.Optional(CONF_BQ25798_VSYSMIN): number.number_schema(
                 BQ25798VsysminNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mV",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VREG): number.number_schema(
                 BQ25798VregNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mV",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_ICHG): number.number_schema(
                 BQ25798IchgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mA",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VINDPM): number.number_schema(
                 BQ25798VindpmNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mV",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_IINDPM): number.number_schema(
                 BQ25798IindpmNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mA",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VBAT_LOWV): number.number_schema(
                 BQ25798VbatLowvNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_IPRECHG): number.number_schema(
                 BQ25798IprechgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mA",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_ITERM): number.number_schema(
                 BQ25798ItermNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mA",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_CELL): number.number_schema(
                 BQ25798CellNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TRECHG): number.number_schema(
                 BQ25798TrechgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VRECHG): number.number_schema(
                 BQ25798VrechgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mV",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VOTG): number.number_schema(
                 BQ25798VotgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mV",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_PRECHG_TMR): number.number_schema(
                 BQ25798PrechgTmrNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_IOTG): number.number_schema(
                 BQ25798IotgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="mA",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TOPOFF_TMR): number.number_schema(
                 BQ25798TopoffTmrNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_CHG_TMR): number.number_schema(
                 BQ25798ChgTmrNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VBUS_BACKUP): number.number_schema(
                 BQ25798VbusBackupNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VAC_OVP): number.number_schema(
                 BQ25798VacOvpNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_WATCHDOG): number.number_schema(
                 BQ25798WatchdogNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_SDRV_CTRL): number.number_schema(
                 BQ25798SdrvCtrlNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_SDRV_DLY): number.number_schema(
                 BQ25798SdrvDlyNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_WKUP_DLY): number.number_schema(
                 BQ25798WkupDlyNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_PWM_FREQ): number.number_schema(
                 BQ25798PwmFreqNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_IBAT_REG): number.number_schema(
                 BQ25798IbatRegNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VOC_PCT): number.number_schema(
                 BQ25798VocPctNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VOC_DLY): number.number_schema(
                 BQ25798VocDlyNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_VOC_RATE): number.number_schema(
                 BQ25798VocRateNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TREG): number.number_schema(
                 BQ25798TregNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TSHUT): number.number_schema(
                 BQ25798TshutNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): number.number_schema(
                 BQ25798BkupAcfet1OnNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_JEITA_VSET): number.number_schema(
                 BQ25798JeitaVsetNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_JEITA_ISETH): number.number_schema(
                 BQ25798JeitaIsethNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_JEITA_ISETC): number.number_schema(
                 BQ25798JeitaIsetcNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TS_COOL): number.number_schema(
                 BQ25798TsCoolNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_TS_WARM): number.number_schema(
                 BQ25798TsWarmNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_BHOT): number.number_schema(
                 BQ25798BhotNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_BCOLD): number.number_schema(
                 BQ25798BcoldNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_ADC_RATE): number.number_schema(
                 BQ25798AdcRateNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_ADC_SAMPLE): number.number_schema(
                 BQ25798AdcSampleNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_ADC_AVG): number.number_schema(
                 BQ25798AdcAvgNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_DPLUS_DAC): number.number_schema(
                 BQ25798DplusDacNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_DMINUS_DAC): number.number_schema(
                 BQ25798DminusDacNumber,
-#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
                 unit_of_measurement="",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
     })
-    .extend(cv.polling_component_schema("10s")) # FIXME?
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):

@@ -49,7 +49,7 @@ CONFIG_SCHEMA = (
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): sensor.sensor_schema(
 {%         if def.unit == "mV" %}
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
 {%         elif def.unit == "mA" %}
@@ -70,7 +70,7 @@ CONFIG_SCHEMA = (
 {% endfor %}
         }
     )
-    .extend(cv.polling_component_schema("60s"))  # FIXME?
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):

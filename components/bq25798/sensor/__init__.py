@@ -436,13 +436,13 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
             cv.Optional(CONF_BQ25798_VSYSMIN): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VREG): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
@@ -454,7 +454,7 @@ CONFIG_SCHEMA = (
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VINDPM): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
@@ -487,13 +487,13 @@ CONFIG_SCHEMA = (
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VRECHG): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOTG): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
@@ -670,31 +670,31 @@ CONFIG_SCHEMA = (
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VAC1_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VAC2_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBAT_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VSYS_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
@@ -711,13 +711,13 @@ CONFIG_SCHEMA = (
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DPLUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_DMINUS_ADC): sensor.sensor_schema(
-                unit_of_measurement="mV",   # FIXME
+                unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
@@ -736,7 +736,7 @@ CONFIG_SCHEMA = (
             ),
         }
     )
-    .extend(cv.polling_component_schema("60s"))  # FIXME?
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):

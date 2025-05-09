@@ -519,7 +519,7 @@ CONFIG_SCHEMA = (
             
         }
     )
-    .extend(cv.polling_component_schema("60s")) # FIXME?
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):
