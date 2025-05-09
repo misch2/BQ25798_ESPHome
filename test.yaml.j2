@@ -1,0 +1,92 @@
+esphome:
+  name: test
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+external_components:
+  - source: https://github.com/misch2/BQ25798_ESPHome
+    components: [bq25798]
+
+logger:
+  level: DEBUG
+
+i2c:
+  - id: bus_a
+    sda: 20
+    scl: 21
+    scan: true
+
+bq25798:
+  id: bq25798_component_1
+  i2c_id: bus_a
+  adc_en: true
+  adc_rate: ADC_RATE_CONTINUOUS
+  adc_sample: ADC_SAMPLE_15BIT
+  vsysmin: 5000 # FIXME test only
+
+sensor:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Sensors"
+{% for def in settings %}
+{# rw doesn't need to be here because the number components take care of that #}
+{%     if ( def.type == "int" or def.type == "float" ) and def.mode == "ro" %}
+    {{ def.name | lower }}:
+      name: "{{ def.name }} ({{ def.description }})"
+{%     endif %}
+{% endfor %}
+ 
+binary_sensor:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Binary Sensors"
+{% for def in settings %}
+{# rw doesn't need to be here because the switches take care of that #}
+{%     if def.type == "bool" and def.mode == "ro" %}
+    {{ def.name | lower }}:
+      name: "{{ def.name }} ({{ def.description }})"
+{%     endif %}
+{% endfor %}
+
+text_sensor:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Text Sensors"
+{% for def in settings %}
+{%     if def.type == "enum" %}
+    {{ def.name | lower }}:
+      name: "{{ def.name }} ({{ def.description }})"
+{%     endif %}
+{% endfor %}
+
+switch:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Switches"
+{% for def in settings %}
+{%     if def.type == "bool" and def.mode == "rw" %}
+    {{ def.name | lower }}:
+      name: "{{ def.name }} ({{ def.description }})"
+{%     endif %}
+{% endfor %}
+
+number:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Numbers"
+{% for def in settings %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
+    {{ def.name | lower }}:
+      name: "{{ def.name }} ({{ def.description }})"
+{%     endif %}
+{% endfor %}
+
+button:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Buttons"
+    clear_flags:
+      name: "Clear Flags"
