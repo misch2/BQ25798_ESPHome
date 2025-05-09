@@ -1,6 +1,6 @@
 #pragma once
 
-#include "esphome/components/switch/switch.h"
+#include "esphome/components/number/number.h"
 #include "esphome/core/component.h"
 #include "esphome/core/helpers.h"
 
@@ -10,15 +10,15 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
 
 // {{ def.name }} - {{ def.description }}
-class {{ className }} : public switch_::Switch,
+class {{ className }} : public number::Number,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
  public:
@@ -28,7 +28,7 @@ class {{ className }} : public switch_::Switch,
   float get_setup_priority() const override;
 
  protected:
-  void write_state(bool state) override;
+  void control (float new_value) override;
 };
 
 {%     endif %}

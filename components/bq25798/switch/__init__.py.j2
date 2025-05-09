@@ -51,8 +51,7 @@ CONFIG_SCHEMA = (
 )
 
 async def to_code(config):
-    var = cg.new_Pvariable(config[CONF_ID])
-    main_component = await cg.get_variable(config[CONF_BQ25798_ID])
+    main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
     # Switches
 {% for def in settings %}
@@ -60,7 +59,7 @@ async def to_code(config):
     if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
         sw = await switch.new_switch({{ def.name | lower }}_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
-        #FIXME cg.add(sw.assign_switch(sw))
+
 {%     endif %}
 
 {% endfor %}

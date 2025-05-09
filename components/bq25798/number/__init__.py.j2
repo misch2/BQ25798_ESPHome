@@ -1,0 +1,73 @@
+import esphome.codegen as cg
+import esphome.config_validation as cv
+from esphome.components import number
+from esphome.const import (
+    CONF_ID,
+    ENTITY_CATEGORY_CONFIG,
+)
+
+from .. import (
+    CONF_BQ25798_ID,
+    bq25798_ns,
+    BQ25798Component
+)
+
+DEPENDENCIES = ["bq25798"]
+
+
+# Numeric settings
+{% for def in settings %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+
+{{ className }} = bq25798_ns.class_("{{ className }}", number.Number, cg.PollingComponent)
+CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+{%     endif %}
+{% endfor %}
+
+CONFIG_SCHEMA = (
+    number.number_schema(BQ25798Component)
+    .extend({
+            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
+
+{% for def in settings %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): number.number_schema(
+                {{ className }},
+#FIXME                default_restore_mode="DISABLED",    # read the current state from the device
+                unit_of_measurement="{{ def.unit }}",
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+{%     endif %}
+{% endfor %}
+    })
+    .extend(cv.polling_component_schema("10s")) # FIXME?
+)
+
+async def to_code(config):
+    main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
+
+    # Numberes
+{% for def in settings %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
+    if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+        num = await number.new_number(
+            {{ def.name | lower }}_config,
+            min_value={{ def.range_low }},
+            max_value={{ def.range_high }},
+            step={{ def.bit_step_size }},
+        )
+        await cg.register_parented(num, config[CONF_BQ25798_ID])
+
+{%     endif %}
+
+{% endfor %}

@@ -1,0 +1,42 @@
+#include "bq25798_number.h"
+
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.number";
+
+{% for def in settings %}
+{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+
+// {{ def.name }} - {{ def.description }}
+float {{ className }}::get_setup_priority() const { return setup_priority::DATA; }
+
+void {{ className }}::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping {{ className }} configuration...");
+  LOG_NUMBER("  ", "{{ def.name }}", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void {{ className }}::update() {
+  this->publish_state(this->parent_->get_{{ def.name | lower }}(true));
+}
+
+void {{ className }}::control(float new_value) {
+  this->parent_->set_{{ def.name | lower }}(new_value, true);
+  this->publish_state(state);
+}
+
+
+
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome
