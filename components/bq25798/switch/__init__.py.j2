@@ -28,8 +28,10 @@ CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
 {%     endif %}
 {% endfor %}
 
-CONFIG_SCHEMA = {
-            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),            
+CONFIG_SCHEMA = (
+    switch.switch_schema(BQ25798Component)
+    .extend({
+            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
 {%     if def.type == "bool" and def.mode == "rw" %}
@@ -40,13 +42,16 @@ CONFIG_SCHEMA = {
 {% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): switch.switch_schema(
                 {{ className }},
+                default_restore_mode="DISABLED",    # read the current state from the device
             ),
 {%     endif %}
 {% endfor %}
-}
-    #.extend(cv.polling_component_schema("60s")) # FIXME?    
+    })
+    .extend(cv.polling_component_schema("10s")) # FIXME?
+)
 
 async def to_code(config):
+    var = cg.new_Pvariable(config[CONF_ID])
     main_component = await cg.get_variable(config[CONF_BQ25798_ID])
 
     # Switches
@@ -55,6 +60,7 @@ async def to_code(config):
     if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
         sw = await switch.new_switch({{ def.name | lower }}_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        #FIXME cg.add(sw.assign_switch(sw))
 {%     endif %}
 
 {% endfor %}

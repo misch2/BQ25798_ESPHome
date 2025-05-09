@@ -22,8 +22,8 @@ class BQ25798RegRstSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -39,8 +39,8 @@ class BQ25798StopWdChgSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -56,8 +56,8 @@ class BQ25798EnTrichgTmrSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -73,8 +73,8 @@ class BQ25798EnPrechgTmrSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -90,8 +90,8 @@ class BQ25798EnChgTmrSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -107,8 +107,8 @@ class BQ25798Tmr2xEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -124,8 +124,8 @@ class BQ25798EnAutoIbatdisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -141,8 +141,8 @@ class BQ25798ForceIbatdisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -158,8 +158,8 @@ class BQ25798EnChgSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -175,8 +175,8 @@ class BQ25798EnIcoSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -192,8 +192,8 @@ class BQ25798ForceIcoSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -209,8 +209,8 @@ class BQ25798EnHizSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -226,8 +226,8 @@ class BQ25798EnTermSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -243,8 +243,8 @@ class BQ25798EnBackupSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -260,8 +260,8 @@ class BQ25798WdRstSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -277,8 +277,8 @@ class BQ25798ForceIndetSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -294,8 +294,8 @@ class BQ25798AutoIndetEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -311,8 +311,8 @@ class BQ25798En12vSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -328,8 +328,8 @@ class BQ25798En9vSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -345,8 +345,8 @@ class BQ25798HvdcpEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -362,8 +362,8 @@ class BQ25798DisAcdrvSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -379,8 +379,8 @@ class BQ25798EnOtgSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -396,8 +396,8 @@ class BQ25798PfmOtgDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -413,8 +413,8 @@ class BQ25798PfmFwdDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -430,8 +430,8 @@ class BQ25798DisLdoSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -447,8 +447,8 @@ class BQ25798DisOtgOoaSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -464,8 +464,8 @@ class BQ25798DisFwdOoaSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -481,8 +481,8 @@ class BQ25798EnAcdrv2Switch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -498,8 +498,8 @@ class BQ25798EnAcdrv1Switch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -515,8 +515,8 @@ class BQ25798DisStatSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -532,8 +532,8 @@ class BQ25798DisVsysShortSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -549,8 +549,8 @@ class BQ25798DisVotgUvpSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -566,8 +566,8 @@ class BQ25798ForceVindpmDetSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -583,8 +583,8 @@ class BQ25798EnIbusOcpSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -600,8 +600,8 @@ class BQ25798SfetPresentSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -617,8 +617,8 @@ class BQ25798EnIbatSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -634,8 +634,8 @@ class BQ25798EnIindpmSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -651,8 +651,8 @@ class BQ25798EnExtilimSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -668,8 +668,8 @@ class BQ25798EnBatocSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -685,8 +685,8 @@ class BQ25798EnMpptSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -702,8 +702,8 @@ class BQ25798VbusPdEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -719,8 +719,8 @@ class BQ25798Vac1PdEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -736,8 +736,8 @@ class BQ25798Vac2PdEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -753,8 +753,8 @@ class BQ25798TsIgnoreSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -770,8 +770,8 @@ class BQ25798AdcEnSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -787,8 +787,8 @@ class BQ25798AdcAvgInitSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -804,8 +804,8 @@ class BQ25798IbusAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -821,8 +821,8 @@ class BQ25798IbatAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -838,8 +838,8 @@ class BQ25798VbusAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -855,8 +855,8 @@ class BQ25798VbatAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -872,8 +872,8 @@ class BQ25798VsysAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -889,8 +889,8 @@ class BQ25798TsAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -906,8 +906,8 @@ class BQ25798TdieAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -923,8 +923,8 @@ class BQ25798DplusAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -940,8 +940,8 @@ class BQ25798DminusAdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -957,8 +957,8 @@ class BQ25798Vac2AdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 
@@ -974,8 +974,8 @@ class BQ25798Vac1AdcDisSwitch : public switch_::Switch,
 
  protected:
   void write_state(bool state) override;
-  void assign_switch(switch_::Switch *sensor);
-  switch_::Switch *switch_ {nullptr};
+//  void assign_switch(switch_::Switch *sensor);
+//  switch_::Switch *switch_ {nullptr};
 };
 
 

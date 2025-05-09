@@ -20,30 +20,19 @@ float {{ className }}::get_setup_priority() const { return setup_priority::DATA;
 
 void {{ className }}::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping {{ className }} configuration...");
-
-  if (this->switch_ != nullptr) {
-    LOG_SWITCH("  ", "{{ def.name }}", this->switch_);
-  }
-
+  LOG_SWITCH("  ", "{{ def.name }}", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void {{ className }}::update() {
-  if (this->switch_ != nullptr) {
-    this->switch_->publish_state(this->parent_->get_{{ def.name | lower }}(true));
-  }
+  this->publish_state(this->parent_->get_{{ def.name | lower }}(true));
 }
 
 void {{ className }}::write_state(bool state) {
-  if (this->switch_ != nullptr) {
-    this->parent_->set_{{ def.name | lower }}(state, true);
-    this->switch_->publish_state(state);
-  }
+  this->parent_->set_{{ def.name | lower }}(state, true);
+  this->publish_state(state);
 }
 
-void {{ className }}::assign_switch(switch_::Switch *sensor) {
-  this->switch_ = sensor;
-}
 
 
 {%     endif %}
