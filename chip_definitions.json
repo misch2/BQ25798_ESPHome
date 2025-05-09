@@ -383,9 +383,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "15%(VREG)",
                 "62.2%(VREG)",
@@ -425,9 +425,9 @@
             "bits": 1,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -439,9 +439,9 @@
             "bits": 1,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -469,9 +469,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "1S",
                 "2S",
@@ -496,9 +496,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "64 ms",
                 "256 ms",
@@ -554,9 +554,9 @@
             "bits": 1,
             "shift": 7,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "2 hours",
                 "30 minutes"
@@ -592,9 +592,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Disabled",
                 "15 minutes",
@@ -618,9 +618,9 @@
             "bits": 1,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -632,9 +632,9 @@
             "bits": 1,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -646,9 +646,9 @@
             "bits": 1,
             "shift": 3,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -660,9 +660,9 @@
             "bits": 2,
             "shift": 1,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "5 hours",
                 "8 hours",
@@ -688,7 +688,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -702,7 +702,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -716,7 +716,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -730,7 +730,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -744,7 +744,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -758,7 +758,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -772,7 +772,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -786,7 +786,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -800,7 +800,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -812,9 +812,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "<40%(VINDPM)",
                 "<60%(VINDPM)",
@@ -838,9 +838,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 ">26V",
                 ">22V",
@@ -866,7 +866,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -878,9 +878,9 @@
             "bits": 3,
             "shift": 0,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 7,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Disabled",
                 "0.5s",
@@ -914,7 +914,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -928,7 +928,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -942,7 +942,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -956,7 +956,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -970,7 +970,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -982,9 +982,9 @@
             "bits": 2,
             "shift": 1,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Idle",
                 "Shutdown",
@@ -1008,9 +1008,9 @@
             "bits": 1,
             "shift": 0,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "10s",
                 "0s"
@@ -1032,7 +1032,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1046,7 +1046,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1060,7 +1060,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1074,7 +1074,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1086,9 +1086,9 @@
             "bits": 1,
             "shift": 3,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "1s",
                 "15ms"
@@ -1110,7 +1110,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1124,7 +1124,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1138,7 +1138,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1152,7 +1152,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1166,7 +1166,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1178,9 +1178,9 @@
             "bits": 1,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "1.5 MHz",
                 "750 kHz"
@@ -1202,7 +1202,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1216,7 +1216,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1230,7 +1230,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1244,7 +1244,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1258,7 +1258,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1272,7 +1272,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1286,7 +1286,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1298,9 +1298,9 @@
             "bits": 2,
             "shift": 3,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "3A",
                 "4A",
@@ -1326,7 +1326,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1340,7 +1340,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1354,7 +1354,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1365,9 +1365,9 @@
             "bits": 3,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 7,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "0.5625",
                 "0.625",
@@ -1398,9 +1398,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "50ms",
                 "300ms",
@@ -1423,9 +1423,9 @@
             "bits": 2,
             "shift": 2,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "30s",
                 "2min",
@@ -1450,7 +1450,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1461,9 +1461,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "60'C",
                 "80'C",
@@ -1486,9 +1486,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "150'C",
                 "130'C",
@@ -1513,7 +1513,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1526,7 +1526,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1539,7 +1539,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1550,9 +1550,9 @@
             "bits": 1,
             "shift": 0,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Idle",
                 "Turn on ACFET1 in backup mode"
@@ -1571,9 +1571,9 @@
             "bits": 3,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 7,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Charge Suspend",
                 "Set VREG to VREG-800mV",
@@ -1604,9 +1604,9 @@
             "bits": 2,
             "shift": 3,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Charge Suspend",
                 "Set ICHG to 20%* ICHG",
@@ -1629,9 +1629,9 @@
             "bits": 2,
             "shift": 1,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Charge Suspend",
                 "Set ICHG to 20%* ICHG (default)",
@@ -1654,9 +1654,9 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "5'C",
                 "10'C (default)",
@@ -1679,9 +1679,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "40'C",
                 "45'C (default)",
@@ -1704,9 +1704,9 @@
             "bits": 2,
             "shift": 2,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "55'C",
                 "60'C (default)",
@@ -1729,9 +1729,9 @@
             "bits": 1,
             "shift": 1,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "-10'C (default)",
                 "-20'C"
@@ -1752,7 +1752,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -1779,7 +1779,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "In IINDPM regulation or IOTG regulation"
@@ -1800,7 +1800,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "In VINDPM regulation or VOTG regulation"
@@ -1821,7 +1821,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "Watchdog timer expired"
@@ -1842,7 +1842,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Not in power good status",
                 "Power good"
@@ -1863,7 +1863,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "VAC2 NOT present",
                 "VAC2 present (above present threshold)"
@@ -1884,7 +1884,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "VAC1 NOT present",
                 "VAC1 present (above present threshold)"
@@ -1905,7 +1905,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "VBUS NOT present",
                 "VBUS present (above present threshold)"
@@ -1928,7 +1928,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Not Charging",
                 "Trickle Charge",
@@ -1963,7 +1963,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "No Input or BHOT or BCOLD in OTG mode",
                 "USB SDP (500mA)",
@@ -2012,7 +2012,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2025,7 +2025,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "ICO disabled",
                 "ICO optimization in progress",
@@ -2050,7 +2050,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "Device in thermal regulation"
@@ -2071,7 +2071,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "D+/D- detection NOT started yet or done",
                 "D+/D- detection in progress"
@@ -2092,7 +2092,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "VBAT NOT present",
                 "VBAT present"
@@ -2115,7 +2115,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2130,7 +2130,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2145,7 +2145,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2160,7 +2160,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Not in VSYSMIN regulation (VBAT > VSYSMIN)",
                 "In VSYSMIN regulation (VBAT < VSYSMIN)"
@@ -2183,7 +2183,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "Safety timer expired"
@@ -2206,7 +2206,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "Safety timer expired"
@@ -2229,7 +2229,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Normal",
                 "Safety timer expired"
@@ -2252,7 +2252,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "VBAT is too low to enable OTG mode",
                 "VBAT is high enough to enable OTG operation"
@@ -2275,7 +2275,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "TS NOT in cold range",
                 "TS in cold range"
@@ -2298,7 +2298,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "TS NOT in cool range",
                 "TS in cool range"
@@ -2321,7 +2321,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "TS NOT in warm range",
                 "TS in warm range"
@@ -2344,7 +2344,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "TS NOT in hot range",
                 "TS in hot range"
@@ -2367,7 +2367,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2382,7 +2382,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2397,7 +2397,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2412,7 +2412,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2427,7 +2427,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2442,7 +2442,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2457,7 +2457,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2472,7 +2472,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2485,7 +2485,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2498,7 +2498,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2511,7 +2511,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2524,7 +2524,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2537,7 +2537,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2553,7 +2553,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2569,7 +2569,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2585,7 +2585,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2601,7 +2601,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2617,7 +2617,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2633,7 +2633,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2649,7 +2649,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2665,7 +2665,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2681,7 +2681,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2697,7 +2697,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2713,7 +2713,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2728,7 +2728,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2743,7 +2743,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2758,7 +2758,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2773,7 +2773,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2788,7 +2788,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2803,7 +2803,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2818,7 +2818,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2833,7 +2833,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2848,7 +2848,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2863,7 +2863,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2878,7 +2878,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2893,7 +2893,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2908,7 +2908,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2923,7 +2923,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2938,7 +2938,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2953,7 +2953,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2968,7 +2968,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2983,7 +2983,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -2998,7 +2998,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3013,7 +3013,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3028,7 +3028,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3043,7 +3043,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3058,7 +3058,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3073,7 +3073,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3088,7 +3088,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3103,7 +3103,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3118,7 +3118,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3133,7 +3133,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "ro"
         },
         {
@@ -3146,7 +3146,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3157,9 +3157,9 @@
             "bits": 1,
             "shift": 6,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "Continuous",
                 "One-shot"
@@ -3178,9 +3178,9 @@
             "bits": 2,
             "shift": 4,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 3,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "15-bit",
                 "14-bit",
@@ -3203,9 +3203,9 @@
             "bits": 1,
             "shift": 3,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 1,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "No averaging",
                 "Running average"
@@ -3226,7 +3226,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3239,7 +3239,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3252,7 +3252,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3265,7 +3265,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3278,7 +3278,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3291,7 +3291,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3304,7 +3304,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3317,7 +3317,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3330,7 +3330,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3343,7 +3343,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3356,7 +3356,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3369,7 +3369,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "mode": "rw"
         },
         {
@@ -3545,9 +3545,9 @@
             "bits": 3,
             "shift": 5,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 7,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "HIZ",
                 "0V",
@@ -3580,9 +3580,9 @@
             "bits": 3,
             "shift": 2,
             "range_low": 0,
-            "range_high": 0,
+            "range_high": 7,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "HIZ",
                 "0V",
@@ -3615,7 +3615,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "?",
                 "?",
@@ -3648,7 +3648,7 @@
             "range_low": 0,
             "range_high": 0,
             "fixed_offset": 0,
-            "bit_step_size": 0,
+            "bit_step_size": 1,
             "enum_strings": [
                 "?",
                 "BQ25798",

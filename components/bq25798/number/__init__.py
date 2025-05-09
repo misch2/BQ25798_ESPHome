@@ -425,8 +425,8 @@ async def to_code(config):
         num = await number.new_number(
             vbat_lowv_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -460,8 +460,8 @@ async def to_code(config):
         num = await number.new_number(
             cell_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -471,8 +471,8 @@ async def to_code(config):
         num = await number.new_number(
             trechg_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -504,8 +504,8 @@ async def to_code(config):
         num = await number.new_number(
             prechg_tmr_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -526,8 +526,8 @@ async def to_code(config):
         num = await number.new_number(
             topoff_tmr_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -540,8 +540,8 @@ async def to_code(config):
         num = await number.new_number(
             chg_tmr_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -560,8 +560,8 @@ async def to_code(config):
         num = await number.new_number(
             vbus_backup_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -571,8 +571,8 @@ async def to_code(config):
         num = await number.new_number(
             vac_ovp_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -583,8 +583,8 @@ async def to_code(config):
         num = await number.new_number(
             watchdog_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=7,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -599,8 +599,8 @@ async def to_code(config):
         num = await number.new_number(
             sdrv_ctrl_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -610,8 +610,8 @@ async def to_code(config):
         num = await number.new_number(
             sdrv_dly_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -625,8 +625,8 @@ async def to_code(config):
         num = await number.new_number(
             wkup_dly_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -641,8 +641,8 @@ async def to_code(config):
         num = await number.new_number(
             pwm_freq_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -659,8 +659,8 @@ async def to_code(config):
         num = await number.new_number(
             ibat_reg_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -673,8 +673,8 @@ async def to_code(config):
         num = await number.new_number(
             voc_pct_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=7,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -684,8 +684,8 @@ async def to_code(config):
         num = await number.new_number(
             voc_dly_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -695,8 +695,8 @@ async def to_code(config):
         num = await number.new_number(
             voc_rate_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -707,8 +707,8 @@ async def to_code(config):
         num = await number.new_number(
             treg_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -718,8 +718,8 @@ async def to_code(config):
         num = await number.new_number(
             tshut_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -732,8 +732,8 @@ async def to_code(config):
         num = await number.new_number(
             bkup_acfet1_on_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -743,8 +743,8 @@ async def to_code(config):
         num = await number.new_number(
             jeita_vset_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=7,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -754,8 +754,8 @@ async def to_code(config):
         num = await number.new_number(
             jeita_iseth_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -765,8 +765,8 @@ async def to_code(config):
         num = await number.new_number(
             jeita_isetc_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -776,8 +776,8 @@ async def to_code(config):
         num = await number.new_number(
             ts_cool_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -787,8 +787,8 @@ async def to_code(config):
         num = await number.new_number(
             ts_warm_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -798,8 +798,8 @@ async def to_code(config):
         num = await number.new_number(
             bhot_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -809,8 +809,8 @@ async def to_code(config):
         num = await number.new_number(
             bcold_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -901,8 +901,8 @@ async def to_code(config):
         num = await number.new_number(
             adc_rate_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -912,8 +912,8 @@ async def to_code(config):
         num = await number.new_number(
             adc_sample_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=3,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -923,8 +923,8 @@ async def to_code(config):
         num = await number.new_number(
             adc_avg_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=1,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -957,8 +957,8 @@ async def to_code(config):
         num = await number.new_number(
             dplus_dac_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=7,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
@@ -968,8 +968,8 @@ async def to_code(config):
         num = await number.new_number(
             dminus_dac_config,
             min_value=0,
-            max_value=0,
-            step=0,
+            max_value=7,
+            step=1,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
