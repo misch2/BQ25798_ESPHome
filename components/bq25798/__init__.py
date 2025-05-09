@@ -642,16 +642,9 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("15s"))  # Polling interval for watchdog only
+    .extend(cv.polling_component_schema("15s"))  # This polling interval is used for watchdog only
     .extend(i2c.i2c_device_schema(0x6B))
 )
-
-# FIXME delete
-# BQ25798_CLIENT_SCHEMA = cv.Schema(
-#     {
-#         cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
-#     }
-# )
 
 async def to_code(config):
     cg.add_library(

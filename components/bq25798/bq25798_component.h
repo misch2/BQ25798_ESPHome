@@ -598,120 +598,198 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   // IINDPM_FLAG - In IINDPM / IOTG regulation
   bool get_iindpm_flag(bool read_from_i2c);
+  void clear_flag_iindpm_flag() { this->last_value_iindpm_flag_ = false; }
+  void raise_flag_iindpm_flag() { this->last_value_iindpm_flag_ = true; }
 
   // VINDPM_FLAG - In VINDPM / VOTG regulation
   bool get_vindpm_flag(bool read_from_i2c);
+  void clear_flag_vindpm_flag() { this->last_value_vindpm_flag_ = false; }
+  void raise_flag_vindpm_flag() { this->last_value_vindpm_flag_ = true; }
 
   // WD_FLAG - Watchdog timer expired
   bool get_wd_flag(bool read_from_i2c);
+  void clear_flag_wd_flag() { this->last_value_wd_flag_ = false; }
+  void raise_flag_wd_flag() { this->last_value_wd_flag_ = true; }
 
   // POORSRC_FLAG - Poor source detected
   bool get_poorsrc_flag(bool read_from_i2c);
+  void clear_flag_poorsrc_flag() { this->last_value_poorsrc_flag_ = false; }
+  void raise_flag_poorsrc_flag() { this->last_value_poorsrc_flag_ = true; }
 
   // PG_FLAG - Power status changed
   bool get_pg_flag(bool read_from_i2c);
+  void clear_flag_pg_flag() { this->last_value_pg_flag_ = false; }
+  void raise_flag_pg_flag() { this->last_value_pg_flag_ = true; }
 
   // AC2_PRESENT_FLAG - AC2 present status changed
   bool get_ac2_present_flag(bool read_from_i2c);
+  void clear_flag_ac2_present_flag() { this->last_value_ac2_present_flag_ = false; }
+  void raise_flag_ac2_present_flag() { this->last_value_ac2_present_flag_ = true; }
 
   // AC1_PRESENT_FLAG - AC1 present status changed
   bool get_ac1_present_flag(bool read_from_i2c);
+  void clear_flag_ac1_present_flag() { this->last_value_ac1_present_flag_ = false; }
+  void raise_flag_ac1_present_flag() { this->last_value_ac1_present_flag_ = true; }
 
   // VBUS_PRESENT_FLAG - VBUS present status changed
   bool get_vbus_present_flag(bool read_from_i2c);
+  void clear_flag_vbus_present_flag() { this->last_value_vbus_present_flag_ = false; }
+  void raise_flag_vbus_present_flag() { this->last_value_vbus_present_flag_ = true; }
 
   // CHG_FLAG - Charging status changed
   bool get_chg_flag(bool read_from_i2c);
+  void clear_flag_chg_flag() { this->last_value_chg_flag_ = false; }
+  void raise_flag_chg_flag() { this->last_value_chg_flag_ = true; }
 
   // ICO_FLAG - ICO status changed
   bool get_ico_flag(bool read_from_i2c);
+  void clear_flag_ico_flag() { this->last_value_ico_flag_ = false; }
+  void raise_flag_ico_flag() { this->last_value_ico_flag_ = true; }
 
   // VBUS_FLAG - VBUS status changed
   bool get_vbus_flag(bool read_from_i2c);
+  void clear_flag_vbus_flag() { this->last_value_vbus_flag_ = false; }
+  void raise_flag_vbus_flag() { this->last_value_vbus_flag_ = true; }
 
   // TREG_FLAG - 
   bool get_treg_flag(bool read_from_i2c);
+  void clear_flag_treg_flag() { this->last_value_treg_flag_ = false; }
+  void raise_flag_treg_flag() { this->last_value_treg_flag_ = true; }
 
   // VBAT_PRESENT_FLAG - 
   bool get_vbat_present_flag(bool read_from_i2c);
+  void clear_flag_vbat_present_flag() { this->last_value_vbat_present_flag_ = false; }
+  void raise_flag_vbat_present_flag() { this->last_value_vbat_present_flag_ = true; }
 
   // BC1_2_DONE_FLAG - 
   bool get_bc1_2_done_flag(bool read_from_i2c);
+  void clear_flag_bc1_2_done_flag() { this->last_value_bc1_2_done_flag_ = false; }
+  void raise_flag_bc1_2_done_flag() { this->last_value_bc1_2_done_flag_ = true; }
 
   // DPDM_DONE_FLAG - 
   bool get_dpdm_done_flag(bool read_from_i2c);
+  void clear_flag_dpdm_done_flag() { this->last_value_dpdm_done_flag_ = false; }
+  void raise_flag_dpdm_done_flag() { this->last_value_dpdm_done_flag_ = true; }
 
   // ADC_DONE_FLAG - 
   bool get_adc_done_flag(bool read_from_i2c);
+  void clear_flag_adc_done_flag() { this->last_value_adc_done_flag_ = false; }
+  void raise_flag_adc_done_flag() { this->last_value_adc_done_flag_ = true; }
 
   // VSYS_FLAG - 
   bool get_vsys_flag(bool read_from_i2c);
+  void clear_flag_vsys_flag() { this->last_value_vsys_flag_ = false; }
+  void raise_flag_vsys_flag() { this->last_value_vsys_flag_ = true; }
 
   // CHG_TMR_FLAG - 
   bool get_chg_tmr_flag(bool read_from_i2c);
+  void clear_flag_chg_tmr_flag() { this->last_value_chg_tmr_flag_ = false; }
+  void raise_flag_chg_tmr_flag() { this->last_value_chg_tmr_flag_ = true; }
 
   // TRICHG_TMR_FLAG - 
   bool get_trichg_tmr_flag(bool read_from_i2c);
+  void clear_flag_trichg_tmr_flag() { this->last_value_trichg_tmr_flag_ = false; }
+  void raise_flag_trichg_tmr_flag() { this->last_value_trichg_tmr_flag_ = true; }
 
   // PRECHG_TMR_FLAG - 
   bool get_prechg_tmr_flag(bool read_from_i2c);
+  void clear_flag_prechg_tmr_flag() { this->last_value_prechg_tmr_flag_ = false; }
+  void raise_flag_prechg_tmr_flag() { this->last_value_prechg_tmr_flag_ = true; }
 
   // TOPOFF_TMR_FLAG - 
   bool get_topoff_tmr_flag(bool read_from_i2c);
+  void clear_flag_topoff_tmr_flag() { this->last_value_topoff_tmr_flag_ = false; }
+  void raise_flag_topoff_tmr_flag() { this->last_value_topoff_tmr_flag_ = true; }
 
   // VBATOTG_LOW_FLAG - 
   bool get_vbatotg_low_flag(bool read_from_i2c);
+  void clear_flag_vbatotg_low_flag() { this->last_value_vbatotg_low_flag_ = false; }
+  void raise_flag_vbatotg_low_flag() { this->last_value_vbatotg_low_flag_ = true; }
 
   // TS_COLD_FLAG - 
   bool get_ts_cold_flag(bool read_from_i2c);
+  void clear_flag_ts_cold_flag() { this->last_value_ts_cold_flag_ = false; }
+  void raise_flag_ts_cold_flag() { this->last_value_ts_cold_flag_ = true; }
 
   // TS_COOL_FLAG - 
   bool get_ts_cool_flag(bool read_from_i2c);
+  void clear_flag_ts_cool_flag() { this->last_value_ts_cool_flag_ = false; }
+  void raise_flag_ts_cool_flag() { this->last_value_ts_cool_flag_ = true; }
 
   // TS_WARM_FLAG - 
   bool get_ts_warm_flag(bool read_from_i2c);
+  void clear_flag_ts_warm_flag() { this->last_value_ts_warm_flag_ = false; }
+  void raise_flag_ts_warm_flag() { this->last_value_ts_warm_flag_ = true; }
 
   // TS_HOT_FLAG - 
   bool get_ts_hot_flag(bool read_from_i2c);
+  void clear_flag_ts_hot_flag() { this->last_value_ts_hot_flag_ = false; }
+  void raise_flag_ts_hot_flag() { this->last_value_ts_hot_flag_ = true; }
 
   // IBAT_REG_FLAG - 
   bool get_ibat_reg_flag(bool read_from_i2c);
+  void clear_flag_ibat_reg_flag() { this->last_value_ibat_reg_flag_ = false; }
+  void raise_flag_ibat_reg_flag() { this->last_value_ibat_reg_flag_ = true; }
 
   // VBUS_OVP_FLAG - 
   bool get_vbus_ovp_flag(bool read_from_i2c);
+  void clear_flag_vbus_ovp_flag() { this->last_value_vbus_ovp_flag_ = false; }
+  void raise_flag_vbus_ovp_flag() { this->last_value_vbus_ovp_flag_ = true; }
 
   // VBAT_OVP_FLAG - 
   bool get_vbat_ovp_flag(bool read_from_i2c);
+  void clear_flag_vbat_ovp_flag() { this->last_value_vbat_ovp_flag_ = false; }
+  void raise_flag_vbat_ovp_flag() { this->last_value_vbat_ovp_flag_ = true; }
 
   // IBUS_OCP_FLAG - 
   bool get_ibus_ocp_flag(bool read_from_i2c);
+  void clear_flag_ibus_ocp_flag() { this->last_value_ibus_ocp_flag_ = false; }
+  void raise_flag_ibus_ocp_flag() { this->last_value_ibus_ocp_flag_ = true; }
 
   // IBAT_OCP_FLAG - 
   bool get_ibat_ocp_flag(bool read_from_i2c);
+  void clear_flag_ibat_ocp_flag() { this->last_value_ibat_ocp_flag_ = false; }
+  void raise_flag_ibat_ocp_flag() { this->last_value_ibat_ocp_flag_ = true; }
 
   // CONV_OCP_FLAG - 
   bool get_conv_ocp_flag(bool read_from_i2c);
+  void clear_flag_conv_ocp_flag() { this->last_value_conv_ocp_flag_ = false; }
+  void raise_flag_conv_ocp_flag() { this->last_value_conv_ocp_flag_ = true; }
 
   // VAC2_OVP_FLAG - 
   bool get_vac2_ovp_flag(bool read_from_i2c);
+  void clear_flag_vac2_ovp_flag() { this->last_value_vac2_ovp_flag_ = false; }
+  void raise_flag_vac2_ovp_flag() { this->last_value_vac2_ovp_flag_ = true; }
 
   // VAC1_OVP_FLAG - 
   bool get_vac1_ovp_flag(bool read_from_i2c);
+  void clear_flag_vac1_ovp_flag() { this->last_value_vac1_ovp_flag_ = false; }
+  void raise_flag_vac1_ovp_flag() { this->last_value_vac1_ovp_flag_ = true; }
 
   // VSYS_SHORT_FLAG - 
   bool get_vsys_short_flag(bool read_from_i2c);
+  void clear_flag_vsys_short_flag() { this->last_value_vsys_short_flag_ = false; }
+  void raise_flag_vsys_short_flag() { this->last_value_vsys_short_flag_ = true; }
 
   // VSYS_OVP_FLAG - 
   bool get_vsys_ovp_flag(bool read_from_i2c);
+  void clear_flag_vsys_ovp_flag() { this->last_value_vsys_ovp_flag_ = false; }
+  void raise_flag_vsys_ovp_flag() { this->last_value_vsys_ovp_flag_ = true; }
 
   // OTG_OVP_FLAG - 
   bool get_otg_ovp_flag(bool read_from_i2c);
+  void clear_flag_otg_ovp_flag() { this->last_value_otg_ovp_flag_ = false; }
+  void raise_flag_otg_ovp_flag() { this->last_value_otg_ovp_flag_ = true; }
 
   // OTG_UVP_FLAG - 
   bool get_otg_uvp_flag(bool read_from_i2c);
+  void clear_flag_otg_uvp_flag() { this->last_value_otg_uvp_flag_ = false; }
+  void raise_flag_otg_uvp_flag() { this->last_value_otg_uvp_flag_ = true; }
 
   // TSHUT_FLAG - 
   bool get_tshut_flag(bool read_from_i2c);
+  void clear_flag_tshut_flag() { this->last_value_tshut_flag_ = false; }
+  void raise_flag_tshut_flag() { this->last_value_tshut_flag_ = true; }
 
   // ADC_EN - 
   void on_init_set_adc_en(bool value);

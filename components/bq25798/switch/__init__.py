@@ -438,11 +438,13 @@ async def to_code(config):
     if reg_rst_config := config.get(CONF_BQ25798_REG_RST):
         sw = await switch.new_switch(reg_rst_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if stop_wd_chg_config := config.get(CONF_BQ25798_STOP_WD_CHG):
         sw = await switch.new_switch(stop_wd_chg_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -456,62 +458,74 @@ async def to_code(config):
     if en_trichg_tmr_config := config.get(CONF_BQ25798_EN_TRICHG_TMR):
         sw = await switch.new_switch(en_trichg_tmr_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_prechg_tmr_config := config.get(CONF_BQ25798_EN_PRECHG_TMR):
         sw = await switch.new_switch(en_prechg_tmr_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_chg_tmr_config := config.get(CONF_BQ25798_EN_CHG_TMR):
         sw = await switch.new_switch(en_chg_tmr_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
     if tmr2x_en_config := config.get(CONF_BQ25798_TMR2X_EN):
         sw = await switch.new_switch(tmr2x_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_auto_ibatdis_config := config.get(CONF_BQ25798_EN_AUTO_IBATDIS):
         sw = await switch.new_switch(en_auto_ibatdis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if force_ibatdis_config := config.get(CONF_BQ25798_FORCE_IBATDIS):
         sw = await switch.new_switch(force_ibatdis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_chg_config := config.get(CONF_BQ25798_EN_CHG):
         sw = await switch.new_switch(en_chg_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_ico_config := config.get(CONF_BQ25798_EN_ICO):
         sw = await switch.new_switch(en_ico_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if force_ico_config := config.get(CONF_BQ25798_FORCE_ICO):
         sw = await switch.new_switch(force_ico_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_hiz_config := config.get(CONF_BQ25798_EN_HIZ):
         sw = await switch.new_switch(en_hiz_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_term_config := config.get(CONF_BQ25798_EN_TERM):
         sw = await switch.new_switch(en_term_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_backup_config := config.get(CONF_BQ25798_EN_BACKUP):
         sw = await switch.new_switch(en_backup_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -519,32 +533,38 @@ async def to_code(config):
     if wd_rst_config := config.get(CONF_BQ25798_WD_RST):
         sw = await switch.new_switch(wd_rst_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
     if force_indet_config := config.get(CONF_BQ25798_FORCE_INDET):
         sw = await switch.new_switch(force_indet_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if auto_indet_en_config := config.get(CONF_BQ25798_AUTO_INDET_EN):
         sw = await switch.new_switch(auto_indet_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_12v_config := config.get(CONF_BQ25798_EN_12V):
         sw = await switch.new_switch(en_12v_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_9v_config := config.get(CONF_BQ25798_EN_9V):
         sw = await switch.new_switch(en_9v_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if hvdcp_en_config := config.get(CONF_BQ25798_HVDCP_EN):
         sw = await switch.new_switch(hvdcp_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -552,99 +572,118 @@ async def to_code(config):
     if dis_acdrv_config := config.get(CONF_BQ25798_DIS_ACDRV):
         sw = await switch.new_switch(dis_acdrv_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_otg_config := config.get(CONF_BQ25798_EN_OTG):
         sw = await switch.new_switch(en_otg_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if pfm_otg_dis_config := config.get(CONF_BQ25798_PFM_OTG_DIS):
         sw = await switch.new_switch(pfm_otg_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if pfm_fwd_dis_config := config.get(CONF_BQ25798_PFM_FWD_DIS):
         sw = await switch.new_switch(pfm_fwd_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
     if dis_ldo_config := config.get(CONF_BQ25798_DIS_LDO):
         sw = await switch.new_switch(dis_ldo_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_otg_ooa_config := config.get(CONF_BQ25798_DIS_OTG_OOA):
         sw = await switch.new_switch(dis_otg_ooa_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_fwd_ooa_config := config.get(CONF_BQ25798_DIS_FWD_OOA):
         sw = await switch.new_switch(dis_fwd_ooa_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_acdrv2_config := config.get(CONF_BQ25798_EN_ACDRV2):
         sw = await switch.new_switch(en_acdrv2_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_acdrv1_config := config.get(CONF_BQ25798_EN_ACDRV1):
         sw = await switch.new_switch(en_acdrv1_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
     if dis_stat_config := config.get(CONF_BQ25798_DIS_STAT):
         sw = await switch.new_switch(dis_stat_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_vsys_short_config := config.get(CONF_BQ25798_DIS_VSYS_SHORT):
         sw = await switch.new_switch(dis_vsys_short_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_votg_uvp_config := config.get(CONF_BQ25798_DIS_VOTG_UVP):
         sw = await switch.new_switch(dis_votg_uvp_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if force_vindpm_det_config := config.get(CONF_BQ25798_FORCE_VINDPM_DET):
         sw = await switch.new_switch(force_vindpm_det_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_ibus_ocp_config := config.get(CONF_BQ25798_EN_IBUS_OCP):
         sw = await switch.new_switch(en_ibus_ocp_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if sfet_present_config := config.get(CONF_BQ25798_SFET_PRESENT):
         sw = await switch.new_switch(sfet_present_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_ibat_config := config.get(CONF_BQ25798_EN_IBAT):
         sw = await switch.new_switch(en_ibat_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
     if en_iindpm_config := config.get(CONF_BQ25798_EN_IINDPM):
         sw = await switch.new_switch(en_iindpm_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_extilim_config := config.get(CONF_BQ25798_EN_EXTILIM):
         sw = await switch.new_switch(en_extilim_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if en_batoc_config := config.get(CONF_BQ25798_EN_BATOC):
         sw = await switch.new_switch(en_batoc_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -653,6 +692,7 @@ async def to_code(config):
     if en_mppt_config := config.get(CONF_BQ25798_EN_MPPT):
         sw = await switch.new_switch(en_mppt_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -660,16 +700,19 @@ async def to_code(config):
     if vbus_pd_en_config := config.get(CONF_BQ25798_VBUS_PD_EN):
         sw = await switch.new_switch(vbus_pd_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vac1_pd_en_config := config.get(CONF_BQ25798_VAC1_PD_EN):
         sw = await switch.new_switch(vac1_pd_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vac2_pd_en_config := config.get(CONF_BQ25798_VAC2_PD_EN):
         sw = await switch.new_switch(vac2_pd_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -683,6 +726,7 @@ async def to_code(config):
     if ts_ignore_config := config.get(CONF_BQ25798_TS_IGNORE):
         sw = await switch.new_switch(ts_ignore_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -767,6 +811,7 @@ async def to_code(config):
     if adc_en_config := config.get(CONF_BQ25798_ADC_EN):
         sw = await switch.new_switch(adc_en_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -775,61 +820,73 @@ async def to_code(config):
     if adc_avg_init_config := config.get(CONF_BQ25798_ADC_AVG_INIT):
         sw = await switch.new_switch(adc_avg_init_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if ibus_adc_dis_config := config.get(CONF_BQ25798_IBUS_ADC_DIS):
         sw = await switch.new_switch(ibus_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if ibat_adc_dis_config := config.get(CONF_BQ25798_IBAT_ADC_DIS):
         sw = await switch.new_switch(ibat_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vbus_adc_dis_config := config.get(CONF_BQ25798_VBUS_ADC_DIS):
         sw = await switch.new_switch(vbus_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vbat_adc_dis_config := config.get(CONF_BQ25798_VBAT_ADC_DIS):
         sw = await switch.new_switch(vbat_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vsys_adc_dis_config := config.get(CONF_BQ25798_VSYS_ADC_DIS):
         sw = await switch.new_switch(vsys_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if ts_adc_dis_config := config.get(CONF_BQ25798_TS_ADC_DIS):
         sw = await switch.new_switch(ts_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if tdie_adc_dis_config := config.get(CONF_BQ25798_TDIE_ADC_DIS):
         sw = await switch.new_switch(tdie_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dplus_adc_dis_config := config.get(CONF_BQ25798_DPLUS_ADC_DIS):
         sw = await switch.new_switch(dplus_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dminus_adc_dis_config := config.get(CONF_BQ25798_DMINUS_ADC_DIS):
         sw = await switch.new_switch(dminus_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vac2_adc_dis_config := config.get(CONF_BQ25798_VAC2_ADC_DIS):
         sw = await switch.new_switch(vac2_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if vac1_adc_dis_config := config.get(CONF_BQ25798_VAC1_ADC_DIS):
         sw = await switch.new_switch(vac1_adc_dis_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 

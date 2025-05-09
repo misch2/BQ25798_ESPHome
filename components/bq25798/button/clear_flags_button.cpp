@@ -9,8 +9,8 @@ static const char* const TAG = "bq25798.button";
 
 // Clears the internal (cached) flags.
 // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them keep them raised
-void ClearFlagsButton::press_action() {
-    ESP_LOGW(TAG, "ClearFlagsButton pressed. Executing action...");    this->parent_->clear_flag_iindpm_flag();
+void BQ25798ClearFlagsButton::press_action() {
+    ESP_LOGI(TAG, "ClearFlagsButton pressed. Executing action...");    this->parent_->clear_flag_iindpm_flag();
     this->parent_->clear_flag_vindpm_flag();
     this->parent_->clear_flag_wd_flag();
     this->parent_->clear_flag_poorsrc_flag();

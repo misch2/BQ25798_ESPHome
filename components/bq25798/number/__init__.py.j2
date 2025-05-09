@@ -56,7 +56,7 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Numberes
+    # Numbers
 {% for def in settings %}
 {%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
     if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
@@ -67,6 +67,7 @@ async def to_code(config):
             step={{ def.bit_step_size }},
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 {%     endif %}
 

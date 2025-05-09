@@ -9,7 +9,7 @@
 namespace esphome {
 namespace bq25798 {
 
-class ClearFlagsButton : public button::Button,
+class BQ25798ClearFlagsButton : public button::Button,
                          public Component,
                          public Parented<BQ25798Component> {
  public:

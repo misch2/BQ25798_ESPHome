@@ -25,10 +25,12 @@ void {{ className }}::dump_config() {
 }
 
 void {{ className }}::update() {
+  ESP_LOGD(TAG, "Updating {{ className }}..."); // FIXME
   this->publish_state(this->parent_->get_{{ def.name | lower }}(true));
 }
 
 void {{ className }}::control(float new_value) {
+  ESP_LOGD(TAG, "Controlling {{ className }}...");  // FIXME
   this->parent_->set_{{ def.name | lower }}(new_value, true);
   this->publish_state(state);
 }

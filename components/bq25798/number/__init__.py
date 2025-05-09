@@ -407,7 +407,7 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Numberes
+    # Numbers
     if vsysmin_config := config.get(CONF_BQ25798_VSYSMIN):
         num = await number.new_number(
             vsysmin_config,
@@ -416,6 +416,7 @@ async def to_code(config):
             step=250,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if vreg_config := config.get(CONF_BQ25798_VREG):
@@ -426,6 +427,7 @@ async def to_code(config):
             step=10,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if ichg_config := config.get(CONF_BQ25798_ICHG):
@@ -436,6 +438,7 @@ async def to_code(config):
             step=10,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if vindpm_config := config.get(CONF_BQ25798_VINDPM):
@@ -446,6 +449,7 @@ async def to_code(config):
             step=100,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if iindpm_config := config.get(CONF_BQ25798_IINDPM):
@@ -456,6 +460,7 @@ async def to_code(config):
             step=10,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if vbat_lowv_config := config.get(CONF_BQ25798_VBAT_LOWV):
@@ -466,6 +471,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if iprechg_config := config.get(CONF_BQ25798_IPRECHG):
@@ -476,6 +482,7 @@ async def to_code(config):
             step=40,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -488,6 +495,7 @@ async def to_code(config):
             step=40,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if cell_config := config.get(CONF_BQ25798_CELL):
@@ -498,6 +506,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if trechg_config := config.get(CONF_BQ25798_TRECHG):
@@ -508,6 +517,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if vrechg_config := config.get(CONF_BQ25798_VRECHG):
@@ -518,6 +528,7 @@ async def to_code(config):
             step=50,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if votg_config := config.get(CONF_BQ25798_VOTG):
@@ -528,6 +539,7 @@ async def to_code(config):
             step=10,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if prechg_tmr_config := config.get(CONF_BQ25798_PRECHG_TMR):
@@ -538,6 +550,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if iotg_config := config.get(CONF_BQ25798_IOTG):
@@ -548,6 +561,7 @@ async def to_code(config):
             step=40,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if topoff_tmr_config := config.get(CONF_BQ25798_TOPOFF_TMR):
@@ -558,6 +572,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -571,6 +586,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -590,6 +606,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if vac_ovp_config := config.get(CONF_BQ25798_VAC_OVP):
@@ -600,6 +617,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -611,6 +629,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -626,6 +645,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if sdrv_dly_config := config.get(CONF_BQ25798_SDRV_DLY):
@@ -636,6 +656,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -650,6 +671,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -665,6 +687,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -682,6 +705,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -695,6 +719,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if voc_dly_config := config.get(CONF_BQ25798_VOC_DLY):
@@ -705,6 +730,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if voc_rate_config := config.get(CONF_BQ25798_VOC_RATE):
@@ -715,6 +741,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -726,6 +753,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if tshut_config := config.get(CONF_BQ25798_TSHUT):
@@ -736,6 +764,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -749,6 +778,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if jeita_vset_config := config.get(CONF_BQ25798_JEITA_VSET):
@@ -759,6 +789,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if jeita_iseth_config := config.get(CONF_BQ25798_JEITA_ISETH):
@@ -769,6 +800,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if jeita_isetc_config := config.get(CONF_BQ25798_JEITA_ISETC):
@@ -779,6 +811,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if ts_cool_config := config.get(CONF_BQ25798_TS_COOL):
@@ -789,6 +822,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if ts_warm_config := config.get(CONF_BQ25798_TS_WARM):
@@ -799,6 +833,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if bhot_config := config.get(CONF_BQ25798_BHOT):
@@ -809,6 +844,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if bcold_config := config.get(CONF_BQ25798_BCOLD):
@@ -819,6 +855,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -910,6 +947,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if adc_sample_config := config.get(CONF_BQ25798_ADC_SAMPLE):
@@ -920,6 +958,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if adc_avg_config := config.get(CONF_BQ25798_ADC_AVG):
@@ -930,6 +969,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 
@@ -963,6 +1003,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
     if dminus_dac_config := config.get(CONF_BQ25798_DMINUS_DAC):
@@ -973,6 +1014,7 @@ async def to_code(config):
             step=0,
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
+        await cg.register_component(num, config)
 
 
 

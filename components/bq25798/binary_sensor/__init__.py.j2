@@ -46,21 +46,20 @@ CONFIG_SCHEMA = (
 {%     if def.type == "bool" %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(
 {%         if def.ha_device_class != "" %}
-#FIXME                device_class="{{ def.ha_device_class }}",
+#FIXME TODO               device_class="{{ def.ha_device_class }}",
 {%         endif %}
             ),
 {%     endif %}
 {% endfor %}
         }
     )
-    .extend(cv.polling_component_schema("60s")) # FIXME?    
+    .extend(cv.polling_component_schema("5s"))
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_parented(var, config[CONF_BQ25798_ID])
     await cg.register_component(var, config)
-    #FIXME await binary_sensor.register_binary_sensor(var, config)
 
     # Sensors
 {% for def in settings %}
