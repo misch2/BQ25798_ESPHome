@@ -850,489 +850,488 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   const char* get_dev_rev_string(bool read_from_i2c);
 
 protected:
-  int last_value_vsysmin = 0;
+  int last_value_vsysmin_ = 0;
   bool on_init_set_vsysmin_ = false;
 
-  int last_value_vreg = 0;
+  int last_value_vreg_ = 0;
   bool on_init_set_vreg_ = false;
 
-  int last_value_ichg = 0;
+  int last_value_ichg_ = 0;
   bool on_init_set_ichg_ = false;
 
-  int last_value_vindpm = 0;
+  int last_value_vindpm_ = 0;
   bool on_init_set_vindpm_ = false;
 
-  int last_value_iindpm = 0;
+  int last_value_iindpm_ = 0;
   bool on_init_set_iindpm_ = false;
 
-  int last_value_vbat_lowv = 0;
+  int last_value_vbat_lowv_ = 0;
   bool on_init_set_vbat_lowv_ = false;
 
-  int last_value_iprechg = 0;
+  int last_value_iprechg_ = 0;
   bool on_init_set_iprechg_ = false;
 
-  bool last_value_reg_rst = false;
+  bool last_value_reg_rst_ = false;
   bool on_init_set_reg_rst_ = false;
 
-  bool last_value_stop_wd_chg = false;
+  bool last_value_stop_wd_chg_ = false;
   bool on_init_set_stop_wd_chg_ = false;
 
-  int last_value_iterm = 0;
+  int last_value_iterm_ = 0;
   bool on_init_set_iterm_ = false;
 
-  int last_value_cell = 0;
+  int last_value_cell_ = 0;
   bool on_init_set_cell_ = false;
 
-  int last_value_trechg = 0;
+  int last_value_trechg_ = 0;
   bool on_init_set_trechg_ = false;
 
-  int last_value_vrechg = 0;
+  int last_value_vrechg_ = 0;
   bool on_init_set_vrechg_ = false;
 
-  int last_value_votg = 0;
+  int last_value_votg_ = 0;
   bool on_init_set_votg_ = false;
 
-  int last_value_prechg_tmr = 0;
+  int last_value_prechg_tmr_ = 0;
   bool on_init_set_prechg_tmr_ = false;
 
-  int last_value_iotg = 0;
+  int last_value_iotg_ = 0;
   bool on_init_set_iotg_ = false;
 
-  int last_value_topoff_tmr = 0;
+  int last_value_topoff_tmr_ = 0;
   bool on_init_set_topoff_tmr_ = false;
 
-  bool last_value_en_trichg_tmr = false;
+  bool last_value_en_trichg_tmr_ = false;
   bool on_init_set_en_trichg_tmr_ = false;
 
-  bool last_value_en_prechg_tmr = false;
+  bool last_value_en_prechg_tmr_ = false;
   bool on_init_set_en_prechg_tmr_ = false;
 
-  bool last_value_en_chg_tmr = false;
+  bool last_value_en_chg_tmr_ = false;
   bool on_init_set_en_chg_tmr_ = false;
 
-  int last_value_chg_tmr = 0;
+  int last_value_chg_tmr_ = 0;
   bool on_init_set_chg_tmr_ = false;
 
-  bool last_value_tmr2x_en = false;
+  bool last_value_tmr2x_en_ = false;
   bool on_init_set_tmr2x_en_ = false;
 
-  bool last_value_en_auto_ibatdis = false;
+  bool last_value_en_auto_ibatdis_ = false;
   bool on_init_set_en_auto_ibatdis_ = false;
 
-  bool last_value_force_ibatdis = false;
+  bool last_value_force_ibatdis_ = false;
   bool on_init_set_force_ibatdis_ = false;
 
-  bool last_value_en_chg = false;
+  bool last_value_en_chg_ = false;
   bool on_init_set_en_chg_ = false;
 
-  bool last_value_en_ico = false;
+  bool last_value_en_ico_ = false;
   bool on_init_set_en_ico_ = false;
 
-  bool last_value_force_ico = false;
+  bool last_value_force_ico_ = false;
   bool on_init_set_force_ico_ = false;
 
-  bool last_value_en_hiz = false;
+  bool last_value_en_hiz_ = false;
   bool on_init_set_en_hiz_ = false;
 
-  bool last_value_en_term = false;
+  bool last_value_en_term_ = false;
   bool on_init_set_en_term_ = false;
 
-  bool last_value_en_backup = false;
+  bool last_value_en_backup_ = false;
   bool on_init_set_en_backup_ = false;
 
-  int last_value_vbus_backup = 0;
+  int last_value_vbus_backup_ = 0;
   bool on_init_set_vbus_backup_ = false;
 
-  int last_value_vac_ovp = 0;
+  int last_value_vac_ovp_ = 0;
   bool on_init_set_vac_ovp_ = false;
 
-  bool last_value_wd_rst = false;
+  bool last_value_wd_rst_ = false;
   bool on_init_set_wd_rst_ = false;
 
-  int last_value_watchdog = 0;
+  int last_value_watchdog_ = 0;
   bool on_init_set_watchdog_ = false;
 
-  bool last_value_force_indet = false;
+  bool last_value_force_indet_ = false;
   bool on_init_set_force_indet_ = false;
 
-  bool last_value_auto_indet_en = false;
+  bool last_value_auto_indet_en_ = false;
   bool on_init_set_auto_indet_en_ = false;
 
-  bool last_value_en_12v = false;
+  bool last_value_en_12v_ = false;
   bool on_init_set_en_12v_ = false;
 
-  bool last_value_en_9v = false;
+  bool last_value_en_9v_ = false;
   bool on_init_set_en_9v_ = false;
 
-  bool last_value_hvdcp_en = false;
+  bool last_value_hvdcp_en_ = false;
   bool on_init_set_hvdcp_en_ = false;
 
-  int last_value_sdrv_ctrl = 0;
+  int last_value_sdrv_ctrl_ = 0;
   bool on_init_set_sdrv_ctrl_ = false;
 
-  int last_value_sdrv_dly = 0;
+  int last_value_sdrv_dly_ = 0;
   bool on_init_set_sdrv_dly_ = false;
 
-  bool last_value_dis_acdrv = false;
+  bool last_value_dis_acdrv_ = false;
   bool on_init_set_dis_acdrv_ = false;
 
-  bool last_value_en_otg = false;
+  bool last_value_en_otg_ = false;
   bool on_init_set_en_otg_ = false;
 
-  bool last_value_pfm_otg_dis = false;
+  bool last_value_pfm_otg_dis_ = false;
   bool on_init_set_pfm_otg_dis_ = false;
 
-  bool last_value_pfm_fwd_dis = false;
+  bool last_value_pfm_fwd_dis_ = false;
   bool on_init_set_pfm_fwd_dis_ = false;
 
-  int last_value_wkup_dly = 0;
+  int last_value_wkup_dly_ = 0;
   bool on_init_set_wkup_dly_ = false;
 
-  bool last_value_dis_ldo = false;
+  bool last_value_dis_ldo_ = false;
   bool on_init_set_dis_ldo_ = false;
 
-  bool last_value_dis_otg_ooa = false;
+  bool last_value_dis_otg_ooa_ = false;
   bool on_init_set_dis_otg_ooa_ = false;
 
-  bool last_value_dis_fwd_ooa = false;
+  bool last_value_dis_fwd_ooa_ = false;
   bool on_init_set_dis_fwd_ooa_ = false;
 
-  bool last_value_en_acdrv2 = false;
+  bool last_value_en_acdrv2_ = false;
   bool on_init_set_en_acdrv2_ = false;
 
-  bool last_value_en_acdrv1 = false;
+  bool last_value_en_acdrv1_ = false;
   bool on_init_set_en_acdrv1_ = false;
 
-  int last_value_pwm_freq = 0;
+  int last_value_pwm_freq_ = 0;
   bool on_init_set_pwm_freq_ = false;
 
-  bool last_value_dis_stat = false;
+  bool last_value_dis_stat_ = false;
   bool on_init_set_dis_stat_ = false;
 
-  bool last_value_dis_vsys_short = false;
+  bool last_value_dis_vsys_short_ = false;
   bool on_init_set_dis_vsys_short_ = false;
 
-  bool last_value_dis_votg_uvp = false;
+  bool last_value_dis_votg_uvp_ = false;
   bool on_init_set_dis_votg_uvp_ = false;
 
-  bool last_value_force_vindpm_det = false;
+  bool last_value_force_vindpm_det_ = false;
   bool on_init_set_force_vindpm_det_ = false;
 
-  bool last_value_en_ibus_ocp = false;
+  bool last_value_en_ibus_ocp_ = false;
   bool on_init_set_en_ibus_ocp_ = false;
 
-  bool last_value_sfet_present = false;
+  bool last_value_sfet_present_ = false;
   bool on_init_set_sfet_present_ = false;
 
-  bool last_value_en_ibat = false;
+  bool last_value_en_ibat_ = false;
   bool on_init_set_en_ibat_ = false;
 
-  int last_value_ibat_reg = 0;
+  int last_value_ibat_reg_ = 0;
   bool on_init_set_ibat_reg_ = false;
 
-  bool last_value_en_iindpm = false;
+  bool last_value_en_iindpm_ = false;
   bool on_init_set_en_iindpm_ = false;
 
-  bool last_value_en_extilim = false;
+  bool last_value_en_extilim_ = false;
   bool on_init_set_en_extilim_ = false;
 
-  bool last_value_en_batoc = false;
+  bool last_value_en_batoc_ = false;
   bool on_init_set_en_batoc_ = false;
 
-  int last_value_voc_pct = 0;
+  int last_value_voc_pct_ = 0;
   bool on_init_set_voc_pct_ = false;
 
-  int last_value_voc_dly = 0;
+  int last_value_voc_dly_ = 0;
   bool on_init_set_voc_dly_ = false;
 
-  int last_value_voc_rate = 0;
+  int last_value_voc_rate_ = 0;
   bool on_init_set_voc_rate_ = false;
 
-  bool last_value_en_mppt = false;
+  bool last_value_en_mppt_ = false;
   bool on_init_set_en_mppt_ = false;
 
-  int last_value_treg = 0;
+  int last_value_treg_ = 0;
   bool on_init_set_treg_ = false;
 
-  int last_value_tshut = 0;
+  int last_value_tshut_ = 0;
   bool on_init_set_tshut_ = false;
 
-  bool last_value_vbus_pd_en = false;
+  bool last_value_vbus_pd_en_ = false;
   bool on_init_set_vbus_pd_en_ = false;
 
-  bool last_value_vac1_pd_en = false;
+  bool last_value_vac1_pd_en_ = false;
   bool on_init_set_vac1_pd_en_ = false;
 
-  bool last_value_vac2_pd_en = false;
+  bool last_value_vac2_pd_en_ = false;
   bool on_init_set_vac2_pd_en_ = false;
 
-  int last_value_bkup_acfet1_on = 0;
+  int last_value_bkup_acfet1_on_ = 0;
   bool on_init_set_bkup_acfet1_on_ = false;
 
-  int last_value_jeita_vset = 0;
+  int last_value_jeita_vset_ = 0;
   bool on_init_set_jeita_vset_ = false;
 
-  int last_value_jeita_iseth = 0;
+  int last_value_jeita_iseth_ = 0;
   bool on_init_set_jeita_iseth_ = false;
 
-  int last_value_jeita_isetc = 0;
+  int last_value_jeita_isetc_ = 0;
   bool on_init_set_jeita_isetc_ = false;
 
-  int last_value_ts_cool = 0;
+  int last_value_ts_cool_ = 0;
   bool on_init_set_ts_cool_ = false;
 
-  int last_value_ts_warm = 0;
+  int last_value_ts_warm_ = 0;
   bool on_init_set_ts_warm_ = false;
 
-  int last_value_bhot = 0;
+  int last_value_bhot_ = 0;
   bool on_init_set_bhot_ = false;
 
-  int last_value_bcold = 0;
+  int last_value_bcold_ = 0;
   bool on_init_set_bcold_ = false;
 
-  bool last_value_ts_ignore = false;
+  bool last_value_ts_ignore_ = false;
   bool on_init_set_ts_ignore_ = false;
 
-  int last_value_ico_ilim = 0;
+  int last_value_ico_ilim_ = 0;
 
-  int last_value_iindpm_stat = 0;
+  int last_value_iindpm_stat_ = 0;
 
-  int last_value_vindpm_stat = 0;
+  int last_value_vindpm_stat_ = 0;
 
-  int last_value_wd_stat = 0;
+  int last_value_wd_stat_ = 0;
 
-  int last_value_pg_stat = 0;
+  int last_value_pg_stat_ = 0;
 
-  int last_value_ac2_present_stat = 0;
+  int last_value_ac2_present_stat_ = 0;
 
-  int last_value_ac1_present_stat = 0;
+  int last_value_ac1_present_stat_ = 0;
 
-  int last_value_vbus_present_stat = 0;
+  int last_value_vbus_present_stat_ = 0;
 
-  int last_value_chg_stat = 0;
+  int last_value_chg_stat_ = 0;
 
-  int last_value_vbus_stat = 0;
+  int last_value_vbus_stat_ = 0;
 
-  bool last_value_bc12_done_stat = false;
+  bool last_value_bc12_done_stat_ = false;
 
-  int last_value_ico_stat = 0;
+  int last_value_ico_stat_ = 0;
 
-  int last_value_treg_stat = 0;
+  int last_value_treg_stat_ = 0;
 
-  int last_value_dpdm_stat = 0;
+  int last_value_dpdm_stat_ = 0;
 
-  int last_value_vbat_present_stat = 0;
+  int last_value_vbat_present_stat_ = 0;
 
-  bool last_value_acrb2_stat = false;
+  bool last_value_acrb2_stat_ = false;
 
-  bool last_value_acrb1_stat = false;
+  bool last_value_acrb1_stat_ = false;
 
-  bool last_value_adc_done_stat = false;
+  bool last_value_adc_done_stat_ = false;
 
-  int last_value_vsys_stat = 0;
+  int last_value_vsys_stat_ = 0;
 
-  int last_value_chg_tmr_stat = 0;
+  int last_value_chg_tmr_stat_ = 0;
 
-  int last_value_trichg_tmr_stat = 0;
+  int last_value_trichg_tmr_stat_ = 0;
 
-  int last_value_prechg_tmr_stat = 0;
+  int last_value_prechg_tmr_stat_ = 0;
 
-  int last_value_vbatotg_low_stat = 0;
+  int last_value_vbatotg_low_stat_ = 0;
 
-  int last_value_ts_cold_stat = 0;
+  int last_value_ts_cold_stat_ = 0;
 
-  int last_value_ts_cool_stat = 0;
+  int last_value_ts_cool_stat_ = 0;
 
-  int last_value_ts_warm_stat = 0;
+  int last_value_ts_warm_stat_ = 0;
 
-  int last_value_ts_hot_stat = 0;
+  int last_value_ts_hot_stat_ = 0;
 
-  bool last_value_ibat_reg_stat = false;
+  bool last_value_ibat_reg_stat_ = false;
 
-  bool last_value_vbus_ovp_stat = false;
+  bool last_value_vbus_ovp_stat_ = false;
 
-  bool last_value_vbat_ovp_stat = false;
+  bool last_value_vbat_ovp_stat_ = false;
 
-  bool last_value_ibus_ocp_stat = false;
+  bool last_value_ibus_ocp_stat_ = false;
 
-  bool last_value_ibat_ocp_stat = false;
+  bool last_value_ibat_ocp_stat_ = false;
 
-  bool last_value_conv_ocp_stat = false;
+  bool last_value_conv_ocp_stat_ = false;
 
-  bool last_value_vac2_ovp_stat = false;
+  bool last_value_vac2_ovp_stat_ = false;
 
-  bool last_value_vac1_ovp_stat = false;
+  bool last_value_vac1_ovp_stat_ = false;
 
-  bool last_value_vsys_short_stat = false;
+  bool last_value_vsys_short_stat_ = false;
 
-  bool last_value_vsys_ovp_stat = false;
+  bool last_value_vsys_ovp_stat_ = false;
 
-  bool last_value_otg_ovp_stat = false;
+  bool last_value_otg_ovp_stat_ = false;
 
-  bool last_value_otg_uvp_stat = false;
+  bool last_value_otg_uvp_stat_ = false;
 
-  bool last_value_tshut_stat = false;
+  bool last_value_tshut_stat_ = false;
 
-  bool last_value_iindpm_flag = false;
+  bool last_value_iindpm_flag_ = false;
 
-  bool last_value_vindpm_flag = false;
+  bool last_value_vindpm_flag_ = false;
 
-  bool last_value_wd_flag = false;
+  bool last_value_wd_flag_ = false;
 
-  bool last_value_poorsrc_flag = false;
+  bool last_value_poorsrc_flag_ = false;
 
-  bool last_value_pg_flag = false;
+  bool last_value_pg_flag_ = false;
 
-  bool last_value_ac2_present_flag = false;
+  bool last_value_ac2_present_flag_ = false;
 
-  bool last_value_ac1_present_flag = false;
+  bool last_value_ac1_present_flag_ = false;
 
-  bool last_value_vbus_present_flag = false;
+  bool last_value_vbus_present_flag_ = false;
 
-  bool last_value_chg_flag = false;
+  bool last_value_chg_flag_ = false;
 
-  bool last_value_ico_flag = false;
+  bool last_value_ico_flag_ = false;
 
-  bool last_value_vbus_flag = false;
+  bool last_value_vbus_flag_ = false;
 
-  bool last_value_treg_flag = false;
+  bool last_value_treg_flag_ = false;
 
-  bool last_value_vbat_present_flag = false;
+  bool last_value_vbat_present_flag_ = false;
 
-  bool last_value_bc1_2_done_flag = false;
+  bool last_value_bc1_2_done_flag_ = false;
 
-  bool last_value_dpdm_done_flag = false;
+  bool last_value_dpdm_done_flag_ = false;
 
-  bool last_value_adc_done_flag = false;
+  bool last_value_adc_done_flag_ = false;
 
-  bool last_value_vsys_flag = false;
+  bool last_value_vsys_flag_ = false;
 
-  bool last_value_chg_tmr_flag = false;
+  bool last_value_chg_tmr_flag_ = false;
 
-  bool last_value_trichg_tmr_flag = false;
+  bool last_value_trichg_tmr_flag_ = false;
 
-  bool last_value_prechg_tmr_flag = false;
+  bool last_value_prechg_tmr_flag_ = false;
 
-  bool last_value_topoff_tmr_flag = false;
+  bool last_value_topoff_tmr_flag_ = false;
 
-  bool last_value_vbatotg_low_flag = false;
+  bool last_value_vbatotg_low_flag_ = false;
 
-  bool last_value_ts_cold_flag = false;
+  bool last_value_ts_cold_flag_ = false;
 
-  bool last_value_ts_cool_flag = false;
+  bool last_value_ts_cool_flag_ = false;
 
-  bool last_value_ts_warm_flag = false;
+  bool last_value_ts_warm_flag_ = false;
 
-  bool last_value_ts_hot_flag = false;
+  bool last_value_ts_hot_flag_ = false;
 
-  bool last_value_ibat_reg_flag = false;
+  bool last_value_ibat_reg_flag_ = false;
 
-  bool last_value_vbus_ovp_flag = false;
+  bool last_value_vbus_ovp_flag_ = false;
 
-  bool last_value_vbat_ovp_flag = false;
+  bool last_value_vbat_ovp_flag_ = false;
 
-  bool last_value_ibus_ocp_flag = false;
+  bool last_value_ibus_ocp_flag_ = false;
 
-  bool last_value_ibat_ocp_flag = false;
+  bool last_value_ibat_ocp_flag_ = false;
 
-  bool last_value_conv_ocp_flag = false;
+  bool last_value_conv_ocp_flag_ = false;
 
-  bool last_value_vac2_ovp_flag = false;
+  bool last_value_vac2_ovp_flag_ = false;
 
-  bool last_value_vac1_ovp_flag = false;
+  bool last_value_vac1_ovp_flag_ = false;
 
-  bool last_value_vsys_short_flag = false;
+  bool last_value_vsys_short_flag_ = false;
 
-  bool last_value_vsys_ovp_flag = false;
+  bool last_value_vsys_ovp_flag_ = false;
 
-  bool last_value_otg_ovp_flag = false;
+  bool last_value_otg_ovp_flag_ = false;
 
-  bool last_value_otg_uvp_flag = false;
+  bool last_value_otg_uvp_flag_ = false;
 
-  bool last_value_tshut_flag = false;
+  bool last_value_tshut_flag_ = false;
 
-  bool last_value_adc_en = false;
+  bool last_value_adc_en_ = false;
   bool on_init_set_adc_en_ = false;
 
-  int last_value_adc_rate = 0;
+  int last_value_adc_rate_ = 0;
   bool on_init_set_adc_rate_ = false;
 
-  int last_value_adc_sample = 0;
+  int last_value_adc_sample_ = 0;
   bool on_init_set_adc_sample_ = false;
 
-  int last_value_adc_avg = 0;
+  int last_value_adc_avg_ = 0;
   bool on_init_set_adc_avg_ = false;
 
-  bool last_value_adc_avg_init = false;
+  bool last_value_adc_avg_init_ = false;
   bool on_init_set_adc_avg_init_ = false;
 
-  bool last_value_ibus_adc_dis = false;
+  bool last_value_ibus_adc_dis_ = false;
   bool on_init_set_ibus_adc_dis_ = false;
 
-  bool last_value_ibat_adc_dis = false;
+  bool last_value_ibat_adc_dis_ = false;
   bool on_init_set_ibat_adc_dis_ = false;
 
-  bool last_value_vbus_adc_dis = false;
+  bool last_value_vbus_adc_dis_ = false;
   bool on_init_set_vbus_adc_dis_ = false;
 
-  bool last_value_vbat_adc_dis = false;
+  bool last_value_vbat_adc_dis_ = false;
   bool on_init_set_vbat_adc_dis_ = false;
 
-  bool last_value_vsys_adc_dis = false;
+  bool last_value_vsys_adc_dis_ = false;
   bool on_init_set_vsys_adc_dis_ = false;
 
-  bool last_value_ts_adc_dis = false;
+  bool last_value_ts_adc_dis_ = false;
   bool on_init_set_ts_adc_dis_ = false;
 
-  bool last_value_tdie_adc_dis = false;
+  bool last_value_tdie_adc_dis_ = false;
   bool on_init_set_tdie_adc_dis_ = false;
 
-  bool last_value_dplus_adc_dis = false;
+  bool last_value_dplus_adc_dis_ = false;
   bool on_init_set_dplus_adc_dis_ = false;
 
-  bool last_value_dminus_adc_dis = false;
+  bool last_value_dminus_adc_dis_ = false;
   bool on_init_set_dminus_adc_dis_ = false;
 
-  bool last_value_vac2_adc_dis = false;
+  bool last_value_vac2_adc_dis_ = false;
   bool on_init_set_vac2_adc_dis_ = false;
 
-  bool last_value_vac1_adc_dis = false;
+  bool last_value_vac1_adc_dis_ = false;
   bool on_init_set_vac1_adc_dis_ = false;
 
-  int last_value_ibus_adc = 0;
+  int last_value_ibus_adc_ = 0;
 
-  int last_value_ibat_adc = 0;
+  int last_value_ibat_adc_ = 0;
 
-  int last_value_vbus_adc = 0;
+  int last_value_vbus_adc_ = 0;
 
-  int last_value_vac1_adc = 0;
+  int last_value_vac1_adc_ = 0;
 
-  int last_value_vac2_adc = 0;
+  int last_value_vac2_adc_ = 0;
 
-  int last_value_vbat_adc = 0;
+  int last_value_vbat_adc_ = 0;
 
-  int last_value_vsys_adc = 0;
+  int last_value_vsys_adc_ = 0;
 
-  float last_value_ts_adc = 0.0f;
+  float last_value_ts_adc_ = 0.0f;
 
-  float last_value_tdie_adc = 0.0f;
+  float last_value_tdie_adc_ = 0.0f;
 
-  int last_value_dplus_adc = 0;
+  int last_value_dplus_adc_ = 0;
 
-  int last_value_dminus_adc = 0;
+  int last_value_dminus_adc_ = 0;
 
-  int last_value_dplus_dac = 0;
+  int last_value_dplus_dac_ = 0;
   bool on_init_set_dplus_dac_ = false;
 
-  int last_value_dminus_dac = 0;
+  int last_value_dminus_dac_ = 0;
   bool on_init_set_dminus_dac_ = false;
 
-  int last_value_pn = 0;
+  int last_value_pn_ = 0;
 
-  int last_value_dev_rev = 0;
+  int last_value_dev_rev_ = 0;
 
-private:
-    BQ25798NoI2C *bq25798_noi2c {nullptr};
+BQ25798NoI2C *bq25798_noi2c_ {nullptr};
 };  // class BQ25798Component
 
 }  // namespace bq25798

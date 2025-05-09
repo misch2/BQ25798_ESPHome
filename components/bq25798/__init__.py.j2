@@ -7,11 +7,12 @@ from esphome.const import (
 )
 
 DEPENDENCIES = ["i2c"]
-CONF_BQ25798_ID = "bq25798_id"
+MULTI_CONF = True
 
 bq25798_ns = cg.esphome_ns.namespace("bq25798")
-
 BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2c.I2CDevice)
+
+CONF_BQ25798_ID = "bq25798_id"
 
 # Settings
 {% for def in settings %}
@@ -55,11 +56,12 @@ CONFIG_SCHEMA = (
     .extend(i2c.i2c_device_schema({{ default_address_hex }}))
 )
 
-BQ25798_CLIENT_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
-    }
-)
+# FIXME delete
+# BQ25798_CLIENT_SCHEMA = cv.Schema(
+#     {
+#         cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
+#     }
+# )
 
 async def to_code(config):
     cg.add_library(
@@ -72,7 +74,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
 
-    # Chip settings
+    # Initial chip settings (optionally set on startup)
 {% for def in settings %}
 {%     if def.mode == "rw" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):

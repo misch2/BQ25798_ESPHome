@@ -26,7 +26,7 @@ class BQ25798TextSensor : public sensor::Sensor,
  protected:
 {% for def in settings %}
 {%     if def.type == "enum" %}
-  text_sensor::TextSensor *text_sensor_{{ def.name | lower }} {nullptr};
+  text_sensor::TextSensor *text_sensor_{{ def.name | lower }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

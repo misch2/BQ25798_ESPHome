@@ -59,13 +59,13 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {% for def in settings %}
 {# #}
 {%         if def.type == "bool" %}
-  bool last_value_{{ def.name | lower }} = false;
+  bool last_value_{{ def.name | lower }}_ = false;
 {%         elif def.type == "int" %}
-  int last_value_{{ def.name | lower }} = 0;
+  int last_value_{{ def.name | lower }}_ = 0;
 {%         elif def.type == "float" %}
-  float last_value_{{ def.name | lower }} = 0.0f;
+  float last_value_{{ def.name | lower }}_ = 0.0f;
 {%         elif def.type == "enum" %}
-  int last_value_{{ def.name | lower }} = 0;
+  int last_value_{{ def.name | lower }}_ = 0;
 {%         endif %}
 {# #}
 {%     if def.mode == "rw" %}
@@ -75,8 +75,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
 {% endfor -%}
 
-  private:
-    BQ25798NoI2C *bq25798_noi2c {nullptr};
+    BQ25798NoI2C *bq25798_noi2c_ {nullptr};
 };  // class BQ25798Component
 
 }  // namespace bq25798

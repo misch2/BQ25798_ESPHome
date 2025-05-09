@@ -26,7 +26,7 @@ class BQ25798Sensor : public sensor::Sensor,
  protected:
 {% for def in settings %}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
-  sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
+  sensor::Sensor *sensor_{{ def.name | lower }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

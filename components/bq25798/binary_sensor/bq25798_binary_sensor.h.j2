@@ -26,7 +26,7 @@ class BQ25798BinarySensor : public sensor::Sensor,
  protected:
 {% for def in settings %}
 {%     if def.type == "bool" %}
-  binary_sensor::BinarySensor *binary_sensor_{{ def.name | lower }} {nullptr};
+  binary_sensor::BinarySensor *binary_sensor_{{ def.name | lower }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

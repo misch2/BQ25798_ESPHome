@@ -1,0 +1,60 @@
+import esphome.codegen as cg
+import esphome.config_validation as cv
+from esphome.components import switch
+from esphome.const import (
+    CONF_ID,
+)
+
+from .. import (
+    CONF_BQ25798_ID,
+    bq25798_ns,
+    BQ25798Component
+)
+
+DEPENDENCIES = ["bq25798"]
+
+
+# Boolean settings
+{% for def in settings %}
+{%     if def.type == "bool" and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+
+{{ className }} = bq25798_ns.class_("{{ className }}", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+{%     endif %}
+{% endfor %}
+
+CONFIG_SCHEMA = {
+            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),            
+
+{% for def in settings %}
+{%     if def.type == "bool" and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): switch.switch_schema(
+                {{ className }},
+            ),
+{%     endif %}
+{% endfor %}
+}
+    #.extend(cv.polling_component_schema("60s")) # FIXME?    
+
+async def to_code(config):
+    main_component = await cg.get_variable(config[CONF_BQ25798_ID])
+
+    # Switches
+{% for def in settings %}
+{%     if def.type == "bool" and def.mode == "rw" %}
+    if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+        sw = await switch.new_switch({{ def.name | lower }}_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+{%     endif %}
+
+{% endfor %}

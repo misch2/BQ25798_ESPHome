@@ -1,0 +1,40 @@
+#pragma once
+
+#include "esphome/components/switch/switch.h"
+#include "esphome/core/component.h"
+#include "esphome/core/helpers.h"
+
+#include "../bq25798_component.h"
+
+namespace esphome {
+namespace bq25798 {
+
+{% for def in settings %}
+{%     if def.type == "bool" and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+
+// {{ def.name }} - {{ def.description }}
+class {{ className }} : public switch_::Switch,
+                            public PollingComponent,
+                            public Parented<BQ25798Component> {
+ public:
+  {{ className }}() = default;
+  void update() override;
+  void dump_config() override;
+  float get_setup_priority() const override;
+
+ protected:
+  void write_state(bool state) override;
+  void assign_switch(switch_::Switch *sensor);
+  switch_::Switch *switch_ {nullptr};
+};
+
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome

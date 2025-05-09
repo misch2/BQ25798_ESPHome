@@ -7,11 +7,12 @@ from esphome.const import (
 )
 
 DEPENDENCIES = ["i2c"]
-CONF_BQ25798_ID = "bq25798_id"
+MULTI_CONF = True
 
 bq25798_ns = cg.esphome_ns.namespace("bq25798")
-
 BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2c.I2CDevice)
+
+CONF_BQ25798_ID = "bq25798_id"
 
 # Settings
 CONF_BQ25798_VSYSMIN = "vsysmin"
@@ -645,11 +646,12 @@ CONFIG_SCHEMA = (
     .extend(i2c.i2c_device_schema(0x6B))
 )
 
-BQ25798_CLIENT_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
-    }
-)
+# FIXME delete
+# BQ25798_CLIENT_SCHEMA = cv.Schema(
+#     {
+#         cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
+#     }
+# )
 
 async def to_code(config):
     cg.add_library(
@@ -662,7 +664,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
 
-    # Chip settings
+    # Initial chip settings (optionally set on startup)
     if vsysmin := config.get(CONF_BQ25798_VSYSMIN):
         cg.add(var.set_vsysmin(vsysmin, 0))
         cg.add(var.on_init_set_vsysmin(True))
