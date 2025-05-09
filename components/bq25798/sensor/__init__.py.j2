@@ -1,6 +1,5 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome import core
 from esphome.components import sensor
 from esphome.const import (
     CONF_ID,
@@ -15,19 +14,19 @@ from esphome.const import (
 
 from .. import (
     CONF_BQ25798_ID,
-    BQ25798_CLIENT_SCHEMA,
-    bq25798_ns, 
+    bq25798_ns,
+    BQ25798Component
 )
 
 DEPENDENCIES = ["bq25798"]
 
-BQ25798Sensor = bq25798_ns.class_("BQ25798Sensor", cg.Component)
+BQ25798Sensor = bq25798_ns.class_("BQ25798Sensor", sensor.Sensor, cg.PollingComponent)
 
 # Numeric settings including the enums
 {% for def in settings %}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
-{%     endif %}                    
+{%     endif %}
 {% endfor %}
 
 {% for def in settings %}
@@ -41,9 +40,10 @@ ENUM_BQ25798_{{ def.name}} = {
 {% endfor %}
 
 CONFIG_SCHEMA = (
-    cv.Schema(
+    sensor.sensor_schema(BQ25798Sensor)
+    .extend(
         {
-            cv.GenerateID(): cv.declare_id(BQ25798Sensor),
+            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
@@ -66,24 +66,24 @@ CONFIG_SCHEMA = (
 {%         endif %}
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
-{%     endif %}            
+{%     endif %}
 {% endfor %}
         }
     )
-    .extend(BQ25798_CLIENT_SCHEMA)
+    .extend(cv.polling_component_schema("60s"))  # FIXME?
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-
+    await cg.register_parented(var, config[CONF_BQ25798_ID])
     await cg.register_component(var, config)
-    parent = await cg.get_variable(config[CONF_BQ25798_ID])
 
     # Sensors
 {% for def in settings %}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await sensor.new_sensor({{ def.name | lower }})
-        cg.add(parent.assign_sensor_{{ def.name | lower }}(sens))
-{%     endif %}                    
+        cg.add(var.assign_sensor_{{ def.name | lower }}(sens))
+{%     endif %}
+
 {% endfor %}

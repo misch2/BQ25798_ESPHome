@@ -1,0 +1,47 @@
+#include "bq25798_binary_sensor.h"
+
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.binary_sensor";
+
+float BQ25798BinarySensor::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798BinarySensor::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798BinarySensor configuration...");
+
+{% for def in settings %}
+{%     if def.type == "bool" %}
+  if (this->binary_sensor_{{ def.name | lower }} != nullptr) {
+    LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def.name | lower }});
+  }
+{%     endif %}
+{% endfor %}
+
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798BinarySensor::update() {
+{% for def in settings %}
+  // {{ def.name }} - {{ def.description }}
+{%     if def.type == "bool" %}   
+  if (this->binary_sensor_{{ def.name | lower }} != nullptr) {   
+    this->binary_sensor_{{ def.name | lower }}->publish_state(this->parent_->get_{{ def.name | lower }}(true));   
+  }   
+{%     endif %}   
+{% endfor %}
+}
+
+
+{% for def in settings %}
+{%     if def.type == "bool" %}
+void BQ25798BinarySensor::assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor) {
+  binary_sensor_{{ def.name | lower }} = sensor;
+}
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome

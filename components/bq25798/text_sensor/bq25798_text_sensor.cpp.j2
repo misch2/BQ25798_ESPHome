@@ -1,0 +1,47 @@
+#include "bq25798_text_sensor.h"
+
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.text_sensor";
+
+float BQ25798TextSensor::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798TextSensor::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798TextSensor configuration...");
+
+{% for def in settings %}
+{%     if def.type == "enum" %}
+  if (this->text_sensor_{{ def.name | lower }} != nullptr) {
+    LOG_TEXT_SENSOR("  ", "{{ def.name }}", this->text_sensor_{{ def.name | lower }});
+  }
+{%     endif %}
+{% endfor %}
+
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798TextSensor::update() {
+{% for def in settings %}
+  // {{ def.name }} - {{ def.description }}
+{%     if def.type == "enum" %}   
+  if (this->text_sensor_{{ def.name | lower }} != nullptr) {   
+    this->text_sensor_{{ def.name | lower }}->publish_state(this->parent_->get_{{ def.name | lower }}_string(true));   
+  }   
+{%     endif %}   
+{% endfor %}
+}
+
+
+{% for def in settings %}
+{%     if def.type == "enum" %}
+void BQ25798TextSensor::assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor) {
+  text_sensor_{{ def.name | lower }} = sensor;
+}
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome

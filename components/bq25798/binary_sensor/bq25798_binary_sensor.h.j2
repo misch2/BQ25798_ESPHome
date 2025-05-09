@@ -1,0 +1,35 @@
+#pragma once
+
+#include "esphome/components/binary_sensor/binary_sensor.h"
+#include "esphome/core/component.h"
+#include "esphome/core/helpers.h"
+
+#include "../bq25798_component.h"
+
+namespace esphome {
+namespace bq25798 {
+
+class BQ25798BinarySensor : public sensor::Sensor,
+                            public PollingComponent,
+                            public Parented<BQ25798Component> {
+ public:
+  void update() override;
+  void dump_config() override;
+  float get_setup_priority() const override;
+
+{% for def in settings %}
+{%     if def.type == "bool" %}
+  void assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor);
+{%     endif %}
+{% endfor %}
+
+ protected:
+{% for def in settings %}
+{%     if def.type == "bool" %}
+  binary_sensor::BinarySensor *binary_sensor_{{ def.name | lower }} {nullptr};
+{%     endif %}
+{% endfor %}
+};
+
+}  // namespace bq25798
+}  // namespace esphome

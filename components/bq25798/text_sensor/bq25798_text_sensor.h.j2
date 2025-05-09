@@ -1,0 +1,35 @@
+#pragma once
+
+#include "esphome/components/text_sensor/text_sensor.h"
+#include "esphome/core/component.h"
+#include "esphome/core/helpers.h"
+
+#include "../bq25798_component.h"
+
+namespace esphome {
+namespace bq25798 {
+
+class BQ25798TextSensor : public sensor::Sensor,
+                            public PollingComponent,
+                            public Parented<BQ25798Component> {
+ public:
+  void update() override;
+  void dump_config() override;
+  float get_setup_priority() const override;
+
+{% for def in settings %}
+{%     if def.type == "enum" %}
+  void assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor);
+{%     endif %}
+{% endfor %}
+
+ protected:
+{% for def in settings %}
+{%     if def.type == "enum" %}
+  text_sensor::TextSensor *text_sensor_{{ def.name | lower }} {nullptr};
+{%     endif %}
+{% endfor %}
+};
+
+}  // namespace bq25798
+}  // namespace esphome

@@ -1,0 +1,47 @@
+#include "bq25798_sensor.h"
+
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.sensor";
+
+float BQ25798Sensor::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798Sensor::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798Sensor configuration...");
+
+{% for def in settings %}
+{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
+  if (this->sensor_{{ def.name | lower }} != nullptr) {
+    LOG_SENSOR("  ", "{{ def.name }}", this->sensor_{{ def.name | lower }});
+  }
+{%     endif %}
+{% endfor %}
+
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798Sensor::update() {
+{% for def in settings %}
+  // {{ def.name }} - {{ def.description }}
+{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
+  if (this->sensor_{{ def.name | lower }} != nullptr) {   
+    this->sensor_{{ def.name | lower }}->publish_state(this->parent_->get_{{ def.name | lower }}(true));   
+  }   
+{%     endif %}   
+{% endfor %}
+}
+
+
+{% for def in settings %}
+{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
+void BQ25798Sensor::assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
+  sensor_{{ def.name | lower }} = sensor;
+}
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome

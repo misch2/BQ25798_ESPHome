@@ -641,7 +641,7 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("1s"))  # FIXME: Polling interval, is this reasonable default?
+    .extend(cv.polling_component_schema("15s"))  # Polling interval for watchdog only
     .extend(i2c.i2c_device_schema(0x6B))
 )
 

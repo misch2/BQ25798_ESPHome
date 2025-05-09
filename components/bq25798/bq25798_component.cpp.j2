@@ -55,48 +55,13 @@ void BQ25798Component::dump_config() {
     return;
   }
   LOG_UPDATE_INTERVAL(this);
-
-  // Dump all the sensors enabled in YAML config
-{% for def in settings %}
-{%     if def.type == "int" or def.type == "float" %}
-  LOG_SENSOR("  ", "{{ def.name }}", this->sensor_{{ def.name | lower }});
-{%     elif def.type == "bool" %}
-  LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def.name | lower }});
-{%     elif def.type == "enum" %}
-  LOG_SENSOR("  ", "{{ def.name }}", this->sensor_{{ def.name | lower }});
-  LOG_TEXT_SENSOR("  ", "{{ def.name }}", this->text_sensor_{{ def.name | lower }});
-{%     endif %}
-{% endfor %}
 }
 
 float BQ25798Component::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Component::update() {
-  bool needs_2nd_read;
-
-{% for def in settings %}
-  // {{ def.name }} - {{ def.description }}
-{%     if def.type == "int" or def.type == "float" %}
-  if (this->sensor_{{ def.name | lower }} != nullptr) {
-    this->sensor_{{ def.name | lower }}->publish_state(get_{{ def.name | lower }}(true));
-  }
-{%     elif def.type == "bool" %}
-  if (this->binary_sensor_{{ def.name | lower }} != nullptr) {
-    this->binary_sensor_{{ def.name | lower }}->publish_state(get_{{ def.name | lower }}(true));
-  }
-{%     elif def.type == "enum" %}
-  // exception: process both int and string values
-  needs_2nd_read = true;
-  if (this->sensor_{{ def.name | lower }} != nullptr) {
-    this->sensor_{{ def.name | lower }}->publish_state(get_{{ def.name | lower }}(true));
-    needs_2nd_read = false;
-  }
-  if (this->text_sensor_{{ def.name | lower }} != nullptr) {
-    this->text_sensor_{{ def.name | lower }}->publish_state(get_{{ def.name | lower }}_string(needs_2nd_read));
-  }
-{%     endif %}
-
-{% endfor %}
+  // Refresh watchdog timer
+  this->set_wd_rst(true, true);
 }
 
 {% for def in settings %}

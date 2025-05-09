@@ -1,6 +1,5 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome import core
 from esphome.components import text_sensor
 from esphome.const import (
     CONF_ID,
@@ -8,13 +7,13 @@ from esphome.const import (
 
 from .. import (
     CONF_BQ25798_ID,
-    BQ25798_CLIENT_SCHEMA,
-    bq25798_ns, 
+    bq25798_ns,
+    BQ25798Component
 )
 
 DEPENDENCIES = ["bq25798"]
 
-BQ25798TextSensor = bq25798_ns.class_("BQ25798TextSensor", cg.Component)
+BQ25798TextSensor = bq25798_ns.class_("BQ25798TextSensor", text_sensor.TextSensor, cg.PollingComponent)
 
 # Enum settings
 {% for def in settings %}
@@ -24,9 +23,10 @@ CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
 {% endfor %}
 
 CONFIG_SCHEMA = (
-    cv.Schema(
+    text_sensor.text_sensor_schema(BQ25798TextSensor)
+    .extend(
         {
-            cv.GenerateID(): cv.declare_id(BQ25798TextSensor),
+            cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
 {%     if def.type == "enum" %}
@@ -35,20 +35,19 @@ CONFIG_SCHEMA = (
 {% endfor %}
         }
     )
-    .extend(BQ25798_CLIENT_SCHEMA)
+    .extend(cv.polling_component_schema("60s")) # FIXME?
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-
+    await cg.register_parented(var, config[CONF_BQ25798_ID])
     await cg.register_component(var, config)
-    parent = await cg.get_variable(config[CONF_BQ25798_ID])
 
     # Sensors
 {% for def in settings %}
 {%     if def.type == "enum" %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await text_sensor.new_text_sensor({{ def.name | lower }})
-        cg.add(parent.assign_text_sensor_{{ def.name | lower }}(sens))
+        cg.add(var.assign_text_sensor_{{ def.name | lower }}(sens))
 {%     endif %}                    
 {% endfor %}

@@ -15,6 +15,7 @@ namespace esphome {
 namespace bq25798 {
 
 class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
+
  public:
   void setup() override;
   void dump_config() override;
@@ -39,32 +40,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {# Getters #}
 {%     if def.type == "bool" %}
   bool get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor) {
-    binary_sensor_{{ def.name | lower }} = sensor;
-  }
 {%         if def.name.is_flag %}
   void clear_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = false; }
   void raise_flag_{{ def.name | lower }}() { {{ def.name | lower }}_ = true; }
 {%         endif %}
 {%     elif def.type == "int" %}
   int get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
-    sensor_{{ def.name | lower }} = sensor;
-  }
 {%     elif def.type == "float" %}
   float get_{{ def.name | lower }}(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
-    sensor_{{ def.name | lower }} = sensor;
-  }
 {%     elif def.type == "enum" %}
   int get_{{ def.name | lower }}(bool read_from_i2c);
   const char* get_{{ def.name | lower }}_string(bool read_from_i2c);
-  void assign_sensor_{{ def.name | lower }}(sensor::Sensor *sensor) {
-    sensor_{{ def.name | lower }} = sensor;
-  }
-  void assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor) {
-    text_sensor_{{ def.name | lower }} = sensor;
-  }
 {%     endif %}
 
 {% endfor -%}
@@ -86,16 +72,6 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   bool on_init_set_{{ def.name | lower }}_ = false;
 {%     endif %}
 {# #}
-{%     if def.type == "bool" %}
-  binary_sensor::BinarySensor *binary_sensor_{{ def.name | lower }} {nullptr};
-{%     elif def.type == "int" %}
-  sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
-{%     elif def.type == "float" %}
-  sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
-{%     elif def.type == "enum" %}
-  sensor::Sensor *sensor_{{ def.name | lower }} {nullptr};
-  text_sensor::TextSensor *text_sensor_{{ def.name | lower }} {nullptr};
-{%     endif %}
 
 {% endfor -%}
 
