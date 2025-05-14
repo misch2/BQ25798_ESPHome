@@ -11,6 +11,9 @@ float BQ25798Sensor::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Sensor::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798Sensor configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
 
 {% for def in settings %}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
@@ -24,6 +27,10 @@ void BQ25798Sensor::dump_config() {
 }
 
 void BQ25798Sensor::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
 {%     if def.type == "int" or def.type == "float" or def.type == "enum" %}

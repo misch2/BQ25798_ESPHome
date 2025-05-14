@@ -11,6 +11,9 @@ float BQ25798TextSensor::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798TextSensor::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TextSensor configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
 
   if (this->text_sensor_vbat_lowv_ != nullptr) {
     LOG_TEXT_SENSOR("  ", "VBAT_LOWV", this->text_sensor_vbat_lowv_);
@@ -185,6 +188,10 @@ void BQ25798TextSensor::dump_config() {
 }
 
 void BQ25798TextSensor::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   // VSYSMIN - Minimal System Voltage
    
   // VREG - Charge Voltage Limit

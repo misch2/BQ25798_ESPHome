@@ -13,11 +13,19 @@ float BQ25798VsysminNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798VsysminNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VsysminNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VSYSMIN", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VsysminNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VsysminNumber...");
   this->publish_state(this->parent_->get_vsysmin(true));
 }
@@ -36,11 +44,19 @@ float BQ25798VregNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798VregNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VregNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VREG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VregNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VregNumber...");
   this->publish_state(this->parent_->get_vreg(true));
 }
@@ -59,11 +75,19 @@ float BQ25798IchgNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798IchgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798IchgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "ICHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798IchgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798IchgNumber...");
   this->publish_state(this->parent_->get_ichg(true));
 }
@@ -82,11 +106,19 @@ float BQ25798VindpmNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798VindpmNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VindpmNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VINDPM", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VindpmNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VindpmNumber...");
   this->publish_state(this->parent_->get_vindpm(true));
 }
@@ -105,11 +137,19 @@ float BQ25798IindpmNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798IindpmNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798IindpmNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "IINDPM", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798IindpmNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798IindpmNumber...");
   this->publish_state(this->parent_->get_iindpm(true));
 }
@@ -128,11 +168,19 @@ float BQ25798VbatLowvNumber::get_setup_priority() const { return setup_priority:
 
 void BQ25798VbatLowvNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VbatLowvNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VBAT_LOWV", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VbatLowvNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VbatLowvNumber...");
   this->publish_state(this->parent_->get_vbat_lowv(true));
 }
@@ -151,11 +199,19 @@ float BQ25798IprechgNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798IprechgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798IprechgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "IPRECHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798IprechgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798IprechgNumber...");
   this->publish_state(this->parent_->get_iprechg(true));
 }
@@ -174,11 +230,19 @@ float BQ25798ItermNumber::get_setup_priority() const { return setup_priority::DA
 
 void BQ25798ItermNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798ItermNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "ITERM", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798ItermNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798ItermNumber...");
   this->publish_state(this->parent_->get_iterm(true));
 }
@@ -197,11 +261,19 @@ float BQ25798CellNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798CellNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798CellNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "CELL", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798CellNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798CellNumber...");
   this->publish_state(this->parent_->get_cell(true));
 }
@@ -220,11 +292,19 @@ float BQ25798TrechgNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798TrechgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TrechgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TRECHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TrechgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TrechgNumber...");
   this->publish_state(this->parent_->get_trechg(true));
 }
@@ -243,11 +323,19 @@ float BQ25798VrechgNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798VrechgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VrechgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VRECHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VrechgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VrechgNumber...");
   this->publish_state(this->parent_->get_vrechg(true));
 }
@@ -266,11 +354,19 @@ float BQ25798VotgNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798VotgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VotgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VOTG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VotgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VotgNumber...");
   this->publish_state(this->parent_->get_votg(true));
 }
@@ -289,11 +385,19 @@ float BQ25798PrechgTmrNumber::get_setup_priority() const { return setup_priority
 
 void BQ25798PrechgTmrNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798PrechgTmrNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "PRECHG_TMR", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798PrechgTmrNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798PrechgTmrNumber...");
   this->publish_state(this->parent_->get_prechg_tmr(true));
 }
@@ -312,11 +416,19 @@ float BQ25798IotgNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798IotgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798IotgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "IOTG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798IotgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798IotgNumber...");
   this->publish_state(this->parent_->get_iotg(true));
 }
@@ -335,11 +447,19 @@ float BQ25798TopoffTmrNumber::get_setup_priority() const { return setup_priority
 
 void BQ25798TopoffTmrNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TopoffTmrNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TOPOFF_TMR", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TopoffTmrNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TopoffTmrNumber...");
   this->publish_state(this->parent_->get_topoff_tmr(true));
 }
@@ -358,11 +478,19 @@ float BQ25798ChgTmrNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798ChgTmrNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798ChgTmrNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "CHG_TMR", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798ChgTmrNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798ChgTmrNumber...");
   this->publish_state(this->parent_->get_chg_tmr(true));
 }
@@ -381,11 +509,19 @@ float BQ25798VbusBackupNumber::get_setup_priority() const { return setup_priorit
 
 void BQ25798VbusBackupNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VbusBackupNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VBUS_BACKUP", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VbusBackupNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VbusBackupNumber...");
   this->publish_state(this->parent_->get_vbus_backup(true));
 }
@@ -404,11 +540,19 @@ float BQ25798VacOvpNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798VacOvpNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VacOvpNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VAC_OVP", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VacOvpNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VacOvpNumber...");
   this->publish_state(this->parent_->get_vac_ovp(true));
 }
@@ -427,11 +571,19 @@ float BQ25798WatchdogNumber::get_setup_priority() const { return setup_priority:
 
 void BQ25798WatchdogNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798WatchdogNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "WATCHDOG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798WatchdogNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798WatchdogNumber...");
   this->publish_state(this->parent_->get_watchdog(true));
 }
@@ -450,11 +602,19 @@ float BQ25798SdrvCtrlNumber::get_setup_priority() const { return setup_priority:
 
 void BQ25798SdrvCtrlNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798SdrvCtrlNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "SDRV_CTRL", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798SdrvCtrlNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798SdrvCtrlNumber...");
   this->publish_state(this->parent_->get_sdrv_ctrl(true));
 }
@@ -473,11 +633,19 @@ float BQ25798SdrvDlyNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798SdrvDlyNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798SdrvDlyNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "SDRV_DLY", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798SdrvDlyNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798SdrvDlyNumber...");
   this->publish_state(this->parent_->get_sdrv_dly(true));
 }
@@ -496,11 +664,19 @@ float BQ25798WkupDlyNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798WkupDlyNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798WkupDlyNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "WKUP_DLY", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798WkupDlyNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798WkupDlyNumber...");
   this->publish_state(this->parent_->get_wkup_dly(true));
 }
@@ -519,11 +695,19 @@ float BQ25798PwmFreqNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798PwmFreqNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798PwmFreqNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "PWM_FREQ", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798PwmFreqNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798PwmFreqNumber...");
   this->publish_state(this->parent_->get_pwm_freq(true));
 }
@@ -542,11 +726,19 @@ float BQ25798IbatRegNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798IbatRegNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798IbatRegNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "IBAT_REG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798IbatRegNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798IbatRegNumber...");
   this->publish_state(this->parent_->get_ibat_reg(true));
 }
@@ -565,11 +757,19 @@ float BQ25798VocPctNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798VocPctNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VocPctNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VOC_PCT", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VocPctNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VocPctNumber...");
   this->publish_state(this->parent_->get_voc_pct(true));
 }
@@ -588,11 +788,19 @@ float BQ25798VocDlyNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798VocDlyNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VocDlyNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VOC_DLY", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VocDlyNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VocDlyNumber...");
   this->publish_state(this->parent_->get_voc_dly(true));
 }
@@ -611,11 +819,19 @@ float BQ25798VocRateNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798VocRateNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798VocRateNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "VOC_RATE", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798VocRateNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798VocRateNumber...");
   this->publish_state(this->parent_->get_voc_rate(true));
 }
@@ -634,11 +850,19 @@ float BQ25798TregNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798TregNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TregNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TREG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TregNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TregNumber...");
   this->publish_state(this->parent_->get_treg(true));
 }
@@ -657,11 +881,19 @@ float BQ25798TshutNumber::get_setup_priority() const { return setup_priority::DA
 
 void BQ25798TshutNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TshutNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TSHUT", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TshutNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TshutNumber...");
   this->publish_state(this->parent_->get_tshut(true));
 }
@@ -680,11 +912,19 @@ float BQ25798BkupAcfet1OnNumber::get_setup_priority() const { return setup_prior
 
 void BQ25798BkupAcfet1OnNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798BkupAcfet1OnNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "BKUP_ACFET1_ON", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798BkupAcfet1OnNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798BkupAcfet1OnNumber...");
   this->publish_state(this->parent_->get_bkup_acfet1_on(true));
 }
@@ -703,11 +943,19 @@ float BQ25798JeitaVsetNumber::get_setup_priority() const { return setup_priority
 
 void BQ25798JeitaVsetNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798JeitaVsetNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "JEITA_VSET", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798JeitaVsetNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798JeitaVsetNumber...");
   this->publish_state(this->parent_->get_jeita_vset(true));
 }
@@ -726,11 +974,19 @@ float BQ25798JeitaIsethNumber::get_setup_priority() const { return setup_priorit
 
 void BQ25798JeitaIsethNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798JeitaIsethNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "JEITA_ISETH", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798JeitaIsethNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798JeitaIsethNumber...");
   this->publish_state(this->parent_->get_jeita_iseth(true));
 }
@@ -749,11 +1005,19 @@ float BQ25798JeitaIsetcNumber::get_setup_priority() const { return setup_priorit
 
 void BQ25798JeitaIsetcNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798JeitaIsetcNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "JEITA_ISETC", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798JeitaIsetcNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798JeitaIsetcNumber...");
   this->publish_state(this->parent_->get_jeita_isetc(true));
 }
@@ -772,11 +1036,19 @@ float BQ25798TsCoolNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798TsCoolNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TsCoolNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TS_COOL", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TsCoolNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TsCoolNumber...");
   this->publish_state(this->parent_->get_ts_cool(true));
 }
@@ -795,11 +1067,19 @@ float BQ25798TsWarmNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798TsWarmNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798TsWarmNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "TS_WARM", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798TsWarmNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798TsWarmNumber...");
   this->publish_state(this->parent_->get_ts_warm(true));
 }
@@ -818,11 +1098,19 @@ float BQ25798BhotNumber::get_setup_priority() const { return setup_priority::DAT
 
 void BQ25798BhotNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798BhotNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "BHOT", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798BhotNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798BhotNumber...");
   this->publish_state(this->parent_->get_bhot(true));
 }
@@ -841,11 +1129,19 @@ float BQ25798BcoldNumber::get_setup_priority() const { return setup_priority::DA
 
 void BQ25798BcoldNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798BcoldNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "BCOLD", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798BcoldNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798BcoldNumber...");
   this->publish_state(this->parent_->get_bcold(true));
 }
@@ -864,11 +1160,19 @@ float BQ25798AdcRateNumber::get_setup_priority() const { return setup_priority::
 
 void BQ25798AdcRateNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcRateNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "ADC_RATE", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798AdcRateNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798AdcRateNumber...");
   this->publish_state(this->parent_->get_adc_rate(true));
 }
@@ -887,11 +1191,19 @@ float BQ25798AdcSampleNumber::get_setup_priority() const { return setup_priority
 
 void BQ25798AdcSampleNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcSampleNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "ADC_SAMPLE", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798AdcSampleNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798AdcSampleNumber...");
   this->publish_state(this->parent_->get_adc_sample(true));
 }
@@ -910,11 +1222,19 @@ float BQ25798AdcAvgNumber::get_setup_priority() const { return setup_priority::D
 
 void BQ25798AdcAvgNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcAvgNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "ADC_AVG", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798AdcAvgNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798AdcAvgNumber...");
   this->publish_state(this->parent_->get_adc_avg(true));
 }
@@ -933,11 +1253,19 @@ float BQ25798DplusDacNumber::get_setup_priority() const { return setup_priority:
 
 void BQ25798DplusDacNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798DplusDacNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "DPLUS_DAC", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798DplusDacNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798DplusDacNumber...");
   this->publish_state(this->parent_->get_dplus_dac(true));
 }
@@ -956,11 +1284,19 @@ float BQ25798DminusDacNumber::get_setup_priority() const { return setup_priority
 
 void BQ25798DminusDacNumber::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798DminusDacNumber configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "DMINUS_DAC", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798DminusDacNumber::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating BQ25798DminusDacNumber...");
   this->publish_state(this->parent_->get_dminus_dac(true));
 }

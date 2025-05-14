@@ -350,6 +350,9 @@ void BQ25798Component::dump_config() {
 float BQ25798Component::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Component::update() {
+  if (this->is_failed()) {
+    return;
+  }
   // Refresh watchdog timer
   this->set_wd_rst(true, true);
 }

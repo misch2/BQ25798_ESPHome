@@ -20,11 +20,19 @@ float {{ className }}::get_setup_priority() const { return setup_priority::DATA;
 
 void {{ className }}::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping {{ className }} configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   LOG_NUMBER("  ", "{{ def.name }}", this);
   LOG_UPDATE_INTERVAL(this);
 }
 
 void {{ className }}::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   //ESP_LOGD(TAG, "Updating {{ className }}...");
   this->publish_state(this->parent_->get_{{ def.name | lower }}(true));
 }

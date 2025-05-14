@@ -11,6 +11,9 @@ float BQ25798Sensor::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Sensor::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798Sensor configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
 
   if (this->sensor_vsysmin_ != nullptr) {
     LOG_SENSOR("  ", "VSYSMIN", this->sensor_vsysmin_);
@@ -251,6 +254,10 @@ void BQ25798Sensor::dump_config() {
 }
 
 void BQ25798Sensor::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
   // VSYSMIN - Minimal System Voltage
   if (this->sensor_vsysmin_ != nullptr) {
     this->sensor_vsysmin_->publish_state(this->parent_->get_vsysmin(true));
