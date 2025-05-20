@@ -74,6 +74,8 @@ CONF_BQ25798_ICO_STAT = "ico_stat"
 CONF_BQ25798_TREG_STAT = "treg_stat"
 CONF_BQ25798_DPDM_STAT = "dpdm_stat"
 CONF_BQ25798_VBAT_PRESENT_STAT = "vbat_present_stat"
+CONF_BQ25798_ACRB2_STAT = "acrb2_stat"
+CONF_BQ25798_ACRB1_STAT = "acrb1_stat"
 CONF_BQ25798_VSYS_STAT = "vsys_stat"
 CONF_BQ25798_CHG_TMR_STAT = "chg_tmr_stat"
 CONF_BQ25798_TRICHG_TMR_STAT = "trichg_tmr_stat"
@@ -337,6 +339,14 @@ ENUM_BQ25798_DPDM_STAT = {
 ENUM_BQ25798_VBAT_PRESENT_STAT = {
     "VBAT_PRESENT_STAT_NOT_PRESENT": 0,
     "VBAT_PRESENT_STAT_PRESENT": 1,
+}
+ENUM_BQ25798_ACRB2_STAT = {
+    "ACRB2_STAT_OFF": 0,
+    "ACRB2_STAT_ON": 1,
+}
+ENUM_BQ25798_ACRB1_STAT = {
+    "ACRB1_STAT_OFF": 0,
+    "ACRB1_STAT_ON": 1,
 }
 ENUM_BQ25798_VSYS_STAT = {
     "VSYS_STAT_NOT_IN_VSYSMIN_REGULATION": 0,
@@ -619,6 +629,12 @@ CONFIG_SCHEMA = (
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBAT_PRESENT_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ACRB2_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ACRB1_STAT): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VSYS_STAT): sensor.sensor_schema(
@@ -994,7 +1010,13 @@ async def to_code(config):
         sens = await sensor.new_sensor(vbat_present_stat)
         cg.add(var.assign_sensor_vbat_present_stat(sens))
 
+    if acrb2_stat := config.get(CONF_BQ25798_ACRB2_STAT):
+        sens = await sensor.new_sensor(acrb2_stat)
+        cg.add(var.assign_sensor_acrb2_stat(sens))
 
+    if acrb1_stat := config.get(CONF_BQ25798_ACRB1_STAT):
+        sens = await sensor.new_sensor(acrb1_stat)
+        cg.add(var.assign_sensor_acrb1_stat(sens))
 
 
     if vsys_stat := config.get(CONF_BQ25798_VSYS_STAT):

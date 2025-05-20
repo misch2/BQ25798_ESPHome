@@ -57,6 +57,8 @@ class BQ25798TextSensor : public sensor::Sensor,
   void assign_text_sensor_treg_stat(text_sensor::TextSensor *sensor);
   void assign_text_sensor_dpdm_stat(text_sensor::TextSensor *sensor);
   void assign_text_sensor_vbat_present_stat(text_sensor::TextSensor *sensor);
+  void assign_text_sensor_acrb2_stat(text_sensor::TextSensor *sensor);
+  void assign_text_sensor_acrb1_stat(text_sensor::TextSensor *sensor);
   void assign_text_sensor_vsys_stat(text_sensor::TextSensor *sensor);
   void assign_text_sensor_chg_tmr_stat(text_sensor::TextSensor *sensor);
   void assign_text_sensor_trichg_tmr_stat(text_sensor::TextSensor *sensor);
@@ -115,6 +117,8 @@ class BQ25798TextSensor : public sensor::Sensor,
   text_sensor::TextSensor *text_sensor_treg_stat_ {nullptr};
   text_sensor::TextSensor *text_sensor_dpdm_stat_ {nullptr};
   text_sensor::TextSensor *text_sensor_vbat_present_stat_ {nullptr};
+  text_sensor::TextSensor *text_sensor_acrb2_stat_ {nullptr};
+  text_sensor::TextSensor *text_sensor_acrb1_stat_ {nullptr};
   text_sensor::TextSensor *text_sensor_vsys_stat_ {nullptr};
   text_sensor::TextSensor *text_sensor_chg_tmr_stat_ {nullptr};
   text_sensor::TextSensor *text_sensor_trichg_tmr_stat_ {nullptr};

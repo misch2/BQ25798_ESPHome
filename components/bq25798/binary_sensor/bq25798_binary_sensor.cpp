@@ -18,6 +18,9 @@ void BQ25798BinarySensor::dump_config() {
   if (this->binary_sensor_stop_wd_chg_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "STOP_WD_CHG", this->binary_sensor_stop_wd_chg_);
   }
+  if (this->binary_sensor_prechg_tmr_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "PRECHG_TMR", this->binary_sensor_prechg_tmr_);
+  }
   if (this->binary_sensor_en_trichg_tmr_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "EN_TRICHG_TMR", this->binary_sensor_en_trichg_tmr_);
   }
@@ -72,6 +75,9 @@ void BQ25798BinarySensor::dump_config() {
   if (this->binary_sensor_hvdcp_en_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "HVDCP_EN", this->binary_sensor_hvdcp_en_);
   }
+  if (this->binary_sensor_sdrv_dly_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "SDRV_DLY", this->binary_sensor_sdrv_dly_);
+  }
   if (this->binary_sensor_dis_acdrv_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "DIS_ACDRV", this->binary_sensor_dis_acdrv_);
   }
@@ -83,6 +89,9 @@ void BQ25798BinarySensor::dump_config() {
   }
   if (this->binary_sensor_pfm_fwd_dis_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "PFM_FWD_DIS", this->binary_sensor_pfm_fwd_dis_);
+  }
+  if (this->binary_sensor_wkup_dly_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "WKUP_DLY", this->binary_sensor_wkup_dly_);
   }
   if (this->binary_sensor_dis_ldo_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "DIS_LDO", this->binary_sensor_dis_ldo_);
@@ -98,6 +107,9 @@ void BQ25798BinarySensor::dump_config() {
   }
   if (this->binary_sensor_en_acdrv1_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "EN_ACDRV1", this->binary_sensor_en_acdrv1_);
+  }
+  if (this->binary_sensor_pwm_freq_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "PWM_FREQ", this->binary_sensor_pwm_freq_);
   }
   if (this->binary_sensor_dis_stat_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "DIS_STAT", this->binary_sensor_dis_stat_);
@@ -141,11 +153,47 @@ void BQ25798BinarySensor::dump_config() {
   if (this->binary_sensor_vac2_pd_en_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "VAC2_PD_EN", this->binary_sensor_vac2_pd_en_);
   }
+  if (this->binary_sensor_bkup_acfet1_on_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "BKUP_ACFET1_ON", this->binary_sensor_bkup_acfet1_on_);
+  }
+  if (this->binary_sensor_bcold_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "BCOLD", this->binary_sensor_bcold_);
+  }
   if (this->binary_sensor_ts_ignore_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "TS_IGNORE", this->binary_sensor_ts_ignore_);
   }
+  if (this->binary_sensor_iindpm_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "IINDPM_STAT", this->binary_sensor_iindpm_stat_);
+  }
+  if (this->binary_sensor_vindpm_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "VINDPM_STAT", this->binary_sensor_vindpm_stat_);
+  }
+  if (this->binary_sensor_wd_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "WD_STAT", this->binary_sensor_wd_stat_);
+  }
+  if (this->binary_sensor_pg_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "PG_STAT", this->binary_sensor_pg_stat_);
+  }
+  if (this->binary_sensor_ac2_present_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "AC2_PRESENT_STAT", this->binary_sensor_ac2_present_stat_);
+  }
+  if (this->binary_sensor_ac1_present_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "AC1_PRESENT_STAT", this->binary_sensor_ac1_present_stat_);
+  }
+  if (this->binary_sensor_vbus_present_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "VBUS_PRESENT_STAT", this->binary_sensor_vbus_present_stat_);
+  }
   if (this->binary_sensor_bc12_done_stat_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "BC12_DONE_STAT", this->binary_sensor_bc12_done_stat_);
+  }
+  if (this->binary_sensor_treg_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TREG_STAT", this->binary_sensor_treg_stat_);
+  }
+  if (this->binary_sensor_dpdm_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "DPDM_STAT", this->binary_sensor_dpdm_stat_);
+  }
+  if (this->binary_sensor_vbat_present_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "VBAT_PRESENT_STAT", this->binary_sensor_vbat_present_stat_);
   }
   if (this->binary_sensor_acrb2_stat_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "ACRB2_STAT", this->binary_sensor_acrb2_stat_);
@@ -155,6 +203,33 @@ void BQ25798BinarySensor::dump_config() {
   }
   if (this->binary_sensor_adc_done_stat_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "ADC_DONE_STAT", this->binary_sensor_adc_done_stat_);
+  }
+  if (this->binary_sensor_vsys_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "VSYS_STAT", this->binary_sensor_vsys_stat_);
+  }
+  if (this->binary_sensor_chg_tmr_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "CHG_TMR_STAT", this->binary_sensor_chg_tmr_stat_);
+  }
+  if (this->binary_sensor_trichg_tmr_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TRICHG_TMR_STAT", this->binary_sensor_trichg_tmr_stat_);
+  }
+  if (this->binary_sensor_prechg_tmr_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "PRECHG_TMR_STAT", this->binary_sensor_prechg_tmr_stat_);
+  }
+  if (this->binary_sensor_vbatotg_low_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "VBATOTG_LOW_STAT", this->binary_sensor_vbatotg_low_stat_);
+  }
+  if (this->binary_sensor_ts_cold_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TS_COLD_STAT", this->binary_sensor_ts_cold_stat_);
+  }
+  if (this->binary_sensor_ts_cool_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TS_COOL_STAT", this->binary_sensor_ts_cool_stat_);
+  }
+  if (this->binary_sensor_ts_warm_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TS_WARM_STAT", this->binary_sensor_ts_warm_stat_);
+  }
+  if (this->binary_sensor_ts_hot_stat_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "TS_HOT_STAT", this->binary_sensor_ts_hot_stat_);
   }
   if (this->binary_sensor_ibat_reg_stat_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "IBAT_REG_STAT", this->binary_sensor_ibat_reg_stat_);
@@ -315,6 +390,12 @@ void BQ25798BinarySensor::dump_config() {
   if (this->binary_sensor_adc_en_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "ADC_EN", this->binary_sensor_adc_en_);
   }
+  if (this->binary_sensor_adc_rate_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "ADC_RATE", this->binary_sensor_adc_rate_);
+  }
+  if (this->binary_sensor_adc_avg_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "ADC_AVG", this->binary_sensor_adc_avg_);
+  }
   if (this->binary_sensor_adc_avg_init_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "ADC_AVG_INIT", this->binary_sensor_adc_avg_init_);
   }
@@ -377,6 +458,9 @@ void BQ25798BinarySensor::update() {
   // VRECHG - Battery Recharge Threshold Offset (Below VREG)
   // VOTG - OTG mode regulation voltage
   // PRECHG_TMR - Pre-charge safety timer setting
+  if (this->binary_sensor_prechg_tmr_ != nullptr) {
+    this->binary_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr(true));
+  }
   // IOTG - OTG current limit
   // TOPOFF_TMR - Top-off timer control
   // EN_TRICHG_TMR - Trickle charge timer enable
@@ -457,6 +541,9 @@ void BQ25798BinarySensor::update() {
   }
   // SDRV_CTRL - Enable external Ship FET control
   // SDRV_DLY - Delay for SDRV control
+  if (this->binary_sensor_sdrv_dly_ != nullptr) {
+    this->binary_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly(true));
+  }
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
   if (this->binary_sensor_dis_acdrv_ != nullptr) {
     this->binary_sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv(true));
@@ -474,6 +561,9 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis(true));
   }
   // WKUP_DLY - Wakeup (Ship FET) delay
+  if (this->binary_sensor_wkup_dly_ != nullptr) {
+    this->binary_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly(true));
+  }
   // DIS_LDO - Disable BATFET LDO mode in precharge state
   if (this->binary_sensor_dis_ldo_ != nullptr) {
     this->binary_sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo(true));
@@ -495,6 +585,9 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1(true));
   }
   // PWM_FREQ - PWM frequency setting
+  if (this->binary_sensor_pwm_freq_ != nullptr) {
+    this->binary_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq(true));
+  }
   // DIS_STAT - Disable STAT pin output
   if (this->binary_sensor_dis_stat_ != nullptr) {
     this->binary_sensor_dis_stat_->publish_state(this->parent_->get_dis_stat(true));
@@ -558,6 +651,9 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en(true));
   }
   // BKUP_ACFET1_ON - 
+  if (this->binary_sensor_bkup_acfet1_on_ != nullptr) {
+    this->binary_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on(true));
+  }
   // JEITA_VSET - 
   // JEITA_ISETH - 
   // JEITA_ISETC - 
@@ -565,18 +661,42 @@ void BQ25798BinarySensor::update() {
   // TS_WARM - 
   // BHOT - 
   // BCOLD - 
+  if (this->binary_sensor_bcold_ != nullptr) {
+    this->binary_sensor_bcold_->publish_state(this->parent_->get_bcold(true));
+  }
   // TS_IGNORE - 
   if (this->binary_sensor_ts_ignore_ != nullptr) {
     this->binary_sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore(true));
   }
   // ICO_ILIM - 
   // IINDPM_STAT - 
+  if (this->binary_sensor_iindpm_stat_ != nullptr) {
+    this->binary_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat(true));
+  }
   // VINDPM_STAT - 
+  if (this->binary_sensor_vindpm_stat_ != nullptr) {
+    this->binary_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat(true));
+  }
   // WD_STAT - 
+  if (this->binary_sensor_wd_stat_ != nullptr) {
+    this->binary_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat(true));
+  }
   // PG_STAT - 
+  if (this->binary_sensor_pg_stat_ != nullptr) {
+    this->binary_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat(true));
+  }
   // AC2_PRESENT_STAT - 
+  if (this->binary_sensor_ac2_present_stat_ != nullptr) {
+    this->binary_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat(true));
+  }
   // AC1_PRESENT_STAT - 
+  if (this->binary_sensor_ac1_present_stat_ != nullptr) {
+    this->binary_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat(true));
+  }
   // VBUS_PRESENT_STAT - 
+  if (this->binary_sensor_vbus_present_stat_ != nullptr) {
+    this->binary_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat(true));
+  }
   // CHG_STAT - Charge Status bits
   // VBUS_STAT - VBUS status bits
   // BC12_DONE_STAT - 
@@ -585,8 +705,17 @@ void BQ25798BinarySensor::update() {
   }
   // ICO_STAT - 
   // TREG_STAT - 
+  if (this->binary_sensor_treg_stat_ != nullptr) {
+    this->binary_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat(true));
+  }
   // DPDM_STAT - 
+  if (this->binary_sensor_dpdm_stat_ != nullptr) {
+    this->binary_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat(true));
+  }
   // VBAT_PRESENT_STAT - 
+  if (this->binary_sensor_vbat_present_stat_ != nullptr) {
+    this->binary_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat(true));
+  }
   // ACRB2_STAT - The ACFET2-RBFET2 status
   if (this->binary_sensor_acrb2_stat_ != nullptr) {
     this->binary_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat(true));
@@ -600,14 +729,41 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat(true));
   }
   // VSYS_STAT - VSYS Regulation Status
+  if (this->binary_sensor_vsys_stat_ != nullptr) {
+    this->binary_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat(true));
+  }
   // CHG_TMR_STAT - Fast charge timer status
+  if (this->binary_sensor_chg_tmr_stat_ != nullptr) {
+    this->binary_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat(true));
+  }
   // TRICHG_TMR_STAT - Trickle charge timer status
+  if (this->binary_sensor_trichg_tmr_stat_ != nullptr) {
+    this->binary_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat(true));
+  }
   // PRECHG_TMR_STAT - Pre-charge timer status
+  if (this->binary_sensor_prechg_tmr_stat_ != nullptr) {
+    this->binary_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat(true));
+  }
   // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+  if (this->binary_sensor_vbatotg_low_stat_ != nullptr) {
+    this->binary_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat(true));
+  }
   // TS_COLD_STAT - The TS temperature is in the cold range
+  if (this->binary_sensor_ts_cold_stat_ != nullptr) {
+    this->binary_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat(true));
+  }
   // TS_COOL_STAT - The TS temperature is in the cool range
+  if (this->binary_sensor_ts_cool_stat_ != nullptr) {
+    this->binary_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat(true));
+  }
   // TS_WARM_STAT - The TS temperature is in the warm range
+  if (this->binary_sensor_ts_warm_stat_ != nullptr) {
+    this->binary_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat(true));
+  }
   // TS_HOT_STAT - The TS temperature is in the hot range
+  if (this->binary_sensor_ts_hot_stat_ != nullptr) {
+    this->binary_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat(true));
+  }
   // IBAT_REG_STAT - IBAT regulation status
   if (this->binary_sensor_ibat_reg_stat_ != nullptr) {
     this->binary_sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat(true));
@@ -821,8 +977,14 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en(true));
   }
   // ADC_RATE - 
+  if (this->binary_sensor_adc_rate_ != nullptr) {
+    this->binary_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate(true));
+  }
   // ADC_SAMPLE - 
   // ADC_AVG - 
+  if (this->binary_sensor_adc_avg_ != nullptr) {
+    this->binary_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg(true));
+  }
   // ADC_AVG_INIT - 
   if (this->binary_sensor_adc_avg_init_ != nullptr) {
     this->binary_sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init(true));
@@ -895,6 +1057,9 @@ void BQ25798BinarySensor::assign_binary_sensor_reg_rst(binary_sensor::BinarySens
 void BQ25798BinarySensor::assign_binary_sensor_stop_wd_chg(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_stop_wd_chg_ = sensor;
 }
+void BQ25798BinarySensor::assign_binary_sensor_prechg_tmr(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_prechg_tmr_ = sensor;
+}
 void BQ25798BinarySensor::assign_binary_sensor_en_trichg_tmr(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_en_trichg_tmr_ = sensor;
 }
@@ -949,6 +1114,9 @@ void BQ25798BinarySensor::assign_binary_sensor_en_9v(binary_sensor::BinarySensor
 void BQ25798BinarySensor::assign_binary_sensor_hvdcp_en(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_hvdcp_en_ = sensor;
 }
+void BQ25798BinarySensor::assign_binary_sensor_sdrv_dly(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_sdrv_dly_ = sensor;
+}
 void BQ25798BinarySensor::assign_binary_sensor_dis_acdrv(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_dis_acdrv_ = sensor;
 }
@@ -960,6 +1128,9 @@ void BQ25798BinarySensor::assign_binary_sensor_pfm_otg_dis(binary_sensor::Binary
 }
 void BQ25798BinarySensor::assign_binary_sensor_pfm_fwd_dis(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_pfm_fwd_dis_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_wkup_dly(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_wkup_dly_ = sensor;
 }
 void BQ25798BinarySensor::assign_binary_sensor_dis_ldo(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_dis_ldo_ = sensor;
@@ -975,6 +1146,9 @@ void BQ25798BinarySensor::assign_binary_sensor_en_acdrv2(binary_sensor::BinarySe
 }
 void BQ25798BinarySensor::assign_binary_sensor_en_acdrv1(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_en_acdrv1_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_pwm_freq(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_pwm_freq_ = sensor;
 }
 void BQ25798BinarySensor::assign_binary_sensor_dis_stat(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_dis_stat_ = sensor;
@@ -1018,11 +1192,47 @@ void BQ25798BinarySensor::assign_binary_sensor_vac1_pd_en(binary_sensor::BinaryS
 void BQ25798BinarySensor::assign_binary_sensor_vac2_pd_en(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_vac2_pd_en_ = sensor;
 }
+void BQ25798BinarySensor::assign_binary_sensor_bkup_acfet1_on(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_bkup_acfet1_on_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_bcold(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_bcold_ = sensor;
+}
 void BQ25798BinarySensor::assign_binary_sensor_ts_ignore(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_ts_ignore_ = sensor;
 }
+void BQ25798BinarySensor::assign_binary_sensor_iindpm_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_iindpm_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_vindpm_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_vindpm_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_wd_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_wd_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_pg_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_pg_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ac2_present_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ac2_present_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ac1_present_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ac1_present_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_vbus_present_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_vbus_present_stat_ = sensor;
+}
 void BQ25798BinarySensor::assign_binary_sensor_bc12_done_stat(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_bc12_done_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_treg_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_treg_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_dpdm_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_dpdm_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_vbat_present_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_vbat_present_stat_ = sensor;
 }
 void BQ25798BinarySensor::assign_binary_sensor_acrb2_stat(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_acrb2_stat_ = sensor;
@@ -1032,6 +1242,33 @@ void BQ25798BinarySensor::assign_binary_sensor_acrb1_stat(binary_sensor::BinaryS
 }
 void BQ25798BinarySensor::assign_binary_sensor_adc_done_stat(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_adc_done_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_vsys_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_vsys_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_chg_tmr_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_chg_tmr_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_trichg_tmr_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_trichg_tmr_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_prechg_tmr_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_prechg_tmr_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_vbatotg_low_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_vbatotg_low_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ts_cold_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ts_cold_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ts_cool_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ts_cool_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ts_warm_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ts_warm_stat_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_ts_hot_stat(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_ts_hot_stat_ = sensor;
 }
 void BQ25798BinarySensor::assign_binary_sensor_ibat_reg_stat(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_ibat_reg_stat_ = sensor;
@@ -1191,6 +1428,12 @@ void BQ25798BinarySensor::assign_binary_sensor_tshut_flag(binary_sensor::BinaryS
 }
 void BQ25798BinarySensor::assign_binary_sensor_adc_en(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_adc_en_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_adc_rate(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_adc_rate_ = sensor;
+}
+void BQ25798BinarySensor::assign_binary_sensor_adc_avg(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_adc_avg_ = sensor;
 }
 void BQ25798BinarySensor::assign_binary_sensor_adc_avg_init(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_adc_avg_init_ = sensor;

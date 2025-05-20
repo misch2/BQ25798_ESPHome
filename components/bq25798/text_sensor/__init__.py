@@ -152,7 +152,9 @@ CONF_BQ25798_DPDM_STAT = "dpdm_stat"
                     
 CONF_BQ25798_VBAT_PRESENT_STAT = "vbat_present_stat"
                     
+CONF_BQ25798_ACRB2_STAT = "acrb2_stat"
                     
+CONF_BQ25798_ACRB1_STAT = "acrb1_stat"
                     
                     
 CONF_BQ25798_VSYS_STAT = "vsys_stat"
@@ -406,7 +408,9 @@ CONFIG_SCHEMA = (
             
             cv.Optional(CONF_BQ25798_VBAT_PRESENT_STAT): text_sensor.text_sensor_schema(),
             
+            cv.Optional(CONF_BQ25798_ACRB2_STAT): text_sensor.text_sensor_schema(),
             
+            cv.Optional(CONF_BQ25798_ACRB1_STAT): text_sensor.text_sensor_schema(),
             
             
             cv.Optional(CONF_BQ25798_VSYS_STAT): text_sensor.text_sensor_schema(),
@@ -744,7 +748,13 @@ async def to_code(config):
         sens = await text_sensor.new_text_sensor(vbat_present_stat)
         cg.add(var.assign_text_sensor_vbat_present_stat(sens))
                     
+    if acrb2_stat := config.get(CONF_BQ25798_ACRB2_STAT):
+        sens = await text_sensor.new_text_sensor(acrb2_stat)
+        cg.add(var.assign_text_sensor_acrb2_stat(sens))
                     
+    if acrb1_stat := config.get(CONF_BQ25798_ACRB1_STAT):
+        sens = await text_sensor.new_text_sensor(acrb1_stat)
+        cg.add(var.assign_text_sensor_acrb1_stat(sens))
                     
                     
     if vsys_stat := config.get(CONF_BQ25798_VSYS_STAT):

@@ -513,10 +513,12 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   const char* get_vbat_present_stat_string(bool read_from_i2c);
 
   // ACRB2_STAT - The ACFET2-RBFET2 status
-  bool get_acrb2_stat(bool read_from_i2c);
+  int get_acrb2_stat(bool read_from_i2c);
+  const char* get_acrb2_stat_string(bool read_from_i2c);
 
   // ACRB1_STAT - The ACFET1-RBFET1 status
-  bool get_acrb1_stat(bool read_from_i2c);
+  int get_acrb1_stat(bool read_from_i2c);
+  const char* get_acrb1_stat_string(bool read_from_i2c);
 
   // ADC_DONE_STAT - ADC Conversion Status
   bool get_adc_done_stat(bool read_from_i2c);
@@ -1201,9 +1203,9 @@ protected:
 
   int last_value_vbat_present_stat_ = 0;
 
-  bool last_value_acrb2_stat_ = false;
+  int last_value_acrb2_stat_ = 0;
 
-  bool last_value_acrb1_stat_ = false;
+  int last_value_acrb1_stat_ = 0;
 
   bool last_value_adc_done_stat_ = false;
 

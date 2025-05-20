@@ -388,6 +388,10 @@ void BQ25798Component::on_init_set_vsysmin(bool value) {
 }
 
 void BQ25798Component::set_vsysmin(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VSYSMIN to %d mV", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vsysmin_ = value;
@@ -443,6 +447,10 @@ void BQ25798Component::on_init_set_vreg(bool value) {
 }
 
 void BQ25798Component::set_vreg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VREG to %d mV", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vreg_ = value;
@@ -498,6 +506,10 @@ void BQ25798Component::on_init_set_ichg(bool value) {
 }
 
 void BQ25798Component::set_ichg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ICHG to %d mA", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_ichg_ = value;
@@ -553,6 +565,10 @@ void BQ25798Component::on_init_set_vindpm(bool value) {
 }
 
 void BQ25798Component::set_vindpm(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VINDPM to %d mV", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vindpm_ = value;
@@ -608,6 +624,10 @@ void BQ25798Component::on_init_set_iindpm(bool value) {
 }
 
 void BQ25798Component::set_iindpm(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IINDPM to %d mA", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_iindpm_ = value;
@@ -667,6 +687,10 @@ void BQ25798Component::on_init_set_vbat_lowv(bool value) {
 }
 
 void BQ25798Component::set_vbat_lowv(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VBAT_LOWV to %d (<VBAT_LOWV_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vbat_lowv_ = value;
@@ -722,6 +746,10 @@ void BQ25798Component::on_init_set_iprechg(bool value) {
 }
 
 void BQ25798Component::set_iprechg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IPRECHG to %d mA", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_iprechg_ = value;
@@ -777,6 +805,10 @@ void BQ25798Component::on_init_set_reg_rst(bool value) {
 }
 
 void BQ25798Component::set_reg_rst(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s REG_RST to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_reg_rst_ = value;
@@ -832,6 +864,10 @@ void BQ25798Component::on_init_set_stop_wd_chg(bool value) {
 }
 
 void BQ25798Component::set_stop_wd_chg(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s STOP_WD_CHG to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_stop_wd_chg_ = value;
@@ -887,6 +923,10 @@ void BQ25798Component::on_init_set_iterm(bool value) {
 }
 
 void BQ25798Component::set_iterm(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ITERM to %d mA", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_iterm_ = value;
@@ -946,6 +986,10 @@ void BQ25798Component::on_init_set_cell(bool value) {
 }
 
 void BQ25798Component::set_cell(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s CELL to %d (<CELL_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_cell_ = value;
@@ -1005,6 +1049,10 @@ void BQ25798Component::on_init_set_trechg(bool value) {
 }
 
 void BQ25798Component::set_trechg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TRECHG to %d (<TRECHG_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_trechg_ = value;
@@ -1060,6 +1108,10 @@ void BQ25798Component::on_init_set_vrechg(bool value) {
 }
 
 void BQ25798Component::set_vrechg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VRECHG to %d mV", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vrechg_ = value;
@@ -1115,6 +1167,10 @@ void BQ25798Component::on_init_set_votg(bool value) {
 }
 
 void BQ25798Component::set_votg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VOTG to %d mV", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_votg_ = value;
@@ -1174,6 +1230,10 @@ void BQ25798Component::on_init_set_prechg_tmr(bool value) {
 }
 
 void BQ25798Component::set_prechg_tmr(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s PRECHG_TMR to %d (<PRECHG_TMR_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_prechg_tmr_ = value;
@@ -1229,6 +1289,10 @@ void BQ25798Component::on_init_set_iotg(bool value) {
 }
 
 void BQ25798Component::set_iotg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IOTG to %d mA", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_iotg_ = value;
@@ -1288,6 +1352,10 @@ void BQ25798Component::on_init_set_topoff_tmr(bool value) {
 }
 
 void BQ25798Component::set_topoff_tmr(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TOPOFF_TMR to %d (<TOPOFF_TMR_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_topoff_tmr_ = value;
@@ -1343,6 +1411,10 @@ void BQ25798Component::on_init_set_en_trichg_tmr(bool value) {
 }
 
 void BQ25798Component::set_en_trichg_tmr(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_TRICHG_TMR to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_trichg_tmr_ = value;
@@ -1398,6 +1470,10 @@ void BQ25798Component::on_init_set_en_prechg_tmr(bool value) {
 }
 
 void BQ25798Component::set_en_prechg_tmr(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_PRECHG_TMR to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_prechg_tmr_ = value;
@@ -1453,6 +1529,10 @@ void BQ25798Component::on_init_set_en_chg_tmr(bool value) {
 }
 
 void BQ25798Component::set_en_chg_tmr(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_CHG_TMR to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_chg_tmr_ = value;
@@ -1512,6 +1592,10 @@ void BQ25798Component::on_init_set_chg_tmr(bool value) {
 }
 
 void BQ25798Component::set_chg_tmr(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s CHG_TMR to %d (<CHG_TMR_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_chg_tmr_ = value;
@@ -1567,6 +1651,10 @@ void BQ25798Component::on_init_set_tmr2x_en(bool value) {
 }
 
 void BQ25798Component::set_tmr2x_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TMR2X_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_tmr2x_en_ = value;
@@ -1622,6 +1710,10 @@ void BQ25798Component::on_init_set_en_auto_ibatdis(bool value) {
 }
 
 void BQ25798Component::set_en_auto_ibatdis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_AUTO_IBATDIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_auto_ibatdis_ = value;
@@ -1677,6 +1769,10 @@ void BQ25798Component::on_init_set_force_ibatdis(bool value) {
 }
 
 void BQ25798Component::set_force_ibatdis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s FORCE_IBATDIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_force_ibatdis_ = value;
@@ -1732,6 +1828,10 @@ void BQ25798Component::on_init_set_en_chg(bool value) {
 }
 
 void BQ25798Component::set_en_chg(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_CHG to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_chg_ = value;
@@ -1787,6 +1887,10 @@ void BQ25798Component::on_init_set_en_ico(bool value) {
 }
 
 void BQ25798Component::set_en_ico(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_ICO to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_ico_ = value;
@@ -1842,6 +1946,10 @@ void BQ25798Component::on_init_set_force_ico(bool value) {
 }
 
 void BQ25798Component::set_force_ico(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s FORCE_ICO to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_force_ico_ = value;
@@ -1897,6 +2005,10 @@ void BQ25798Component::on_init_set_en_hiz(bool value) {
 }
 
 void BQ25798Component::set_en_hiz(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_HIZ to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_hiz_ = value;
@@ -1952,6 +2064,10 @@ void BQ25798Component::on_init_set_en_term(bool value) {
 }
 
 void BQ25798Component::set_en_term(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_TERM to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_term_ = value;
@@ -2007,6 +2123,10 @@ void BQ25798Component::on_init_set_en_backup(bool value) {
 }
 
 void BQ25798Component::set_en_backup(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_BACKUP to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_backup_ = value;
@@ -2066,6 +2186,10 @@ void BQ25798Component::on_init_set_vbus_backup(bool value) {
 }
 
 void BQ25798Component::set_vbus_backup(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VBUS_BACKUP to %d (<VBUS_BACKUP_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vbus_backup_ = value;
@@ -2125,6 +2249,10 @@ void BQ25798Component::on_init_set_vac_ovp(bool value) {
 }
 
 void BQ25798Component::set_vac_ovp(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VAC_OVP to %d (<VAC_OVP_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_vac_ovp_ = value;
@@ -2180,6 +2308,10 @@ void BQ25798Component::on_init_set_wd_rst(bool value) {
 }
 
 void BQ25798Component::set_wd_rst(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s WD_RST to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_wd_rst_ = value;
@@ -2239,6 +2371,10 @@ void BQ25798Component::on_init_set_watchdog(bool value) {
 }
 
 void BQ25798Component::set_watchdog(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s WATCHDOG to %d (<WATCHDOG_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_watchdog_ = value;
@@ -2294,6 +2430,10 @@ void BQ25798Component::on_init_set_force_indet(bool value) {
 }
 
 void BQ25798Component::set_force_indet(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s FORCE_INDET to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_force_indet_ = value;
@@ -2349,6 +2489,10 @@ void BQ25798Component::on_init_set_auto_indet_en(bool value) {
 }
 
 void BQ25798Component::set_auto_indet_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s AUTO_INDET_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_auto_indet_en_ = value;
@@ -2404,6 +2548,10 @@ void BQ25798Component::on_init_set_en_12v(bool value) {
 }
 
 void BQ25798Component::set_en_12v(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_12V to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_12v_ = value;
@@ -2459,6 +2607,10 @@ void BQ25798Component::on_init_set_en_9v(bool value) {
 }
 
 void BQ25798Component::set_en_9v(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_9V to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_9v_ = value;
@@ -2514,6 +2666,10 @@ void BQ25798Component::on_init_set_hvdcp_en(bool value) {
 }
 
 void BQ25798Component::set_hvdcp_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s HVDCP_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_hvdcp_en_ = value;
@@ -2573,6 +2729,10 @@ void BQ25798Component::on_init_set_sdrv_ctrl(bool value) {
 }
 
 void BQ25798Component::set_sdrv_ctrl(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s SDRV_CTRL to %d (<SDRV_CTRL_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_sdrv_ctrl_ = value;
@@ -2632,6 +2792,10 @@ void BQ25798Component::on_init_set_sdrv_dly(bool value) {
 }
 
 void BQ25798Component::set_sdrv_dly(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s SDRV_DLY to %d (<SDRV_DLY_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_sdrv_dly_ = value;
@@ -2687,6 +2851,10 @@ void BQ25798Component::on_init_set_dis_acdrv(bool value) {
 }
 
 void BQ25798Component::set_dis_acdrv(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_ACDRV to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_acdrv_ = value;
@@ -2742,6 +2910,10 @@ void BQ25798Component::on_init_set_en_otg(bool value) {
 }
 
 void BQ25798Component::set_en_otg(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_OTG to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_otg_ = value;
@@ -2797,6 +2969,10 @@ void BQ25798Component::on_init_set_pfm_otg_dis(bool value) {
 }
 
 void BQ25798Component::set_pfm_otg_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s PFM_OTG_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_pfm_otg_dis_ = value;
@@ -2852,6 +3028,10 @@ void BQ25798Component::on_init_set_pfm_fwd_dis(bool value) {
 }
 
 void BQ25798Component::set_pfm_fwd_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s PFM_FWD_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_pfm_fwd_dis_ = value;
@@ -2911,6 +3091,10 @@ void BQ25798Component::on_init_set_wkup_dly(bool value) {
 }
 
 void BQ25798Component::set_wkup_dly(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s WKUP_DLY to %d (<WKUP_DLY_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_wkup_dly_ = value;
@@ -2966,6 +3150,10 @@ void BQ25798Component::on_init_set_dis_ldo(bool value) {
 }
 
 void BQ25798Component::set_dis_ldo(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_LDO to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_ldo_ = value;
@@ -3021,6 +3209,10 @@ void BQ25798Component::on_init_set_dis_otg_ooa(bool value) {
 }
 
 void BQ25798Component::set_dis_otg_ooa(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_OTG_OOA to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_otg_ooa_ = value;
@@ -3076,6 +3268,10 @@ void BQ25798Component::on_init_set_dis_fwd_ooa(bool value) {
 }
 
 void BQ25798Component::set_dis_fwd_ooa(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_FWD_OOA to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_fwd_ooa_ = value;
@@ -3131,6 +3327,10 @@ void BQ25798Component::on_init_set_en_acdrv2(bool value) {
 }
 
 void BQ25798Component::set_en_acdrv2(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_ACDRV2 to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_acdrv2_ = value;
@@ -3186,6 +3386,10 @@ void BQ25798Component::on_init_set_en_acdrv1(bool value) {
 }
 
 void BQ25798Component::set_en_acdrv1(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_ACDRV1 to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_acdrv1_ = value;
@@ -3245,6 +3449,10 @@ void BQ25798Component::on_init_set_pwm_freq(bool value) {
 }
 
 void BQ25798Component::set_pwm_freq(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s PWM_FREQ to %d (<PWM_FREQ_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_pwm_freq_ = value;
@@ -3300,6 +3508,10 @@ void BQ25798Component::on_init_set_dis_stat(bool value) {
 }
 
 void BQ25798Component::set_dis_stat(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_STAT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_stat_ = value;
@@ -3355,6 +3567,10 @@ void BQ25798Component::on_init_set_dis_vsys_short(bool value) {
 }
 
 void BQ25798Component::set_dis_vsys_short(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_VSYS_SHORT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_vsys_short_ = value;
@@ -3410,6 +3626,10 @@ void BQ25798Component::on_init_set_dis_votg_uvp(bool value) {
 }
 
 void BQ25798Component::set_dis_votg_uvp(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DIS_VOTG_UVP to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dis_votg_uvp_ = value;
@@ -3465,6 +3685,10 @@ void BQ25798Component::on_init_set_force_vindpm_det(bool value) {
 }
 
 void BQ25798Component::set_force_vindpm_det(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s FORCE_VINDPM_DET to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_force_vindpm_det_ = value;
@@ -3520,6 +3744,10 @@ void BQ25798Component::on_init_set_en_ibus_ocp(bool value) {
 }
 
 void BQ25798Component::set_en_ibus_ocp(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_IBUS_OCP to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_ibus_ocp_ = value;
@@ -3575,6 +3803,10 @@ void BQ25798Component::on_init_set_sfet_present(bool value) {
 }
 
 void BQ25798Component::set_sfet_present(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s SFET_PRESENT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_sfet_present_ = value;
@@ -3630,6 +3862,10 @@ void BQ25798Component::on_init_set_en_ibat(bool value) {
 }
 
 void BQ25798Component::set_en_ibat(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_IBAT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_ibat_ = value;
@@ -3689,6 +3925,10 @@ void BQ25798Component::on_init_set_ibat_reg(bool value) {
 }
 
 void BQ25798Component::set_ibat_reg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IBAT_REG to %d (<IBAT_REG_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_ibat_reg_ = value;
@@ -3744,6 +3984,10 @@ void BQ25798Component::on_init_set_en_iindpm(bool value) {
 }
 
 void BQ25798Component::set_en_iindpm(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_IINDPM to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_iindpm_ = value;
@@ -3799,6 +4043,10 @@ void BQ25798Component::on_init_set_en_extilim(bool value) {
 }
 
 void BQ25798Component::set_en_extilim(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_EXTILIM to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_extilim_ = value;
@@ -3854,6 +4102,10 @@ void BQ25798Component::on_init_set_en_batoc(bool value) {
 }
 
 void BQ25798Component::set_en_batoc(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_BATOC to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_batoc_ = value;
@@ -3913,6 +4165,10 @@ void BQ25798Component::on_init_set_voc_pct(bool value) {
 }
 
 void BQ25798Component::set_voc_pct(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VOC_PCT to %d (<VOC_PCT_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_voc_pct_ = value;
@@ -3972,6 +4228,10 @@ void BQ25798Component::on_init_set_voc_dly(bool value) {
 }
 
 void BQ25798Component::set_voc_dly(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VOC_DLY to %d (<VOC_DLY_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_voc_dly_ = value;
@@ -4031,6 +4291,10 @@ void BQ25798Component::on_init_set_voc_rate(bool value) {
 }
 
 void BQ25798Component::set_voc_rate(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VOC_RATE to %d (<VOC_RATE_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_voc_rate_ = value;
@@ -4086,6 +4350,10 @@ void BQ25798Component::on_init_set_en_mppt(bool value) {
 }
 
 void BQ25798Component::set_en_mppt(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s EN_MPPT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_en_mppt_ = value;
@@ -4145,6 +4413,10 @@ void BQ25798Component::on_init_set_treg(bool value) {
 }
 
 void BQ25798Component::set_treg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TREG to %d (<TREG_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_treg_ = value;
@@ -4204,6 +4476,10 @@ void BQ25798Component::on_init_set_tshut(bool value) {
 }
 
 void BQ25798Component::set_tshut(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TSHUT to %d (<TSHUT_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_tshut_ = value;
@@ -4259,6 +4535,10 @@ void BQ25798Component::on_init_set_vbus_pd_en(bool value) {
 }
 
 void BQ25798Component::set_vbus_pd_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VBUS_PD_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vbus_pd_en_ = value;
@@ -4314,6 +4594,10 @@ void BQ25798Component::on_init_set_vac1_pd_en(bool value) {
 }
 
 void BQ25798Component::set_vac1_pd_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VAC1_PD_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vac1_pd_en_ = value;
@@ -4369,6 +4653,10 @@ void BQ25798Component::on_init_set_vac2_pd_en(bool value) {
 }
 
 void BQ25798Component::set_vac2_pd_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VAC2_PD_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vac2_pd_en_ = value;
@@ -4428,6 +4716,10 @@ void BQ25798Component::on_init_set_bkup_acfet1_on(bool value) {
 }
 
 void BQ25798Component::set_bkup_acfet1_on(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s BKUP_ACFET1_ON to %d (<BKUP_ACFET1_ON_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_bkup_acfet1_on_ = value;
@@ -4487,6 +4779,10 @@ void BQ25798Component::on_init_set_jeita_vset(bool value) {
 }
 
 void BQ25798Component::set_jeita_vset(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s JEITA_VSET to %d (<JEITA_VSET_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_jeita_vset_ = value;
@@ -4546,6 +4842,10 @@ void BQ25798Component::on_init_set_jeita_iseth(bool value) {
 }
 
 void BQ25798Component::set_jeita_iseth(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s JEITA_ISETH to %d (<JEITA_ISETH_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_jeita_iseth_ = value;
@@ -4605,6 +4905,10 @@ void BQ25798Component::on_init_set_jeita_isetc(bool value) {
 }
 
 void BQ25798Component::set_jeita_isetc(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s JEITA_ISETC to %d (<JEITA_ISETC_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_jeita_isetc_ = value;
@@ -4664,6 +4968,10 @@ void BQ25798Component::on_init_set_ts_cool(bool value) {
 }
 
 void BQ25798Component::set_ts_cool(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TS_COOL to %d (<TS_COOL_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_ts_cool_ = value;
@@ -4723,6 +5031,10 @@ void BQ25798Component::on_init_set_ts_warm(bool value) {
 }
 
 void BQ25798Component::set_ts_warm(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TS_WARM to %d (<TS_WARM_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_ts_warm_ = value;
@@ -4782,6 +5094,10 @@ void BQ25798Component::on_init_set_bhot(bool value) {
 }
 
 void BQ25798Component::set_bhot(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s BHOT to %d (<BHOT_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_bhot_ = value;
@@ -4841,6 +5157,10 @@ void BQ25798Component::on_init_set_bcold(bool value) {
 }
 
 void BQ25798Component::set_bcold(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s BCOLD to %d (<BCOLD_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_bcold_ = value;
@@ -4896,6 +5216,10 @@ void BQ25798Component::on_init_set_ts_ignore(bool value) {
 }
 
 void BQ25798Component::set_ts_ignore(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TS_IGNORE to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_ts_ignore_ = value;
@@ -5348,7 +5672,7 @@ const char* BQ25798Component::get_vbat_present_stat_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->toString(value, this->bq25798_noi2c_->VBAT_PRESENT_STAT_strings);  // not nice, should not access toString() and strings array directly
 }
 // ACRB2_STAT - The ACFET2-RBFET2 status
-bool BQ25798Component::get_acrb2_stat(bool read_from_i2c) {
+int BQ25798Component::get_acrb2_stat(bool read_from_i2c) {
   if (read_from_i2c && this->bq25798_noi2c_ != nullptr) {
     // read the value from the chip
     uint8_t reg_value;
@@ -5361,7 +5685,7 @@ bool BQ25798Component::get_acrb2_stat(bool read_from_i2c) {
     uint16_t raw_value = (reg_value >> 7) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 7) and masked (1 bits) raw value: 0x%04X", raw_value);
 
-    this->last_value_acrb2_stat_ = this->bq25798_noi2c_->rawToBool(raw_value, this->bq25798_noi2c_->ACRB2_STAT);
+    this->last_value_acrb2_stat_ = this->bq25798_noi2c_->rawToInt(raw_value, this->bq25798_noi2c_->ACRB2_STAT);
 
     if (this->bq25798_noi2c_->lastError()) {
       this->status_set_warning();
@@ -5372,8 +5696,12 @@ bool BQ25798Component::get_acrb2_stat(bool read_from_i2c) {
   return this->last_value_acrb2_stat_;
 } // getter
 
+const char* BQ25798Component::get_acrb2_stat_string(bool read_from_i2c) {
+  int value = get_acrb2_stat(read_from_i2c);
+  return this->bq25798_noi2c_->toString(value, this->bq25798_noi2c_->ACRB2_STAT_strings);  // not nice, should not access toString() and strings array directly
+}
 // ACRB1_STAT - The ACFET1-RBFET1 status
-bool BQ25798Component::get_acrb1_stat(bool read_from_i2c) {
+int BQ25798Component::get_acrb1_stat(bool read_from_i2c) {
   if (read_from_i2c && this->bq25798_noi2c_ != nullptr) {
     // read the value from the chip
     uint8_t reg_value;
@@ -5386,7 +5714,7 @@ bool BQ25798Component::get_acrb1_stat(bool read_from_i2c) {
     uint16_t raw_value = (reg_value >> 6) & BITLENGTH_TO_MASK(1);
     // ESP_LOGD(TAG, "  shifted (>> 6) and masked (1 bits) raw value: 0x%04X", raw_value);
 
-    this->last_value_acrb1_stat_ = this->bq25798_noi2c_->rawToBool(raw_value, this->bq25798_noi2c_->ACRB1_STAT);
+    this->last_value_acrb1_stat_ = this->bq25798_noi2c_->rawToInt(raw_value, this->bq25798_noi2c_->ACRB1_STAT);
 
     if (this->bq25798_noi2c_->lastError()) {
       this->status_set_warning();
@@ -5397,6 +5725,10 @@ bool BQ25798Component::get_acrb1_stat(bool read_from_i2c) {
   return this->last_value_acrb1_stat_;
 } // getter
 
+const char* BQ25798Component::get_acrb1_stat_string(bool read_from_i2c) {
+  int value = get_acrb1_stat(read_from_i2c);
+  return this->bq25798_noi2c_->toString(value, this->bq25798_noi2c_->ACRB1_STAT_strings);  // not nice, should not access toString() and strings array directly
+}
 // ADC_DONE_STAT - ADC Conversion Status
 bool BQ25798Component::get_adc_done_stat(bool read_from_i2c) {
   if (read_from_i2c && this->bq25798_noi2c_ != nullptr) {
@@ -7170,6 +7502,10 @@ void BQ25798Component::on_init_set_adc_en(bool value) {
 }
 
 void BQ25798Component::set_adc_en(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ADC_EN to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_adc_en_ = value;
@@ -7229,6 +7565,10 @@ void BQ25798Component::on_init_set_adc_rate(bool value) {
 }
 
 void BQ25798Component::set_adc_rate(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ADC_RATE to %d (<ADC_RATE_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_adc_rate_ = value;
@@ -7288,6 +7628,10 @@ void BQ25798Component::on_init_set_adc_sample(bool value) {
 }
 
 void BQ25798Component::set_adc_sample(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ADC_SAMPLE to %d (<ADC_SAMPLE_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_adc_sample_ = value;
@@ -7347,6 +7691,10 @@ void BQ25798Component::on_init_set_adc_avg(bool value) {
 }
 
 void BQ25798Component::set_adc_avg(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ADC_AVG to %d (<ADC_AVG_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_adc_avg_ = value;
@@ -7402,6 +7750,10 @@ void BQ25798Component::on_init_set_adc_avg_init(bool value) {
 }
 
 void BQ25798Component::set_adc_avg_init(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s ADC_AVG_INIT to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_adc_avg_init_ = value;
@@ -7457,6 +7809,10 @@ void BQ25798Component::on_init_set_ibus_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_ibus_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IBUS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_ibus_adc_dis_ = value;
@@ -7512,6 +7868,10 @@ void BQ25798Component::on_init_set_ibat_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_ibat_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s IBAT_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_ibat_adc_dis_ = value;
@@ -7567,6 +7927,10 @@ void BQ25798Component::on_init_set_vbus_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_vbus_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VBUS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vbus_adc_dis_ = value;
@@ -7622,6 +7986,10 @@ void BQ25798Component::on_init_set_vbat_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_vbat_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VBAT_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vbat_adc_dis_ = value;
@@ -7677,6 +8045,10 @@ void BQ25798Component::on_init_set_vsys_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_vsys_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VSYS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vsys_adc_dis_ = value;
@@ -7732,6 +8104,10 @@ void BQ25798Component::on_init_set_ts_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_ts_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_ts_adc_dis_ = value;
@@ -7787,6 +8163,10 @@ void BQ25798Component::on_init_set_tdie_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_tdie_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s TDIE_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_tdie_adc_dis_ = value;
@@ -7842,6 +8222,10 @@ void BQ25798Component::on_init_set_dplus_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_dplus_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DPLUS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dplus_adc_dis_ = value;
@@ -7897,6 +8281,10 @@ void BQ25798Component::on_init_set_dminus_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_dminus_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DMINUS_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_dminus_adc_dis_ = value;
@@ -7952,6 +8340,10 @@ void BQ25798Component::on_init_set_vac2_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_vac2_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VAC2_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vac2_adc_dis_ = value;
@@ -8007,6 +8399,10 @@ void BQ25798Component::on_init_set_vac1_adc_dis(bool value) {
 }
 
 void BQ25798Component::set_vac1_adc_dis(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s VAC1_ADC_DIS to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_vac1_adc_dis_ = value;
@@ -8341,6 +8737,10 @@ void BQ25798Component::on_init_set_dplus_dac(bool value) {
 }
 
 void BQ25798Component::set_dplus_dac(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DPLUS_DAC to %d (<DPLUS_DAC_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_dplus_dac_ = value;
@@ -8400,6 +8800,10 @@ void BQ25798Component::on_init_set_dminus_dac(bool value) {
 }
 
 void BQ25798Component::set_dminus_dac(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s DMINUS_DAC to %d (<DMINUS_DAC_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_dminus_dac_ = value;

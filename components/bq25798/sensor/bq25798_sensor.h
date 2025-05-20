@@ -68,6 +68,8 @@ class BQ25798Sensor : public sensor::Sensor,
   void assign_sensor_treg_stat(sensor::Sensor *sensor);
   void assign_sensor_dpdm_stat(sensor::Sensor *sensor);
   void assign_sensor_vbat_present_stat(sensor::Sensor *sensor);
+  void assign_sensor_acrb2_stat(sensor::Sensor *sensor);
+  void assign_sensor_acrb1_stat(sensor::Sensor *sensor);
   void assign_sensor_vsys_stat(sensor::Sensor *sensor);
   void assign_sensor_chg_tmr_stat(sensor::Sensor *sensor);
   void assign_sensor_trichg_tmr_stat(sensor::Sensor *sensor);
@@ -148,6 +150,8 @@ class BQ25798Sensor : public sensor::Sensor,
   sensor::Sensor *sensor_treg_stat_ {nullptr};
   sensor::Sensor *sensor_dpdm_stat_ {nullptr};
   sensor::Sensor *sensor_vbat_present_stat_ {nullptr};
+  sensor::Sensor *sensor_acrb2_stat_ {nullptr};
+  sensor::Sensor *sensor_acrb1_stat_ {nullptr};
   sensor::Sensor *sensor_vsys_stat_ {nullptr};
   sensor::Sensor *sensor_chg_tmr_stat_ {nullptr};
   sensor::Sensor *sensor_trichg_tmr_stat_ {nullptr};

@@ -145,6 +145,10 @@ void BQ25798Component::on_init_set_{{ def.name | lower }}(bool value) {
 
 {%          if def.type == "bool" %}
 void BQ25798Component::set_{{ def.name | lower }}(bool value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s {{ def.name }} to %s", _write ? "Setting and writing" : "Will eventually set", value ? "true" : "false");
   this->last_value_{{ def.name | lower }}_ = value;
@@ -152,6 +156,10 @@ void BQ25798Component::set_{{ def.name | lower }}(bool value, bool write_to_i2c)
     uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->{{ def.name }});
 {%         elif def.type == "int" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s {{ def.name }} to %d {{ def.unit }}", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_{{ def.name | lower }}_ = value;
@@ -159,6 +167,10 @@ void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) 
     uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->{{ def.name }});
 {%         elif def.type == "float" %}
 void BQ25798Component::set_{{ def.name | lower }}(float value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s {{ def.name }} to %f {{ def.unit }}", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_{{ def.name | lower }}_ = value;
@@ -166,6 +178,10 @@ void BQ25798Component::set_{{ def.name | lower }}(float value, bool write_to_i2c
     uint16_t raw_value = this->bq25798_noi2c_->floatToRaw(value, this->bq25798_noi2c_->{{ def.name }});
 {%         elif def.type == "enum" %}
 void BQ25798Component::set_{{ def.name | lower }}(int value, bool write_to_i2c) {
+  if (this->is_failed()) {
+    return;
+  }
+
   bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
   ESP_LOGD(TAG, "%s {{ def.name }} to %d (<{{ def.name }}_t>)", _write ? "Setting and writing" : "Will eventually set", value);
   this->last_value_{{ def.name | lower }}_ = value;

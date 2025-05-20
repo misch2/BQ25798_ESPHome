@@ -168,6 +168,12 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_vbat_present_stat_ != nullptr) {
     LOG_SENSOR("  ", "VBAT_PRESENT_STAT", this->sensor_vbat_present_stat_);
   }
+  if (this->sensor_acrb2_stat_ != nullptr) {
+    LOG_SENSOR("  ", "ACRB2_STAT", this->sensor_acrb2_stat_);
+  }
+  if (this->sensor_acrb1_stat_ != nullptr) {
+    LOG_SENSOR("  ", "ACRB1_STAT", this->sensor_acrb1_stat_);
+  }
   if (this->sensor_vsys_stat_ != nullptr) {
     LOG_SENSOR("  ", "VSYS_STAT", this->sensor_vsys_stat_);
   }
@@ -508,7 +514,13 @@ void BQ25798Sensor::update() {
     this->sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat(true));
   }
   // ACRB2_STAT - The ACFET2-RBFET2 status
+  if (this->sensor_acrb2_stat_ != nullptr) {
+    this->sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat(true));
+  }
   // ACRB1_STAT - The ACFET1-RBFET1 status
+  if (this->sensor_acrb1_stat_ != nullptr) {
+    this->sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat(true));
+  }
   // ADC_DONE_STAT - ADC Conversion Status
   // VSYS_STAT - VSYS Regulation Status
   if (this->sensor_vsys_stat_ != nullptr) {
@@ -838,6 +850,12 @@ void BQ25798Sensor::assign_sensor_dpdm_stat(sensor::Sensor *sensor) {
 }
 void BQ25798Sensor::assign_sensor_vbat_present_stat(sensor::Sensor *sensor) {
   this->sensor_vbat_present_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_acrb2_stat(sensor::Sensor *sensor) {
+  this->sensor_acrb2_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_acrb1_stat(sensor::Sensor *sensor) {
+  this->sensor_acrb1_stat_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_vsys_stat(sensor::Sensor *sensor) {
   this->sensor_vsys_stat_ = sensor;

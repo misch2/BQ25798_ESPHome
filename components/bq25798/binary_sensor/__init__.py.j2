@@ -17,7 +17,7 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", binary_sensor.Bin
 
 # Boolean settings
 {% for def in settings %}
-{%     if def.type == "bool" %}
+{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
 {%     endif %}
 {% endfor %}
@@ -43,7 +43,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),            
 
 {% for def in settings %}
-{%     if def.type == "bool" %}
+{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
             cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(
 {%         if def.ha_device_class != "" %}
 #FIXME TODO               device_class="{{ def.ha_device_class }}",
@@ -63,7 +63,7 @@ async def to_code(config):
 
     # Sensors
 {% for def in settings %}
-{%     if def.type == "bool" %}
+{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
     if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
         sens = await binary_sensor.new_binary_sensor({{ def.name | lower }})
         cg.add(var.assign_binary_sensor_{{ def.name | lower }}(sens))

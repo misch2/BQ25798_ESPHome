@@ -135,6 +135,12 @@ void BQ25798TextSensor::dump_config() {
   if (this->text_sensor_vbat_present_stat_ != nullptr) {
     LOG_TEXT_SENSOR("  ", "VBAT_PRESENT_STAT", this->text_sensor_vbat_present_stat_);
   }
+  if (this->text_sensor_acrb2_stat_ != nullptr) {
+    LOG_TEXT_SENSOR("  ", "ACRB2_STAT", this->text_sensor_acrb2_stat_);
+  }
+  if (this->text_sensor_acrb1_stat_ != nullptr) {
+    LOG_TEXT_SENSOR("  ", "ACRB1_STAT", this->text_sensor_acrb1_stat_);
+  }
   if (this->text_sensor_vsys_stat_ != nullptr) {
     LOG_TEXT_SENSOR("  ", "VSYS_STAT", this->text_sensor_vsys_stat_);
   }
@@ -546,7 +552,15 @@ void BQ25798TextSensor::update() {
    
   // ACRB2_STAT - The ACFET2-RBFET2 status
    
+  if (this->text_sensor_acrb2_stat_ != nullptr) {   
+    this->text_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_string(true));   
+  }   
+   
   // ACRB1_STAT - The ACFET1-RBFET1 status
+   
+  if (this->text_sensor_acrb1_stat_ != nullptr) {   
+    this->text_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_string(true));   
+  }   
    
   // ADC_DONE_STAT - ADC Conversion Status
    
@@ -920,6 +934,12 @@ void BQ25798TextSensor::assign_text_sensor_dpdm_stat(text_sensor::TextSensor *se
 }
 void BQ25798TextSensor::assign_text_sensor_vbat_present_stat(text_sensor::TextSensor *sensor) {
   this->text_sensor_vbat_present_stat_ = sensor;
+}
+void BQ25798TextSensor::assign_text_sensor_acrb2_stat(text_sensor::TextSensor *sensor) {
+  this->text_sensor_acrb2_stat_ = sensor;
+}
+void BQ25798TextSensor::assign_text_sensor_acrb1_stat(text_sensor::TextSensor *sensor) {
+  this->text_sensor_acrb1_stat_ = sensor;
 }
 void BQ25798TextSensor::assign_text_sensor_vsys_stat(text_sensor::TextSensor *sensor) {
   this->text_sensor_vsys_stat_ = sensor;
