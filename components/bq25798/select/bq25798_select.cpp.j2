@@ -1,0 +1,73 @@
+#include "bq25798_select.h"
+
+#include "esphome/core/log.h"
+
+#include <map>
+
+namespace esphome {
+namespace bq25798 {
+
+static const char* const TAG = "bq25798.select";
+
+{% for def in settings %}
+{%     if def.type == "enum" and def.mode == "rw" %}
+{% set formatted_name = def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '') %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
+
+// {{ def.name }} - {{ def.description }}
+float {{ className }}::get_setup_priority() const { return setup_priority::DATA; }
+
+void {{ className }}::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping {{ className }} configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SELECT("  ", "{{ def.name }}", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+static const std::map<uint8_t, std::string> {{ className }}_INT_TO_ENUM {
+{%         for enum in def.enum_constants %}
+  { {{ loop.index0 }}, "{{ enum }}" },
+{%         endfor %}
+};
+
+static const std::map<std::string, uint8_t> {{ className }}_ENUM_TO_INT {
+{%         for enum in def.enum_constants %}
+  { "{{ enum }}", {{ loop.index0 }} },
+{%         endfor %}
+};
+
+
+void {{ className }}::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+//ESP_LOGD(TAG, "Updating {{ className }}...");
+  uint8_t num_value = this->parent_->get_{{ def.name | lower }}(true);
+  std::string str_value = {{ className }}_INT_TO_ENUM.at(num_value);
+  
+  this->publish_state(str_value);
+}
+
+void {{ className }}::control(const std::string &value) {
+  //ESP_LOGD(TAG, "Controlling {{ className }}...");
+
+  uint8_t num_value = {{ className }}_ENUM_TO_INT.at(value);
+  this->parent_->set_{{ def.name | lower }}(num_value, true);
+
+  this->publish_state(value);
+}
+
+
+
+{%     endif %}
+{% endfor %}
+
+}  // namespace bq25798
+}  // namespace esphome

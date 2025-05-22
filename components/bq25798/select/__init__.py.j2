@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import number
+from esphome.components import select
 from esphome.const import (
     CONF_ID,
     ENTITY_CATEGORY_CONFIG,
@@ -15,35 +15,34 @@ from .. import (
 DEPENDENCIES = ["bq25798"]
 
 
-# Numeric settings
+# Enum settings
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
+{%     if def.type == "enum" and def.mode == "rw" %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
 
-{{ className }} = bq25798_ns.class_("{{ className }}", number.Number, cg.PollingComponent)
+{{ className }} = bq25798_ns.class_("{{ className }}", select.Select, cg.PollingComponent)
 CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
 {%     endif %}
 {% endfor %}
 
 CONFIG_SCHEMA = (
-    number.number_schema(BQ25798Component)
+    select.select_schema(BQ25798Component)
     .extend({
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
+{%     if def.type == "enum" and def.mode == "rw" %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): number.number_schema(
+{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
+            cv.Optional(CONF_BQ25798_{{ def.name}}): select.select_schema(
                 {{ className }},
-                unit_of_measurement="{{ def.unit }}",
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
 {%     endif %}
@@ -55,18 +54,21 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Numbers
+    # Selects
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
+{%     if def.type == "enum" and def.mode == "rw" %}
     if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
-        num = await number.new_number(
+        sel = await select.new_select(
             {{ def.name | lower }}_config,
-            min_value={{ def.range_low }},
-            max_value={{ def.range_high }},
-            step={{ def.bit_step_size }},
+            # step={{ def.bit_step_size }},
+            options=[
+{%         for enum in def.enum_constants %}
+                "{{ enum }}",
+{%         endfor %}
+            ]
         )
-        await cg.register_parented(num, config[CONF_BQ25798_ID])
-        await cg.register_component(num, config)
+        await cg.register_parented(sel, config[CONF_BQ25798_ID])
+        await cg.register_component(sel, config)
 
 {%     endif %}
 
