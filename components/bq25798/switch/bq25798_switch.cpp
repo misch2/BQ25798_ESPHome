@@ -27,7 +27,7 @@ void BQ25798RegRstSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_reg_rst(true));
+  this->publish_state(this->parent_->get_reg_rst_bool(true));
 }
 
 void BQ25798RegRstSwitch::write_state(bool state) {
@@ -35,7 +35,7 @@ void BQ25798RegRstSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_reg_rst(state, true);
+  this->parent_->set_reg_rst_bool(state, true);
   this->publish_state(state);
 }
 
@@ -60,7 +60,7 @@ void BQ25798StopWdChgSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_stop_wd_chg(true));
+  this->publish_state(this->parent_->get_stop_wd_chg_bool(true));
 }
 
 void BQ25798StopWdChgSwitch::write_state(bool state) {
@@ -68,7 +68,40 @@ void BQ25798StopWdChgSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_stop_wd_chg(state, true);
+  this->parent_->set_stop_wd_chg_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// PRECHG_TMR - Pre-charge safety timer setting
+float BQ25798PrechgTmrSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798PrechgTmrSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798PrechgTmrSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "PRECHG_TMR", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798PrechgTmrSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_prechg_tmr_bool(true));
+}
+
+void BQ25798PrechgTmrSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_prechg_tmr_bool(state, true);
   this->publish_state(state);
 }
 
@@ -93,7 +126,7 @@ void BQ25798EnTrichgTmrSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_trichg_tmr(true));
+  this->publish_state(this->parent_->get_en_trichg_tmr_bool(true));
 }
 
 void BQ25798EnTrichgTmrSwitch::write_state(bool state) {
@@ -101,7 +134,7 @@ void BQ25798EnTrichgTmrSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_trichg_tmr(state, true);
+  this->parent_->set_en_trichg_tmr_bool(state, true);
   this->publish_state(state);
 }
 
@@ -126,7 +159,7 @@ void BQ25798EnPrechgTmrSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_prechg_tmr(true));
+  this->publish_state(this->parent_->get_en_prechg_tmr_bool(true));
 }
 
 void BQ25798EnPrechgTmrSwitch::write_state(bool state) {
@@ -134,7 +167,7 @@ void BQ25798EnPrechgTmrSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_prechg_tmr(state, true);
+  this->parent_->set_en_prechg_tmr_bool(state, true);
   this->publish_state(state);
 }
 
@@ -159,7 +192,7 @@ void BQ25798EnChgTmrSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_chg_tmr(true));
+  this->publish_state(this->parent_->get_en_chg_tmr_bool(true));
 }
 
 void BQ25798EnChgTmrSwitch::write_state(bool state) {
@@ -167,7 +200,7 @@ void BQ25798EnChgTmrSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_chg_tmr(state, true);
+  this->parent_->set_en_chg_tmr_bool(state, true);
   this->publish_state(state);
 }
 
@@ -192,7 +225,7 @@ void BQ25798Tmr2xEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_tmr2x_en(true));
+  this->publish_state(this->parent_->get_tmr2x_en_bool(true));
 }
 
 void BQ25798Tmr2xEnSwitch::write_state(bool state) {
@@ -200,7 +233,7 @@ void BQ25798Tmr2xEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_tmr2x_en(state, true);
+  this->parent_->set_tmr2x_en_bool(state, true);
   this->publish_state(state);
 }
 
@@ -225,7 +258,7 @@ void BQ25798EnAutoIbatdisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_auto_ibatdis(true));
+  this->publish_state(this->parent_->get_en_auto_ibatdis_bool(true));
 }
 
 void BQ25798EnAutoIbatdisSwitch::write_state(bool state) {
@@ -233,7 +266,7 @@ void BQ25798EnAutoIbatdisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_auto_ibatdis(state, true);
+  this->parent_->set_en_auto_ibatdis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -258,7 +291,7 @@ void BQ25798ForceIbatdisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_force_ibatdis(true));
+  this->publish_state(this->parent_->get_force_ibatdis_bool(true));
 }
 
 void BQ25798ForceIbatdisSwitch::write_state(bool state) {
@@ -266,7 +299,7 @@ void BQ25798ForceIbatdisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_force_ibatdis(state, true);
+  this->parent_->set_force_ibatdis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -291,7 +324,7 @@ void BQ25798EnChgSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_chg(true));
+  this->publish_state(this->parent_->get_en_chg_bool(true));
 }
 
 void BQ25798EnChgSwitch::write_state(bool state) {
@@ -299,7 +332,7 @@ void BQ25798EnChgSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_chg(state, true);
+  this->parent_->set_en_chg_bool(state, true);
   this->publish_state(state);
 }
 
@@ -324,7 +357,7 @@ void BQ25798EnIcoSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_ico(true));
+  this->publish_state(this->parent_->get_en_ico_bool(true));
 }
 
 void BQ25798EnIcoSwitch::write_state(bool state) {
@@ -332,7 +365,7 @@ void BQ25798EnIcoSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_ico(state, true);
+  this->parent_->set_en_ico_bool(state, true);
   this->publish_state(state);
 }
 
@@ -357,7 +390,7 @@ void BQ25798ForceIcoSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_force_ico(true));
+  this->publish_state(this->parent_->get_force_ico_bool(true));
 }
 
 void BQ25798ForceIcoSwitch::write_state(bool state) {
@@ -365,7 +398,7 @@ void BQ25798ForceIcoSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_force_ico(state, true);
+  this->parent_->set_force_ico_bool(state, true);
   this->publish_state(state);
 }
 
@@ -390,7 +423,7 @@ void BQ25798EnHizSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_hiz(true));
+  this->publish_state(this->parent_->get_en_hiz_bool(true));
 }
 
 void BQ25798EnHizSwitch::write_state(bool state) {
@@ -398,7 +431,7 @@ void BQ25798EnHizSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_hiz(state, true);
+  this->parent_->set_en_hiz_bool(state, true);
   this->publish_state(state);
 }
 
@@ -423,7 +456,7 @@ void BQ25798EnTermSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_term(true));
+  this->publish_state(this->parent_->get_en_term_bool(true));
 }
 
 void BQ25798EnTermSwitch::write_state(bool state) {
@@ -431,7 +464,7 @@ void BQ25798EnTermSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_term(state, true);
+  this->parent_->set_en_term_bool(state, true);
   this->publish_state(state);
 }
 
@@ -456,7 +489,7 @@ void BQ25798EnBackupSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_backup(true));
+  this->publish_state(this->parent_->get_en_backup_bool(true));
 }
 
 void BQ25798EnBackupSwitch::write_state(bool state) {
@@ -464,7 +497,7 @@ void BQ25798EnBackupSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_backup(state, true);
+  this->parent_->set_en_backup_bool(state, true);
   this->publish_state(state);
 }
 
@@ -489,7 +522,7 @@ void BQ25798WdRstSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_wd_rst(true));
+  this->publish_state(this->parent_->get_wd_rst_bool(true));
 }
 
 void BQ25798WdRstSwitch::write_state(bool state) {
@@ -497,7 +530,7 @@ void BQ25798WdRstSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_wd_rst(state, true);
+  this->parent_->set_wd_rst_bool(state, true);
   this->publish_state(state);
 }
 
@@ -522,7 +555,7 @@ void BQ25798ForceIndetSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_force_indet(true));
+  this->publish_state(this->parent_->get_force_indet_bool(true));
 }
 
 void BQ25798ForceIndetSwitch::write_state(bool state) {
@@ -530,7 +563,7 @@ void BQ25798ForceIndetSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_force_indet(state, true);
+  this->parent_->set_force_indet_bool(state, true);
   this->publish_state(state);
 }
 
@@ -555,7 +588,7 @@ void BQ25798AutoIndetEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_auto_indet_en(true));
+  this->publish_state(this->parent_->get_auto_indet_en_bool(true));
 }
 
 void BQ25798AutoIndetEnSwitch::write_state(bool state) {
@@ -563,7 +596,7 @@ void BQ25798AutoIndetEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_auto_indet_en(state, true);
+  this->parent_->set_auto_indet_en_bool(state, true);
   this->publish_state(state);
 }
 
@@ -588,7 +621,7 @@ void BQ25798En12vSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_12v(true));
+  this->publish_state(this->parent_->get_en_12v_bool(true));
 }
 
 void BQ25798En12vSwitch::write_state(bool state) {
@@ -596,7 +629,7 @@ void BQ25798En12vSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_12v(state, true);
+  this->parent_->set_en_12v_bool(state, true);
   this->publish_state(state);
 }
 
@@ -621,7 +654,7 @@ void BQ25798En9vSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_9v(true));
+  this->publish_state(this->parent_->get_en_9v_bool(true));
 }
 
 void BQ25798En9vSwitch::write_state(bool state) {
@@ -629,7 +662,7 @@ void BQ25798En9vSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_9v(state, true);
+  this->parent_->set_en_9v_bool(state, true);
   this->publish_state(state);
 }
 
@@ -654,7 +687,7 @@ void BQ25798HvdcpEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_hvdcp_en(true));
+  this->publish_state(this->parent_->get_hvdcp_en_bool(true));
 }
 
 void BQ25798HvdcpEnSwitch::write_state(bool state) {
@@ -662,7 +695,40 @@ void BQ25798HvdcpEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_hvdcp_en(state, true);
+  this->parent_->set_hvdcp_en_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// SDRV_DLY - Delay for SDRV control
+float BQ25798SdrvDlySwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798SdrvDlySwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798SdrvDlySwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "SDRV_DLY", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798SdrvDlySwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_sdrv_dly_bool(true));
+}
+
+void BQ25798SdrvDlySwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_sdrv_dly_bool(state, true);
   this->publish_state(state);
 }
 
@@ -687,7 +753,7 @@ void BQ25798DisAcdrvSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_acdrv(true));
+  this->publish_state(this->parent_->get_dis_acdrv_bool(true));
 }
 
 void BQ25798DisAcdrvSwitch::write_state(bool state) {
@@ -695,7 +761,7 @@ void BQ25798DisAcdrvSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_acdrv(state, true);
+  this->parent_->set_dis_acdrv_bool(state, true);
   this->publish_state(state);
 }
 
@@ -720,7 +786,7 @@ void BQ25798EnOtgSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_otg(true));
+  this->publish_state(this->parent_->get_en_otg_bool(true));
 }
 
 void BQ25798EnOtgSwitch::write_state(bool state) {
@@ -728,7 +794,7 @@ void BQ25798EnOtgSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_otg(state, true);
+  this->parent_->set_en_otg_bool(state, true);
   this->publish_state(state);
 }
 
@@ -753,7 +819,7 @@ void BQ25798PfmOtgDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_pfm_otg_dis(true));
+  this->publish_state(this->parent_->get_pfm_otg_dis_bool(true));
 }
 
 void BQ25798PfmOtgDisSwitch::write_state(bool state) {
@@ -761,7 +827,7 @@ void BQ25798PfmOtgDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_pfm_otg_dis(state, true);
+  this->parent_->set_pfm_otg_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -786,7 +852,7 @@ void BQ25798PfmFwdDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_pfm_fwd_dis(true));
+  this->publish_state(this->parent_->get_pfm_fwd_dis_bool(true));
 }
 
 void BQ25798PfmFwdDisSwitch::write_state(bool state) {
@@ -794,7 +860,40 @@ void BQ25798PfmFwdDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_pfm_fwd_dis(state, true);
+  this->parent_->set_pfm_fwd_dis_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// WKUP_DLY - Wakeup (Ship FET) delay
+float BQ25798WkupDlySwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798WkupDlySwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798WkupDlySwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "WKUP_DLY", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798WkupDlySwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_wkup_dly_bool(true));
+}
+
+void BQ25798WkupDlySwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_wkup_dly_bool(state, true);
   this->publish_state(state);
 }
 
@@ -819,7 +918,7 @@ void BQ25798DisLdoSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_ldo(true));
+  this->publish_state(this->parent_->get_dis_ldo_bool(true));
 }
 
 void BQ25798DisLdoSwitch::write_state(bool state) {
@@ -827,7 +926,7 @@ void BQ25798DisLdoSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_ldo(state, true);
+  this->parent_->set_dis_ldo_bool(state, true);
   this->publish_state(state);
 }
 
@@ -852,7 +951,7 @@ void BQ25798DisOtgOoaSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_otg_ooa(true));
+  this->publish_state(this->parent_->get_dis_otg_ooa_bool(true));
 }
 
 void BQ25798DisOtgOoaSwitch::write_state(bool state) {
@@ -860,7 +959,7 @@ void BQ25798DisOtgOoaSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_otg_ooa(state, true);
+  this->parent_->set_dis_otg_ooa_bool(state, true);
   this->publish_state(state);
 }
 
@@ -885,7 +984,7 @@ void BQ25798DisFwdOoaSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_fwd_ooa(true));
+  this->publish_state(this->parent_->get_dis_fwd_ooa_bool(true));
 }
 
 void BQ25798DisFwdOoaSwitch::write_state(bool state) {
@@ -893,7 +992,7 @@ void BQ25798DisFwdOoaSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_fwd_ooa(state, true);
+  this->parent_->set_dis_fwd_ooa_bool(state, true);
   this->publish_state(state);
 }
 
@@ -918,7 +1017,7 @@ void BQ25798EnAcdrv2Switch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_acdrv2(true));
+  this->publish_state(this->parent_->get_en_acdrv2_bool(true));
 }
 
 void BQ25798EnAcdrv2Switch::write_state(bool state) {
@@ -926,7 +1025,7 @@ void BQ25798EnAcdrv2Switch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_acdrv2(state, true);
+  this->parent_->set_en_acdrv2_bool(state, true);
   this->publish_state(state);
 }
 
@@ -951,7 +1050,7 @@ void BQ25798EnAcdrv1Switch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_acdrv1(true));
+  this->publish_state(this->parent_->get_en_acdrv1_bool(true));
 }
 
 void BQ25798EnAcdrv1Switch::write_state(bool state) {
@@ -959,7 +1058,40 @@ void BQ25798EnAcdrv1Switch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_acdrv1(state, true);
+  this->parent_->set_en_acdrv1_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// PWM_FREQ - PWM frequency setting
+float BQ25798PwmFreqSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798PwmFreqSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798PwmFreqSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "PWM_FREQ", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798PwmFreqSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_pwm_freq_bool(true));
+}
+
+void BQ25798PwmFreqSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_pwm_freq_bool(state, true);
   this->publish_state(state);
 }
 
@@ -984,7 +1116,7 @@ void BQ25798DisStatSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_stat(true));
+  this->publish_state(this->parent_->get_dis_stat_bool(true));
 }
 
 void BQ25798DisStatSwitch::write_state(bool state) {
@@ -992,7 +1124,7 @@ void BQ25798DisStatSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_stat(state, true);
+  this->parent_->set_dis_stat_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1017,7 +1149,7 @@ void BQ25798DisVsysShortSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_vsys_short(true));
+  this->publish_state(this->parent_->get_dis_vsys_short_bool(true));
 }
 
 void BQ25798DisVsysShortSwitch::write_state(bool state) {
@@ -1025,7 +1157,7 @@ void BQ25798DisVsysShortSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_vsys_short(state, true);
+  this->parent_->set_dis_vsys_short_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1050,7 +1182,7 @@ void BQ25798DisVotgUvpSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dis_votg_uvp(true));
+  this->publish_state(this->parent_->get_dis_votg_uvp_bool(true));
 }
 
 void BQ25798DisVotgUvpSwitch::write_state(bool state) {
@@ -1058,7 +1190,7 @@ void BQ25798DisVotgUvpSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dis_votg_uvp(state, true);
+  this->parent_->set_dis_votg_uvp_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1083,7 +1215,7 @@ void BQ25798ForceVindpmDetSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_force_vindpm_det(true));
+  this->publish_state(this->parent_->get_force_vindpm_det_bool(true));
 }
 
 void BQ25798ForceVindpmDetSwitch::write_state(bool state) {
@@ -1091,7 +1223,7 @@ void BQ25798ForceVindpmDetSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_force_vindpm_det(state, true);
+  this->parent_->set_force_vindpm_det_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1116,7 +1248,7 @@ void BQ25798EnIbusOcpSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_ibus_ocp(true));
+  this->publish_state(this->parent_->get_en_ibus_ocp_bool(true));
 }
 
 void BQ25798EnIbusOcpSwitch::write_state(bool state) {
@@ -1124,7 +1256,7 @@ void BQ25798EnIbusOcpSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_ibus_ocp(state, true);
+  this->parent_->set_en_ibus_ocp_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1149,7 +1281,7 @@ void BQ25798SfetPresentSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_sfet_present(true));
+  this->publish_state(this->parent_->get_sfet_present_bool(true));
 }
 
 void BQ25798SfetPresentSwitch::write_state(bool state) {
@@ -1157,7 +1289,7 @@ void BQ25798SfetPresentSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_sfet_present(state, true);
+  this->parent_->set_sfet_present_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1182,7 +1314,7 @@ void BQ25798EnIbatSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_ibat(true));
+  this->publish_state(this->parent_->get_en_ibat_bool(true));
 }
 
 void BQ25798EnIbatSwitch::write_state(bool state) {
@@ -1190,7 +1322,7 @@ void BQ25798EnIbatSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_ibat(state, true);
+  this->parent_->set_en_ibat_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1215,7 +1347,7 @@ void BQ25798EnIindpmSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_iindpm(true));
+  this->publish_state(this->parent_->get_en_iindpm_bool(true));
 }
 
 void BQ25798EnIindpmSwitch::write_state(bool state) {
@@ -1223,7 +1355,7 @@ void BQ25798EnIindpmSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_iindpm(state, true);
+  this->parent_->set_en_iindpm_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1248,7 +1380,7 @@ void BQ25798EnExtilimSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_extilim(true));
+  this->publish_state(this->parent_->get_en_extilim_bool(true));
 }
 
 void BQ25798EnExtilimSwitch::write_state(bool state) {
@@ -1256,7 +1388,7 @@ void BQ25798EnExtilimSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_extilim(state, true);
+  this->parent_->set_en_extilim_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1281,7 +1413,7 @@ void BQ25798EnBatocSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_batoc(true));
+  this->publish_state(this->parent_->get_en_batoc_bool(true));
 }
 
 void BQ25798EnBatocSwitch::write_state(bool state) {
@@ -1289,7 +1421,7 @@ void BQ25798EnBatocSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_batoc(state, true);
+  this->parent_->set_en_batoc_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1314,7 +1446,7 @@ void BQ25798EnMpptSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_en_mppt(true));
+  this->publish_state(this->parent_->get_en_mppt_bool(true));
 }
 
 void BQ25798EnMpptSwitch::write_state(bool state) {
@@ -1322,7 +1454,7 @@ void BQ25798EnMpptSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_en_mppt(state, true);
+  this->parent_->set_en_mppt_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1347,7 +1479,7 @@ void BQ25798VbusPdEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vbus_pd_en(true));
+  this->publish_state(this->parent_->get_vbus_pd_en_bool(true));
 }
 
 void BQ25798VbusPdEnSwitch::write_state(bool state) {
@@ -1355,7 +1487,7 @@ void BQ25798VbusPdEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vbus_pd_en(state, true);
+  this->parent_->set_vbus_pd_en_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1380,7 +1512,7 @@ void BQ25798Vac1PdEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vac1_pd_en(true));
+  this->publish_state(this->parent_->get_vac1_pd_en_bool(true));
 }
 
 void BQ25798Vac1PdEnSwitch::write_state(bool state) {
@@ -1388,7 +1520,7 @@ void BQ25798Vac1PdEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vac1_pd_en(state, true);
+  this->parent_->set_vac1_pd_en_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1413,7 +1545,7 @@ void BQ25798Vac2PdEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vac2_pd_en(true));
+  this->publish_state(this->parent_->get_vac2_pd_en_bool(true));
 }
 
 void BQ25798Vac2PdEnSwitch::write_state(bool state) {
@@ -1421,7 +1553,73 @@ void BQ25798Vac2PdEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vac2_pd_en(state, true);
+  this->parent_->set_vac2_pd_en_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// BKUP_ACFET1_ON - 
+float BQ25798BkupAcfet1OnSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798BkupAcfet1OnSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798BkupAcfet1OnSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "BKUP_ACFET1_ON", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798BkupAcfet1OnSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_bkup_acfet1_on_bool(true));
+}
+
+void BQ25798BkupAcfet1OnSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_bkup_acfet1_on_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// BCOLD - 
+float BQ25798BcoldSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798BcoldSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798BcoldSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "BCOLD", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798BcoldSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_bcold_bool(true));
+}
+
+void BQ25798BcoldSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_bcold_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1446,7 +1644,7 @@ void BQ25798TsIgnoreSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_ts_ignore(true));
+  this->publish_state(this->parent_->get_ts_ignore_bool(true));
 }
 
 void BQ25798TsIgnoreSwitch::write_state(bool state) {
@@ -1454,7 +1652,7 @@ void BQ25798TsIgnoreSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_ts_ignore(state, true);
+  this->parent_->set_ts_ignore_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1479,7 +1677,7 @@ void BQ25798AdcEnSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_adc_en(true));
+  this->publish_state(this->parent_->get_adc_en_bool(true));
 }
 
 void BQ25798AdcEnSwitch::write_state(bool state) {
@@ -1487,7 +1685,73 @@ void BQ25798AdcEnSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_adc_en(state, true);
+  this->parent_->set_adc_en_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// ADC_RATE - 
+float BQ25798AdcRateSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798AdcRateSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcRateSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "ADC_RATE", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798AdcRateSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_adc_rate_bool(true));
+}
+
+void BQ25798AdcRateSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_adc_rate_bool(state, true);
+  this->publish_state(state);
+}
+
+
+
+
+// ADC_AVG - 
+float BQ25798AdcAvgSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798AdcAvgSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcAvgSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "ADC_AVG", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798AdcAvgSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_adc_avg_bool(true));
+}
+
+void BQ25798AdcAvgSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_adc_avg_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1512,7 +1776,7 @@ void BQ25798AdcAvgInitSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_adc_avg_init(true));
+  this->publish_state(this->parent_->get_adc_avg_init_bool(true));
 }
 
 void BQ25798AdcAvgInitSwitch::write_state(bool state) {
@@ -1520,7 +1784,7 @@ void BQ25798AdcAvgInitSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_adc_avg_init(state, true);
+  this->parent_->set_adc_avg_init_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1545,7 +1809,7 @@ void BQ25798IbusAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_ibus_adc_dis(true));
+  this->publish_state(this->parent_->get_ibus_adc_dis_bool(true));
 }
 
 void BQ25798IbusAdcDisSwitch::write_state(bool state) {
@@ -1553,7 +1817,7 @@ void BQ25798IbusAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_ibus_adc_dis(state, true);
+  this->parent_->set_ibus_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1578,7 +1842,7 @@ void BQ25798IbatAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_ibat_adc_dis(true));
+  this->publish_state(this->parent_->get_ibat_adc_dis_bool(true));
 }
 
 void BQ25798IbatAdcDisSwitch::write_state(bool state) {
@@ -1586,7 +1850,7 @@ void BQ25798IbatAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_ibat_adc_dis(state, true);
+  this->parent_->set_ibat_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1611,7 +1875,7 @@ void BQ25798VbusAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vbus_adc_dis(true));
+  this->publish_state(this->parent_->get_vbus_adc_dis_bool(true));
 }
 
 void BQ25798VbusAdcDisSwitch::write_state(bool state) {
@@ -1619,7 +1883,7 @@ void BQ25798VbusAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vbus_adc_dis(state, true);
+  this->parent_->set_vbus_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1644,7 +1908,7 @@ void BQ25798VbatAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vbat_adc_dis(true));
+  this->publish_state(this->parent_->get_vbat_adc_dis_bool(true));
 }
 
 void BQ25798VbatAdcDisSwitch::write_state(bool state) {
@@ -1652,7 +1916,7 @@ void BQ25798VbatAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vbat_adc_dis(state, true);
+  this->parent_->set_vbat_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1677,7 +1941,7 @@ void BQ25798VsysAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vsys_adc_dis(true));
+  this->publish_state(this->parent_->get_vsys_adc_dis_bool(true));
 }
 
 void BQ25798VsysAdcDisSwitch::write_state(bool state) {
@@ -1685,7 +1949,7 @@ void BQ25798VsysAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vsys_adc_dis(state, true);
+  this->parent_->set_vsys_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1710,7 +1974,7 @@ void BQ25798TsAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_ts_adc_dis(true));
+  this->publish_state(this->parent_->get_ts_adc_dis_bool(true));
 }
 
 void BQ25798TsAdcDisSwitch::write_state(bool state) {
@@ -1718,7 +1982,7 @@ void BQ25798TsAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_ts_adc_dis(state, true);
+  this->parent_->set_ts_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1743,7 +2007,7 @@ void BQ25798TdieAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_tdie_adc_dis(true));
+  this->publish_state(this->parent_->get_tdie_adc_dis_bool(true));
 }
 
 void BQ25798TdieAdcDisSwitch::write_state(bool state) {
@@ -1751,7 +2015,7 @@ void BQ25798TdieAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_tdie_adc_dis(state, true);
+  this->parent_->set_tdie_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1776,7 +2040,7 @@ void BQ25798DplusAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dplus_adc_dis(true));
+  this->publish_state(this->parent_->get_dplus_adc_dis_bool(true));
 }
 
 void BQ25798DplusAdcDisSwitch::write_state(bool state) {
@@ -1784,7 +2048,7 @@ void BQ25798DplusAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dplus_adc_dis(state, true);
+  this->parent_->set_dplus_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1809,7 +2073,7 @@ void BQ25798DminusAdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_dminus_adc_dis(true));
+  this->publish_state(this->parent_->get_dminus_adc_dis_bool(true));
 }
 
 void BQ25798DminusAdcDisSwitch::write_state(bool state) {
@@ -1817,7 +2081,7 @@ void BQ25798DminusAdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_dminus_adc_dis(state, true);
+  this->parent_->set_dminus_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1842,7 +2106,7 @@ void BQ25798Vac2AdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vac2_adc_dis(true));
+  this->publish_state(this->parent_->get_vac2_adc_dis_bool(true));
 }
 
 void BQ25798Vac2AdcDisSwitch::write_state(bool state) {
@@ -1850,7 +2114,7 @@ void BQ25798Vac2AdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vac2_adc_dis(state, true);
+  this->parent_->set_vac2_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1875,7 +2139,7 @@ void BQ25798Vac1AdcDisSwitch::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_vac1_adc_dis(true));
+  this->publish_state(this->parent_->get_vac1_adc_dis_bool(true));
 }
 
 void BQ25798Vac1AdcDisSwitch::write_state(bool state) {
@@ -1883,7 +2147,7 @@ void BQ25798Vac1AdcDisSwitch::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_vac1_adc_dis(state, true);
+  this->parent_->set_vac1_adc_dis_bool(state, true);
   this->publish_state(state);
 }
 

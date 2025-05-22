@@ -28,12 +28,12 @@ void BQ25798VsysminNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798VsysminNumber...");
-  this->publish_state(this->parent_->get_vsysmin(true));
+  this->publish_state(this->parent_->get_vsysmin_int(true));
 }
 
 void BQ25798VsysminNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VsysminNumber...");
-  this->parent_->set_vsysmin(new_value, true);
+  this->parent_->set_vsysmin_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -59,12 +59,12 @@ void BQ25798VregNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798VregNumber...");
-  this->publish_state(this->parent_->get_vreg(true));
+  this->publish_state(this->parent_->get_vreg_int(true));
 }
 
 void BQ25798VregNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VregNumber...");
-  this->parent_->set_vreg(new_value, true);
+  this->parent_->set_vreg_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -90,12 +90,12 @@ void BQ25798IchgNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798IchgNumber...");
-  this->publish_state(this->parent_->get_ichg(true));
+  this->publish_state(this->parent_->get_ichg_int(true));
 }
 
 void BQ25798IchgNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798IchgNumber...");
-  this->parent_->set_ichg(new_value, true);
+  this->parent_->set_ichg_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -121,12 +121,12 @@ void BQ25798VindpmNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798VindpmNumber...");
-  this->publish_state(this->parent_->get_vindpm(true));
+  this->publish_state(this->parent_->get_vindpm_int(true));
 }
 
 void BQ25798VindpmNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VindpmNumber...");
-  this->parent_->set_vindpm(new_value, true);
+  this->parent_->set_vindpm_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -152,12 +152,12 @@ void BQ25798IindpmNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798IindpmNumber...");
-  this->publish_state(this->parent_->get_iindpm(true));
+  this->publish_state(this->parent_->get_iindpm_int(true));
 }
 
 void BQ25798IindpmNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798IindpmNumber...");
-  this->parent_->set_iindpm(new_value, true);
+  this->parent_->set_iindpm_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -183,12 +183,12 @@ void BQ25798IprechgNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798IprechgNumber...");
-  this->publish_state(this->parent_->get_iprechg(true));
+  this->publish_state(this->parent_->get_iprechg_int(true));
 }
 
 void BQ25798IprechgNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798IprechgNumber...");
-  this->parent_->set_iprechg(new_value, true);
+  this->parent_->set_iprechg_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -214,12 +214,12 @@ void BQ25798ItermNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798ItermNumber...");
-  this->publish_state(this->parent_->get_iterm(true));
+  this->publish_state(this->parent_->get_iterm_int(true));
 }
 
 void BQ25798ItermNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798ItermNumber...");
-  this->parent_->set_iterm(new_value, true);
+  this->parent_->set_iterm_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -245,12 +245,12 @@ void BQ25798VrechgNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798VrechgNumber...");
-  this->publish_state(this->parent_->get_vrechg(true));
+  this->publish_state(this->parent_->get_vrechg_int(true));
 }
 
 void BQ25798VrechgNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VrechgNumber...");
-  this->parent_->set_vrechg(new_value, true);
+  this->parent_->set_vrechg_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -276,12 +276,12 @@ void BQ25798VotgNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798VotgNumber...");
-  this->publish_state(this->parent_->get_votg(true));
+  this->publish_state(this->parent_->get_votg_int(true));
 }
 
 void BQ25798VotgNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VotgNumber...");
-  this->parent_->set_votg(new_value, true);
+  this->parent_->set_votg_int(new_value, true);
   this->publish_state(new_value);
 }
 
@@ -307,12 +307,12 @@ void BQ25798IotgNumber::update() {
   }
 
   //ESP_LOGD(TAG, "Updating BQ25798IotgNumber...");
-  this->publish_state(this->parent_->get_iotg(true));
+  this->publish_state(this->parent_->get_iotg_int(true));
 }
 
 void BQ25798IotgNumber::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling BQ25798IotgNumber...");
-  this->parent_->set_iotg(new_value, true);
+  this->parent_->set_iotg_int(new_value, true);
   this->publish_state(new_value);
 }
 

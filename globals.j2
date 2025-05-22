@@ -9,10 +9,19 @@
 {# #}
 {# The "set _ = def.update..." is a hack to add new attributes to an existing dictionary: #}
 {# #}
-{%- set _ = def.update({ 'name_snakecase': def.name | lower }) -%}
-{%- set _ = def.update({ 'is_bool': def.type == "bool" }) -%}
-{%- set _ = def.update({ 'is_int': def.type == "int" }) -%}
-{%- set _ = def.update({ 'is_float': def.type == "float" }) -%}
-{%- set _ = def.update({ 'is_enum': def.type == "enum" }) -%}
+{%- set _ = def.update({ '_snake_case_name': def.name | lower }) -%}
+{%- set _ = def.update({ '_UPPERCASE_NAME': def.name | upper }) -%}
+{%- set _ = def.update({ '_CamelCaseName': def.name
+    | replace('_', ' ')
+    | title
+    | replace(' ', '')
+}) -%}
+{# #}
+{%- set _ = def.update({ '_is_bool': def.type == "bool" or (def.type == "enum" and def.bits == 1) }) -%}
+{%- set _ = def.update({ '_is_int': def.type == "int" }) -%}
+{%- set _ = def.update({ '_is_float': def.type == "float" }) -%}
+{%- set _ = def.update({ '_is_enum': def.type == "enum" }) -%}
+{# #}
+{%- set _ = def.update({ '_is_rw': def.mode == "rw" }) -%}
 {# #}
 {%- endfor -%}

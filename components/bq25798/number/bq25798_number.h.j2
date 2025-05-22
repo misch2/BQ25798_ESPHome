@@ -12,12 +12,8 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
-{% set formatted_name = def.name
-    | replace('_', ' ')
-    | title
-    | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+{%     if (def._is_int or def._is_float) and def._is_rw %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Number' %}
 
 // {{ def.name }} - {{ def.description }}
 class {{ className }} : public number::Number,

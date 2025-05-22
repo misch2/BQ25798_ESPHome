@@ -19,8 +19,8 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", binary_sensor.Bin
 
 # Boolean settings
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
+{%     if def._is_bool %}
+CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}
 {% endfor %}
 
@@ -45,8 +45,8 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),            
 
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): binary_sensor.binary_sensor_schema(
+{%     if def._is_bool %}
+            cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): binary_sensor.binary_sensor_schema(
 {%         if def.ha_device_class != "" %}
 #FIXME TODO               device_class="{{ def.ha_device_class }}",
 {%         endif %}
@@ -65,10 +65,10 @@ async def to_code(config):
 
     # Sensors
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-    if {{ def.name_snakecase }} := config.get(CONF_BQ25798_{{ def.name }}):
-        sens = await binary_sensor.new_binary_sensor({{ def.name_snakecase }})
-        cg.add(var.assign_binary_sensor_{{ def.name_snakecase }}(sens))
+{%     if def._is_bool %}
+    if {{ def._snake_case_name }} := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
+        sens = await binary_sensor.new_binary_sensor({{ def._snake_case_name }})
+        cg.add(var.assign_binary_sensor_{{ def._snake_case_name }}(sens))
 {%     endif %}
 
 {% endfor %}

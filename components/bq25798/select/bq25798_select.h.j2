@@ -12,12 +12,12 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if def.type == "enum" and def.mode == "rw" %}
+{%     if def._is_enum and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Select' %}
 
 // {{ def.name }} - {{ def.description }}
 class {{ className }} : public select::Select,

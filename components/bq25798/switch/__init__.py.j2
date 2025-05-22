@@ -18,15 +18,15 @@ DEPENDENCIES = ["bq25798"]
 
 # Boolean settings
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
+{%     if def._is_bool and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Switch' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", switch.Switch, cg.PollingComponent)
-CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
+CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}
 {% endfor %}
 
@@ -36,13 +36,13 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
+{%     if def._is_bool and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): switch.switch_schema(
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Switch' %}
+            cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): switch.switch_schema(
                 {{ className }},
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
@@ -57,9 +57,9 @@ async def to_code(config):
 
     # Switches
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
-    if {{ def.name_snakecase }}_config := config.get(CONF_BQ25798_{{ def.name }}):
-        sw = await switch.new_switch({{ def.name_snakecase }}_config)
+{%     if def._is_bool and def._is_rw %}
+    if {{ def._snake_case_name }}_config := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
+        sw = await switch.new_switch({{ def._snake_case_name }}_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
         await cg.register_component(sw, config)
 

@@ -26,13 +26,13 @@ BQ25798Sensor = bq25798_ns.class_("BQ25798Sensor", sensor.Sensor, cg.PollingComp
 
 # Numeric settings including the enums
 {% for def in settings %}
-{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
-CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
+{%     if def._is_int or def._is_float or def._is_enum %}
+CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}
 {% endfor %}
 
 {% for def in settings %}
-{%     if def.type == "enum" %}
+{%     if def._is_enum %}
 ENUM_BQ25798_{{ def.name}} = {
 {%         for enum in def.enum_constants %}
     "{{ enum }}": {{ loop.index0 }},
@@ -48,8 +48,8 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): sensor.sensor_schema(
+{%     if def._is_int or def._is_float or def._is_enum %}
+            cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): sensor.sensor_schema(
 {%         if def.unit == "mV" %}
                 unit_of_measurement="mV",
                 device_class=DEVICE_CLASS_VOLTAGE,
@@ -82,10 +82,10 @@ async def to_code(config):
 
     # Sensors
 {% for def in settings %}
-{%     if def.type == "int" or def.type == "float" or def.type == "enum" %}
-    if {{ def.name_snakecase }} := config.get(CONF_BQ25798_{{ def.name }}):
-        sens = await sensor.new_sensor({{ def.name_snakecase }})
-        cg.add(var.assign_sensor_{{ def.name_snakecase }}(sens))
+{%     if def._is_int or def._is_float or def._is_enum %}
+    if {{ def._snake_case_name }} := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
+        sens = await sensor.new_sensor({{ def._snake_case_name }})
+        cg.add(var.assign_sensor_{{ def._snake_case_name }}(sens))
 {%     endif %}
 
 {% endfor %}

@@ -263,7 +263,6 @@ async def to_code(config):
     if vbat_lowv_config := config.get(CONF_BQ25798_VBAT_LOWV):
         sel = await select.new_select(
             vbat_lowv_config,
-            # step=1,
             options=[
                 "VBAT_LOWV_PCT_15",
                 "VBAT_LOWV_PCT_62",
@@ -282,7 +281,6 @@ async def to_code(config):
     if cell_config := config.get(CONF_BQ25798_CELL):
         sel = await select.new_select(
             cell_config,
-            # step=1,
             options=[
                 "CELL_1S",
                 "CELL_2S",
@@ -297,7 +295,6 @@ async def to_code(config):
     if trechg_config := config.get(CONF_BQ25798_TRECHG):
         sel = await select.new_select(
             trechg_config,
-            # step=1,
             options=[
                 "TRECHG_64MS",
                 "TRECHG_256MS",
@@ -314,7 +311,6 @@ async def to_code(config):
     if prechg_tmr_config := config.get(CONF_BQ25798_PRECHG_TMR):
         sel = await select.new_select(
             prechg_tmr_config,
-            # step=1,
             options=[
                 "PRECHG_TMR_2HRS",
                 "PRECHG_TMR_30MIN",
@@ -328,7 +324,6 @@ async def to_code(config):
     if topoff_tmr_config := config.get(CONF_BQ25798_TOPOFF_TMR):
         sel = await select.new_select(
             topoff_tmr_config,
-            # step=1,
             options=[
                 "TOPOFF_TMR_DISABLED",
                 "TOPOFF_TMR_15MIN",
@@ -346,7 +341,6 @@ async def to_code(config):
     if chg_tmr_config := config.get(CONF_BQ25798_CHG_TMR):
         sel = await select.new_select(
             chg_tmr_config,
-            # step=1,
             options=[
                 "CHG_TMR_5HRS",
                 "CHG_TMR_8HRS",
@@ -370,7 +364,6 @@ async def to_code(config):
     if vbus_backup_config := config.get(CONF_BQ25798_VBUS_BACKUP):
         sel = await select.new_select(
             vbus_backup_config,
-            # step=1,
             options=[
                 "PCT_VBUS_BACKUP_40",
                 "PCT_VBUS_BACKUP_60",
@@ -385,7 +378,6 @@ async def to_code(config):
     if vac_ovp_config := config.get(CONF_BQ25798_VAC_OVP):
         sel = await select.new_select(
             vac_ovp_config,
-            # step=1,
             options=[
                 "VAC_OVP_26V",
                 "VAC_OVP_22V",
@@ -401,7 +393,6 @@ async def to_code(config):
     if watchdog_config := config.get(CONF_BQ25798_WATCHDOG):
         sel = await select.new_select(
             watchdog_config,
-            # step=1,
             options=[
                 "WATCHDOG_DISABLE",
                 "WATCHDOG_05S",
@@ -425,7 +416,6 @@ async def to_code(config):
     if sdrv_ctrl_config := config.get(CONF_BQ25798_SDRV_CTRL):
         sel = await select.new_select(
             sdrv_ctrl_config,
-            # step=1,
             options=[
                 "SDRV_CTRL_IDLE",
                 "SDRV_CTRL_SHUTDOWN",
@@ -440,7 +430,6 @@ async def to_code(config):
     if sdrv_dly_config := config.get(CONF_BQ25798_SDRV_DLY):
         sel = await select.new_select(
             sdrv_dly_config,
-            # step=1,
             options=[
                 "SDRV_DLY_10S",
                 "SDRV_DLY_0S",
@@ -457,7 +446,6 @@ async def to_code(config):
     if wkup_dly_config := config.get(CONF_BQ25798_WKUP_DLY):
         sel = await select.new_select(
             wkup_dly_config,
-            # step=1,
             options=[
                 "WKUP_DLY_1S",
                 "WKUP_DLY_15MS",
@@ -475,7 +463,6 @@ async def to_code(config):
     if pwm_freq_config := config.get(CONF_BQ25798_PWM_FREQ):
         sel = await select.new_select(
             pwm_freq_config,
-            # step=1,
             options=[
                 "PWM_FREQ_1_5MHZ",
                 "PWM_FREQ_750KHZ",
@@ -495,7 +482,6 @@ async def to_code(config):
     if ibat_reg_config := config.get(CONF_BQ25798_IBAT_REG):
         sel = await select.new_select(
             ibat_reg_config,
-            # step=1,
             options=[
                 "IBAT_REG_3A",
                 "IBAT_REG_4A",
@@ -513,7 +499,6 @@ async def to_code(config):
     if voc_pct_config := config.get(CONF_BQ25798_VOC_PCT):
         sel = await select.new_select(
             voc_pct_config,
-            # step=1,
             options=[
                 "VOC_PCT_0_5625",
                 "VOC_PCT_0_625",
@@ -532,7 +517,6 @@ async def to_code(config):
     if voc_dly_config := config.get(CONF_BQ25798_VOC_DLY):
         sel = await select.new_select(
             voc_dly_config,
-            # step=1,
             options=[
                 "VOC_DLY_50MS",
                 "VOC_DLY_300MS",
@@ -547,7 +531,6 @@ async def to_code(config):
     if voc_rate_config := config.get(CONF_BQ25798_VOC_RATE):
         sel = await select.new_select(
             voc_rate_config,
-            # step=1,
             options=[
                 "VOC_RATE_30S",
                 "VOC_RATE_2MIN",
@@ -563,7 +546,6 @@ async def to_code(config):
     if treg_config := config.get(CONF_BQ25798_TREG):
         sel = await select.new_select(
             treg_config,
-            # step=1,
             options=[
                 "TREG_60",
                 "TREG_80",
@@ -578,7 +560,6 @@ async def to_code(config):
     if tshut_config := config.get(CONF_BQ25798_TSHUT):
         sel = await select.new_select(
             tshut_config,
-            # step=1,
             options=[
                 "TSHUT_150",
                 "TSHUT_130",
@@ -596,7 +577,6 @@ async def to_code(config):
     if bkup_acfet1_on_config := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
         sel = await select.new_select(
             bkup_acfet1_on_config,
-            # step=1,
             options=[
                 "BKUP_ACFET1_ON_IDLE",
                 "BKUP_ACFET1_ON_TURN_ON",
@@ -609,7 +589,6 @@ async def to_code(config):
     if jeita_vset_config := config.get(CONF_BQ25798_JEITA_VSET):
         sel = await select.new_select(
             jeita_vset_config,
-            # step=1,
             options=[
                 "JEITA_VSET_CHARGE_SUSPEND",
                 "JEITA_VSET_SET_VREG_TO_VREG_800MV",
@@ -628,7 +607,6 @@ async def to_code(config):
     if jeita_iseth_config := config.get(CONF_BQ25798_JEITA_ISETH):
         sel = await select.new_select(
             jeita_iseth_config,
-            # step=1,
             options=[
                 "JEITA_ISETH_CHARGE_SUSPEND",
                 "JEITA_ISETH_SET_ICHG_TO_20",
@@ -643,7 +621,6 @@ async def to_code(config):
     if jeita_isetc_config := config.get(CONF_BQ25798_JEITA_ISETC):
         sel = await select.new_select(
             jeita_isetc_config,
-            # step=1,
             options=[
                 "JEITA_ISETC_CHARGE_SUSPEND",
                 "JEITA_ISETC_SET_ICHG_TO_20",
@@ -658,7 +635,6 @@ async def to_code(config):
     if ts_cool_config := config.get(CONF_BQ25798_TS_COOL):
         sel = await select.new_select(
             ts_cool_config,
-            # step=1,
             options=[
                 "TS_COOL_5",
                 "TS_COOL_10",
@@ -673,7 +649,6 @@ async def to_code(config):
     if ts_warm_config := config.get(CONF_BQ25798_TS_WARM):
         sel = await select.new_select(
             ts_warm_config,
-            # step=1,
             options=[
                 "TS_WARM_40",
                 "TS_WARM_45",
@@ -688,7 +663,6 @@ async def to_code(config):
     if bhot_config := config.get(CONF_BQ25798_BHOT):
         sel = await select.new_select(
             bhot_config,
-            # step=1,
             options=[
                 "TS_BHOT_55",
                 "TS_BHOT_60",
@@ -703,7 +677,6 @@ async def to_code(config):
     if bcold_config := config.get(CONF_BQ25798_BCOLD):
         sel = await select.new_select(
             bcold_config,
-            # step=1,
             options=[
                 "TS_BCOLD_MINUS_10",
                 "TS_BCOLD_MINUS_20",
@@ -797,7 +770,6 @@ async def to_code(config):
     if adc_rate_config := config.get(CONF_BQ25798_ADC_RATE):
         sel = await select.new_select(
             adc_rate_config,
-            # step=1,
             options=[
                 "ADC_RATE_CONTINUOUS",
                 "ADC_RATE_ONESHOT",
@@ -810,7 +782,6 @@ async def to_code(config):
     if adc_sample_config := config.get(CONF_BQ25798_ADC_SAMPLE):
         sel = await select.new_select(
             adc_sample_config,
-            # step=1,
             options=[
                 "ADC_SAMPLE_15BIT",
                 "ADC_SAMPLE_14BIT",
@@ -825,7 +796,6 @@ async def to_code(config):
     if adc_avg_config := config.get(CONF_BQ25798_ADC_AVG):
         sel = await select.new_select(
             adc_avg_config,
-            # step=1,
             options=[
                 "ADC_AVG_NO_AVERAGING",
                 "ADC_AVG_RUNNING_AVERAGE",
@@ -861,7 +831,6 @@ async def to_code(config):
     if dplus_dac_config := config.get(CONF_BQ25798_DPLUS_DAC):
         sel = await select.new_select(
             dplus_dac_config,
-            # step=1,
             options=[
                 "DPLUS_DAC_HIZ",
                 "DPLUS_DAC_VOUT_0",
@@ -880,7 +849,6 @@ async def to_code(config):
     if dminus_dac_config := config.get(CONF_BQ25798_DMINUS_DAC):
         sel = await select.new_select(
             dminus_dac_config,
-            # step=1,
             options=[
                 "DMINUS_DAC_HIZ",
                 "DMINUS_DAC_VOUT_0",

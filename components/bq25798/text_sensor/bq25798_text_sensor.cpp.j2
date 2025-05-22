@@ -18,9 +18,9 @@ void BQ25798TextSensor::dump_config() {
   }
 
 {% for def in settings %}
-{%     if def.type == "enum" %}
-  if (this->text_sensor_{{ def.name_snakecase }}_ != nullptr) {
-    LOG_TEXT_SENSOR("  ", "{{ def.name }}", this->text_sensor_{{ def.name_snakecase }}_);
+{%     if def._is_enum %}
+  if (this->text_sensor_{{ def._snake_case_name }}_ != nullptr) {
+    LOG_TEXT_SENSOR("  ", "{{ def.name }}", this->text_sensor_{{ def._snake_case_name }}_);
   }
 {%     endif %}
 {% endfor %}
@@ -35,9 +35,9 @@ void BQ25798TextSensor::update() {
 
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
-{%     if def.type == "enum" %}   
-  if (this->text_sensor_{{ def.name_snakecase }}_ != nullptr) {   
-    this->text_sensor_{{ def.name_snakecase }}_->publish_state(this->parent_->get_{{ def.name_snakecase }}_string(true));   
+{%     if def._is_enum %}   
+  if (this->text_sensor_{{ def._snake_case_name }}_ != nullptr) {   
+    this->text_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_enum_string(true));   
   }   
 {%     endif %}   
 {% endfor %}
@@ -45,9 +45,9 @@ void BQ25798TextSensor::update() {
 
 
 {% for def in settings %}
-{%     if def.type == "enum" %}
-void BQ25798TextSensor::assign_text_sensor_{{ def.name_snakecase }}(text_sensor::TextSensor *sensor) {
-  this->text_sensor_{{ def.name_snakecase }}_ = sensor;
+{%     if def._is_enum %}
+void BQ25798TextSensor::assign_text_sensor_{{ def._snake_case_name }}(text_sensor::TextSensor *sensor) {
+  this->text_sensor_{{ def._snake_case_name }}_ = sensor;
 }
 {%     endif %}
 {% endfor %}

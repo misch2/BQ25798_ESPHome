@@ -120,8 +120,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
     if vreg_config := config.get(CONF_BQ25798_VREG):
         num = await number.new_number(
             vreg_config,
@@ -131,8 +129,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
     if ichg_config := config.get(CONF_BQ25798_ICHG):
         num = await number.new_number(
             ichg_config,
@@ -142,8 +138,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
     if vindpm_config := config.get(CONF_BQ25798_VINDPM):
         num = await number.new_number(
             vindpm_config,
@@ -153,8 +147,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
     if iindpm_config := config.get(CONF_BQ25798_IINDPM):
         num = await number.new_number(
             iindpm_config,
@@ -164,9 +156,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
-
     if iprechg_config := config.get(CONF_BQ25798_IPRECHG):
         num = await number.new_number(
             iprechg_config,
@@ -176,10 +165,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
-
-
     if iterm_config := config.get(CONF_BQ25798_ITERM):
         num = await number.new_number(
             iterm_config,
@@ -189,10 +174,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
-
-
     if vrechg_config := config.get(CONF_BQ25798_VRECHG):
         num = await number.new_number(
             vrechg_config,
@@ -202,8 +183,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
     if votg_config := config.get(CONF_BQ25798_VOTG):
         num = await number.new_number(
             votg_config,
@@ -213,9 +192,6 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
-
     if iotg_config := config.get(CONF_BQ25798_IOTG):
         num = await number.new_number(
             iotg_config,
@@ -225,180 +201,3 @@ async def to_code(config):
         )
         await cg.register_parented(num, config[CONF_BQ25798_ID])
         await cg.register_component(num, config)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

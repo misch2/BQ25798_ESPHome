@@ -10,12 +10,8 @@ namespace bq25798 {
 static const char* const TAG = "bq25798.number";
 
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
-{% set formatted_name = def.name
-    | replace('_', ' ')
-    | title
-    | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
+{%     if (def._is_int or def._is_float) and def._is_rw %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Number' %}
 
 // {{ def.name }} - {{ def.description }}
 float {{ className }}::get_setup_priority() const { return setup_priority::DATA; }
@@ -36,12 +32,20 @@ void {{ className }}::update() {
   }
 
   //ESP_LOGD(TAG, "Updating {{ className }}...");
-  this->publish_state(this->parent_->get_{{ def.name_snakecase }}(true));
+{% if def._is_int %}
+  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_int(true));
+{% else %}
+  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_float(true));
+{% endif %}
 }
 
 void {{ className }}::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling {{ className }}...");
-  this->parent_->set_{{ def.name_snakecase }}(new_value, true);
+{% if def._is_int %}
+  this->parent_->set_{{ def._snake_case_name }}_int(new_value, true);
+{% else %}
+  this->parent_->set_{{ def._snake_case_name }}_float(new_value, true);
+{% endif %}
   this->publish_state(new_value);
 }
 

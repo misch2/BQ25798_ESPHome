@@ -23,6 +23,9 @@ CONF_BQ25798_REG_RST = "reg_rst"
 BQ25798StopWdChgSwitch = bq25798_ns.class_("BQ25798StopWdChgSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_STOP_WD_CHG = "stop_wd_chg"
 
+BQ25798PrechgTmrSwitch = bq25798_ns.class_("BQ25798PrechgTmrSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_PRECHG_TMR = "prechg_tmr"
+
 BQ25798EnTrichgTmrSwitch = bq25798_ns.class_("BQ25798EnTrichgTmrSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_EN_TRICHG_TMR = "en_trichg_tmr"
 
@@ -77,6 +80,9 @@ CONF_BQ25798_EN_9V = "en_9v"
 BQ25798HvdcpEnSwitch = bq25798_ns.class_("BQ25798HvdcpEnSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_HVDCP_EN = "hvdcp_en"
 
+BQ25798SdrvDlySwitch = bq25798_ns.class_("BQ25798SdrvDlySwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_SDRV_DLY = "sdrv_dly"
+
 BQ25798DisAcdrvSwitch = bq25798_ns.class_("BQ25798DisAcdrvSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_DIS_ACDRV = "dis_acdrv"
 
@@ -88,6 +94,9 @@ CONF_BQ25798_PFM_OTG_DIS = "pfm_otg_dis"
 
 BQ25798PfmFwdDisSwitch = bq25798_ns.class_("BQ25798PfmFwdDisSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_PFM_FWD_DIS = "pfm_fwd_dis"
+
+BQ25798WkupDlySwitch = bq25798_ns.class_("BQ25798WkupDlySwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_WKUP_DLY = "wkup_dly"
 
 BQ25798DisLdoSwitch = bq25798_ns.class_("BQ25798DisLdoSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_DIS_LDO = "dis_ldo"
@@ -103,6 +112,9 @@ CONF_BQ25798_EN_ACDRV2 = "en_acdrv2"
 
 BQ25798EnAcdrv1Switch = bq25798_ns.class_("BQ25798EnAcdrv1Switch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_EN_ACDRV1 = "en_acdrv1"
+
+BQ25798PwmFreqSwitch = bq25798_ns.class_("BQ25798PwmFreqSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_PWM_FREQ = "pwm_freq"
 
 BQ25798DisStatSwitch = bq25798_ns.class_("BQ25798DisStatSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_DIS_STAT = "dis_stat"
@@ -146,11 +158,23 @@ CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
 BQ25798Vac2PdEnSwitch = bq25798_ns.class_("BQ25798Vac2PdEnSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
 
+BQ25798BkupAcfet1OnSwitch = bq25798_ns.class_("BQ25798BkupAcfet1OnSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
+
+BQ25798BcoldSwitch = bq25798_ns.class_("BQ25798BcoldSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_BCOLD = "bcold"
+
 BQ25798TsIgnoreSwitch = bq25798_ns.class_("BQ25798TsIgnoreSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_TS_IGNORE = "ts_ignore"
 
 BQ25798AdcEnSwitch = bq25798_ns.class_("BQ25798AdcEnSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_ADC_EN = "adc_en"
+
+BQ25798AdcRateSwitch = bq25798_ns.class_("BQ25798AdcRateSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_ADC_RATE = "adc_rate"
+
+BQ25798AdcAvgSwitch = bq25798_ns.class_("BQ25798AdcAvgSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_ADC_AVG = "adc_avg"
 
 BQ25798AdcAvgInitSwitch = bq25798_ns.class_("BQ25798AdcAvgInitSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_ADC_AVG_INIT = "adc_avg_init"
@@ -199,6 +223,10 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BQ25798_STOP_WD_CHG): switch.switch_schema(
                 BQ25798StopWdChgSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR): switch.switch_schema(
+                BQ25798PrechgTmrSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_EN_TRICHG_TMR): switch.switch_schema(
@@ -273,6 +301,10 @@ CONFIG_SCHEMA = (
                 BQ25798HvdcpEnSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
+            cv.Optional(CONF_BQ25798_SDRV_DLY): switch.switch_schema(
+                BQ25798SdrvDlySwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
             cv.Optional(CONF_BQ25798_DIS_ACDRV): switch.switch_schema(
                 BQ25798DisAcdrvSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
@@ -287,6 +319,10 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BQ25798_PFM_FWD_DIS): switch.switch_schema(
                 BQ25798PfmFwdDisSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_WKUP_DLY): switch.switch_schema(
+                BQ25798WkupDlySwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_DIS_LDO): switch.switch_schema(
@@ -307,6 +343,10 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BQ25798_EN_ACDRV1): switch.switch_schema(
                 BQ25798EnAcdrv1Switch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_PWM_FREQ): switch.switch_schema(
+                BQ25798PwmFreqSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_DIS_STAT): switch.switch_schema(
@@ -365,12 +405,28 @@ CONFIG_SCHEMA = (
                 BQ25798Vac2PdEnSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
+            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): switch.switch_schema(
+                BQ25798BkupAcfet1OnSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_BCOLD): switch.switch_schema(
+                BQ25798BcoldSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
             cv.Optional(CONF_BQ25798_TS_IGNORE): switch.switch_schema(
                 BQ25798TsIgnoreSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_ADC_EN): switch.switch_schema(
                 BQ25798AdcEnSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_ADC_RATE): switch.switch_schema(
+                BQ25798AdcRateSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_ADC_AVG): switch.switch_schema(
+                BQ25798AdcAvgSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_ADC_AVG_INIT): switch.switch_schema(
@@ -452,6 +508,11 @@ async def to_code(config):
 
 
 
+
+    if prechg_tmr_config := config.get(CONF_BQ25798_PRECHG_TMR):
+        sw = await switch.new_switch(prechg_tmr_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
@@ -569,6 +630,11 @@ async def to_code(config):
 
 
 
+    if sdrv_dly_config := config.get(CONF_BQ25798_SDRV_DLY):
+        sw = await switch.new_switch(sdrv_dly_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
+
 
     if dis_acdrv_config := config.get(CONF_BQ25798_DIS_ACDRV):
         sw = await switch.new_switch(dis_acdrv_config)
@@ -593,6 +659,11 @@ async def to_code(config):
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
         await cg.register_component(sw, config)
 
+
+    if wkup_dly_config := config.get(CONF_BQ25798_WKUP_DLY):
+        sw = await switch.new_switch(wkup_dly_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_ldo_config := config.get(CONF_BQ25798_DIS_LDO):
@@ -624,6 +695,11 @@ async def to_code(config):
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
         await cg.register_component(sw, config)
 
+
+    if pwm_freq_config := config.get(CONF_BQ25798_PWM_FREQ):
+        sw = await switch.new_switch(pwm_freq_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if dis_stat_config := config.get(CONF_BQ25798_DIS_STAT):
@@ -716,12 +792,22 @@ async def to_code(config):
         await cg.register_component(sw, config)
 
 
+    if bkup_acfet1_on_config := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
+        sw = await switch.new_switch(bkup_acfet1_on_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 
 
 
 
+
+
+    if bcold_config := config.get(CONF_BQ25798_BCOLD):
+        sw = await switch.new_switch(bcold_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if ts_ignore_config := config.get(CONF_BQ25798_TS_IGNORE):
@@ -815,7 +901,17 @@ async def to_code(config):
         await cg.register_component(sw, config)
 
 
+    if adc_rate_config := config.get(CONF_BQ25798_ADC_RATE):
+        sw = await switch.new_switch(adc_rate_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
+
+
+    if adc_avg_config := config.get(CONF_BQ25798_ADC_AVG):
+        sw = await switch.new_switch(adc_avg_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
     if adc_avg_init_config := config.get(CONF_BQ25798_ADC_AVG_INIT):

@@ -10,12 +10,12 @@ namespace bq25798 {
 static const char* const TAG = "bq25798.switch";
 
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
+{%     if def._is_bool and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Switch' %}
 
 // {{ def.name }} - {{ def.description }}
 float {{ className }}::get_setup_priority() const { return setup_priority::DATA; }
@@ -35,7 +35,7 @@ void {{ className }}::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_{{ def.name_snakecase }}(true));
+  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool(true));
 }
 
 void {{ className }}::write_state(bool state) {
@@ -43,7 +43,7 @@ void {{ className }}::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_{{ def.name_snakecase }}(state, true);
+  this->parent_->set_{{ def._snake_case_name }}_bool(state, true);
   this->publish_state(state);
 }
 

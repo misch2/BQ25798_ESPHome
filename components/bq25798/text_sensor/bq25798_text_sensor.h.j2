@@ -20,15 +20,15 @@ class BQ25798TextSensor : public sensor::Sensor,
   float get_setup_priority() const override;
 
 {% for def in settings %}
-{%     if def.type == "enum" %}
-  void assign_text_sensor_{{ def.name_snakecase }}(text_sensor::TextSensor *sensor);
+{%     if def._is_enum %}
+  void assign_text_sensor_{{ def._snake_case_name }}(text_sensor::TextSensor *sensor);
 {%     endif %}
 {% endfor %}
 
  protected:
 {% for def in settings %}
-{%     if def.type == "enum" %}
-  text_sensor::TextSensor *text_sensor_{{ def.name_snakecase }}_ {nullptr};
+{%     if def._is_enum %}
+  text_sensor::TextSensor *text_sensor_{{ def._snake_case_name }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

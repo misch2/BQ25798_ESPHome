@@ -19,15 +19,11 @@ DEPENDENCIES = ["bq25798"]
 
 # Enum settings
 {% for def in settings %}
-{%     if def.type == "enum" and def.mode == "rw" %}
-{% set formatted_name = def.name
-    | replace('_', ' ')
-    | title
-    | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
+{%     if def._is_enum and def._is_rw %}
+{%         set className = 'BQ25798' ~ def._CamelCaseName ~ 'Select' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", select.Select, cg.PollingComponent)
-CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
+CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}
 {% endfor %}
 
@@ -37,13 +33,13 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def.type == "enum" and def.mode == "rw" %}
+{%     if def._is_enum and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): select.select_schema(
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Select' %}
+            cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): select.select_schema(
                 {{ className }},
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
@@ -58,11 +54,10 @@ async def to_code(config):
 
     # Selects
 {% for def in settings %}
-{%     if def.type == "enum" and def.mode == "rw" %}
-    if {{ def.name_snakecase }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+{%     if def._is_enum and def._is_rw %}
+    if {{ def._snake_case_name }}_config := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         sel = await select.new_select(
-            {{ def.name_snakecase }}_config,
-            # step={{ def.bit_step_size }},
+            {{ def._snake_case_name }}_config,
             options=[
 {%         for enum in def.enum_constants %}
                 "{{ enum }}",

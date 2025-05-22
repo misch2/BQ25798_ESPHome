@@ -439,616 +439,807 @@ void BQ25798BinarySensor::dump_config() {
 
 void BQ25798BinarySensor::update() {
   // VSYSMIN - Minimal System Voltage
+  
   // VREG - Charge Voltage Limit
+  
   // ICHG - Charge Current Limit
+  
   // VINDPM - Input Voltage Limit
+  
   // IINDPM - Input Current Limit
+  
   // VBAT_LOWV - Battery voltage thresholds for fast charge (percent of VREG)
+  
   // IPRECHG - Precharge Current Limit
+  
   // REG_RST - Reset registers to default values and reset timer
+  
   if (this->binary_sensor_reg_rst_ != nullptr) {
-    this->binary_sensor_reg_rst_->publish_state(this->parent_->get_reg_rst(true));
+    this->binary_sensor_reg_rst_->publish_state(this->parent_->get_reg_rst_bool(true));
   }
   // STOP_WD_CHG - Defines whether a watchdog timer expiration will disable charging
+  
   if (this->binary_sensor_stop_wd_chg_ != nullptr) {
-    this->binary_sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg(true));
+    this->binary_sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg_bool(true));
   }
   // ITERM - Termination Current Limit
+  
   // CELL - Battery cell count
+  
   // TRECHG - Battery recharge delay time
+  
   // VRECHG - Battery Recharge Threshold Offset (Below VREG)
+  
   // VOTG - OTG mode regulation voltage
+  
   // PRECHG_TMR - Pre-charge safety timer setting
+  
   if (this->binary_sensor_prechg_tmr_ != nullptr) {
-    this->binary_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr(true));
+    this->binary_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_bool(true));
   }
   // IOTG - OTG current limit
+  
   // TOPOFF_TMR - Top-off timer control
+  
   // EN_TRICHG_TMR - Trickle charge timer enable
+  
   if (this->binary_sensor_en_trichg_tmr_ != nullptr) {
-    this->binary_sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr(true));
+    this->binary_sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr_bool(true));
   }
   // EN_PRECHG_TMR - Precharge timer enable
+  
   if (this->binary_sensor_en_prechg_tmr_ != nullptr) {
-    this->binary_sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr(true));
+    this->binary_sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr_bool(true));
   }
   // EN_CHG_TMR - Fast charge timer enable
+  
   if (this->binary_sensor_en_chg_tmr_ != nullptr) {
-    this->binary_sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr(true));
+    this->binary_sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr_bool(true));
   }
   // CHG_TMR - Fast charge timer setting
+  
   // TMR2X_EN - 2x slower charging in DPM enable
+  
   if (this->binary_sensor_tmr2x_en_ != nullptr) {
-    this->binary_sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en(true));
+    this->binary_sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en_bool(true));
   }
   // EN_AUTO_IBATDIS - Enable the auto battery discharging during the battery OVP fault
+  
   if (this->binary_sensor_en_auto_ibatdis_ != nullptr) {
-    this->binary_sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis(true));
+    this->binary_sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis_bool(true));
   }
   // FORCE_IBATDIS - Force the battery discharging current
+  
   if (this->binary_sensor_force_ibatdis_ != nullptr) {
-    this->binary_sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis(true));
+    this->binary_sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis_bool(true));
   }
   // EN_CHG - Enable the charger
+  
   if (this->binary_sensor_en_chg_ != nullptr) {
-    this->binary_sensor_en_chg_->publish_state(this->parent_->get_en_chg(true));
+    this->binary_sensor_en_chg_->publish_state(this->parent_->get_en_chg_bool(true));
   }
   // EN_ICO - Enable the ICO (Input Current Optimizer)
+  
   if (this->binary_sensor_en_ico_ != nullptr) {
-    this->binary_sensor_en_ico_->publish_state(this->parent_->get_en_ico(true));
+    this->binary_sensor_en_ico_->publish_state(this->parent_->get_en_ico_bool(true));
   }
   // FORCE_ICO - Force the ICO (Input Current Optimizer)
+  
   if (this->binary_sensor_force_ico_ != nullptr) {
-    this->binary_sensor_force_ico_->publish_state(this->parent_->get_force_ico(true));
+    this->binary_sensor_force_ico_->publish_state(this->parent_->get_force_ico_bool(true));
   }
   // EN_HIZ - Enable the high impedance mode
+  
   if (this->binary_sensor_en_hiz_ != nullptr) {
-    this->binary_sensor_en_hiz_->publish_state(this->parent_->get_en_hiz(true));
+    this->binary_sensor_en_hiz_->publish_state(this->parent_->get_en_hiz_bool(true));
   }
   // EN_TERM - Enable the termination
+  
   if (this->binary_sensor_en_term_ != nullptr) {
-    this->binary_sensor_en_term_->publish_state(this->parent_->get_en_term(true));
+    this->binary_sensor_en_term_->publish_state(this->parent_->get_en_term_bool(true));
   }
   // EN_BACKUP - Enable the backup (auto OTG) mode
+  
   if (this->binary_sensor_en_backup_ != nullptr) {
-    this->binary_sensor_en_backup_->publish_state(this->parent_->get_en_backup(true));
+    this->binary_sensor_en_backup_->publish_state(this->parent_->get_en_backup_bool(true));
   }
   // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
+  
   // VAC_OVP - Over voltage protection thresholds
+  
   // WD_RST - I2C watch dog timer reset
+  
   if (this->binary_sensor_wd_rst_ != nullptr) {
-    this->binary_sensor_wd_rst_->publish_state(this->parent_->get_wd_rst(true));
+    this->binary_sensor_wd_rst_->publish_state(this->parent_->get_wd_rst_bool(true));
   }
   // WATCHDOG - Watchdog timer settings
+  
   // FORCE_INDET - Force D+/D- detection
+  
   if (this->binary_sensor_force_indet_ != nullptr) {
-    this->binary_sensor_force_indet_->publish_state(this->parent_->get_force_indet(true));
+    this->binary_sensor_force_indet_->publish_state(this->parent_->get_force_indet_bool(true));
   }
   // AUTO_INDET_EN - Enable automatic D+/D- detection
+  
   if (this->binary_sensor_auto_indet_en_ != nullptr) {
-    this->binary_sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en(true));
+    this->binary_sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en_bool(true));
   }
   // EN_12V - Enable 12V output in HVDCP
+  
   if (this->binary_sensor_en_12v_ != nullptr) {
-    this->binary_sensor_en_12v_->publish_state(this->parent_->get_en_12v(true));
+    this->binary_sensor_en_12v_->publish_state(this->parent_->get_en_12v_bool(true));
   }
   // EN_9V - Enable 9V output in HVDCP
+  
   if (this->binary_sensor_en_9v_ != nullptr) {
-    this->binary_sensor_en_9v_->publish_state(this->parent_->get_en_9v(true));
+    this->binary_sensor_en_9v_->publish_state(this->parent_->get_en_9v_bool(true));
   }
   // HVDCP_EN - Enable HVDCP (High Voltage Device Charging Protocol)
+  
   if (this->binary_sensor_hvdcp_en_ != nullptr) {
-    this->binary_sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en(true));
+    this->binary_sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en_bool(true));
   }
   // SDRV_CTRL - Enable external Ship FET control
+  
   // SDRV_DLY - Delay for SDRV control
+  
   if (this->binary_sensor_sdrv_dly_ != nullptr) {
-    this->binary_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly(true));
+    this->binary_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_bool(true));
   }
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
+  
   if (this->binary_sensor_dis_acdrv_ != nullptr) {
-    this->binary_sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv(true));
+    this->binary_sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv_bool(true));
   }
   // EN_OTG - Enable OTG mode
+  
   if (this->binary_sensor_en_otg_ != nullptr) {
-    this->binary_sensor_en_otg_->publish_state(this->parent_->get_en_otg(true));
+    this->binary_sensor_en_otg_->publish_state(this->parent_->get_en_otg_bool(true));
   }
   // PFM_OTG_DIS - Disable PFM in OTG mode
+  
   if (this->binary_sensor_pfm_otg_dis_ != nullptr) {
-    this->binary_sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis(true));
+    this->binary_sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis_bool(true));
   }
   // PFM_FWD_DIS - Disable PFM in forward mode
+  
   if (this->binary_sensor_pfm_fwd_dis_ != nullptr) {
-    this->binary_sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis(true));
+    this->binary_sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis_bool(true));
   }
   // WKUP_DLY - Wakeup (Ship FET) delay
+  
   if (this->binary_sensor_wkup_dly_ != nullptr) {
-    this->binary_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly(true));
+    this->binary_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_bool(true));
   }
   // DIS_LDO - Disable BATFET LDO mode in precharge state
+  
   if (this->binary_sensor_dis_ldo_ != nullptr) {
-    this->binary_sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo(true));
+    this->binary_sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo_bool(true));
   }
   // DIS_OTG_OOA - Disable OOA in OTG mode
+  
   if (this->binary_sensor_dis_otg_ooa_ != nullptr) {
-    this->binary_sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa(true));
+    this->binary_sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa_bool(true));
   }
   // DIS_FWD_OOA - Disable OOA in forward mode
+  
   if (this->binary_sensor_dis_fwd_ooa_ != nullptr) {
-    this->binary_sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa(true));
+    this->binary_sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa_bool(true));
   }
   // EN_ACDRV2 - Enable AC2 gate driver control
+  
   if (this->binary_sensor_en_acdrv2_ != nullptr) {
-    this->binary_sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2(true));
+    this->binary_sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2_bool(true));
   }
   // EN_ACDRV1 - Enable AC1 gate driver control
+  
   if (this->binary_sensor_en_acdrv1_ != nullptr) {
-    this->binary_sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1(true));
+    this->binary_sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1_bool(true));
   }
   // PWM_FREQ - PWM frequency setting
+  
   if (this->binary_sensor_pwm_freq_ != nullptr) {
-    this->binary_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq(true));
+    this->binary_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_bool(true));
   }
   // DIS_STAT - Disable STAT pin output
+  
   if (this->binary_sensor_dis_stat_ != nullptr) {
-    this->binary_sensor_dis_stat_->publish_state(this->parent_->get_dis_stat(true));
+    this->binary_sensor_dis_stat_->publish_state(this->parent_->get_dis_stat_bool(true));
   }
   // DIS_VSYS_SHORT - Disable VSYS short hiccup protection
+  
   if (this->binary_sensor_dis_vsys_short_ != nullptr) {
-    this->binary_sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short(true));
+    this->binary_sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short_bool(true));
   }
   // DIS_VOTG_UVP - Disable VOTG under voltage hiccup protection
+  
   if (this->binary_sensor_dis_votg_uvp_ != nullptr) {
-    this->binary_sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp(true));
+    this->binary_sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp_bool(true));
   }
   // FORCE_VINDPM_DET - Force VINDPM detection (settable only when VBAT>VSYSMIN)
+  
   if (this->binary_sensor_force_vindpm_det_ != nullptr) {
-    this->binary_sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det(true));
+    this->binary_sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det_bool(true));
   }
   // EN_IBUS_OCP - Enable input over current protection in forward mode
+  
   if (this->binary_sensor_en_ibus_ocp_ != nullptr) {
-    this->binary_sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp(true));
+    this->binary_sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp_bool(true));
   }
   // SFET_PRESENT - Ship FET present
+  
   if (this->binary_sensor_sfet_present_ != nullptr) {
-    this->binary_sensor_sfet_present_->publish_state(this->parent_->get_sfet_present(true));
+    this->binary_sensor_sfet_present_->publish_state(this->parent_->get_sfet_present_bool(true));
   }
   // EN_IBAT - Enable battery discharge current sensing
+  
   if (this->binary_sensor_en_ibat_ != nullptr) {
-    this->binary_sensor_en_ibat_->publish_state(this->parent_->get_en_ibat(true));
+    this->binary_sensor_en_ibat_->publish_state(this->parent_->get_en_ibat_bool(true));
   }
   // IBAT_REG - Battery discharge current regulation in OTG mode
+  
   // EN_IINDPM - Enable input current regulation
+  
   if (this->binary_sensor_en_iindpm_ != nullptr) {
-    this->binary_sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm(true));
+    this->binary_sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm_bool(true));
   }
   // EN_EXTILIM - Enable external ILIM_HIZ pin current regulation
+  
   if (this->binary_sensor_en_extilim_ != nullptr) {
-    this->binary_sensor_en_extilim_->publish_state(this->parent_->get_en_extilim(true));
+    this->binary_sensor_en_extilim_->publish_state(this->parent_->get_en_extilim_bool(true));
   }
   // EN_BATOC - Enable battery discharging over current protection
+  
   if (this->binary_sensor_en_batoc_ != nullptr) {
-    this->binary_sensor_en_batoc_->publish_state(this->parent_->get_en_batoc(true));
+    this->binary_sensor_en_batoc_->publish_state(this->parent_->get_en_batoc_bool(true));
   }
   // VOC_PCT - 
+  
   // VOC_DLY - 
+  
   // VOC_RATE - 
+  
   // EN_MPPT - 
+  
   if (this->binary_sensor_en_mppt_ != nullptr) {
-    this->binary_sensor_en_mppt_->publish_state(this->parent_->get_en_mppt(true));
+    this->binary_sensor_en_mppt_->publish_state(this->parent_->get_en_mppt_bool(true));
   }
   // TREG - 
+  
   // TSHUT - 
+  
   // VBUS_PD_EN - 
+  
   if (this->binary_sensor_vbus_pd_en_ != nullptr) {
-    this->binary_sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en(true));
+    this->binary_sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en_bool(true));
   }
   // VAC1_PD_EN - 
+  
   if (this->binary_sensor_vac1_pd_en_ != nullptr) {
-    this->binary_sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en(true));
+    this->binary_sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en_bool(true));
   }
   // VAC2_PD_EN - 
+  
   if (this->binary_sensor_vac2_pd_en_ != nullptr) {
-    this->binary_sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en(true));
+    this->binary_sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en_bool(true));
   }
   // BKUP_ACFET1_ON - 
+  
   if (this->binary_sensor_bkup_acfet1_on_ != nullptr) {
-    this->binary_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on(true));
+    this->binary_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_bool(true));
   }
   // JEITA_VSET - 
+  
   // JEITA_ISETH - 
+  
   // JEITA_ISETC - 
+  
   // TS_COOL - 
+  
   // TS_WARM - 
+  
   // BHOT - 
+  
   // BCOLD - 
+  
   if (this->binary_sensor_bcold_ != nullptr) {
-    this->binary_sensor_bcold_->publish_state(this->parent_->get_bcold(true));
+    this->binary_sensor_bcold_->publish_state(this->parent_->get_bcold_bool(true));
   }
   // TS_IGNORE - 
+  
   if (this->binary_sensor_ts_ignore_ != nullptr) {
-    this->binary_sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore(true));
+    this->binary_sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore_bool(true));
   }
   // ICO_ILIM - 
+  
   // IINDPM_STAT - 
+  
   if (this->binary_sensor_iindpm_stat_ != nullptr) {
-    this->binary_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat(true));
+    this->binary_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_bool(true));
   }
   // VINDPM_STAT - 
+  
   if (this->binary_sensor_vindpm_stat_ != nullptr) {
-    this->binary_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat(true));
+    this->binary_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_bool(true));
   }
   // WD_STAT - 
+  
   if (this->binary_sensor_wd_stat_ != nullptr) {
-    this->binary_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat(true));
+    this->binary_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_bool(true));
   }
   // PG_STAT - 
+  
   if (this->binary_sensor_pg_stat_ != nullptr) {
-    this->binary_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat(true));
+    this->binary_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_bool(true));
   }
   // AC2_PRESENT_STAT - 
+  
   if (this->binary_sensor_ac2_present_stat_ != nullptr) {
-    this->binary_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat(true));
+    this->binary_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_bool(true));
   }
   // AC1_PRESENT_STAT - 
+  
   if (this->binary_sensor_ac1_present_stat_ != nullptr) {
-    this->binary_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat(true));
+    this->binary_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_bool(true));
   }
   // VBUS_PRESENT_STAT - 
+  
   if (this->binary_sensor_vbus_present_stat_ != nullptr) {
-    this->binary_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat(true));
+    this->binary_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_bool(true));
   }
   // CHG_STAT - Charge Status bits
+  
   // VBUS_STAT - VBUS status bits
+  
   // BC12_DONE_STAT - 
+  
   if (this->binary_sensor_bc12_done_stat_ != nullptr) {
-    this->binary_sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat(true));
+    this->binary_sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat_bool(true));
   }
   // ICO_STAT - 
+  
   // TREG_STAT - 
+  
   if (this->binary_sensor_treg_stat_ != nullptr) {
-    this->binary_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat(true));
+    this->binary_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_bool(true));
   }
   // DPDM_STAT - 
+  
   if (this->binary_sensor_dpdm_stat_ != nullptr) {
-    this->binary_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat(true));
+    this->binary_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_bool(true));
   }
   // VBAT_PRESENT_STAT - 
+  
   if (this->binary_sensor_vbat_present_stat_ != nullptr) {
-    this->binary_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat(true));
+    this->binary_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_bool(true));
   }
   // ACRB2_STAT - The ACFET2-RBFET2 status
+  
   if (this->binary_sensor_acrb2_stat_ != nullptr) {
-    this->binary_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat(true));
+    this->binary_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_bool(true));
   }
   // ACRB1_STAT - The ACFET1-RBFET1 status
+  
   if (this->binary_sensor_acrb1_stat_ != nullptr) {
-    this->binary_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat(true));
+    this->binary_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_bool(true));
   }
   // ADC_DONE_STAT - ADC Conversion Status
+  
   if (this->binary_sensor_adc_done_stat_ != nullptr) {
-    this->binary_sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat(true));
+    this->binary_sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat_bool(true));
   }
   // VSYS_STAT - VSYS Regulation Status
+  
   if (this->binary_sensor_vsys_stat_ != nullptr) {
-    this->binary_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat(true));
+    this->binary_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_bool(true));
   }
   // CHG_TMR_STAT - Fast charge timer status
+  
   if (this->binary_sensor_chg_tmr_stat_ != nullptr) {
-    this->binary_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat(true));
+    this->binary_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_bool(true));
   }
   // TRICHG_TMR_STAT - Trickle charge timer status
+  
   if (this->binary_sensor_trichg_tmr_stat_ != nullptr) {
-    this->binary_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat(true));
+    this->binary_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_bool(true));
   }
   // PRECHG_TMR_STAT - Pre-charge timer status
+  
   if (this->binary_sensor_prechg_tmr_stat_ != nullptr) {
-    this->binary_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat(true));
+    this->binary_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_bool(true));
   }
   // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+  
   if (this->binary_sensor_vbatotg_low_stat_ != nullptr) {
-    this->binary_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat(true));
+    this->binary_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_bool(true));
   }
   // TS_COLD_STAT - The TS temperature is in the cold range
+  
   if (this->binary_sensor_ts_cold_stat_ != nullptr) {
-    this->binary_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat(true));
+    this->binary_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_bool(true));
   }
   // TS_COOL_STAT - The TS temperature is in the cool range
+  
   if (this->binary_sensor_ts_cool_stat_ != nullptr) {
-    this->binary_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat(true));
+    this->binary_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_bool(true));
   }
   // TS_WARM_STAT - The TS temperature is in the warm range
+  
   if (this->binary_sensor_ts_warm_stat_ != nullptr) {
-    this->binary_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat(true));
+    this->binary_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_bool(true));
   }
   // TS_HOT_STAT - The TS temperature is in the hot range
+  
   if (this->binary_sensor_ts_hot_stat_ != nullptr) {
-    this->binary_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat(true));
+    this->binary_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_bool(true));
   }
   // IBAT_REG_STAT - IBAT regulation status
+  
   if (this->binary_sensor_ibat_reg_stat_ != nullptr) {
-    this->binary_sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat(true));
+    this->binary_sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat_bool(true));
   }
   // VBUS_OVP_STAT - VBUS over-voltage status
+  
   if (this->binary_sensor_vbus_ovp_stat_ != nullptr) {
-    this->binary_sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat(true));
+    this->binary_sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat_bool(true));
   }
   // VBAT_OVP_STAT - VBAT over-voltage status
+  
   if (this->binary_sensor_vbat_ovp_stat_ != nullptr) {
-    this->binary_sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat(true));
+    this->binary_sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat_bool(true));
   }
   // IBUS_OCP_STAT - IBUS over-current status
+  
   if (this->binary_sensor_ibus_ocp_stat_ != nullptr) {
-    this->binary_sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat(true));
+    this->binary_sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat_bool(true));
   }
   // IBAT_OCP_STAT - IBAT over-current status
+  
   if (this->binary_sensor_ibat_ocp_stat_ != nullptr) {
-    this->binary_sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat(true));
+    this->binary_sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat_bool(true));
   }
   // CONV_OCP_STAT - Converter over-current status
+  
   if (this->binary_sensor_conv_ocp_stat_ != nullptr) {
-    this->binary_sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat(true));
+    this->binary_sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat_bool(true));
   }
   // VAC2_OVP_STAT - VAC2 over-voltage status
+  
   if (this->binary_sensor_vac2_ovp_stat_ != nullptr) {
-    this->binary_sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat(true));
+    this->binary_sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat_bool(true));
   }
   // VAC1_OVP_STAT - VAC1 over-voltage status
+  
   if (this->binary_sensor_vac1_ovp_stat_ != nullptr) {
-    this->binary_sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat(true));
+    this->binary_sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat_bool(true));
   }
   // VSYS_SHORT_STAT - 
+  
   if (this->binary_sensor_vsys_short_stat_ != nullptr) {
-    this->binary_sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat(true));
+    this->binary_sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat_bool(true));
   }
   // VSYS_OVP_STAT - 
+  
   if (this->binary_sensor_vsys_ovp_stat_ != nullptr) {
-    this->binary_sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat(true));
+    this->binary_sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat_bool(true));
   }
   // OTG_OVP_STAT - 
+  
   if (this->binary_sensor_otg_ovp_stat_ != nullptr) {
-    this->binary_sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat(true));
+    this->binary_sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat_bool(true));
   }
   // OTG_UVP_STAT - 
+  
   if (this->binary_sensor_otg_uvp_stat_ != nullptr) {
-    this->binary_sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat(true));
+    this->binary_sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat_bool(true));
   }
   // TSHUT_STAT - 
+  
   if (this->binary_sensor_tshut_stat_ != nullptr) {
-    this->binary_sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat(true));
+    this->binary_sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_bool(true));
   }
   // IINDPM_FLAG - In IINDPM / IOTG regulation
+  
   if (this->binary_sensor_iindpm_flag_ != nullptr) {
-    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag(true));
+    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag_bool(true));
   }
   // VINDPM_FLAG - In VINDPM / VOTG regulation
+  
   if (this->binary_sensor_vindpm_flag_ != nullptr) {
-    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag(true));
+    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag_bool(true));
   }
   // WD_FLAG - Watchdog timer expired
+  
   if (this->binary_sensor_wd_flag_ != nullptr) {
-    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_wd_flag(true));
+    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_wd_flag_bool(true));
   }
   // POORSRC_FLAG - Poor source detected
+  
   if (this->binary_sensor_poorsrc_flag_ != nullptr) {
-    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag(true));
+    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag_bool(true));
   }
   // PG_FLAG - Power status changed
+  
   if (this->binary_sensor_pg_flag_ != nullptr) {
-    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_pg_flag(true));
+    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_pg_flag_bool(true));
   }
   // AC2_PRESENT_FLAG - AC2 present status changed
+  
   if (this->binary_sensor_ac2_present_flag_ != nullptr) {
-    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag(true));
+    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag_bool(true));
   }
   // AC1_PRESENT_FLAG - AC1 present status changed
+  
   if (this->binary_sensor_ac1_present_flag_ != nullptr) {
-    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag(true));
+    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag_bool(true));
   }
   // VBUS_PRESENT_FLAG - VBUS present status changed
+  
   if (this->binary_sensor_vbus_present_flag_ != nullptr) {
-    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag(true));
+    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag_bool(true));
   }
   // CHG_FLAG - Charging status changed
+  
   if (this->binary_sensor_chg_flag_ != nullptr) {
-    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_chg_flag(true));
+    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_chg_flag_bool(true));
   }
   // ICO_FLAG - ICO status changed
+  
   if (this->binary_sensor_ico_flag_ != nullptr) {
-    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_ico_flag(true));
+    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_ico_flag_bool(true));
   }
   // VBUS_FLAG - VBUS status changed
+  
   if (this->binary_sensor_vbus_flag_ != nullptr) {
-    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag(true));
+    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag_bool(true));
   }
   // TREG_FLAG - 
+  
   if (this->binary_sensor_treg_flag_ != nullptr) {
-    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_treg_flag(true));
+    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_treg_flag_bool(true));
   }
   // VBAT_PRESENT_FLAG - 
+  
   if (this->binary_sensor_vbat_present_flag_ != nullptr) {
-    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag(true));
+    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag_bool(true));
   }
   // BC1_2_DONE_FLAG - 
+  
   if (this->binary_sensor_bc1_2_done_flag_ != nullptr) {
-    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag(true));
+    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag_bool(true));
   }
   // DPDM_DONE_FLAG - 
+  
   if (this->binary_sensor_dpdm_done_flag_ != nullptr) {
-    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag(true));
+    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag_bool(true));
   }
   // ADC_DONE_FLAG - 
+  
   if (this->binary_sensor_adc_done_flag_ != nullptr) {
-    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag(true));
+    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag_bool(true));
   }
   // VSYS_FLAG - 
+  
   if (this->binary_sensor_vsys_flag_ != nullptr) {
-    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag(true));
+    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag_bool(true));
   }
   // CHG_TMR_FLAG - 
+  
   if (this->binary_sensor_chg_tmr_flag_ != nullptr) {
-    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag(true));
+    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag_bool(true));
   }
   // TRICHG_TMR_FLAG - 
+  
   if (this->binary_sensor_trichg_tmr_flag_ != nullptr) {
-    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag(true));
+    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag_bool(true));
   }
   // PRECHG_TMR_FLAG - 
+  
   if (this->binary_sensor_prechg_tmr_flag_ != nullptr) {
-    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag(true));
+    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag_bool(true));
   }
   // TOPOFF_TMR_FLAG - 
+  
   if (this->binary_sensor_topoff_tmr_flag_ != nullptr) {
-    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag(true));
+    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag_bool(true));
   }
   // VBATOTG_LOW_FLAG - 
+  
   if (this->binary_sensor_vbatotg_low_flag_ != nullptr) {
-    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag(true));
+    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag_bool(true));
   }
   // TS_COLD_FLAG - 
+  
   if (this->binary_sensor_ts_cold_flag_ != nullptr) {
-    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag(true));
+    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag_bool(true));
   }
   // TS_COOL_FLAG - 
+  
   if (this->binary_sensor_ts_cool_flag_ != nullptr) {
-    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag(true));
+    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag_bool(true));
   }
   // TS_WARM_FLAG - 
+  
   if (this->binary_sensor_ts_warm_flag_ != nullptr) {
-    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag(true));
+    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag_bool(true));
   }
   // TS_HOT_FLAG - 
+  
   if (this->binary_sensor_ts_hot_flag_ != nullptr) {
-    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag(true));
+    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag_bool(true));
   }
   // IBAT_REG_FLAG - 
+  
   if (this->binary_sensor_ibat_reg_flag_ != nullptr) {
-    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag(true));
+    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag_bool(true));
   }
   // VBUS_OVP_FLAG - 
+  
   if (this->binary_sensor_vbus_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag(true));
+    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag_bool(true));
   }
   // VBAT_OVP_FLAG - 
+  
   if (this->binary_sensor_vbat_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag(true));
+    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag_bool(true));
   }
   // IBUS_OCP_FLAG - 
+  
   if (this->binary_sensor_ibus_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag(true));
+    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag_bool(true));
   }
   // IBAT_OCP_FLAG - 
+  
   if (this->binary_sensor_ibat_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag(true));
+    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag_bool(true));
   }
   // CONV_OCP_FLAG - 
+  
   if (this->binary_sensor_conv_ocp_flag_ != nullptr) {
-    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag(true));
+    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag_bool(true));
   }
   // VAC2_OVP_FLAG - 
+  
   if (this->binary_sensor_vac2_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag(true));
+    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag_bool(true));
   }
   // VAC1_OVP_FLAG - 
+  
   if (this->binary_sensor_vac1_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag(true));
+    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag_bool(true));
   }
   // VSYS_SHORT_FLAG - 
+  
   if (this->binary_sensor_vsys_short_flag_ != nullptr) {
-    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag(true));
+    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag_bool(true));
   }
   // VSYS_OVP_FLAG - 
+  
   if (this->binary_sensor_vsys_ovp_flag_ != nullptr) {
-    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag(true));
+    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag_bool(true));
   }
   // OTG_OVP_FLAG - 
+  
   if (this->binary_sensor_otg_ovp_flag_ != nullptr) {
-    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag(true));
+    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag_bool(true));
   }
   // OTG_UVP_FLAG - 
+  
   if (this->binary_sensor_otg_uvp_flag_ != nullptr) {
-    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag(true));
+    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag_bool(true));
   }
   // TSHUT_FLAG - 
+  
   if (this->binary_sensor_tshut_flag_ != nullptr) {
-    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag(true));
+    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag_bool(true));
   }
   // ADC_EN - 
+  
   if (this->binary_sensor_adc_en_ != nullptr) {
-    this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en(true));
+    this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en_bool(true));
   }
   // ADC_RATE - 
+  
   if (this->binary_sensor_adc_rate_ != nullptr) {
-    this->binary_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate(true));
+    this->binary_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_bool(true));
   }
   // ADC_SAMPLE - 
+  
   // ADC_AVG - 
+  
   if (this->binary_sensor_adc_avg_ != nullptr) {
-    this->binary_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg(true));
+    this->binary_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_bool(true));
   }
   // ADC_AVG_INIT - 
+  
   if (this->binary_sensor_adc_avg_init_ != nullptr) {
-    this->binary_sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init(true));
+    this->binary_sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init_bool(true));
   }
   // IBUS_ADC_DIS - 
+  
   if (this->binary_sensor_ibus_adc_dis_ != nullptr) {
-    this->binary_sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis(true));
+    this->binary_sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis_bool(true));
   }
   // IBAT_ADC_DIS - 
+  
   if (this->binary_sensor_ibat_adc_dis_ != nullptr) {
-    this->binary_sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis(true));
+    this->binary_sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis_bool(true));
   }
   // VBUS_ADC_DIS - 
+  
   if (this->binary_sensor_vbus_adc_dis_ != nullptr) {
-    this->binary_sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis(true));
+    this->binary_sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis_bool(true));
   }
   // VBAT_ADC_DIS - 
+  
   if (this->binary_sensor_vbat_adc_dis_ != nullptr) {
-    this->binary_sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis(true));
+    this->binary_sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis_bool(true));
   }
   // VSYS_ADC_DIS - 
+  
   if (this->binary_sensor_vsys_adc_dis_ != nullptr) {
-    this->binary_sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis(true));
+    this->binary_sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis_bool(true));
   }
   // TS_ADC_DIS - 
+  
   if (this->binary_sensor_ts_adc_dis_ != nullptr) {
-    this->binary_sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis(true));
+    this->binary_sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis_bool(true));
   }
   // TDIE_ADC_DIS - 
+  
   if (this->binary_sensor_tdie_adc_dis_ != nullptr) {
-    this->binary_sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis(true));
+    this->binary_sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis_bool(true));
   }
   // DPLUS_ADC_DIS - 
+  
   if (this->binary_sensor_dplus_adc_dis_ != nullptr) {
-    this->binary_sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis(true));
+    this->binary_sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis_bool(true));
   }
   // DMINUS_ADC_DIS - 
+  
   if (this->binary_sensor_dminus_adc_dis_ != nullptr) {
-    this->binary_sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis(true));
+    this->binary_sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis_bool(true));
   }
   // VAC2_ADC_DIS - 
+  
   if (this->binary_sensor_vac2_adc_dis_ != nullptr) {
-    this->binary_sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis(true));
+    this->binary_sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis_bool(true));
   }
   // VAC1_ADC_DIS - 
+  
   if (this->binary_sensor_vac1_adc_dis_ != nullptr) {
-    this->binary_sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis(true));
+    this->binary_sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis_bool(true));
   }
   // IBUS_ADC - 
+  
   // IBAT_ADC - 
+  
   // VBUS_ADC - 
+  
   // VAC1_ADC - 
+  
   // VAC2_ADC - 
+  
   // VBAT_ADC - 
+  
   // VSYS_ADC - 
+  
   // TS_ADC - 
+  
   // TDIE_ADC - TDIE ADC reading
+  
   // DPLUS_ADC - D+ ADC reading
+  
   // DMINUS_ADC - D- ADC reading
+  
   // DPLUS_DAC - D+ Output Driver
+  
   // DMINUS_DAC - D- Output Driver
+  
   // PN - 
+  
   // DEV_REV - 
+  
 }
 
 

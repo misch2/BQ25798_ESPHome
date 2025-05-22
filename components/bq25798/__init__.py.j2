@@ -16,45 +16,14 @@ BQ25798Component = bq25798_ns.class_("BQ25798Component", cg.PollingComponent, i2
 
 CONF_BQ25798_ID = "bq25798_id"
 
-# Settings
-{% for def in settings %}
-{# All settings, not just RW ones #}
-CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
-{% endfor %}
-
-# Configuration schema
-{% for def in settings %}
-{%     if def.type == "enum" %}
-ENUM_BQ25798_{{ def.name}} = {
-{%         for enum in def.enum_constants %}
-    "{{ enum }}": {{ loop.index0 }},
-{%         endfor %}
-}
-{%     endif %}
-{% endfor %}
-
 CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(BQ25798Component),
-            # Settings configurable on startup
-{% for def in settings %}
-{%     if def.mode == "rw" %}
-{%         if def.type == "bool" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.boolean,
-{%         elif def.type == "int" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.int_,
-{%         elif def.type == "float" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.float_,
-{%         elif def.type == "enum" %}
-            cv.Optional(CONF_BQ25798_{{ def.name}}): cv.enum(ENUM_BQ25798_{{def.name}}),
-{%         endif %}
-{%     endif %}
-{% endfor %}
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("15s"))  # This polling interval is used for watchdog only
+    .extend(cv.polling_component_schema("15s"))  # For the watchdog purpose only
     .extend(i2c.i2c_device_schema({{ default_address_hex }}))
 )
 
@@ -68,12 +37,3 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
-
-    # Initial chip settings (optionally set on startup)
-{% for def in settings %}
-{%     if def.mode == "rw" %}
-    if {{ def.name_snakecase }} := config.get(CONF_BQ25798_{{ def.name }}):
-        cg.add(var.set_{{ def.name_snakecase }}({{ def.name_snakecase }}, 0))
-        cg.add(var.on_init_set_{{ def.name_snakecase }}(True))
-{%     endif %}
-{% endfor %}

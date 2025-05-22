@@ -12,12 +12,12 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
+{%     if def._is_bool and def._is_rw %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
     | replace(' ', '') %}
-{% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
+{% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Switch' %}
 
 // {{ def.name }} - {{ def.description }}
 class {{ className }} : public switch_::Switch,

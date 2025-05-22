@@ -15,9 +15,9 @@ void BQ25798BinarySensor::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798BinarySensor configuration...");
 
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  if (this->binary_sensor_{{ def.name_snakecase }}_ != nullptr) {
-    LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def.name_snakecase }}_);
+{%     if def._is_bool %}
+  if (this->binary_sensor_{{ def._snake_case_name }}_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def._snake_case_name }}_);
   }
 {%     endif %}
 {% endfor %}
@@ -28,9 +28,10 @@ void BQ25798BinarySensor::dump_config() {
 void BQ25798BinarySensor::update() {
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  if (this->binary_sensor_{{ def.name_snakecase }}_ != nullptr) {
-    this->binary_sensor_{{ def.name_snakecase }}_->publish_state(this->parent_->get_{{ def.name_snakecase }}(true));
+  
+{%     if def._is_bool %}
+  if (this->binary_sensor_{{ def._snake_case_name }}_ != nullptr) {
+    this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool(true));
   }
 {%     endif %}
 {% endfor %}
@@ -38,9 +39,9 @@ void BQ25798BinarySensor::update() {
 
 
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-void BQ25798BinarySensor::assign_binary_sensor_{{ def.name_snakecase }}(binary_sensor::BinarySensor *sensor) {
-  this->binary_sensor_{{ def.name_snakecase }}_ = sensor;
+{%     if def._is_bool %}
+void BQ25798BinarySensor::assign_binary_sensor_{{ def._snake_case_name }}(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_{{ def._snake_case_name }}_ = sensor;
 }
 {%     endif %}
 {% endfor %}

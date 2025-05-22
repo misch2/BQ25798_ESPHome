@@ -33,8 +33,8 @@ sensor:
     name: "Sensors"
 {% for def in settings %}
 {# rw doesn't need to be here because the number components take care of that #}
-{%     if ( def.type == "int" or def.type == "float" ) and def.mode == "ro" %}
-    {{ def.name_snakecase }}:
+{%     if ( def._is_int or def._is_float ) and not def._is_rw %}
+    {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
 {% endfor %}
@@ -45,8 +45,8 @@ binary_sensor:
     name: "Binary Sensors"
 {% for def in settings %}
 {# rw doesn't need to be here because the switches take care of that #}
-{%     if def.type == "bool" and def.mode == "ro" %}
-    {{ def.name_snakecase }}:
+{%     if def._is_bool and not def._is_rw %}
+    {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
 {% endfor %}
@@ -56,8 +56,8 @@ text_sensor:
     bq25798_id: bq25798_component_1
     name: "Text Sensors"
 {% for def in settings %}
-{%     if def.type == "enum" %}
-    {{ def.name_snakecase }}:
+{%     if def._is_enum %}
+    {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
 {% endfor %}
@@ -67,8 +67,8 @@ switch:
     bq25798_id: bq25798_component_1
     name: "Switches"
 {% for def in settings %}
-{%     if def.type == "bool" and def.mode == "rw" %}
-    {{ def.name_snakecase }}:
+{%     if def._is_bool and def._is_rw %}
+    {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
 {% endfor %}
@@ -78,8 +78,8 @@ number:
     bq25798_id: bq25798_component_1
     name: "Numbers"
 {% for def in settings %}
-{%     if (def.type == "int" or def.type == "float" or def.type == "enum") and def.mode == "rw" %}
-    {{ def.name_snakecase }}:
+{%     if (def._is_int or def._is_float or def._is_enum) and def._is_rw %}
+    {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
 {% endfor %}

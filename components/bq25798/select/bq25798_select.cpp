@@ -45,7 +45,7 @@ void BQ25798VbatLowvSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VbatLowvSelect...");
-  uint8_t num_value = this->parent_->get_vbat_lowv(true);
+  uint8_t num_value = this->parent_->get_vbat_lowv_enum_int(true);
   std::string str_value = BQ25798VbatLowvSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -55,7 +55,7 @@ void BQ25798VbatLowvSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VbatLowvSelect...");
 
   uint8_t num_value = BQ25798VbatLowvSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_vbat_lowv(num_value, true);
+  this->parent_->set_vbat_lowv_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -97,7 +97,7 @@ void BQ25798CellSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798CellSelect...");
-  uint8_t num_value = this->parent_->get_cell(true);
+  uint8_t num_value = this->parent_->get_cell_enum_int(true);
   std::string str_value = BQ25798CellSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -107,7 +107,7 @@ void BQ25798CellSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798CellSelect...");
 
   uint8_t num_value = BQ25798CellSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_cell(num_value, true);
+  this->parent_->set_cell_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -149,7 +149,7 @@ void BQ25798TrechgSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TrechgSelect...");
-  uint8_t num_value = this->parent_->get_trechg(true);
+  uint8_t num_value = this->parent_->get_trechg_enum_int(true);
   std::string str_value = BQ25798TrechgSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -159,7 +159,7 @@ void BQ25798TrechgSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TrechgSelect...");
 
   uint8_t num_value = BQ25798TrechgSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_trechg(num_value, true);
+  this->parent_->set_trechg_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -197,7 +197,7 @@ void BQ25798PrechgTmrSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798PrechgTmrSelect...");
-  uint8_t num_value = this->parent_->get_prechg_tmr(true);
+  uint8_t num_value = this->parent_->get_prechg_tmr_enum_int(true);
   std::string str_value = BQ25798PrechgTmrSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -207,7 +207,7 @@ void BQ25798PrechgTmrSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798PrechgTmrSelect...");
 
   uint8_t num_value = BQ25798PrechgTmrSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_prechg_tmr(num_value, true);
+  this->parent_->set_prechg_tmr_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -249,7 +249,7 @@ void BQ25798TopoffTmrSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TopoffTmrSelect...");
-  uint8_t num_value = this->parent_->get_topoff_tmr(true);
+  uint8_t num_value = this->parent_->get_topoff_tmr_enum_int(true);
   std::string str_value = BQ25798TopoffTmrSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -259,7 +259,7 @@ void BQ25798TopoffTmrSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TopoffTmrSelect...");
 
   uint8_t num_value = BQ25798TopoffTmrSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_topoff_tmr(num_value, true);
+  this->parent_->set_topoff_tmr_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -301,7 +301,7 @@ void BQ25798ChgTmrSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798ChgTmrSelect...");
-  uint8_t num_value = this->parent_->get_chg_tmr(true);
+  uint8_t num_value = this->parent_->get_chg_tmr_enum_int(true);
   std::string str_value = BQ25798ChgTmrSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -311,7 +311,7 @@ void BQ25798ChgTmrSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798ChgTmrSelect...");
 
   uint8_t num_value = BQ25798ChgTmrSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_chg_tmr(num_value, true);
+  this->parent_->set_chg_tmr_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -353,7 +353,7 @@ void BQ25798VbusBackupSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VbusBackupSelect...");
-  uint8_t num_value = this->parent_->get_vbus_backup(true);
+  uint8_t num_value = this->parent_->get_vbus_backup_enum_int(true);
   std::string str_value = BQ25798VbusBackupSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -363,7 +363,7 @@ void BQ25798VbusBackupSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VbusBackupSelect...");
 
   uint8_t num_value = BQ25798VbusBackupSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_vbus_backup(num_value, true);
+  this->parent_->set_vbus_backup_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -405,7 +405,7 @@ void BQ25798VacOvpSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VacOvpSelect...");
-  uint8_t num_value = this->parent_->get_vac_ovp(true);
+  uint8_t num_value = this->parent_->get_vac_ovp_enum_int(true);
   std::string str_value = BQ25798VacOvpSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -415,7 +415,7 @@ void BQ25798VacOvpSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VacOvpSelect...");
 
   uint8_t num_value = BQ25798VacOvpSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_vac_ovp(num_value, true);
+  this->parent_->set_vac_ovp_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -465,7 +465,7 @@ void BQ25798WatchdogSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798WatchdogSelect...");
-  uint8_t num_value = this->parent_->get_watchdog(true);
+  uint8_t num_value = this->parent_->get_watchdog_enum_int(true);
   std::string str_value = BQ25798WatchdogSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -475,7 +475,7 @@ void BQ25798WatchdogSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798WatchdogSelect...");
 
   uint8_t num_value = BQ25798WatchdogSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_watchdog(num_value, true);
+  this->parent_->set_watchdog_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -517,7 +517,7 @@ void BQ25798SdrvCtrlSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798SdrvCtrlSelect...");
-  uint8_t num_value = this->parent_->get_sdrv_ctrl(true);
+  uint8_t num_value = this->parent_->get_sdrv_ctrl_enum_int(true);
   std::string str_value = BQ25798SdrvCtrlSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -527,7 +527,7 @@ void BQ25798SdrvCtrlSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798SdrvCtrlSelect...");
 
   uint8_t num_value = BQ25798SdrvCtrlSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_sdrv_ctrl(num_value, true);
+  this->parent_->set_sdrv_ctrl_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -565,7 +565,7 @@ void BQ25798SdrvDlySelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798SdrvDlySelect...");
-  uint8_t num_value = this->parent_->get_sdrv_dly(true);
+  uint8_t num_value = this->parent_->get_sdrv_dly_enum_int(true);
   std::string str_value = BQ25798SdrvDlySelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -575,7 +575,7 @@ void BQ25798SdrvDlySelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798SdrvDlySelect...");
 
   uint8_t num_value = BQ25798SdrvDlySelect_ENUM_TO_INT.at(value);
-  this->parent_->set_sdrv_dly(num_value, true);
+  this->parent_->set_sdrv_dly_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -613,7 +613,7 @@ void BQ25798WkupDlySelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798WkupDlySelect...");
-  uint8_t num_value = this->parent_->get_wkup_dly(true);
+  uint8_t num_value = this->parent_->get_wkup_dly_enum_int(true);
   std::string str_value = BQ25798WkupDlySelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -623,7 +623,7 @@ void BQ25798WkupDlySelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798WkupDlySelect...");
 
   uint8_t num_value = BQ25798WkupDlySelect_ENUM_TO_INT.at(value);
-  this->parent_->set_wkup_dly(num_value, true);
+  this->parent_->set_wkup_dly_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -661,7 +661,7 @@ void BQ25798PwmFreqSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798PwmFreqSelect...");
-  uint8_t num_value = this->parent_->get_pwm_freq(true);
+  uint8_t num_value = this->parent_->get_pwm_freq_enum_int(true);
   std::string str_value = BQ25798PwmFreqSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -671,7 +671,7 @@ void BQ25798PwmFreqSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798PwmFreqSelect...");
 
   uint8_t num_value = BQ25798PwmFreqSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_pwm_freq(num_value, true);
+  this->parent_->set_pwm_freq_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -713,7 +713,7 @@ void BQ25798IbatRegSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798IbatRegSelect...");
-  uint8_t num_value = this->parent_->get_ibat_reg(true);
+  uint8_t num_value = this->parent_->get_ibat_reg_enum_int(true);
   std::string str_value = BQ25798IbatRegSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -723,7 +723,7 @@ void BQ25798IbatRegSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798IbatRegSelect...");
 
   uint8_t num_value = BQ25798IbatRegSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_ibat_reg(num_value, true);
+  this->parent_->set_ibat_reg_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -773,7 +773,7 @@ void BQ25798VocPctSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VocPctSelect...");
-  uint8_t num_value = this->parent_->get_voc_pct(true);
+  uint8_t num_value = this->parent_->get_voc_pct_enum_int(true);
   std::string str_value = BQ25798VocPctSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -783,7 +783,7 @@ void BQ25798VocPctSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VocPctSelect...");
 
   uint8_t num_value = BQ25798VocPctSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_voc_pct(num_value, true);
+  this->parent_->set_voc_pct_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -825,7 +825,7 @@ void BQ25798VocDlySelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VocDlySelect...");
-  uint8_t num_value = this->parent_->get_voc_dly(true);
+  uint8_t num_value = this->parent_->get_voc_dly_enum_int(true);
   std::string str_value = BQ25798VocDlySelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -835,7 +835,7 @@ void BQ25798VocDlySelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VocDlySelect...");
 
   uint8_t num_value = BQ25798VocDlySelect_ENUM_TO_INT.at(value);
-  this->parent_->set_voc_dly(num_value, true);
+  this->parent_->set_voc_dly_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -877,7 +877,7 @@ void BQ25798VocRateSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798VocRateSelect...");
-  uint8_t num_value = this->parent_->get_voc_rate(true);
+  uint8_t num_value = this->parent_->get_voc_rate_enum_int(true);
   std::string str_value = BQ25798VocRateSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -887,7 +887,7 @@ void BQ25798VocRateSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798VocRateSelect...");
 
   uint8_t num_value = BQ25798VocRateSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_voc_rate(num_value, true);
+  this->parent_->set_voc_rate_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -929,7 +929,7 @@ void BQ25798TregSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TregSelect...");
-  uint8_t num_value = this->parent_->get_treg(true);
+  uint8_t num_value = this->parent_->get_treg_enum_int(true);
   std::string str_value = BQ25798TregSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -939,7 +939,7 @@ void BQ25798TregSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TregSelect...");
 
   uint8_t num_value = BQ25798TregSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_treg(num_value, true);
+  this->parent_->set_treg_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -981,7 +981,7 @@ void BQ25798TshutSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TshutSelect...");
-  uint8_t num_value = this->parent_->get_tshut(true);
+  uint8_t num_value = this->parent_->get_tshut_enum_int(true);
   std::string str_value = BQ25798TshutSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -991,7 +991,7 @@ void BQ25798TshutSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TshutSelect...");
 
   uint8_t num_value = BQ25798TshutSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_tshut(num_value, true);
+  this->parent_->set_tshut_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1029,7 +1029,7 @@ void BQ25798BkupAcfet1OnSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798BkupAcfet1OnSelect...");
-  uint8_t num_value = this->parent_->get_bkup_acfet1_on(true);
+  uint8_t num_value = this->parent_->get_bkup_acfet1_on_enum_int(true);
   std::string str_value = BQ25798BkupAcfet1OnSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1039,7 +1039,7 @@ void BQ25798BkupAcfet1OnSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798BkupAcfet1OnSelect...");
 
   uint8_t num_value = BQ25798BkupAcfet1OnSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_bkup_acfet1_on(num_value, true);
+  this->parent_->set_bkup_acfet1_on_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1089,7 +1089,7 @@ void BQ25798JeitaVsetSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798JeitaVsetSelect...");
-  uint8_t num_value = this->parent_->get_jeita_vset(true);
+  uint8_t num_value = this->parent_->get_jeita_vset_enum_int(true);
   std::string str_value = BQ25798JeitaVsetSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1099,7 +1099,7 @@ void BQ25798JeitaVsetSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798JeitaVsetSelect...");
 
   uint8_t num_value = BQ25798JeitaVsetSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_jeita_vset(num_value, true);
+  this->parent_->set_jeita_vset_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1141,7 +1141,7 @@ void BQ25798JeitaIsethSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798JeitaIsethSelect...");
-  uint8_t num_value = this->parent_->get_jeita_iseth(true);
+  uint8_t num_value = this->parent_->get_jeita_iseth_enum_int(true);
   std::string str_value = BQ25798JeitaIsethSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1151,7 +1151,7 @@ void BQ25798JeitaIsethSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798JeitaIsethSelect...");
 
   uint8_t num_value = BQ25798JeitaIsethSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_jeita_iseth(num_value, true);
+  this->parent_->set_jeita_iseth_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1193,7 +1193,7 @@ void BQ25798JeitaIsetcSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798JeitaIsetcSelect...");
-  uint8_t num_value = this->parent_->get_jeita_isetc(true);
+  uint8_t num_value = this->parent_->get_jeita_isetc_enum_int(true);
   std::string str_value = BQ25798JeitaIsetcSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1203,7 +1203,7 @@ void BQ25798JeitaIsetcSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798JeitaIsetcSelect...");
 
   uint8_t num_value = BQ25798JeitaIsetcSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_jeita_isetc(num_value, true);
+  this->parent_->set_jeita_isetc_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1245,7 +1245,7 @@ void BQ25798TsCoolSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TsCoolSelect...");
-  uint8_t num_value = this->parent_->get_ts_cool(true);
+  uint8_t num_value = this->parent_->get_ts_cool_enum_int(true);
   std::string str_value = BQ25798TsCoolSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1255,7 +1255,7 @@ void BQ25798TsCoolSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TsCoolSelect...");
 
   uint8_t num_value = BQ25798TsCoolSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_ts_cool(num_value, true);
+  this->parent_->set_ts_cool_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1297,7 +1297,7 @@ void BQ25798TsWarmSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798TsWarmSelect...");
-  uint8_t num_value = this->parent_->get_ts_warm(true);
+  uint8_t num_value = this->parent_->get_ts_warm_enum_int(true);
   std::string str_value = BQ25798TsWarmSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1307,7 +1307,7 @@ void BQ25798TsWarmSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798TsWarmSelect...");
 
   uint8_t num_value = BQ25798TsWarmSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_ts_warm(num_value, true);
+  this->parent_->set_ts_warm_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1349,7 +1349,7 @@ void BQ25798BhotSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798BhotSelect...");
-  uint8_t num_value = this->parent_->get_bhot(true);
+  uint8_t num_value = this->parent_->get_bhot_enum_int(true);
   std::string str_value = BQ25798BhotSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1359,7 +1359,7 @@ void BQ25798BhotSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798BhotSelect...");
 
   uint8_t num_value = BQ25798BhotSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_bhot(num_value, true);
+  this->parent_->set_bhot_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1397,7 +1397,7 @@ void BQ25798BcoldSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798BcoldSelect...");
-  uint8_t num_value = this->parent_->get_bcold(true);
+  uint8_t num_value = this->parent_->get_bcold_enum_int(true);
   std::string str_value = BQ25798BcoldSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1407,7 +1407,7 @@ void BQ25798BcoldSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798BcoldSelect...");
 
   uint8_t num_value = BQ25798BcoldSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_bcold(num_value, true);
+  this->parent_->set_bcold_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1445,7 +1445,7 @@ void BQ25798AdcRateSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798AdcRateSelect...");
-  uint8_t num_value = this->parent_->get_adc_rate(true);
+  uint8_t num_value = this->parent_->get_adc_rate_enum_int(true);
   std::string str_value = BQ25798AdcRateSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1455,7 +1455,7 @@ void BQ25798AdcRateSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798AdcRateSelect...");
 
   uint8_t num_value = BQ25798AdcRateSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_adc_rate(num_value, true);
+  this->parent_->set_adc_rate_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1497,7 +1497,7 @@ void BQ25798AdcSampleSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798AdcSampleSelect...");
-  uint8_t num_value = this->parent_->get_adc_sample(true);
+  uint8_t num_value = this->parent_->get_adc_sample_enum_int(true);
   std::string str_value = BQ25798AdcSampleSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1507,7 +1507,7 @@ void BQ25798AdcSampleSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798AdcSampleSelect...");
 
   uint8_t num_value = BQ25798AdcSampleSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_adc_sample(num_value, true);
+  this->parent_->set_adc_sample_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1545,7 +1545,7 @@ void BQ25798AdcAvgSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798AdcAvgSelect...");
-  uint8_t num_value = this->parent_->get_adc_avg(true);
+  uint8_t num_value = this->parent_->get_adc_avg_enum_int(true);
   std::string str_value = BQ25798AdcAvgSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1555,7 +1555,7 @@ void BQ25798AdcAvgSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798AdcAvgSelect...");
 
   uint8_t num_value = BQ25798AdcAvgSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_adc_avg(num_value, true);
+  this->parent_->set_adc_avg_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1605,7 +1605,7 @@ void BQ25798DplusDacSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798DplusDacSelect...");
-  uint8_t num_value = this->parent_->get_dplus_dac(true);
+  uint8_t num_value = this->parent_->get_dplus_dac_enum_int(true);
   std::string str_value = BQ25798DplusDacSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1615,7 +1615,7 @@ void BQ25798DplusDacSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798DplusDacSelect...");
 
   uint8_t num_value = BQ25798DplusDacSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_dplus_dac(num_value, true);
+  this->parent_->set_dplus_dac_enum_int(num_value, true);
 
   this->publish_state(value);
 }
@@ -1665,7 +1665,7 @@ void BQ25798DminusDacSelect::update() {
   }
 
 //ESP_LOGD(TAG, "Updating BQ25798DminusDacSelect...");
-  uint8_t num_value = this->parent_->get_dminus_dac(true);
+  uint8_t num_value = this->parent_->get_dminus_dac_enum_int(true);
   std::string str_value = BQ25798DminusDacSelect_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -1675,7 +1675,7 @@ void BQ25798DminusDacSelect::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling BQ25798DminusDacSelect...");
 
   uint8_t num_value = BQ25798DminusDacSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_dminus_dac(num_value, true);
+  this->parent_->set_dminus_dac_enum_int(num_value, true);
 
   this->publish_state(value);
 }

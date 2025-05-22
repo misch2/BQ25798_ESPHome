@@ -20,15 +20,15 @@ class BQ25798BinarySensor : public sensor::Sensor,
   float get_setup_priority() const override;
 
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  void assign_binary_sensor_{{ def.name_snakecase }}(binary_sensor::BinarySensor *sensor);
+{%     if def._is_bool %}
+  void assign_binary_sensor_{{ def._snake_case_name }}(binary_sensor::BinarySensor *sensor);
 {%     endif %}
 {% endfor %}
 
  protected:
 {% for def in settings %}
-{%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  binary_sensor::BinarySensor *binary_sensor_{{ def.name_snakecase }}_ {nullptr};
+{%     if def._is_bool %}
+  binary_sensor::BinarySensor *binary_sensor_{{ def._snake_case_name }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

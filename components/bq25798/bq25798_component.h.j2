@@ -26,58 +26,54 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
-{# Setters #}
-{%     if def.mode == "rw" %}
-  void on_init_set_{{ def.name_snakecase }}(bool value);
-{%       if def.type == "bool" %}
-  void set_{{ def.name_snakecase }}(bool value, bool write_to_i2c);
-{%       elif def.type == "int" %}
-  void set_{{ def.name_snakecase }}(int value, bool write_to_i2c);
-{%       elif def.type == "float" %}
-  void set_{{ def.name_snakecase }}(float value, bool write_to_i2c);
-{%       elif def.type == "enum" %}
-  void set_{{ def.name_snakecase }}(int value, bool write_to_i2c);
-{%       endif %}
-{%     endif %}
+{# #}
 {# Getters #}
-{%     if def.type == "bool" %}
-  bool get_{{ def.name_snakecase }}(bool read_from_i2c);
+{# #}
+  uint16_t get_{{ def._snake_case_name }}_raw(bool read_from_i2c);
+{%     if def._is_bool %}
+  bool get_{{ def._snake_case_name }}_bool(bool read_from_i2c);
 {%         if def.is_flag %}
-  void clear_flag_{{ def.name_snakecase }}() { this->last_value_{{ def.name_snakecase }}_ = false; }
-  void raise_flag_{{ def.name_snakecase }}() { this->last_value_{{ def.name_snakecase }}_ = true; }
+  void clear_flag_{{ def._snake_case_name }}() { this->last_raw_value_{{ def._snake_case_name }}_ = 0; }
+  void raise_flag_{{ def._snake_case_name }}() { this->last_raw_value_{{ def._snake_case_name }}_ = 1; }
 {%         endif %}
-{%     elif def.type == "int" %}
-  int get_{{ def.name_snakecase }}(bool read_from_i2c);
-{%     elif def.type == "float" %}
-  float get_{{ def.name_snakecase }}(bool read_from_i2c);
-{%     elif def.type == "enum" %}
-  int get_{{ def.name_snakecase }}(bool read_from_i2c);
-  const char* get_{{ def.name_snakecase }}_string(bool read_from_i2c);
+{%     endif %}
+{%     if def._is_int %}
+  int get_{{ def._snake_case_name }}_int(bool read_from_i2c);
+{%     endif %}
+{%     if def._is_float %}
+  float get_{{ def._snake_case_name }}_float(bool read_from_i2c);
+{%     endif %}
+{%     if def._is_enum %}
+  int get_{{ def._snake_case_name }}_enum_int(bool read_from_i2c);
+  const char* get_{{ def._snake_case_name }}_enum_string(bool read_from_i2c);
+{%     endif %}
+{# #}
+{# Setters #}
+{# #}
+{%     if def._is_rw %}
+  void set_{{ def._snake_case_name }}_raw(uint16_t value, bool read_from_i2c);
+{%       if def._is_bool %}
+  void set_{{ def._snake_case_name }}_bool(bool value, bool write_to_i2c);
+{%       endif %}
+{%       if def._is_int %}
+  void set_{{ def._snake_case_name }}_int(int value, bool write_to_i2c);
+{%       endif %}
+{%       if def._is_float %}
+  void set_{{ def._snake_case_name }}_float(float value, bool write_to_i2c);
+{%       endif %}
+{%       if def._is_enum %}
+  void set_{{ def._snake_case_name }}_enum_int(int value, bool write_to_i2c);
+{%       endif %}
 {%     endif %}
 
 {% endfor -%}
 
  protected:
 {% for def in settings %}
-{# #}
-{%         if def.type == "bool" %}
-  bool last_value_{{ def.name_snakecase }}_ = false;
-{%         elif def.type == "int" %}
-  int last_value_{{ def.name_snakecase }}_ = 0;
-{%         elif def.type == "float" %}
-  float last_value_{{ def.name_snakecase }}_ = 0.0f;
-{%         elif def.type == "enum" %}
-  int last_value_{{ def.name_snakecase }}_ = 0;
-{%         endif %}
-{# #}
-{%     if def.mode == "rw" %}
-  bool on_init_set_{{ def.name_snakecase }}_ = false;
-{%     endif %}
-{# #}
+  uint16_t last_raw_value_{{ def._snake_case_name }}_ = 0;
+{% endfor %}
 
-{% endfor -%}
-
-    BQ25798NoI2C *bq25798_noi2c_ {nullptr};
+  BQ25798NoI2C *bq25798_noi2c_ {nullptr};
 };  // class BQ25798Component
 
 }  // namespace bq25798
