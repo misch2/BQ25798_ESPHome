@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 #include "bq25798_select.h"
 
 #include "esphome/core/log.h"
@@ -49,7 +51,7 @@ void {{ className }}::update() {
   }
 
 //ESP_LOGD(TAG, "Updating {{ className }}...");
-  uint8_t num_value = this->parent_->get_{{ def.name | lower }}(true);
+  uint8_t num_value = this->parent_->get_{{ def.name_snakecase }}(true);
   std::string str_value = {{ className }}_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -59,7 +61,7 @@ void {{ className }}::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling {{ className }}...");
 
   uint8_t num_value = {{ className }}_ENUM_TO_INT.at(value);
-  this->parent_->set_{{ def.name | lower }}(num_value, true);
+  this->parent_->set_{{ def.name_snakecase }}(num_value, true);
 
   this->publish_state(value);
 }

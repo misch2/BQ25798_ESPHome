@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import select
@@ -25,7 +27,7 @@ DEPENDENCIES = ["bq25798"]
 {% set className = 'BQ25798' ~ formatted_name ~ 'Select' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", select.Select, cg.PollingComponent)
-CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
 {%     endif %}
 {% endfor %}
 
@@ -57,9 +59,9 @@ async def to_code(config):
     # Selects
 {% for def in settings %}
 {%     if def.type == "enum" and def.mode == "rw" %}
-    if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+    if {{ def.name_snakecase }}_config := config.get(CONF_BQ25798_{{ def.name }}):
         sel = await select.new_select(
-            {{ def.name | lower }}_config,
+            {{ def.name_snakecase }}_config,
             # step={{ def.bit_step_size }},
             options=[
 {%         for enum in def.enum_constants %}

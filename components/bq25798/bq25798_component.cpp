@@ -1,3 +1,4 @@
+
 #include "bq25798_component.h"
 #include "esphome/core/log.h"
 #include "esphome/core/hal.h"

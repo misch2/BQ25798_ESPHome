@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
@@ -18,7 +20,7 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", binary_sensor.Bin
 # Boolean settings
 {% for def in settings %}
 {%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
 {%     endif %}
 {% endfor %}
 
@@ -64,9 +66,9 @@ async def to_code(config):
     # Sensors
 {% for def in settings %}
 {%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-    if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
-        sens = await binary_sensor.new_binary_sensor({{ def.name | lower }})
-        cg.add(var.assign_binary_sensor_{{ def.name | lower }}(sens))
+    if {{ def.name_snakecase }} := config.get(CONF_BQ25798_{{ def.name }}):
+        sens = await binary_sensor.new_binary_sensor({{ def.name_snakecase }})
+        cg.add(var.assign_binary_sensor_{{ def.name_snakecase }}(sens))
 {%     endif %}
 
 {% endfor %}

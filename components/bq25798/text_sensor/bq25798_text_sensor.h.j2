@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 #pragma once
 
 #include "esphome/components/text_sensor/text_sensor.h"
@@ -19,14 +21,14 @@ class BQ25798TextSensor : public sensor::Sensor,
 
 {% for def in settings %}
 {%     if def.type == "enum" %}
-  void assign_text_sensor_{{ def.name | lower }}(text_sensor::TextSensor *sensor);
+  void assign_text_sensor_{{ def.name_snakecase }}(text_sensor::TextSensor *sensor);
 {%     endif %}
 {% endfor %}
 
  protected:
 {% for def in settings %}
 {%     if def.type == "enum" %}
-  text_sensor::TextSensor *text_sensor_{{ def.name | lower }}_ {nullptr};
+  text_sensor::TextSensor *text_sensor_{{ def.name_snakecase }}_ {nullptr};
 {%     endif %}
 {% endfor %}
 };

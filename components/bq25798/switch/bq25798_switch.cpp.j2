@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 #include "bq25798_switch.h"
 
 #include "esphome/core/log.h"
@@ -33,7 +35,7 @@ void {{ className }}::update() {
     return;
   }
 
-  this->publish_state(this->parent_->get_{{ def.name | lower }}(true));
+  this->publish_state(this->parent_->get_{{ def.name_snakecase }}(true));
 }
 
 void {{ className }}::write_state(bool state) {
@@ -41,7 +43,7 @@ void {{ className }}::write_state(bool state) {
     return;
   }
 
-  this->parent_->set_{{ def.name | lower }}(state, true);
+  this->parent_->set_{{ def.name_snakecase }}(state, true);
   this->publish_state(state);
 }
 

@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "esphome/components/text_sensor/text_sensor.h"

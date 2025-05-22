@@ -1,3 +1,4 @@
+
 #include "clear_flags_button.h"
 
 #include "esphome/core/log.h"

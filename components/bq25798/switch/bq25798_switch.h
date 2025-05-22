@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "esphome/components/switch/switch.h"

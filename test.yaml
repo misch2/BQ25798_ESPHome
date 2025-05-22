@@ -62,10 +62,6 @@ binary_sensor:
     name: "Binary Sensors"
     bc12_done_stat:
       name: "BC12_DONE_STAT ()"
-    acrb2_stat:
-      name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
-    acrb1_stat:
-      name: "ACRB1_STAT (The ACFET1-RBFET1 status)"
     adc_done_stat:
       name: "ADC_DONE_STAT (ADC Conversion Status)"
     ibat_reg_stat:
@@ -257,6 +253,10 @@ text_sensor:
       name: "DPDM_STAT ()"
     vbat_present_stat:
       name: "VBAT_PRESENT_STAT ()"
+    acrb2_stat:
+      name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
+    acrb1_stat:
+      name: "ACRB1_STAT (The ACFET1-RBFET1 status)"
     vsys_stat:
       name: "VSYS_STAT (VSYS Regulation Status)"
     chg_tmr_stat:

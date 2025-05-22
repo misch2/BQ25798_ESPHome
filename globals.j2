@@ -1,0 +1,18 @@
+{%- for def in settings -%}
+{# #}
+{# AttributeError: 'dict' object has no attribute '_name' #}
+{#% set _ = def.__setattr__('_name', def.name) %#}
+{# #}
+{# jinja2.exceptions.TemplateRuntimeError: cannot assign attribute on non-namespace object #}
+{#% set def._name = def.name %#}
+{# #}
+{# #}
+{# The "set _ = def.update..." is a hack to add new attributes to an existing dictionary: #}
+{# #}
+{%- set _ = def.update({ 'name_snakecase': def.name | lower }) -%}
+{%- set _ = def.update({ 'is_bool': def.type == "bool" }) -%}
+{%- set _ = def.update({ 'is_int': def.type == "int" }) -%}
+{%- set _ = def.update({ 'is_float': def.type == "float" }) -%}
+{%- set _ = def.update({ 'is_enum': def.type == "enum" }) -%}
+{# #}
+{%- endfor -%}

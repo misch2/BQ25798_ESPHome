@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 #pragma once
 
 #include "esphome/core/component.h"
@@ -26,31 +28,31 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   // {{ def.name }} - {{ def.description }}
 {# Setters #}
 {%     if def.mode == "rw" %}
-  void on_init_set_{{ def.name | lower }}(bool value);
+  void on_init_set_{{ def.name_snakecase }}(bool value);
 {%       if def.type == "bool" %}
-  void set_{{ def.name | lower }}(bool value, bool write_to_i2c);
+  void set_{{ def.name_snakecase }}(bool value, bool write_to_i2c);
 {%       elif def.type == "int" %}
-  void set_{{ def.name | lower }}(int value, bool write_to_i2c);
+  void set_{{ def.name_snakecase }}(int value, bool write_to_i2c);
 {%       elif def.type == "float" %}
-  void set_{{ def.name | lower }}(float value, bool write_to_i2c);
+  void set_{{ def.name_snakecase }}(float value, bool write_to_i2c);
 {%       elif def.type == "enum" %}
-  void set_{{ def.name | lower }}(int value, bool write_to_i2c);
+  void set_{{ def.name_snakecase }}(int value, bool write_to_i2c);
 {%       endif %}
 {%     endif %}
 {# Getters #}
 {%     if def.type == "bool" %}
-  bool get_{{ def.name | lower }}(bool read_from_i2c);
+  bool get_{{ def.name_snakecase }}(bool read_from_i2c);
 {%         if def.is_flag %}
-  void clear_flag_{{ def.name | lower }}() { this->last_value_{{ def.name | lower }}_ = false; }
-  void raise_flag_{{ def.name | lower }}() { this->last_value_{{ def.name | lower }}_ = true; }
+  void clear_flag_{{ def.name_snakecase }}() { this->last_value_{{ def.name_snakecase }}_ = false; }
+  void raise_flag_{{ def.name_snakecase }}() { this->last_value_{{ def.name_snakecase }}_ = true; }
 {%         endif %}
 {%     elif def.type == "int" %}
-  int get_{{ def.name | lower }}(bool read_from_i2c);
+  int get_{{ def.name_snakecase }}(bool read_from_i2c);
 {%     elif def.type == "float" %}
-  float get_{{ def.name | lower }}(bool read_from_i2c);
+  float get_{{ def.name_snakecase }}(bool read_from_i2c);
 {%     elif def.type == "enum" %}
-  int get_{{ def.name | lower }}(bool read_from_i2c);
-  const char* get_{{ def.name | lower }}_string(bool read_from_i2c);
+  int get_{{ def.name_snakecase }}(bool read_from_i2c);
+  const char* get_{{ def.name_snakecase }}_string(bool read_from_i2c);
 {%     endif %}
 
 {% endfor -%}
@@ -59,17 +61,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {% for def in settings %}
 {# #}
 {%         if def.type == "bool" %}
-  bool last_value_{{ def.name | lower }}_ = false;
+  bool last_value_{{ def.name_snakecase }}_ = false;
 {%         elif def.type == "int" %}
-  int last_value_{{ def.name | lower }}_ = 0;
+  int last_value_{{ def.name_snakecase }}_ = 0;
 {%         elif def.type == "float" %}
-  float last_value_{{ def.name | lower }}_ = 0.0f;
+  float last_value_{{ def.name_snakecase }}_ = 0.0f;
 {%         elif def.type == "enum" %}
-  int last_value_{{ def.name | lower }}_ = 0;
+  int last_value_{{ def.name_snakecase }}_ = 0;
 {%         endif %}
 {# #}
 {%     if def.mode == "rw" %}
-  bool on_init_set_{{ def.name | lower }}_ = false;
+  bool on_init_set_{{ def.name_snakecase }}_ = false;
 {%     endif %}
 {# #}
 

@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import core
@@ -17,7 +19,7 @@ CONF_BQ25798_ID = "bq25798_id"
 # Settings
 {% for def in settings %}
 {# All settings, not just RW ones #}
-CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
 {% endfor %}
 
 # Configuration schema
@@ -70,8 +72,8 @@ async def to_code(config):
     # Initial chip settings (optionally set on startup)
 {% for def in settings %}
 {%     if def.mode == "rw" %}
-    if {{ def.name | lower }} := config.get(CONF_BQ25798_{{ def.name }}):
-        cg.add(var.set_{{ def.name | lower }}({{ def.name | lower }}, 0))
-        cg.add(var.on_init_set_{{ def.name | lower }}(True))
+    if {{ def.name_snakecase }} := config.get(CONF_BQ25798_{{ def.name }}):
+        cg.add(var.set_{{ def.name_snakecase }}({{ def.name_snakecase }}, 0))
+        cg.add(var.on_init_set_{{ def.name_snakecase }}(True))
 {%     endif %}
 {% endfor %}

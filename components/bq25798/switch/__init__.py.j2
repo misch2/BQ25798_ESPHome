@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import switch
@@ -24,7 +26,7 @@ DEPENDENCIES = ["bq25798"]
 {% set className = 'BQ25798' ~ formatted_name ~ 'Switch' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", switch.Switch, cg.PollingComponent)
-CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
 {%     endif %}
 {% endfor %}
 
@@ -56,8 +58,8 @@ async def to_code(config):
     # Switches
 {% for def in settings %}
 {%     if def.type == "bool" and def.mode == "rw" %}
-    if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
-        sw = await switch.new_switch({{ def.name | lower }}_config)
+    if {{ def.name_snakecase }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+        sw = await switch.new_switch({{ def.name_snakecase }}_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
         await cg.register_component(sw, config)
 

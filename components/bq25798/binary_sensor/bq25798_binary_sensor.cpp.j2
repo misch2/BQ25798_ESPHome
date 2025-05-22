@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 #include "bq25798_binary_sensor.h"
 
 #include "esphome/core/log.h"
@@ -14,8 +16,8 @@ void BQ25798BinarySensor::dump_config() {
 
 {% for def in settings %}
 {%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  if (this->binary_sensor_{{ def.name | lower }}_ != nullptr) {
-    LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def.name | lower }}_);
+  if (this->binary_sensor_{{ def.name_snakecase }}_ != nullptr) {
+    LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def.name_snakecase }}_);
   }
 {%     endif %}
 {% endfor %}
@@ -27,8 +29,8 @@ void BQ25798BinarySensor::update() {
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
 {%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-  if (this->binary_sensor_{{ def.name | lower }}_ != nullptr) {
-    this->binary_sensor_{{ def.name | lower }}_->publish_state(this->parent_->get_{{ def.name | lower }}(true));
+  if (this->binary_sensor_{{ def.name_snakecase }}_ != nullptr) {
+    this->binary_sensor_{{ def.name_snakecase }}_->publish_state(this->parent_->get_{{ def.name_snakecase }}(true));
   }
 {%     endif %}
 {% endfor %}
@@ -37,8 +39,8 @@ void BQ25798BinarySensor::update() {
 
 {% for def in settings %}
 {%     if def.type == "bool" or (def.type == "enum" and def.bits == 1) %}
-void BQ25798BinarySensor::assign_binary_sensor_{{ def.name | lower }}(binary_sensor::BinarySensor *sensor) {
-  this->binary_sensor_{{ def.name | lower }}_ = sensor;
+void BQ25798BinarySensor::assign_binary_sensor_{{ def.name_snakecase }}(binary_sensor::BinarySensor *sensor) {
+  this->binary_sensor_{{ def.name_snakecase }}_ = sensor;
 }
 {%     endif %}
 {% endfor %}

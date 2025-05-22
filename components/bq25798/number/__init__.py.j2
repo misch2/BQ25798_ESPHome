@@ -1,3 +1,5 @@
+{% include "/globals.j2" %}
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import number
@@ -25,7 +27,7 @@ DEPENDENCIES = ["bq25798"]
 {% set className = 'BQ25798' ~ formatted_name ~ 'Number' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", number.Number, cg.PollingComponent)
-CONF_BQ25798_{{ def.name}} = "{{ def.name | lower }}"
+CONF_BQ25798_{{ def.name}} = "{{ def.name_snakecase }}"
 {%     endif %}
 {% endfor %}
 
@@ -58,9 +60,9 @@ async def to_code(config):
     # Numbers
 {% for def in settings %}
 {%     if (def.type == "int" or def.type == "float") and def.mode == "rw" %}
-    if {{ def.name | lower }}_config := config.get(CONF_BQ25798_{{ def.name }}):
+    if {{ def.name_snakecase }}_config := config.get(CONF_BQ25798_{{ def.name }}):
         num = await number.new_number(
-            {{ def.name | lower }}_config,
+            {{ def.name_snakecase }}_config,
             min_value={{ def.range_low }},
             max_value={{ def.range_high }},
             step={{ def.bit_step_size }},
