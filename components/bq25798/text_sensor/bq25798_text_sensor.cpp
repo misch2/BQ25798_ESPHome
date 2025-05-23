@@ -567,7 +567,7 @@ void BQ25798TextSensor::update() {
     this->text_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_string(true));   
   }   
    
-  // IBAT_REG_STAT - IBAT regulation status
+  // IBAT_REG_STAT - In battery discharging current regulation
    
   // VBUS_OVP_STAT - VBUS over-voltage status
    

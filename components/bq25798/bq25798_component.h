@@ -808,7 +808,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   int get_ts_hot_stat_enum_int(bool read_from_i2c);
   const char* get_ts_hot_stat_enum_string(bool read_from_i2c);
 
-  // IBAT_REG_STAT - IBAT regulation status
+  // IBAT_REG_STAT - In battery discharging current regulation
   uint16_t get_ibat_reg_stat_raw(bool read_from_i2c);
 
   bool get_ibat_reg_stat_bool(bool read_from_i2c);

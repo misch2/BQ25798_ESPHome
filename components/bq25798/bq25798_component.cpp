@@ -6786,7 +6786,7 @@ const char* BQ25798Component::get_ts_hot_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_HOT_STAT);
 }
 
-// IBAT_REG_STAT - IBAT regulation status
+// IBAT_REG_STAT - In battery discharging current regulation
 uint16_t BQ25798Component::get_ibat_reg_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;

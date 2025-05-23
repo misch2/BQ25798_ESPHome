@@ -558,7 +558,7 @@ void BQ25798Sensor::update() {
   if (this->sensor_ts_hot_stat_ != nullptr) {
     this->sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_int(true));
   }
-  // IBAT_REG_STAT - IBAT regulation status
+  // IBAT_REG_STAT - In battery discharging current regulation
   // VBUS_OVP_STAT - VBUS over-voltage status
   // VBAT_OVP_STAT - VBAT over-voltage status
   // IBUS_OCP_STAT - IBUS over-current status
