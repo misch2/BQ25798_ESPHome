@@ -16,7 +16,6 @@ void BQ25798VsysminNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "VSYSMIN", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -37,8 +36,6 @@ void BQ25798VsysminNumber::control(float new_value) {
 }
 
 
-
-
 // VREG - Charge Voltage Limit
 float BQ25798VregNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -47,7 +44,6 @@ void BQ25798VregNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "VREG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -68,8 +64,6 @@ void BQ25798VregNumber::control(float new_value) {
 }
 
 
-
-
 // ICHG - Charge Current Limit
 float BQ25798IchgNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -78,7 +72,6 @@ void BQ25798IchgNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "ICHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -99,8 +92,6 @@ void BQ25798IchgNumber::control(float new_value) {
 }
 
 
-
-
 // VINDPM - Input Voltage Limit
 float BQ25798VindpmNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -109,7 +100,6 @@ void BQ25798VindpmNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "VINDPM", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -130,8 +120,6 @@ void BQ25798VindpmNumber::control(float new_value) {
 }
 
 
-
-
 // IINDPM - Input Current Limit
 float BQ25798IindpmNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -140,7 +128,6 @@ void BQ25798IindpmNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "IINDPM", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -161,8 +148,6 @@ void BQ25798IindpmNumber::control(float new_value) {
 }
 
 
-
-
 // IPRECHG - Precharge Current Limit
 float BQ25798IprechgNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -171,7 +156,6 @@ void BQ25798IprechgNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "IPRECHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -192,8 +176,6 @@ void BQ25798IprechgNumber::control(float new_value) {
 }
 
 
-
-
 // ITERM - Termination Current Limit
 float BQ25798ItermNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -202,7 +184,6 @@ void BQ25798ItermNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "ITERM", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -223,8 +204,6 @@ void BQ25798ItermNumber::control(float new_value) {
 }
 
 
-
-
 // VRECHG - Battery Recharge Threshold Offset (Below VREG)
 float BQ25798VrechgNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -233,7 +212,6 @@ void BQ25798VrechgNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "VRECHG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -254,8 +232,6 @@ void BQ25798VrechgNumber::control(float new_value) {
 }
 
 
-
-
 // VOTG - OTG mode regulation voltage
 float BQ25798VotgNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -264,7 +240,6 @@ void BQ25798VotgNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "VOTG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -285,8 +260,6 @@ void BQ25798VotgNumber::control(float new_value) {
 }
 
 
-
-
 // IOTG - OTG current limit
 float BQ25798IotgNumber::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -295,7 +268,6 @@ void BQ25798IotgNumber::dump_config() {
   if (this->parent_->is_failed()) {
     return;
   }
-
   LOG_NUMBER("  ", "IOTG", this);
   LOG_UPDATE_INTERVAL(this);
 }
@@ -314,8 +286,6 @@ void BQ25798IotgNumber::control(float new_value) {
   this->parent_->set_iotg_int(new_value, true);
   this->publish_state(new_value);
 }
-
-
 
 
 }  // namespace bq25798

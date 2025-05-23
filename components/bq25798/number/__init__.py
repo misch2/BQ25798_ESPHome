@@ -109,7 +109,6 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Numbers
     if vsysmin_config := config.get(CONF_BQ25798_VSYSMIN):
         num = await number.new_number(
             vsysmin_config,

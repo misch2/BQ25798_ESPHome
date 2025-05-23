@@ -19,7 +19,7 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", binary_sensor.Bin
 
 # Boolean settings
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
 CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}
 {% endfor %}
@@ -45,10 +45,10 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),            
 
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
             cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): binary_sensor.binary_sensor_schema(
 {%         if def.ha_device_class != "" %}
-#FIXME TODO               device_class="{{ def.ha_device_class }}",
+#TODO               device_class="{{ def.ha_device_class }}",
 {%         endif %}
             ),
 {%     endif %}
@@ -63,12 +63,10 @@ async def to_code(config):
     await cg.register_parented(var, config[CONF_BQ25798_ID])
     await cg.register_component(var, config)
 
-    # Sensors
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
     if {{ def._snake_case_name }} := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         sens = await binary_sensor.new_binary_sensor({{ def._snake_case_name }})
         cg.add(var.assign_binary_sensor_{{ def._snake_case_name }}(sens))
 {%     endif %}
-
 {% endfor %}

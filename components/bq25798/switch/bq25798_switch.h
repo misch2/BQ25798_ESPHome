@@ -40,21 +40,6 @@ class BQ25798StopWdChgSwitch : public switch_::Switch,
 };
 
 
-// PRECHG_TMR - Pre-charge safety timer setting
-class BQ25798PrechgTmrSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798PrechgTmrSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
 // EN_TRICHG_TMR - Trickle charge timer enable
 class BQ25798EnTrichgTmrSwitch : public switch_::Switch,
                             public PollingComponent,
@@ -325,21 +310,6 @@ class BQ25798HvdcpEnSwitch : public switch_::Switch,
 };
 
 
-// SDRV_DLY - Delay for SDRV control
-class BQ25798SdrvDlySwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798SdrvDlySwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
 // DIS_ACDRV - Disable both AC1 and AC2 drivers
 class BQ25798DisAcdrvSwitch : public switch_::Switch,
                             public PollingComponent,
@@ -391,21 +361,6 @@ class BQ25798PfmFwdDisSwitch : public switch_::Switch,
                             public Parented<BQ25798Component> {
  public:
   BQ25798PfmFwdDisSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
-// WKUP_DLY - Wakeup (Ship FET) delay
-class BQ25798WkupDlySwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798WkupDlySwitch() = default;
   void update() override;
   void dump_config() override;
   float get_setup_priority() const override;
@@ -481,21 +436,6 @@ class BQ25798EnAcdrv1Switch : public switch_::Switch,
                             public Parented<BQ25798Component> {
  public:
   BQ25798EnAcdrv1Switch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
-// PWM_FREQ - PWM frequency setting
-class BQ25798PwmFreqSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798PwmFreqSwitch() = default;
   void update() override;
   void dump_config() override;
   float get_setup_priority() const override;
@@ -715,36 +655,6 @@ class BQ25798Vac2PdEnSwitch : public switch_::Switch,
 };
 
 
-// BKUP_ACFET1_ON - 
-class BQ25798BkupAcfet1OnSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798BkupAcfet1OnSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
-// BCOLD - 
-class BQ25798BcoldSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798BcoldSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
 // TS_IGNORE - 
 class BQ25798TsIgnoreSwitch : public switch_::Switch,
                             public PollingComponent,
@@ -766,36 +676,6 @@ class BQ25798AdcEnSwitch : public switch_::Switch,
                             public Parented<BQ25798Component> {
  public:
   BQ25798AdcEnSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
-// ADC_RATE - 
-class BQ25798AdcRateSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798AdcRateSwitch() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void write_state(bool state) override;
-};
-
-
-// ADC_AVG - 
-class BQ25798AdcAvgSwitch : public switch_::Switch,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798AdcAvgSwitch() = default;
   void update() override;
   void dump_config() override;
   float get_setup_priority() const override;

@@ -253,7 +253,6 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Selects
 
 
 
@@ -276,7 +275,6 @@ async def to_code(config):
 
 
 
-
     if cell_config := config.get(CONF_BQ25798_CELL):
         sel = await select.new_select(
             cell_config,
@@ -289,7 +287,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if trechg_config := config.get(CONF_BQ25798_TRECHG):
         sel = await select.new_select(
@@ -306,7 +303,6 @@ async def to_code(config):
 
 
 
-
     if prechg_tmr_config := config.get(CONF_BQ25798_PRECHG_TMR):
         sel = await select.new_select(
             prechg_tmr_config,
@@ -317,7 +313,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
     if topoff_tmr_config := config.get(CONF_BQ25798_TOPOFF_TMR):
@@ -332,7 +327,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
 
@@ -359,7 +353,6 @@ async def to_code(config):
 
 
 
-
     if vbus_backup_config := config.get(CONF_BQ25798_VBUS_BACKUP):
         sel = await select.new_select(
             vbus_backup_config,
@@ -373,7 +366,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if vac_ovp_config := config.get(CONF_BQ25798_VAC_OVP):
         sel = await select.new_select(
             vac_ovp_config,
@@ -386,7 +378,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
     if watchdog_config := config.get(CONF_BQ25798_WATCHDOG):
@@ -411,7 +402,6 @@ async def to_code(config):
 
 
 
-
     if sdrv_ctrl_config := config.get(CONF_BQ25798_SDRV_CTRL):
         sel = await select.new_select(
             sdrv_ctrl_config,
@@ -424,7 +414,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if sdrv_dly_config := config.get(CONF_BQ25798_SDRV_DLY):
         sel = await select.new_select(
@@ -441,7 +430,6 @@ async def to_code(config):
 
 
 
-
     if wkup_dly_config := config.get(CONF_BQ25798_WKUP_DLY):
         sel = await select.new_select(
             wkup_dly_config,
@@ -452,7 +440,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
 
@@ -477,7 +464,6 @@ async def to_code(config):
 
 
 
-
     if ibat_reg_config := config.get(CONF_BQ25798_IBAT_REG):
         sel = await select.new_select(
             ibat_reg_config,
@@ -490,7 +476,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
 
@@ -512,7 +497,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if voc_dly_config := config.get(CONF_BQ25798_VOC_DLY):
         sel = await select.new_select(
             voc_dly_config,
@@ -525,7 +509,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if voc_rate_config := config.get(CONF_BQ25798_VOC_RATE):
         sel = await select.new_select(
@@ -541,7 +524,6 @@ async def to_code(config):
         await cg.register_component(sel, config)
 
 
-
     if treg_config := config.get(CONF_BQ25798_TREG):
         sel = await select.new_select(
             treg_config,
@@ -554,7 +536,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if tshut_config := config.get(CONF_BQ25798_TSHUT):
         sel = await select.new_select(
@@ -572,7 +553,6 @@ async def to_code(config):
 
 
 
-
     if bkup_acfet1_on_config := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
         sel = await select.new_select(
             bkup_acfet1_on_config,
@@ -583,7 +563,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if jeita_vset_config := config.get(CONF_BQ25798_JEITA_VSET):
         sel = await select.new_select(
@@ -602,7 +581,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if jeita_iseth_config := config.get(CONF_BQ25798_JEITA_ISETH):
         sel = await select.new_select(
             jeita_iseth_config,
@@ -615,7 +593,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if jeita_isetc_config := config.get(CONF_BQ25798_JEITA_ISETC):
         sel = await select.new_select(
@@ -630,7 +607,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if ts_cool_config := config.get(CONF_BQ25798_TS_COOL):
         sel = await select.new_select(
             ts_cool_config,
@@ -643,7 +619,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if ts_warm_config := config.get(CONF_BQ25798_TS_WARM):
         sel = await select.new_select(
@@ -658,7 +633,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if bhot_config := config.get(CONF_BQ25798_BHOT):
         sel = await select.new_select(
             bhot_config,
@@ -671,7 +645,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if bcold_config := config.get(CONF_BQ25798_BCOLD):
         sel = await select.new_select(
@@ -765,7 +738,6 @@ async def to_code(config):
 
 
 
-
     if adc_rate_config := config.get(CONF_BQ25798_ADC_RATE):
         sel = await select.new_select(
             adc_rate_config,
@@ -776,7 +748,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
     if adc_sample_config := config.get(CONF_BQ25798_ADC_SAMPLE):
         sel = await select.new_select(
@@ -791,7 +762,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if adc_avg_config := config.get(CONF_BQ25798_ADC_AVG):
         sel = await select.new_select(
             adc_avg_config,
@@ -802,7 +772,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
 
@@ -844,7 +813,6 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
 
-
     if dminus_dac_config := config.get(CONF_BQ25798_DMINUS_DAC):
         sel = await select.new_select(
             dminus_dac_config,
@@ -861,7 +829,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 
 
 

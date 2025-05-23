@@ -12,7 +12,7 @@ namespace bq25798 {
 static const char* const TAG = "bq25798.select";
 
 {% for def in settings %}
-{%     if def._is_enum and def._is_rw %}
+{%     if def._is_ha_select %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
@@ -44,7 +44,6 @@ static const std::map<std::string, uint8_t> {{ className }}_ENUM_TO_INT {
 {%         endfor %}
 };
 
-
 void {{ className }}::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -65,8 +64,6 @@ void {{ className }}::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 {%     endif %}
 {% endfor %}

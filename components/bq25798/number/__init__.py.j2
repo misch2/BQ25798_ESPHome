@@ -19,7 +19,7 @@ DEPENDENCIES = ["bq25798"]
 
 # Numeric settings
 {% for def in settings %}
-{%     if (def._is_int or def._is_float) and def._is_rw %}
+{%     if def._is_ha_number %}
 {% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Number' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", number.Number, cg.PollingComponent)
@@ -33,7 +33,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if (def._is_int or def._is_float) and def._is_rw %}
+{%     if def._is_ha_number %}
 {%         set className = 'BQ25798' ~ def._CamelCaseName ~ 'Number' %}
             cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): number.number_schema(
                 {{ className }},
@@ -49,9 +49,8 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Numbers
 {% for def in settings %}
-{%     if (def._is_int or def._is_float) and def._is_rw %}
+{%     if def._is_ha_number %}
     if {{ def._snake_case_name }}_config := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         num = await number.new_number(
             {{ def._snake_case_name }}_config,

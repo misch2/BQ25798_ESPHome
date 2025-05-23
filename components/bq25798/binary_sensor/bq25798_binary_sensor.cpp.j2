@@ -13,23 +13,19 @@ float BQ25798BinarySensor::get_setup_priority() const { return setup_priority::D
 
 void BQ25798BinarySensor::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798BinarySensor configuration...");
-
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
   if (this->binary_sensor_{{ def._snake_case_name }}_ != nullptr) {
     LOG_BINARY_SENSOR("  ", "{{ def.name }}", this->binary_sensor_{{ def._snake_case_name }}_);
   }
 {%     endif %}
 {% endfor %}
-
   LOG_UPDATE_INTERVAL(this);
 }
 
 void BQ25798BinarySensor::update() {
 {% for def in settings %}
-  // {{ def.name }} - {{ def.description }}
-  
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
   if (this->binary_sensor_{{ def._snake_case_name }}_ != nullptr) {
     this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool(true));
   }
@@ -37,9 +33,8 @@ void BQ25798BinarySensor::update() {
 {% endfor %}
 }
 
-
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
 void BQ25798BinarySensor::assign_binary_sensor_{{ def._snake_case_name }}(binary_sensor::BinarySensor *sensor) {
   this->binary_sensor_{{ def._snake_case_name }}_ = sensor;
 }

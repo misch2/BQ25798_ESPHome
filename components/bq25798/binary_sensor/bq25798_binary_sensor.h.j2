@@ -20,14 +20,14 @@ class BQ25798BinarySensor : public sensor::Sensor,
   float get_setup_priority() const override;
 
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
   void assign_binary_sensor_{{ def._snake_case_name }}(binary_sensor::BinarySensor *sensor);
 {%     endif %}
 {% endfor %}
 
  protected:
 {% for def in settings %}
-{%     if def._is_bool %}
+{%     if def._is_ha_binary_sensor %}
   binary_sensor::BinarySensor *binary_sensor_{{ def._snake_case_name }}_ {nullptr};
 {%     endif %}
 {% endfor %}

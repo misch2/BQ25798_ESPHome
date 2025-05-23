@@ -697,7 +697,6 @@ void BQ25798Sensor::update() {
   }
 }
 
-
 void BQ25798Sensor::assign_sensor_vsysmin(sensor::Sensor *sensor) {
   this->sensor_vsysmin_ = sensor;
 }

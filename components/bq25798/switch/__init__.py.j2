@@ -18,7 +18,7 @@ DEPENDENCIES = ["bq25798"]
 
 # Boolean settings
 {% for def in settings %}
-{%     if def._is_bool and def._is_rw %}
+{%     if def._is_ha_switch %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
@@ -36,7 +36,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def._is_bool and def._is_rw %}
+{%     if def._is_ha_switch %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
@@ -57,7 +57,7 @@ async def to_code(config):
 
     # Switches
 {% for def in settings %}
-{%     if def._is_bool and def._is_rw %}
+{%     if def._is_ha_switch %}
     if {{ def._snake_case_name }}_config := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         sw = await switch.new_switch({{ def._snake_case_name }}_config)
         await cg.register_parented(sw, config[CONF_BQ25798_ID])

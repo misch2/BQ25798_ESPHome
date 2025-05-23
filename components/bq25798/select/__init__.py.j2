@@ -19,7 +19,7 @@ DEPENDENCIES = ["bq25798"]
 
 # Enum settings
 {% for def in settings %}
-{%     if def._is_enum and def._is_rw %}
+{%     if def._is_ha_select %}
 {%         set className = 'BQ25798' ~ def._CamelCaseName ~ 'Select' %}
 
 {{ className }} = bq25798_ns.class_("{{ className }}", select.Select, cg.PollingComponent)
@@ -33,7 +33,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def._is_enum and def._is_rw %}
+{%     if def._is_ha_select %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title
@@ -52,9 +52,8 @@ CONFIG_SCHEMA = (
 async def to_code(config):
     main_component = await cg.get_variable(config[CONF_BQ25798_ID]) # parent component
 
-    # Selects
 {% for def in settings %}
-{%     if def._is_enum and def._is_rw %}
+{%     if def._is_ha_select %}
     if {{ def._snake_case_name }}_config := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         sel = await select.new_select(
             {{ def._snake_case_name }}_config,
@@ -66,7 +65,6 @@ async def to_code(config):
         )
         await cg.register_parented(sel, config[CONF_BQ25798_ID])
         await cg.register_component(sel, config)
-
 {%     endif %}
 
 {% endfor %}

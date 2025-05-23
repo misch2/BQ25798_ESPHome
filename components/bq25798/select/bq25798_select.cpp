@@ -37,7 +37,6 @@ static const std::map<std::string, uint8_t> BQ25798VbatLowvSelect_ENUM_TO_INT {
   { "VBAT_LOWV_PCT_71", 3 },
 };
 
-
 void BQ25798VbatLowvSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -58,8 +57,6 @@ void BQ25798VbatLowvSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // CELL - Battery cell count
@@ -89,7 +86,6 @@ static const std::map<std::string, uint8_t> BQ25798CellSelect_ENUM_TO_INT {
   { "CELL_4S", 3 },
 };
 
-
 void BQ25798CellSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -110,8 +106,6 @@ void BQ25798CellSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TRECHG - Battery recharge delay time
@@ -141,7 +135,6 @@ static const std::map<std::string, uint8_t> BQ25798TrechgSelect_ENUM_TO_INT {
   { "TRECHG_2048MS", 3 },
 };
 
-
 void BQ25798TrechgSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -162,8 +155,6 @@ void BQ25798TrechgSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // PRECHG_TMR - Pre-charge safety timer setting
@@ -189,7 +180,6 @@ static const std::map<std::string, uint8_t> BQ25798PrechgTmrSelect_ENUM_TO_INT {
   { "PRECHG_TMR_30MIN", 1 },
 };
 
-
 void BQ25798PrechgTmrSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -210,8 +200,6 @@ void BQ25798PrechgTmrSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TOPOFF_TMR - Top-off timer control
@@ -241,7 +229,6 @@ static const std::map<std::string, uint8_t> BQ25798TopoffTmrSelect_ENUM_TO_INT {
   { "TOPOFF_TMR_45MIN", 3 },
 };
 
-
 void BQ25798TopoffTmrSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -262,8 +249,6 @@ void BQ25798TopoffTmrSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // CHG_TMR - Fast charge timer setting
@@ -293,7 +278,6 @@ static const std::map<std::string, uint8_t> BQ25798ChgTmrSelect_ENUM_TO_INT {
   { "CHG_TMR_24HRS", 3 },
 };
 
-
 void BQ25798ChgTmrSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -314,8 +298,6 @@ void BQ25798ChgTmrSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
@@ -345,7 +327,6 @@ static const std::map<std::string, uint8_t> BQ25798VbusBackupSelect_ENUM_TO_INT 
   { "PCT_VBUS_BACKUP_100", 3 },
 };
 
-
 void BQ25798VbusBackupSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -366,8 +347,6 @@ void BQ25798VbusBackupSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // VAC_OVP - Over voltage protection thresholds
@@ -397,7 +376,6 @@ static const std::map<std::string, uint8_t> BQ25798VacOvpSelect_ENUM_TO_INT {
   { "VAC_OVP_7V", 3 },
 };
 
-
 void BQ25798VacOvpSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -418,8 +396,6 @@ void BQ25798VacOvpSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // WATCHDOG - Watchdog timer settings
@@ -457,7 +433,6 @@ static const std::map<std::string, uint8_t> BQ25798WatchdogSelect_ENUM_TO_INT {
   { "WATCHDOG_160S", 7 },
 };
 
-
 void BQ25798WatchdogSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -478,8 +453,6 @@ void BQ25798WatchdogSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // SDRV_CTRL - Enable external Ship FET control
@@ -509,7 +482,6 @@ static const std::map<std::string, uint8_t> BQ25798SdrvCtrlSelect_ENUM_TO_INT {
   { "SDRV_CTRL_SYS_PWR_RST", 3 },
 };
 
-
 void BQ25798SdrvCtrlSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -530,8 +502,6 @@ void BQ25798SdrvCtrlSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // SDRV_DLY - Delay for SDRV control
@@ -557,7 +527,6 @@ static const std::map<std::string, uint8_t> BQ25798SdrvDlySelect_ENUM_TO_INT {
   { "SDRV_DLY_0S", 1 },
 };
 
-
 void BQ25798SdrvDlySelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -578,8 +547,6 @@ void BQ25798SdrvDlySelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // WKUP_DLY - Wakeup (Ship FET) delay
@@ -605,7 +572,6 @@ static const std::map<std::string, uint8_t> BQ25798WkupDlySelect_ENUM_TO_INT {
   { "WKUP_DLY_15MS", 1 },
 };
 
-
 void BQ25798WkupDlySelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -626,8 +592,6 @@ void BQ25798WkupDlySelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // PWM_FREQ - PWM frequency setting
@@ -653,7 +617,6 @@ static const std::map<std::string, uint8_t> BQ25798PwmFreqSelect_ENUM_TO_INT {
   { "PWM_FREQ_750KHZ", 1 },
 };
 
-
 void BQ25798PwmFreqSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -674,8 +637,6 @@ void BQ25798PwmFreqSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // IBAT_REG - Battery discharge current regulation in OTG mode
@@ -705,7 +666,6 @@ static const std::map<std::string, uint8_t> BQ25798IbatRegSelect_ENUM_TO_INT {
   { "IBAT_REG_DISABLE", 3 },
 };
 
-
 void BQ25798IbatRegSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -726,8 +686,6 @@ void BQ25798IbatRegSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // VOC_PCT - 
@@ -765,7 +723,6 @@ static const std::map<std::string, uint8_t> BQ25798VocPctSelect_ENUM_TO_INT {
   { "VOC_PCT_1", 7 },
 };
 
-
 void BQ25798VocPctSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -786,8 +743,6 @@ void BQ25798VocPctSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // VOC_DLY - 
@@ -817,7 +772,6 @@ static const std::map<std::string, uint8_t> BQ25798VocDlySelect_ENUM_TO_INT {
   { "VOC_DLY_5S", 3 },
 };
 
-
 void BQ25798VocDlySelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -838,8 +792,6 @@ void BQ25798VocDlySelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // VOC_RATE - 
@@ -869,7 +821,6 @@ static const std::map<std::string, uint8_t> BQ25798VocRateSelect_ENUM_TO_INT {
   { "VOC_RATE_30MIN", 3 },
 };
 
-
 void BQ25798VocRateSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -890,8 +841,6 @@ void BQ25798VocRateSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TREG - 
@@ -921,7 +870,6 @@ static const std::map<std::string, uint8_t> BQ25798TregSelect_ENUM_TO_INT {
   { "TREG_120", 3 },
 };
 
-
 void BQ25798TregSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -942,8 +890,6 @@ void BQ25798TregSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TSHUT - 
@@ -973,7 +919,6 @@ static const std::map<std::string, uint8_t> BQ25798TshutSelect_ENUM_TO_INT {
   { "TSHUT_85", 3 },
 };
 
-
 void BQ25798TshutSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -994,8 +939,6 @@ void BQ25798TshutSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // BKUP_ACFET1_ON - 
@@ -1021,7 +964,6 @@ static const std::map<std::string, uint8_t> BQ25798BkupAcfet1OnSelect_ENUM_TO_IN
   { "BKUP_ACFET1_ON_TURN_ON", 1 },
 };
 
-
 void BQ25798BkupAcfet1OnSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1042,8 +984,6 @@ void BQ25798BkupAcfet1OnSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // JEITA_VSET - 
@@ -1081,7 +1021,6 @@ static const std::map<std::string, uint8_t> BQ25798JeitaVsetSelect_ENUM_TO_INT {
   { "JEITA_VSET_VREG_UNCHANGED", 7 },
 };
 
-
 void BQ25798JeitaVsetSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1102,8 +1041,6 @@ void BQ25798JeitaVsetSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // JEITA_ISETH - 
@@ -1133,7 +1070,6 @@ static const std::map<std::string, uint8_t> BQ25798JeitaIsethSelect_ENUM_TO_INT 
   { "JEITA_ISETH_ICHG_UNCHANGED", 3 },
 };
 
-
 void BQ25798JeitaIsethSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1154,8 +1090,6 @@ void BQ25798JeitaIsethSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // JEITA_ISETC - 
@@ -1185,7 +1119,6 @@ static const std::map<std::string, uint8_t> BQ25798JeitaIsetcSelect_ENUM_TO_INT 
   { "JEITA_ISETC_ICHG_UNCHANGED", 3 },
 };
 
-
 void BQ25798JeitaIsetcSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1206,8 +1139,6 @@ void BQ25798JeitaIsetcSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TS_COOL - 
@@ -1237,7 +1168,6 @@ static const std::map<std::string, uint8_t> BQ25798TsCoolSelect_ENUM_TO_INT {
   { "TS_COOL_20", 3 },
 };
 
-
 void BQ25798TsCoolSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1258,8 +1188,6 @@ void BQ25798TsCoolSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // TS_WARM - 
@@ -1289,7 +1217,6 @@ static const std::map<std::string, uint8_t> BQ25798TsWarmSelect_ENUM_TO_INT {
   { "TS_WARM_55", 3 },
 };
 
-
 void BQ25798TsWarmSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1310,8 +1237,6 @@ void BQ25798TsWarmSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // BHOT - 
@@ -1341,7 +1266,6 @@ static const std::map<std::string, uint8_t> BQ25798BhotSelect_ENUM_TO_INT {
   { "TS_BHOT_DISABLE", 3 },
 };
 
-
 void BQ25798BhotSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1362,8 +1286,6 @@ void BQ25798BhotSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // BCOLD - 
@@ -1389,7 +1311,6 @@ static const std::map<std::string, uint8_t> BQ25798BcoldSelect_ENUM_TO_INT {
   { "TS_BCOLD_MINUS_20", 1 },
 };
 
-
 void BQ25798BcoldSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1410,8 +1331,6 @@ void BQ25798BcoldSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // ADC_RATE - 
@@ -1437,7 +1356,6 @@ static const std::map<std::string, uint8_t> BQ25798AdcRateSelect_ENUM_TO_INT {
   { "ADC_RATE_ONESHOT", 1 },
 };
 
-
 void BQ25798AdcRateSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1458,8 +1376,6 @@ void BQ25798AdcRateSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // ADC_SAMPLE - 
@@ -1489,7 +1405,6 @@ static const std::map<std::string, uint8_t> BQ25798AdcSampleSelect_ENUM_TO_INT {
   { "ADC_SAMPLE_12BIT", 3 },
 };
 
-
 void BQ25798AdcSampleSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1510,8 +1425,6 @@ void BQ25798AdcSampleSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // ADC_AVG - 
@@ -1537,7 +1450,6 @@ static const std::map<std::string, uint8_t> BQ25798AdcAvgSelect_ENUM_TO_INT {
   { "ADC_AVG_RUNNING_AVERAGE", 1 },
 };
 
-
 void BQ25798AdcAvgSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1558,8 +1470,6 @@ void BQ25798AdcAvgSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // DPLUS_DAC - D+ Output Driver
@@ -1597,7 +1507,6 @@ static const std::map<std::string, uint8_t> BQ25798DplusDacSelect_ENUM_TO_INT {
   { "DPLUS_DAC_DPLUS_DMINUS_SHORT", 7 },
 };
 
-
 void BQ25798DplusDacSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1618,8 +1527,6 @@ void BQ25798DplusDacSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 // DMINUS_DAC - D- Output Driver
@@ -1657,7 +1564,6 @@ static const std::map<std::string, uint8_t> BQ25798DminusDacSelect_ENUM_TO_INT {
   { "DMINUS_DAC_RESERVED", 7 },
 };
 
-
 void BQ25798DminusDacSelect::update() {
   if (this->parent_->is_failed()) {
     return;
@@ -1678,8 +1584,6 @@ void BQ25798DminusDacSelect::control(const std::string &value) {
 
   this->publish_state(value);
 }
-
-
 
 
 }  // namespace bq25798

@@ -19,7 +19,7 @@ BQ25798TextSensor = bq25798_ns.class_("BQ25798TextSensor", text_sensor.TextSenso
 
 # Enum settings
 {% for def in settings %}
-{%     if def._is_enum %}
+{%     if def._is_ha_text_sensor %}
 CONF_BQ25798_{{ def._UPPERCASE_NAME }} = "{{ def._snake_case_name }}"
 {%     endif %}                    
 {% endfor %}
@@ -31,7 +31,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(CONF_BQ25798_ID): cv.use_id(BQ25798Component),
 
 {% for def in settings %}
-{%     if def._is_enum %}
+{%     if def._is_ha_text_sensor %}
             cv.Optional(CONF_BQ25798_{{ def._UPPERCASE_NAME }}): text_sensor.text_sensor_schema(),
 {%     endif %}            
 {% endfor %}
@@ -47,7 +47,7 @@ async def to_code(config):
 
     # Sensors
 {% for def in settings %}
-{%     if def._is_enum %}
+{%     if def._is_ha_text_sensor %}
     if {{ def._snake_case_name }} := config.get(CONF_BQ25798_{{ def._UPPERCASE_NAME }}):
         sens = await text_sensor.new_text_sensor({{ def._snake_case_name }})
         cg.add(var.assign_text_sensor_{{ def._snake_case_name }}(sens))

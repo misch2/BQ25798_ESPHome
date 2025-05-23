@@ -12,7 +12,7 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if def._is_enum and def._is_rw %}
+{%     if def._is_ha_select %}
 {% set formatted_name = def.name
     | replace('_', ' ')
     | title

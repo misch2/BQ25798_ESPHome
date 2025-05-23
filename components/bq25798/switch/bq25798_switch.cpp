@@ -74,39 +74,6 @@ void BQ25798StopWdChgSwitch::write_state(bool state) {
 
 
 
-// PRECHG_TMR - Pre-charge safety timer setting
-float BQ25798PrechgTmrSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798PrechgTmrSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798PrechgTmrSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "PRECHG_TMR", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798PrechgTmrSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_prechg_tmr_bool(true));
-}
-
-void BQ25798PrechgTmrSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_prechg_tmr_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
 // EN_TRICHG_TMR - Trickle charge timer enable
 float BQ25798EnTrichgTmrSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -701,39 +668,6 @@ void BQ25798HvdcpEnSwitch::write_state(bool state) {
 
 
 
-// SDRV_DLY - Delay for SDRV control
-float BQ25798SdrvDlySwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798SdrvDlySwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798SdrvDlySwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "SDRV_DLY", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798SdrvDlySwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_sdrv_dly_bool(true));
-}
-
-void BQ25798SdrvDlySwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_sdrv_dly_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
 // DIS_ACDRV - Disable both AC1 and AC2 drivers
 float BQ25798DisAcdrvSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -860,39 +794,6 @@ void BQ25798PfmFwdDisSwitch::write_state(bool state) {
   }
 
   this->parent_->set_pfm_fwd_dis_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
-// WKUP_DLY - Wakeup (Ship FET) delay
-float BQ25798WkupDlySwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798WkupDlySwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798WkupDlySwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "WKUP_DLY", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798WkupDlySwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_wkup_dly_bool(true));
-}
-
-void BQ25798WkupDlySwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_wkup_dly_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1058,39 +959,6 @@ void BQ25798EnAcdrv1Switch::write_state(bool state) {
   }
 
   this->parent_->set_en_acdrv1_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
-// PWM_FREQ - PWM frequency setting
-float BQ25798PwmFreqSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798PwmFreqSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798PwmFreqSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "PWM_FREQ", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798PwmFreqSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_pwm_freq_bool(true));
-}
-
-void BQ25798PwmFreqSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_pwm_freq_bool(state, true);
   this->publish_state(state);
 }
 
@@ -1559,72 +1427,6 @@ void BQ25798Vac2PdEnSwitch::write_state(bool state) {
 
 
 
-// BKUP_ACFET1_ON - 
-float BQ25798BkupAcfet1OnSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798BkupAcfet1OnSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798BkupAcfet1OnSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "BKUP_ACFET1_ON", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798BkupAcfet1OnSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_bkup_acfet1_on_bool(true));
-}
-
-void BQ25798BkupAcfet1OnSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_bkup_acfet1_on_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
-// BCOLD - 
-float BQ25798BcoldSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798BcoldSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798BcoldSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "BCOLD", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798BcoldSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_bcold_bool(true));
-}
-
-void BQ25798BcoldSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_bcold_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
 // TS_IGNORE - 
 float BQ25798TsIgnoreSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -1685,72 +1487,6 @@ void BQ25798AdcEnSwitch::write_state(bool state) {
   }
 
   this->parent_->set_adc_en_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
-// ADC_RATE - 
-float BQ25798AdcRateSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798AdcRateSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcRateSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "ADC_RATE", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798AdcRateSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_adc_rate_bool(true));
-}
-
-void BQ25798AdcRateSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_adc_rate_bool(state, true);
-  this->publish_state(state);
-}
-
-
-
-
-// ADC_AVG - 
-float BQ25798AdcAvgSwitch::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798AdcAvgSwitch::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798AdcAvgSwitch configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SWITCH("  ", "ADC_AVG", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-void BQ25798AdcAvgSwitch::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->publish_state(this->parent_->get_adc_avg_bool(true));
-}
-
-void BQ25798AdcAvgSwitch::write_state(bool state) {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  this->parent_->set_adc_avg_bool(state, true);
   this->publish_state(state);
 }
 

@@ -20,14 +20,14 @@ class BQ25798Sensor : public sensor::Sensor,
   float get_setup_priority() const override;
 
 {% for def in settings %}
-{%     if def._is_int or def._is_float or def._is_enum %}
+{%     if def._is_ha_sensor %}
   void assign_sensor_{{ def._snake_case_name }}(sensor::Sensor *sensor);
 {%     endif %}
 {% endfor %}
 
  protected:
 {% for def in settings %}
-{%     if def._is_int or def._is_float or def._is_enum %}
+{%     if def._is_ha_sensor %}
   sensor::Sensor *sensor_{{ def._snake_case_name }}_ {nullptr};
 {%     endif %}
 {% endfor %}

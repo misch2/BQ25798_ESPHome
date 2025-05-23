@@ -12,7 +12,7 @@ namespace esphome {
 namespace bq25798 {
 
 {% for def in settings %}
-{%     if (def._is_int or def._is_float) and def._is_rw %}
+{%     if def._is_ha_number %}
 {% set className = 'BQ25798' ~ def._CamelCaseName ~ 'Number' %}
 
 // {{ def.name }} - {{ def.description }}
