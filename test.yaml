@@ -210,6 +210,8 @@ binary_sensor:
       name: "REG_RST (Reset registers to default values and reset timer)"
     stop_wd_chg:
       name: "STOP_WD_CHG (Defines whether a watchdog timer expiration will disable charging)"
+    prechg_tmr:
+      name: "PRECHG_TMR (Pre-charge safety timer setting)"
     en_trichg_tmr:
       name: "EN_TRICHG_TMR (Trickle charge timer enable)"
     en_prechg_tmr:
@@ -246,6 +248,8 @@ binary_sensor:
       name: "EN_9V (Enable 9V output in HVDCP)"
     hvdcp_en:
       name: "HVDCP_EN (Enable HVDCP (High Voltage Device Charging Protocol))"
+    sdrv_dly:
+      name: "SDRV_DLY (Delay for SDRV control)"
     dis_acdrv:
       name: "DIS_ACDRV (Disable both AC1 and AC2 drivers)"
     en_otg:
@@ -254,6 +258,8 @@ binary_sensor:
       name: "PFM_OTG_DIS (Disable PFM in OTG mode)"
     pfm_fwd_dis:
       name: "PFM_FWD_DIS (Disable PFM in forward mode)"
+    wkup_dly:
+      name: "WKUP_DLY (Wakeup (Ship FET) delay)"
     dis_ldo:
       name: "DIS_LDO (Disable BATFET LDO mode in precharge state)"
     dis_otg_ooa:
@@ -264,6 +270,8 @@ binary_sensor:
       name: "EN_ACDRV2 (Enable AC2 gate driver control)"
     en_acdrv1:
       name: "EN_ACDRV1 (Enable AC1 gate driver control)"
+    pwm_freq:
+      name: "PWM_FREQ (PWM frequency setting)"
     dis_stat:
       name: "DIS_STAT (Disable STAT pin output)"
     dis_vsys_short:
@@ -292,12 +300,58 @@ binary_sensor:
       name: "VAC1_PD_EN ()"
     vac2_pd_en:
       name: "VAC2_PD_EN ()"
+    bkup_acfet1_on:
+      name: "BKUP_ACFET1_ON ()"
+    bcold:
+      name: "BCOLD ()"
     ts_ignore:
       name: "TS_IGNORE ()"
+    iindpm_stat:
+      name: "IINDPM_STAT ()"
+    vindpm_stat:
+      name: "VINDPM_STAT ()"
+    wd_stat:
+      name: "WD_STAT ()"
+    pg_stat:
+      name: "PG_STAT ()"
+    ac2_present_stat:
+      name: "AC2_PRESENT_STAT ()"
+    ac1_present_stat:
+      name: "AC1_PRESENT_STAT ()"
+    vbus_present_stat:
+      name: "VBUS_PRESENT_STAT ()"
     bc12_done_stat:
       name: "BC12_DONE_STAT ()"
+    treg_stat:
+      name: "TREG_STAT ()"
+    dpdm_stat:
+      name: "DPDM_STAT ()"
+    vbat_present_stat:
+      name: "VBAT_PRESENT_STAT ()"
+    acrb2_stat:
+      name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
+    acrb1_stat:
+      name: "ACRB1_STAT (The ACFET1-RBFET1 status)"
     adc_done_stat:
       name: "ADC_DONE_STAT (ADC Conversion Status)"
+    vsys_stat:
+      name: "VSYS_STAT (VSYS Regulation Status)"
+    chg_tmr_stat:
+      name: "CHG_TMR_STAT (Fast charge timer status)"
+    trichg_tmr_stat:
+      name: "TRICHG_TMR_STAT (Trickle charge timer status)"
+    prechg_tmr_stat:
+      name: "PRECHG_TMR_STAT (Pre-charge timer status)"
+    vbatotg_low_stat:
+      name: "VBATOTG_LOW_STAT (VBAT too low to enable OTG flag)"
+    ts_cold_stat:
+      name: "TS_COLD_STAT (The TS temperature is in the cold range)"
+    ts_cool_stat:
+      name: "TS_COOL_STAT (The TS temperature is in the cool range)"
+    ts_warm_stat:
+      name: "TS_WARM_STAT (The TS temperature is in the warm range)"
+    ts_hot_stat:
+      name: "TS_HOT_STAT (The TS temperature is in the hot range)"
     ibat_reg_stat:
       name: "IBAT_REG_STAT (IBAT regulation status)"
     vbus_ovp_stat:
@@ -404,6 +458,10 @@ binary_sensor:
       name: "TSHUT_FLAG ()"
     adc_en:
       name: "ADC_EN ()"
+    adc_rate:
+      name: "ADC_RATE ()"
+    adc_avg:
+      name: "ADC_AVG ()"
     adc_avg_init:
       name: "ADC_AVG_INIT ()"
     ibus_adc_dis:

@@ -23,7 +23,7 @@
 {%- set _ = def.update({ '_is_float': def.type == "float" }) -%}
 {%- set _ = def.update({ '_is_enum': def.type == "enum" }) -%}
 {# #}
-{%- set _ = def.update({ '_is_ha_binary_sensor': def.type == "bool" }) -%}
+{%- set _ = def.update({ '_is_ha_binary_sensor': def.type == "bool" or (def.type == "enum" and def.bits == 1) }) -%}
 {%- set _ = def.update({ '_is_ha_number': (def.type == "int" or def.type == "float") and def.mode == "rw" }) -%}
 {%- set _ = def.update({ '_is_ha_select': def.type == "enum" and def.mode == "rw" }) -%}
 {%- set _ = def.update({ '_is_ha_text_sensor': def.type == "enum" }) -%}

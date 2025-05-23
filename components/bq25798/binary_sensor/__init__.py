@@ -18,6 +18,7 @@ BQ25798BinarySensor = bq25798_ns.class_("BQ25798BinarySensor", binary_sensor.Bin
 # Boolean settings
 CONF_BQ25798_REG_RST = "reg_rst"
 CONF_BQ25798_STOP_WD_CHG = "stop_wd_chg"
+CONF_BQ25798_PRECHG_TMR = "prechg_tmr"
 CONF_BQ25798_EN_TRICHG_TMR = "en_trichg_tmr"
 CONF_BQ25798_EN_PRECHG_TMR = "en_prechg_tmr"
 CONF_BQ25798_EN_CHG_TMR = "en_chg_tmr"
@@ -36,15 +37,18 @@ CONF_BQ25798_AUTO_INDET_EN = "auto_indet_en"
 CONF_BQ25798_EN_12V = "en_12v"
 CONF_BQ25798_EN_9V = "en_9v"
 CONF_BQ25798_HVDCP_EN = "hvdcp_en"
+CONF_BQ25798_SDRV_DLY = "sdrv_dly"
 CONF_BQ25798_DIS_ACDRV = "dis_acdrv"
 CONF_BQ25798_EN_OTG = "en_otg"
 CONF_BQ25798_PFM_OTG_DIS = "pfm_otg_dis"
 CONF_BQ25798_PFM_FWD_DIS = "pfm_fwd_dis"
+CONF_BQ25798_WKUP_DLY = "wkup_dly"
 CONF_BQ25798_DIS_LDO = "dis_ldo"
 CONF_BQ25798_DIS_OTG_OOA = "dis_otg_ooa"
 CONF_BQ25798_DIS_FWD_OOA = "dis_fwd_ooa"
 CONF_BQ25798_EN_ACDRV2 = "en_acdrv2"
 CONF_BQ25798_EN_ACDRV1 = "en_acdrv1"
+CONF_BQ25798_PWM_FREQ = "pwm_freq"
 CONF_BQ25798_DIS_STAT = "dis_stat"
 CONF_BQ25798_DIS_VSYS_SHORT = "dis_vsys_short"
 CONF_BQ25798_DIS_VOTG_UVP = "dis_votg_uvp"
@@ -59,9 +63,32 @@ CONF_BQ25798_EN_MPPT = "en_mppt"
 CONF_BQ25798_VBUS_PD_EN = "vbus_pd_en"
 CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
 CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
+CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
+CONF_BQ25798_BCOLD = "bcold"
 CONF_BQ25798_TS_IGNORE = "ts_ignore"
+CONF_BQ25798_IINDPM_STAT = "iindpm_stat"
+CONF_BQ25798_VINDPM_STAT = "vindpm_stat"
+CONF_BQ25798_WD_STAT = "wd_stat"
+CONF_BQ25798_PG_STAT = "pg_stat"
+CONF_BQ25798_AC2_PRESENT_STAT = "ac2_present_stat"
+CONF_BQ25798_AC1_PRESENT_STAT = "ac1_present_stat"
+CONF_BQ25798_VBUS_PRESENT_STAT = "vbus_present_stat"
 CONF_BQ25798_BC12_DONE_STAT = "bc12_done_stat"
+CONF_BQ25798_TREG_STAT = "treg_stat"
+CONF_BQ25798_DPDM_STAT = "dpdm_stat"
+CONF_BQ25798_VBAT_PRESENT_STAT = "vbat_present_stat"
+CONF_BQ25798_ACRB2_STAT = "acrb2_stat"
+CONF_BQ25798_ACRB1_STAT = "acrb1_stat"
 CONF_BQ25798_ADC_DONE_STAT = "adc_done_stat"
+CONF_BQ25798_VSYS_STAT = "vsys_stat"
+CONF_BQ25798_CHG_TMR_STAT = "chg_tmr_stat"
+CONF_BQ25798_TRICHG_TMR_STAT = "trichg_tmr_stat"
+CONF_BQ25798_PRECHG_TMR_STAT = "prechg_tmr_stat"
+CONF_BQ25798_VBATOTG_LOW_STAT = "vbatotg_low_stat"
+CONF_BQ25798_TS_COLD_STAT = "ts_cold_stat"
+CONF_BQ25798_TS_COOL_STAT = "ts_cool_stat"
+CONF_BQ25798_TS_WARM_STAT = "ts_warm_stat"
+CONF_BQ25798_TS_HOT_STAT = "ts_hot_stat"
 CONF_BQ25798_IBAT_REG_STAT = "ibat_reg_stat"
 CONF_BQ25798_VBUS_OVP_STAT = "vbus_ovp_stat"
 CONF_BQ25798_VBAT_OVP_STAT = "vbat_ovp_stat"
@@ -115,6 +142,8 @@ CONF_BQ25798_OTG_OVP_FLAG = "otg_ovp_flag"
 CONF_BQ25798_OTG_UVP_FLAG = "otg_uvp_flag"
 CONF_BQ25798_TSHUT_FLAG = "tshut_flag"
 CONF_BQ25798_ADC_EN = "adc_en"
+CONF_BQ25798_ADC_RATE = "adc_rate"
+CONF_BQ25798_ADC_AVG = "adc_avg"
 CONF_BQ25798_ADC_AVG_INIT = "adc_avg_init"
 CONF_BQ25798_IBUS_ADC_DIS = "ibus_adc_dis"
 CONF_BQ25798_IBAT_ADC_DIS = "ibat_adc_dis"
@@ -152,6 +181,9 @@ CONFIG_SCHEMA = (
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_STOP_WD_CHG): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_EN_TRICHG_TMR): binary_sensor.binary_sensor_schema(
@@ -208,6 +240,9 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_HVDCP_EN): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
+            cv.Optional(CONF_BQ25798_SDRV_DLY): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
             cv.Optional(CONF_BQ25798_DIS_ACDRV): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
@@ -218,6 +253,9 @@ CONFIG_SCHEMA = (
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_PFM_FWD_DIS): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_WKUP_DLY): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_DIS_LDO): binary_sensor.binary_sensor_schema(
@@ -233,6 +271,9 @@ CONFIG_SCHEMA = (
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_EN_ACDRV1): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_PWM_FREQ): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_DIS_STAT): binary_sensor.binary_sensor_schema(
@@ -277,14 +318,83 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_VAC2_PD_EN): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
+            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_BCOLD): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
             cv.Optional(CONF_BQ25798_TS_IGNORE): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_IINDPM_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VINDPM_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_WD_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_PG_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_AC2_PRESENT_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_AC1_PRESENT_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_PRESENT_STAT): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
             cv.Optional(CONF_BQ25798_BC12_DONE_STAT): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
+            cv.Optional(CONF_BQ25798_TREG_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_DPDM_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_PRESENT_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ACRB2_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_ACRB1_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
             cv.Optional(CONF_BQ25798_ADC_DONE_STAT): binary_sensor.binary_sensor_schema(
 #TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_CHG_TMR_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_TRICHG_TMR_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_VBATOTG_LOW_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="status",
+            ),
+            cv.Optional(CONF_BQ25798_TS_COLD_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="temperature",
+            ),
+            cv.Optional(CONF_BQ25798_TS_COOL_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="temperature",
+            ),
+            cv.Optional(CONF_BQ25798_TS_WARM_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="temperature",
+            ),
+            cv.Optional(CONF_BQ25798_TS_HOT_STAT): binary_sensor.binary_sensor_schema(
+#TODO               device_class="temperature",
             ),
             cv.Optional(CONF_BQ25798_IBAT_REG_STAT): binary_sensor.binary_sensor_schema(
 #TODO               device_class="status",
@@ -440,6 +550,12 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_ADC_EN): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
+            cv.Optional(CONF_BQ25798_ADC_RATE): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
+            cv.Optional(CONF_BQ25798_ADC_AVG): binary_sensor.binary_sensor_schema(
+#TODO               device_class="",
+            ),
             cv.Optional(CONF_BQ25798_ADC_AVG_INIT): binary_sensor.binary_sensor_schema(
 #TODO               device_class="",
             ),
@@ -492,6 +608,9 @@ async def to_code(config):
     if stop_wd_chg := config.get(CONF_BQ25798_STOP_WD_CHG):
         sens = await binary_sensor.new_binary_sensor(stop_wd_chg)
         cg.add(var.assign_binary_sensor_stop_wd_chg(sens))
+    if prechg_tmr := config.get(CONF_BQ25798_PRECHG_TMR):
+        sens = await binary_sensor.new_binary_sensor(prechg_tmr)
+        cg.add(var.assign_binary_sensor_prechg_tmr(sens))
     if en_trichg_tmr := config.get(CONF_BQ25798_EN_TRICHG_TMR):
         sens = await binary_sensor.new_binary_sensor(en_trichg_tmr)
         cg.add(var.assign_binary_sensor_en_trichg_tmr(sens))
@@ -546,6 +665,9 @@ async def to_code(config):
     if hvdcp_en := config.get(CONF_BQ25798_HVDCP_EN):
         sens = await binary_sensor.new_binary_sensor(hvdcp_en)
         cg.add(var.assign_binary_sensor_hvdcp_en(sens))
+    if sdrv_dly := config.get(CONF_BQ25798_SDRV_DLY):
+        sens = await binary_sensor.new_binary_sensor(sdrv_dly)
+        cg.add(var.assign_binary_sensor_sdrv_dly(sens))
     if dis_acdrv := config.get(CONF_BQ25798_DIS_ACDRV):
         sens = await binary_sensor.new_binary_sensor(dis_acdrv)
         cg.add(var.assign_binary_sensor_dis_acdrv(sens))
@@ -558,6 +680,9 @@ async def to_code(config):
     if pfm_fwd_dis := config.get(CONF_BQ25798_PFM_FWD_DIS):
         sens = await binary_sensor.new_binary_sensor(pfm_fwd_dis)
         cg.add(var.assign_binary_sensor_pfm_fwd_dis(sens))
+    if wkup_dly := config.get(CONF_BQ25798_WKUP_DLY):
+        sens = await binary_sensor.new_binary_sensor(wkup_dly)
+        cg.add(var.assign_binary_sensor_wkup_dly(sens))
     if dis_ldo := config.get(CONF_BQ25798_DIS_LDO):
         sens = await binary_sensor.new_binary_sensor(dis_ldo)
         cg.add(var.assign_binary_sensor_dis_ldo(sens))
@@ -573,6 +698,9 @@ async def to_code(config):
     if en_acdrv1 := config.get(CONF_BQ25798_EN_ACDRV1):
         sens = await binary_sensor.new_binary_sensor(en_acdrv1)
         cg.add(var.assign_binary_sensor_en_acdrv1(sens))
+    if pwm_freq := config.get(CONF_BQ25798_PWM_FREQ):
+        sens = await binary_sensor.new_binary_sensor(pwm_freq)
+        cg.add(var.assign_binary_sensor_pwm_freq(sens))
     if dis_stat := config.get(CONF_BQ25798_DIS_STAT):
         sens = await binary_sensor.new_binary_sensor(dis_stat)
         cg.add(var.assign_binary_sensor_dis_stat(sens))
@@ -615,15 +743,84 @@ async def to_code(config):
     if vac2_pd_en := config.get(CONF_BQ25798_VAC2_PD_EN):
         sens = await binary_sensor.new_binary_sensor(vac2_pd_en)
         cg.add(var.assign_binary_sensor_vac2_pd_en(sens))
+    if bkup_acfet1_on := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
+        sens = await binary_sensor.new_binary_sensor(bkup_acfet1_on)
+        cg.add(var.assign_binary_sensor_bkup_acfet1_on(sens))
+    if bcold := config.get(CONF_BQ25798_BCOLD):
+        sens = await binary_sensor.new_binary_sensor(bcold)
+        cg.add(var.assign_binary_sensor_bcold(sens))
     if ts_ignore := config.get(CONF_BQ25798_TS_IGNORE):
         sens = await binary_sensor.new_binary_sensor(ts_ignore)
         cg.add(var.assign_binary_sensor_ts_ignore(sens))
+    if iindpm_stat := config.get(CONF_BQ25798_IINDPM_STAT):
+        sens = await binary_sensor.new_binary_sensor(iindpm_stat)
+        cg.add(var.assign_binary_sensor_iindpm_stat(sens))
+    if vindpm_stat := config.get(CONF_BQ25798_VINDPM_STAT):
+        sens = await binary_sensor.new_binary_sensor(vindpm_stat)
+        cg.add(var.assign_binary_sensor_vindpm_stat(sens))
+    if wd_stat := config.get(CONF_BQ25798_WD_STAT):
+        sens = await binary_sensor.new_binary_sensor(wd_stat)
+        cg.add(var.assign_binary_sensor_wd_stat(sens))
+    if pg_stat := config.get(CONF_BQ25798_PG_STAT):
+        sens = await binary_sensor.new_binary_sensor(pg_stat)
+        cg.add(var.assign_binary_sensor_pg_stat(sens))
+    if ac2_present_stat := config.get(CONF_BQ25798_AC2_PRESENT_STAT):
+        sens = await binary_sensor.new_binary_sensor(ac2_present_stat)
+        cg.add(var.assign_binary_sensor_ac2_present_stat(sens))
+    if ac1_present_stat := config.get(CONF_BQ25798_AC1_PRESENT_STAT):
+        sens = await binary_sensor.new_binary_sensor(ac1_present_stat)
+        cg.add(var.assign_binary_sensor_ac1_present_stat(sens))
+    if vbus_present_stat := config.get(CONF_BQ25798_VBUS_PRESENT_STAT):
+        sens = await binary_sensor.new_binary_sensor(vbus_present_stat)
+        cg.add(var.assign_binary_sensor_vbus_present_stat(sens))
     if bc12_done_stat := config.get(CONF_BQ25798_BC12_DONE_STAT):
         sens = await binary_sensor.new_binary_sensor(bc12_done_stat)
         cg.add(var.assign_binary_sensor_bc12_done_stat(sens))
+    if treg_stat := config.get(CONF_BQ25798_TREG_STAT):
+        sens = await binary_sensor.new_binary_sensor(treg_stat)
+        cg.add(var.assign_binary_sensor_treg_stat(sens))
+    if dpdm_stat := config.get(CONF_BQ25798_DPDM_STAT):
+        sens = await binary_sensor.new_binary_sensor(dpdm_stat)
+        cg.add(var.assign_binary_sensor_dpdm_stat(sens))
+    if vbat_present_stat := config.get(CONF_BQ25798_VBAT_PRESENT_STAT):
+        sens = await binary_sensor.new_binary_sensor(vbat_present_stat)
+        cg.add(var.assign_binary_sensor_vbat_present_stat(sens))
+    if acrb2_stat := config.get(CONF_BQ25798_ACRB2_STAT):
+        sens = await binary_sensor.new_binary_sensor(acrb2_stat)
+        cg.add(var.assign_binary_sensor_acrb2_stat(sens))
+    if acrb1_stat := config.get(CONF_BQ25798_ACRB1_STAT):
+        sens = await binary_sensor.new_binary_sensor(acrb1_stat)
+        cg.add(var.assign_binary_sensor_acrb1_stat(sens))
     if adc_done_stat := config.get(CONF_BQ25798_ADC_DONE_STAT):
         sens = await binary_sensor.new_binary_sensor(adc_done_stat)
         cg.add(var.assign_binary_sensor_adc_done_stat(sens))
+    if vsys_stat := config.get(CONF_BQ25798_VSYS_STAT):
+        sens = await binary_sensor.new_binary_sensor(vsys_stat)
+        cg.add(var.assign_binary_sensor_vsys_stat(sens))
+    if chg_tmr_stat := config.get(CONF_BQ25798_CHG_TMR_STAT):
+        sens = await binary_sensor.new_binary_sensor(chg_tmr_stat)
+        cg.add(var.assign_binary_sensor_chg_tmr_stat(sens))
+    if trichg_tmr_stat := config.get(CONF_BQ25798_TRICHG_TMR_STAT):
+        sens = await binary_sensor.new_binary_sensor(trichg_tmr_stat)
+        cg.add(var.assign_binary_sensor_trichg_tmr_stat(sens))
+    if prechg_tmr_stat := config.get(CONF_BQ25798_PRECHG_TMR_STAT):
+        sens = await binary_sensor.new_binary_sensor(prechg_tmr_stat)
+        cg.add(var.assign_binary_sensor_prechg_tmr_stat(sens))
+    if vbatotg_low_stat := config.get(CONF_BQ25798_VBATOTG_LOW_STAT):
+        sens = await binary_sensor.new_binary_sensor(vbatotg_low_stat)
+        cg.add(var.assign_binary_sensor_vbatotg_low_stat(sens))
+    if ts_cold_stat := config.get(CONF_BQ25798_TS_COLD_STAT):
+        sens = await binary_sensor.new_binary_sensor(ts_cold_stat)
+        cg.add(var.assign_binary_sensor_ts_cold_stat(sens))
+    if ts_cool_stat := config.get(CONF_BQ25798_TS_COOL_STAT):
+        sens = await binary_sensor.new_binary_sensor(ts_cool_stat)
+        cg.add(var.assign_binary_sensor_ts_cool_stat(sens))
+    if ts_warm_stat := config.get(CONF_BQ25798_TS_WARM_STAT):
+        sens = await binary_sensor.new_binary_sensor(ts_warm_stat)
+        cg.add(var.assign_binary_sensor_ts_warm_stat(sens))
+    if ts_hot_stat := config.get(CONF_BQ25798_TS_HOT_STAT):
+        sens = await binary_sensor.new_binary_sensor(ts_hot_stat)
+        cg.add(var.assign_binary_sensor_ts_hot_stat(sens))
     if ibat_reg_stat := config.get(CONF_BQ25798_IBAT_REG_STAT):
         sens = await binary_sensor.new_binary_sensor(ibat_reg_stat)
         cg.add(var.assign_binary_sensor_ibat_reg_stat(sens))
@@ -783,6 +980,12 @@ async def to_code(config):
     if adc_en := config.get(CONF_BQ25798_ADC_EN):
         sens = await binary_sensor.new_binary_sensor(adc_en)
         cg.add(var.assign_binary_sensor_adc_en(sens))
+    if adc_rate := config.get(CONF_BQ25798_ADC_RATE):
+        sens = await binary_sensor.new_binary_sensor(adc_rate)
+        cg.add(var.assign_binary_sensor_adc_rate(sens))
+    if adc_avg := config.get(CONF_BQ25798_ADC_AVG):
+        sens = await binary_sensor.new_binary_sensor(adc_avg)
+        cg.add(var.assign_binary_sensor_adc_avg(sens))
     if adc_avg_init := config.get(CONF_BQ25798_ADC_AVG_INIT):
         sens = await binary_sensor.new_binary_sensor(adc_avg_init)
         cg.add(var.assign_binary_sensor_adc_avg_init(sens))
