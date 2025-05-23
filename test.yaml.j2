@@ -1,5 +1,19 @@
 esphome:
   name: test
+  on_boot:
+    priority: -100
+    then:
+      - select.set:
+          id: adc_rate
+          option: ADC_RATE_CONTINUOUS
+      - select.set:
+          id: adc_sample
+          option: ADC_SAMPLE_15BIT
+      - switch.turn_on:
+          id: adc_en
+      - number.set:
+          id: vsysmin
+          value: 5000
 
 esp32:
   board: esp32dev
@@ -7,7 +21,7 @@ esp32:
     type: arduino
 
 external_components:
-  - source: https://github.com/misch2/BQ25798_ESPHome
+  - source: github://misch2/BQ25798_ESPHome
     components: [bq25798]
 
 logger:
@@ -22,18 +36,13 @@ i2c:
 bq25798:
   id: bq25798_component_1
   i2c_id: bus_a
-  adc_en: true
-  adc_rate: ADC_RATE_CONTINUOUS
-  adc_sample: ADC_SAMPLE_15BIT
-  vsysmin: 5000 # FIXME test only
 
 sensor:
   - platform: bq25798
     bq25798_id: bq25798_component_1
     name: "Sensors"
 {% for def in settings %}
-{# rw doesn't need to be here because the number components take care of that #}
-{%     if ( def._is_int or def._is_float ) and not def._is_rw %}
+{%     if def._is_ha_sensor %}
     {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
@@ -44,8 +53,7 @@ binary_sensor:
     bq25798_id: bq25798_component_1
     name: "Binary Sensors"
 {% for def in settings %}
-{# rw doesn't need to be here because the switches take care of that #}
-{%     if def._is_bool and not def._is_rw %}
+{%     if def._is_ha_binary_sensor %}
     {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
@@ -56,7 +64,7 @@ text_sensor:
     bq25798_id: bq25798_component_1
     name: "Text Sensors"
 {% for def in settings %}
-{%     if def._is_enum %}
+{%     if def._is_ha_text_sensor %}
     {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
 {%     endif %}
@@ -67,9 +75,10 @@ switch:
     bq25798_id: bq25798_component_1
     name: "Switches"
 {% for def in settings %}
-{%     if def._is_bool and def._is_rw %}
+{%     if def._is_ha_switch %}
     {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
+      id: {{ def._snake_case_name }}
 {%     endif %}
 {% endfor %}
 
@@ -78,9 +87,22 @@ number:
     bq25798_id: bq25798_component_1
     name: "Numbers"
 {% for def in settings %}
-{%     if (def._is_int or def._is_float or def._is_enum) and def._is_rw %}
+{%     if def._is_ha_number %}
     {{ def._snake_case_name }}:
       name: "{{ def.name }} ({{ def.description }})"
+      id: {{ def._snake_case_name }}
+{%     endif %}
+{% endfor %}
+
+select:
+  - platform: bq25798
+    bq25798_id: bq25798_component_1
+    name: "Selects"
+{% for def in settings %}
+{%     if def._is_ha_select %}
+    {{ def._snake_case_name }}:
+      name: "{{ def.name }} ({{ def.description }})"
+      id: {{ def._snake_case_name }}
 {%     endif %}
 {% endfor %}
 
@@ -90,3 +112,4 @@ button:
     name: "Buttons"
     clear_flags:
       name: "Clear Flags"
+
