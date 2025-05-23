@@ -31,14 +31,17 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   void set_{{ def._snake_case_name }}_raw(uint16_t value, bool write_to_i2c);
 {%     endif %}
 
+{%     if def._is_flag %}
+  bool get_{{ def._snake_case_name }}_flag(bool read_from_i2c);
+  void clear_cached_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 0; }
+  void raise_cached_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 1; }
+  bool get_cached_flag_{{ def._snake_case_name }}() { return this->last_{{ def._snake_case_name }}_raw_ ; }
+{%     endif %}
+{# #}
 {%     if def._is_bool %}
   bool get_{{ def._snake_case_name }}_bool(bool read_from_i2c);
 {%         if def._is_rw %}
   void set_{{ def._snake_case_name }}_bool(bool value, bool write_to_i2c);
-{%         endif %}
-{%         if def.is_flag %}
-  void clear_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 0; }
-  void raise_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 1; }
 {%         endif %}
 {%     endif %}
 {# #}

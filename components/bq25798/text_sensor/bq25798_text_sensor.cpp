@@ -542,7 +542,7 @@ void BQ25798TextSensor::update() {
     this->text_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_string(true));   
   }   
    
-  // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+  // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
   if (this->text_sensor_vbatotg_low_stat_ != nullptr) {   
     this->text_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_string(true));   
   }   

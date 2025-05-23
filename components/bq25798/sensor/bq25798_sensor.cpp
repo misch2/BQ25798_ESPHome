@@ -538,7 +538,7 @@ void BQ25798Sensor::update() {
   if (this->sensor_prechg_tmr_stat_ != nullptr) {
     this->sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_int(true));
   }
-  // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+  // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
   if (this->sensor_vbatotg_low_stat_ != nullptr) {
     this->sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_int(true));
   }

@@ -6581,7 +6581,7 @@ const char* BQ25798Component::get_prechg_tmr_stat_enum_string(bool read_from_i2c
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
 }
 
-// VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+// VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
 uint16_t BQ25798Component::get_vbatotg_low_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7238,13 +7238,15 @@ uint16_t BQ25798Component::get_iindpm_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_iindpm_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_iindpm_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_iindpm_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IINDPM_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_iindpm_flag();
+    this->raise_cached_flag_iindpm_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_iindpm_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7275,13 +7277,15 @@ uint16_t BQ25798Component::get_vindpm_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vindpm_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vindpm_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vindpm_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VINDPM_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vindpm_flag();
+    this->raise_cached_flag_vindpm_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vindpm_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7312,13 +7316,15 @@ uint16_t BQ25798Component::get_wd_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_wd_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_wd_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_wd_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->WD_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_wd_flag();
+    this->raise_cached_flag_wd_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_wd_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7349,13 +7355,15 @@ uint16_t BQ25798Component::get_poorsrc_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_poorsrc_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_poorsrc_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_poorsrc_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->POORSRC_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_poorsrc_flag();
+    this->raise_cached_flag_poorsrc_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_poorsrc_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7386,13 +7394,15 @@ uint16_t BQ25798Component::get_pg_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_pg_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_pg_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_pg_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PG_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_pg_flag();
+    this->raise_cached_flag_pg_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_pg_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7423,13 +7433,15 @@ uint16_t BQ25798Component::get_ac2_present_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ac2_present_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ac2_present_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ac2_present_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC2_PRESENT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ac2_present_flag();
+    this->raise_cached_flag_ac2_present_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ac2_present_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7460,13 +7472,15 @@ uint16_t BQ25798Component::get_ac1_present_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ac1_present_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ac1_present_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ac1_present_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC1_PRESENT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ac1_present_flag();
+    this->raise_cached_flag_ac1_present_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ac1_present_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7497,13 +7511,15 @@ uint16_t BQ25798Component::get_vbus_present_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbus_present_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbus_present_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbus_present_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_PRESENT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbus_present_flag();
+    this->raise_cached_flag_vbus_present_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbus_present_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7534,13 +7550,15 @@ uint16_t BQ25798Component::get_chg_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_chg_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_chg_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_chg_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CHG_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_chg_flag();
+    this->raise_cached_flag_chg_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_chg_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7571,13 +7589,15 @@ uint16_t BQ25798Component::get_ico_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ico_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ico_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ico_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ICO_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ico_flag();
+    this->raise_cached_flag_ico_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ico_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7608,13 +7628,15 @@ uint16_t BQ25798Component::get_vbus_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbus_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbus_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbus_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbus_flag();
+    this->raise_cached_flag_vbus_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbus_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7645,13 +7667,15 @@ uint16_t BQ25798Component::get_treg_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_treg_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_treg_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_treg_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TREG_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_treg_flag();
+    this->raise_cached_flag_treg_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_treg_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7682,13 +7706,15 @@ uint16_t BQ25798Component::get_vbat_present_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbat_present_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbat_present_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbat_present_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_PRESENT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbat_present_flag();
+    this->raise_cached_flag_vbat_present_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbat_present_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7719,13 +7745,15 @@ uint16_t BQ25798Component::get_bc1_2_done_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_bc1_2_done_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_bc1_2_done_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_bc1_2_done_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->BC1_2_DONE_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_bc1_2_done_flag();
+    this->raise_cached_flag_bc1_2_done_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_bc1_2_done_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7756,13 +7784,15 @@ uint16_t BQ25798Component::get_dpdm_done_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_dpdm_done_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_dpdm_done_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_dpdm_done_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DPDM_DONE_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_dpdm_done_flag();
+    this->raise_cached_flag_dpdm_done_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_dpdm_done_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7793,13 +7823,15 @@ uint16_t BQ25798Component::get_adc_done_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_adc_done_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_adc_done_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_adc_done_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_DONE_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_adc_done_flag();
+    this->raise_cached_flag_adc_done_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_adc_done_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7830,13 +7862,15 @@ uint16_t BQ25798Component::get_vsys_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vsys_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vsys_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vsys_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vsys_flag();
+    this->raise_cached_flag_vsys_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vsys_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7867,13 +7901,15 @@ uint16_t BQ25798Component::get_chg_tmr_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_chg_tmr_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_chg_tmr_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_chg_tmr_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CHG_TMR_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_chg_tmr_flag();
+    this->raise_cached_flag_chg_tmr_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_chg_tmr_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7904,13 +7940,15 @@ uint16_t BQ25798Component::get_trichg_tmr_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_trichg_tmr_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_trichg_tmr_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_trichg_tmr_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TRICHG_TMR_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_trichg_tmr_flag();
+    this->raise_cached_flag_trichg_tmr_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_trichg_tmr_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7941,13 +7979,15 @@ uint16_t BQ25798Component::get_prechg_tmr_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_prechg_tmr_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_prechg_tmr_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_prechg_tmr_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PRECHG_TMR_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_prechg_tmr_flag();
+    this->raise_cached_flag_prechg_tmr_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_prechg_tmr_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -7978,13 +8018,15 @@ uint16_t BQ25798Component::get_topoff_tmr_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_topoff_tmr_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_topoff_tmr_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_topoff_tmr_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TOPOFF_TMR_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_topoff_tmr_flag();
+    this->raise_cached_flag_topoff_tmr_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_topoff_tmr_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8015,13 +8057,15 @@ uint16_t BQ25798Component::get_vbatotg_low_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbatotg_low_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbatotg_low_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbatotg_low_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBATOTG_LOW_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbatotg_low_flag();
+    this->raise_cached_flag_vbatotg_low_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbatotg_low_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8052,13 +8096,15 @@ uint16_t BQ25798Component::get_ts_cold_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ts_cold_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ts_cold_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ts_cold_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COLD_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ts_cold_flag();
+    this->raise_cached_flag_ts_cold_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ts_cold_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8089,13 +8135,15 @@ uint16_t BQ25798Component::get_ts_cool_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ts_cool_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ts_cool_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ts_cool_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COOL_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ts_cool_flag();
+    this->raise_cached_flag_ts_cool_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ts_cool_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8126,13 +8174,15 @@ uint16_t BQ25798Component::get_ts_warm_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ts_warm_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ts_warm_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ts_warm_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_WARM_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ts_warm_flag();
+    this->raise_cached_flag_ts_warm_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ts_warm_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8163,13 +8213,15 @@ uint16_t BQ25798Component::get_ts_hot_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ts_hot_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ts_hot_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ts_hot_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_HOT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ts_hot_flag();
+    this->raise_cached_flag_ts_hot_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ts_hot_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8200,13 +8252,15 @@ uint16_t BQ25798Component::get_ibat_reg_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ibat_reg_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ibat_reg_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ibat_reg_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_REG_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ibat_reg_flag();
+    this->raise_cached_flag_ibat_reg_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ibat_reg_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8237,13 +8291,15 @@ uint16_t BQ25798Component::get_vbus_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbus_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbus_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbus_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbus_ovp_flag();
+    this->raise_cached_flag_vbus_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbus_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8274,13 +8330,15 @@ uint16_t BQ25798Component::get_vbat_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vbat_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vbat_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vbat_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vbat_ovp_flag();
+    this->raise_cached_flag_vbat_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vbat_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8311,13 +8369,15 @@ uint16_t BQ25798Component::get_ibus_ocp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ibus_ocp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ibus_ocp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ibus_ocp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBUS_OCP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ibus_ocp_flag();
+    this->raise_cached_flag_ibus_ocp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ibus_ocp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8348,13 +8408,15 @@ uint16_t BQ25798Component::get_ibat_ocp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_ibat_ocp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_ibat_ocp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_ibat_ocp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_OCP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_ibat_ocp_flag();
+    this->raise_cached_flag_ibat_ocp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_ibat_ocp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8385,13 +8447,15 @@ uint16_t BQ25798Component::get_conv_ocp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_conv_ocp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_conv_ocp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_conv_ocp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CONV_OCP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_conv_ocp_flag();
+    this->raise_cached_flag_conv_ocp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_conv_ocp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8422,13 +8486,15 @@ uint16_t BQ25798Component::get_vac2_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vac2_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vac2_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vac2_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC2_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vac2_ovp_flag();
+    this->raise_cached_flag_vac2_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vac2_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8459,13 +8525,15 @@ uint16_t BQ25798Component::get_vac1_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vac1_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vac1_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vac1_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC1_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vac1_ovp_flag();
+    this->raise_cached_flag_vac1_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vac1_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8496,13 +8564,15 @@ uint16_t BQ25798Component::get_vsys_short_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vsys_short_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vsys_short_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vsys_short_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_SHORT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vsys_short_flag();
+    this->raise_cached_flag_vsys_short_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vsys_short_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8533,13 +8603,15 @@ uint16_t BQ25798Component::get_vsys_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_vsys_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_vsys_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_vsys_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_vsys_ovp_flag();
+    this->raise_cached_flag_vsys_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_vsys_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8570,13 +8642,15 @@ uint16_t BQ25798Component::get_otg_ovp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_otg_ovp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_otg_ovp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_otg_ovp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_OVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_otg_ovp_flag();
+    this->raise_cached_flag_otg_ovp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_otg_ovp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8607,13 +8681,15 @@ uint16_t BQ25798Component::get_otg_uvp_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_otg_uvp_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_otg_uvp_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_otg_uvp_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_UVP_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_otg_uvp_flag();
+    this->raise_cached_flag_otg_uvp_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_otg_uvp_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();
@@ -8644,13 +8720,15 @@ uint16_t BQ25798Component::get_tshut_flag_raw(bool read_from_i2c) {
 }
 
 
-bool BQ25798Component::get_tshut_flag_bool(bool read_from_i2c) {
+bool BQ25798Component::get_tshut_flag_flag(bool read_from_i2c) {
   uint16_t raw = get_tshut_flag_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TSHUT_FLAG);
   // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
   if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_tshut_flag();
+    this->raise_cached_flag_tshut_flag();
   }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_tshut_flag();
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();

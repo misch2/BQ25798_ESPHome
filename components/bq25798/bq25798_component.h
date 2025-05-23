@@ -773,7 +773,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   int get_prechg_tmr_stat_enum_int(bool read_from_i2c);
   const char* get_prechg_tmr_stat_enum_string(bool read_from_i2c);
 
-  // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
+  // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
   uint16_t get_vbatotg_low_stat_raw(bool read_from_i2c);
 
   bool get_vbatotg_low_stat_bool(bool read_from_i2c);
@@ -876,275 +876,314 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   // IINDPM_FLAG - In IINDPM / IOTG regulation
   uint16_t get_iindpm_flag_raw(bool read_from_i2c);
 
-  bool get_iindpm_flag_bool(bool read_from_i2c);
-  void clear_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 0; }
-  void raise_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 1; }
+  bool get_iindpm_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 0; }
+  void raise_cached_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 1; }
+  bool get_cached_flag_iindpm_flag() { return this->last_iindpm_flag_raw_ ; }
 
   // VINDPM_FLAG - In VINDPM / VOTG regulation
   uint16_t get_vindpm_flag_raw(bool read_from_i2c);
 
-  bool get_vindpm_flag_bool(bool read_from_i2c);
-  void clear_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 0; }
-  void raise_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 1; }
+  bool get_vindpm_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 0; }
+  void raise_cached_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 1; }
+  bool get_cached_flag_vindpm_flag() { return this->last_vindpm_flag_raw_ ; }
 
   // WD_FLAG - Watchdog timer expired
   uint16_t get_wd_flag_raw(bool read_from_i2c);
 
-  bool get_wd_flag_bool(bool read_from_i2c);
-  void clear_flag_wd_flag() { this->last_wd_flag_raw_ = 0; }
-  void raise_flag_wd_flag() { this->last_wd_flag_raw_ = 1; }
+  bool get_wd_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_wd_flag() { this->last_wd_flag_raw_ = 0; }
+  void raise_cached_flag_wd_flag() { this->last_wd_flag_raw_ = 1; }
+  bool get_cached_flag_wd_flag() { return this->last_wd_flag_raw_ ; }
 
   // POORSRC_FLAG - Poor source detected
   uint16_t get_poorsrc_flag_raw(bool read_from_i2c);
 
-  bool get_poorsrc_flag_bool(bool read_from_i2c);
-  void clear_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 0; }
-  void raise_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 1; }
+  bool get_poorsrc_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 0; }
+  void raise_cached_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 1; }
+  bool get_cached_flag_poorsrc_flag() { return this->last_poorsrc_flag_raw_ ; }
 
   // PG_FLAG - Power status changed
   uint16_t get_pg_flag_raw(bool read_from_i2c);
 
-  bool get_pg_flag_bool(bool read_from_i2c);
-  void clear_flag_pg_flag() { this->last_pg_flag_raw_ = 0; }
-  void raise_flag_pg_flag() { this->last_pg_flag_raw_ = 1; }
+  bool get_pg_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_pg_flag() { this->last_pg_flag_raw_ = 0; }
+  void raise_cached_flag_pg_flag() { this->last_pg_flag_raw_ = 1; }
+  bool get_cached_flag_pg_flag() { return this->last_pg_flag_raw_ ; }
 
   // AC2_PRESENT_FLAG - AC2 present status changed
   uint16_t get_ac2_present_flag_raw(bool read_from_i2c);
 
-  bool get_ac2_present_flag_bool(bool read_from_i2c);
-  void clear_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 0; }
-  void raise_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 1; }
+  bool get_ac2_present_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 0; }
+  void raise_cached_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 1; }
+  bool get_cached_flag_ac2_present_flag() { return this->last_ac2_present_flag_raw_ ; }
 
   // AC1_PRESENT_FLAG - AC1 present status changed
   uint16_t get_ac1_present_flag_raw(bool read_from_i2c);
 
-  bool get_ac1_present_flag_bool(bool read_from_i2c);
-  void clear_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 0; }
-  void raise_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 1; }
+  bool get_ac1_present_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 0; }
+  void raise_cached_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 1; }
+  bool get_cached_flag_ac1_present_flag() { return this->last_ac1_present_flag_raw_ ; }
 
   // VBUS_PRESENT_FLAG - VBUS present status changed
   uint16_t get_vbus_present_flag_raw(bool read_from_i2c);
 
-  bool get_vbus_present_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 0; }
-  void raise_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 1; }
+  bool get_vbus_present_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 0; }
+  void raise_cached_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 1; }
+  bool get_cached_flag_vbus_present_flag() { return this->last_vbus_present_flag_raw_ ; }
 
   // CHG_FLAG - Charging status changed
   uint16_t get_chg_flag_raw(bool read_from_i2c);
 
-  bool get_chg_flag_bool(bool read_from_i2c);
-  void clear_flag_chg_flag() { this->last_chg_flag_raw_ = 0; }
-  void raise_flag_chg_flag() { this->last_chg_flag_raw_ = 1; }
+  bool get_chg_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_chg_flag() { this->last_chg_flag_raw_ = 0; }
+  void raise_cached_flag_chg_flag() { this->last_chg_flag_raw_ = 1; }
+  bool get_cached_flag_chg_flag() { return this->last_chg_flag_raw_ ; }
 
   // ICO_FLAG - ICO status changed
   uint16_t get_ico_flag_raw(bool read_from_i2c);
 
-  bool get_ico_flag_bool(bool read_from_i2c);
-  void clear_flag_ico_flag() { this->last_ico_flag_raw_ = 0; }
-  void raise_flag_ico_flag() { this->last_ico_flag_raw_ = 1; }
+  bool get_ico_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ico_flag() { this->last_ico_flag_raw_ = 0; }
+  void raise_cached_flag_ico_flag() { this->last_ico_flag_raw_ = 1; }
+  bool get_cached_flag_ico_flag() { return this->last_ico_flag_raw_ ; }
 
   // VBUS_FLAG - VBUS status changed
   uint16_t get_vbus_flag_raw(bool read_from_i2c);
 
-  bool get_vbus_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_flag() { this->last_vbus_flag_raw_ = 0; }
-  void raise_flag_vbus_flag() { this->last_vbus_flag_raw_ = 1; }
+  bool get_vbus_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbus_flag() { this->last_vbus_flag_raw_ = 0; }
+  void raise_cached_flag_vbus_flag() { this->last_vbus_flag_raw_ = 1; }
+  bool get_cached_flag_vbus_flag() { return this->last_vbus_flag_raw_ ; }
 
   // TREG_FLAG - TREG signal rising threshold detected
   uint16_t get_treg_flag_raw(bool read_from_i2c);
 
-  bool get_treg_flag_bool(bool read_from_i2c);
-  void clear_flag_treg_flag() { this->last_treg_flag_raw_ = 0; }
-  void raise_flag_treg_flag() { this->last_treg_flag_raw_ = 1; }
+  bool get_treg_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_treg_flag() { this->last_treg_flag_raw_ = 0; }
+  void raise_cached_flag_treg_flag() { this->last_treg_flag_raw_ = 1; }
+  bool get_cached_flag_treg_flag() { return this->last_treg_flag_raw_ ; }
 
   // VBAT_PRESENT_FLAG - Battery present status changed
   uint16_t get_vbat_present_flag_raw(bool read_from_i2c);
 
-  bool get_vbat_present_flag_bool(bool read_from_i2c);
-  void clear_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 0; }
-  void raise_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 1; }
+  bool get_vbat_present_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 0; }
+  void raise_cached_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 1; }
+  bool get_cached_flag_vbat_present_flag() { return this->last_vbat_present_flag_raw_ ; }
 
   // BC1_2_DONE_FLAG - BC1.2 detection status changed
   uint16_t get_bc1_2_done_flag_raw(bool read_from_i2c);
 
-  bool get_bc1_2_done_flag_bool(bool read_from_i2c);
-  void clear_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 0; }
-  void raise_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 1; }
+  bool get_bc1_2_done_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 0; }
+  void raise_cached_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 1; }
+  bool get_cached_flag_bc1_2_done_flag() { return this->last_bc1_2_done_flag_raw_ ; }
 
   // DPDM_DONE_FLAG - D+/D- detection is completed
   uint16_t get_dpdm_done_flag_raw(bool read_from_i2c);
 
-  bool get_dpdm_done_flag_bool(bool read_from_i2c);
-  void clear_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 0; }
-  void raise_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 1; }
+  bool get_dpdm_done_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 0; }
+  void raise_cached_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 1; }
+  bool get_cached_flag_dpdm_done_flag() { return this->last_dpdm_done_flag_raw_ ; }
 
   // ADC_DONE_FLAG - ADC conversion is completed
   uint16_t get_adc_done_flag_raw(bool read_from_i2c);
 
-  bool get_adc_done_flag_bool(bool read_from_i2c);
-  void clear_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 0; }
-  void raise_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 1; }
+  bool get_adc_done_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 0; }
+  void raise_cached_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 1; }
+  bool get_cached_flag_adc_done_flag() { return this->last_adc_done_flag_raw_ ; }
 
   // VSYS_FLAG - Entered or existed VSYSMIN regulation
   uint16_t get_vsys_flag_raw(bool read_from_i2c);
 
-  bool get_vsys_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_flag() { this->last_vsys_flag_raw_ = 0; }
-  void raise_flag_vsys_flag() { this->last_vsys_flag_raw_ = 1; }
+  bool get_vsys_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vsys_flag() { this->last_vsys_flag_raw_ = 0; }
+  void raise_cached_flag_vsys_flag() { this->last_vsys_flag_raw_ = 1; }
+  bool get_cached_flag_vsys_flag() { return this->last_vsys_flag_raw_ ; }
 
   // CHG_TMR_FLAG - Fast charge timer expired rising edge detected
   uint16_t get_chg_tmr_flag_raw(bool read_from_i2c);
 
-  bool get_chg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 0; }
-  void raise_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 1; }
+  bool get_chg_tmr_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 0; }
+  void raise_cached_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 1; }
+  bool get_cached_flag_chg_tmr_flag() { return this->last_chg_tmr_flag_raw_ ; }
 
   // TRICHG_TMR_FLAG - Trickle charge timer expired rising edge detected
   uint16_t get_trichg_tmr_flag_raw(bool read_from_i2c);
 
-  bool get_trichg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 0; }
-  void raise_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 1; }
+  bool get_trichg_tmr_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 0; }
+  void raise_cached_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 1; }
+  bool get_cached_flag_trichg_tmr_flag() { return this->last_trichg_tmr_flag_raw_ ; }
 
   // PRECHG_TMR_FLAG - Pre-charge timer expired rising edge detected
   uint16_t get_prechg_tmr_flag_raw(bool read_from_i2c);
 
-  bool get_prechg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 0; }
-  void raise_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 1; }
+  bool get_prechg_tmr_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 0; }
+  void raise_cached_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 1; }
+  bool get_cached_flag_prechg_tmr_flag() { return this->last_prechg_tmr_flag_raw_ ; }
 
   // TOPOFF_TMR_FLAG - Top-off timer expired rising edge detected
   uint16_t get_topoff_tmr_flag_raw(bool read_from_i2c);
 
-  bool get_topoff_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 0; }
-  void raise_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 1; }
+  bool get_topoff_tmr_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 0; }
+  void raise_cached_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 1; }
+  bool get_cached_flag_topoff_tmr_flag() { return this->last_topoff_tmr_flag_raw_ ; }
 
   // VBATOTG_LOW_FLAG - VBAT falls below the threshold to enable the OTG mode
   uint16_t get_vbatotg_low_flag_raw(bool read_from_i2c);
 
-  bool get_vbatotg_low_flag_bool(bool read_from_i2c);
-  void clear_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 0; }
-  void raise_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 1; }
+  bool get_vbatotg_low_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 0; }
+  void raise_cached_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 1; }
+  bool get_cached_flag_vbatotg_low_flag() { return this->last_vbatotg_low_flag_raw_ ; }
 
   // TS_COLD_FLAG - TS across cold temperature (T1) is detected
   uint16_t get_ts_cold_flag_raw(bool read_from_i2c);
 
-  bool get_ts_cold_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 0; }
-  void raise_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 1; }
+  bool get_ts_cold_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 0; }
+  void raise_cached_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 1; }
+  bool get_cached_flag_ts_cold_flag() { return this->last_ts_cold_flag_raw_ ; }
 
   // TS_COOL_FLAG - TS across cool temperature (T2) is detected
   uint16_t get_ts_cool_flag_raw(bool read_from_i2c);
 
-  bool get_ts_cool_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 0; }
-  void raise_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 1; }
+  bool get_ts_cool_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 0; }
+  void raise_cached_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 1; }
+  bool get_cached_flag_ts_cool_flag() { return this->last_ts_cool_flag_raw_ ; }
 
   // TS_WARM_FLAG - TS across warm temperature (T3) is detected
   uint16_t get_ts_warm_flag_raw(bool read_from_i2c);
 
-  bool get_ts_warm_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 0; }
-  void raise_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 1; }
+  bool get_ts_warm_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 0; }
+  void raise_cached_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 1; }
+  bool get_cached_flag_ts_warm_flag() { return this->last_ts_warm_flag_raw_ ; }
 
   // TS_HOT_FLAG - TS across hot temperature (T5) is detected
   uint16_t get_ts_hot_flag_raw(bool read_from_i2c);
 
-  bool get_ts_hot_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 0; }
-  void raise_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 1; }
+  bool get_ts_hot_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 0; }
+  void raise_cached_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 1; }
+  bool get_cached_flag_ts_hot_flag() { return this->last_ts_hot_flag_raw_ ; }
 
   // IBAT_REG_FLAG - Enter or exit IBAT regulation
   uint16_t get_ibat_reg_flag_raw(bool read_from_i2c);
 
-  bool get_ibat_reg_flag_bool(bool read_from_i2c);
-  void clear_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 0; }
-  void raise_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 1; }
+  bool get_ibat_reg_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 0; }
+  void raise_cached_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 1; }
+  bool get_cached_flag_ibat_reg_flag() { return this->last_ibat_reg_flag_raw_ ; }
 
   // VBUS_OVP_FLAG - Enter VBUS OVP
   uint16_t get_vbus_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_vbus_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 0; }
-  void raise_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 1; }
+  bool get_vbus_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_vbus_ovp_flag() { return this->last_vbus_ovp_flag_raw_ ; }
 
   // VBAT_OVP_FLAG - Enter VBAT OVP
   uint16_t get_vbat_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_vbat_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 0; }
-  void raise_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 1; }
+  bool get_vbat_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_vbat_ovp_flag() { return this->last_vbat_ovp_flag_raw_ ; }
 
   // IBUS_OCP_FLAG - Enter IBUS OCP
   uint16_t get_ibus_ocp_flag_raw(bool read_from_i2c);
 
-  bool get_ibus_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 0; }
-  void raise_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 1; }
+  bool get_ibus_ocp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 0; }
+  void raise_cached_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 1; }
+  bool get_cached_flag_ibus_ocp_flag() { return this->last_ibus_ocp_flag_raw_ ; }
 
   // IBAT_OCP_FLAG - Enter discharged OCP
   uint16_t get_ibat_ocp_flag_raw(bool read_from_i2c);
 
-  bool get_ibat_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 0; }
-  void raise_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 1; }
+  bool get_ibat_ocp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 0; }
+  void raise_cached_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 1; }
+  bool get_cached_flag_ibat_ocp_flag() { return this->last_ibat_ocp_flag_raw_ ; }
 
   // CONV_OCP_FLAG - Enter converter OCP
   uint16_t get_conv_ocp_flag_raw(bool read_from_i2c);
 
-  bool get_conv_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 0; }
-  void raise_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 1; }
+  bool get_conv_ocp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 0; }
+  void raise_cached_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 1; }
+  bool get_cached_flag_conv_ocp_flag() { return this->last_conv_ocp_flag_raw_ ; }
 
   // VAC2_OVP_FLAG - Enter VAC2 OVP
   uint16_t get_vac2_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_vac2_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 0; }
-  void raise_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 1; }
+  bool get_vac2_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_vac2_ovp_flag() { return this->last_vac2_ovp_flag_raw_ ; }
 
   // VAC1_OVP_FLAG - Enter VAC1 OVP
   uint16_t get_vac1_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_vac1_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 0; }
-  void raise_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 1; }
+  bool get_vac1_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_vac1_ovp_flag() { return this->last_vac1_ovp_flag_raw_ ; }
 
   // VSYS_SHORT_FLAG - Stop switching due to system short
   uint16_t get_vsys_short_flag_raw(bool read_from_i2c);
 
-  bool get_vsys_short_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 0; }
-  void raise_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 1; }
+  bool get_vsys_short_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 0; }
+  void raise_cached_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 1; }
+  bool get_cached_flag_vsys_short_flag() { return this->last_vsys_short_flag_raw_ ; }
 
   // VSYS_OVP_FLAG - Stop switching due to system over-voltage
   uint16_t get_vsys_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_vsys_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 0; }
-  void raise_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 1; }
+  bool get_vsys_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_vsys_ovp_flag() { return this->last_vsys_ovp_flag_raw_ ; }
 
   // OTG_OVP_FLAG - Stop OTG due to VBUS over voltage
   uint16_t get_otg_ovp_flag_raw(bool read_from_i2c);
 
-  bool get_otg_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 0; }
-  void raise_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 1; }
+  bool get_otg_ovp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 0; }
+  void raise_cached_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 1; }
+  bool get_cached_flag_otg_ovp_flag() { return this->last_otg_ovp_flag_raw_ ; }
 
   // OTG_UVP_FLAG - Stop OTG due to VBUS under voltage
   uint16_t get_otg_uvp_flag_raw(bool read_from_i2c);
 
-  bool get_otg_uvp_flag_bool(bool read_from_i2c);
-  void clear_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 0; }
-  void raise_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 1; }
+  bool get_otg_uvp_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 0; }
+  void raise_cached_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 1; }
+  bool get_cached_flag_otg_uvp_flag() { return this->last_otg_uvp_flag_raw_ ; }
 
   // TSHUT_FLAG - TS shutdown signal rising threshold detected
   uint16_t get_tshut_flag_raw(bool read_from_i2c);
 
-  bool get_tshut_flag_bool(bool read_from_i2c);
-  void clear_flag_tshut_flag() { this->last_tshut_flag_raw_ = 0; }
-  void raise_flag_tshut_flag() { this->last_tshut_flag_raw_ = 1; }
+  bool get_tshut_flag_flag(bool read_from_i2c);
+  void clear_cached_flag_tshut_flag() { this->last_tshut_flag_raw_ = 0; }
+  void raise_cached_flag_tshut_flag() { this->last_tshut_flag_raw_ = 1; }
+  bool get_cached_flag_tshut_flag() { return this->last_tshut_flag_raw_ ; }
 
   // ADC_EN - ADC enable
   uint16_t get_adc_en_raw(bool read_from_i2c);

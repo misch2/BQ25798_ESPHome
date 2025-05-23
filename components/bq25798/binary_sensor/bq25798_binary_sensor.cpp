@@ -695,121 +695,121 @@ void BQ25798BinarySensor::update() {
     this->binary_sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_bool(true));
   }
   if (this->binary_sensor_iindpm_flag_ != nullptr) {
-    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag_bool(true));
+    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_cached_flag_iindpm_flag());
   }
   if (this->binary_sensor_vindpm_flag_ != nullptr) {
-    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag_bool(true));
+    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_cached_flag_vindpm_flag());
   }
   if (this->binary_sensor_wd_flag_ != nullptr) {
-    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_wd_flag_bool(true));
+    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_cached_flag_wd_flag());
   }
   if (this->binary_sensor_poorsrc_flag_ != nullptr) {
-    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag_bool(true));
+    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_cached_flag_poorsrc_flag());
   }
   if (this->binary_sensor_pg_flag_ != nullptr) {
-    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_pg_flag_bool(true));
+    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_cached_flag_pg_flag());
   }
   if (this->binary_sensor_ac2_present_flag_ != nullptr) {
-    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag_bool(true));
+    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_cached_flag_ac2_present_flag());
   }
   if (this->binary_sensor_ac1_present_flag_ != nullptr) {
-    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag_bool(true));
+    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_cached_flag_ac1_present_flag());
   }
   if (this->binary_sensor_vbus_present_flag_ != nullptr) {
-    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag_bool(true));
+    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_cached_flag_vbus_present_flag());
   }
   if (this->binary_sensor_chg_flag_ != nullptr) {
-    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_chg_flag_bool(true));
+    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_cached_flag_chg_flag());
   }
   if (this->binary_sensor_ico_flag_ != nullptr) {
-    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_ico_flag_bool(true));
+    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_cached_flag_ico_flag());
   }
   if (this->binary_sensor_vbus_flag_ != nullptr) {
-    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag_bool(true));
+    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_cached_flag_vbus_flag());
   }
   if (this->binary_sensor_treg_flag_ != nullptr) {
-    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_treg_flag_bool(true));
+    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_cached_flag_treg_flag());
   }
   if (this->binary_sensor_vbat_present_flag_ != nullptr) {
-    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag_bool(true));
+    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_cached_flag_vbat_present_flag());
   }
   if (this->binary_sensor_bc1_2_done_flag_ != nullptr) {
-    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag_bool(true));
+    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_cached_flag_bc1_2_done_flag());
   }
   if (this->binary_sensor_dpdm_done_flag_ != nullptr) {
-    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag_bool(true));
+    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_cached_flag_dpdm_done_flag());
   }
   if (this->binary_sensor_adc_done_flag_ != nullptr) {
-    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag_bool(true));
+    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_cached_flag_adc_done_flag());
   }
   if (this->binary_sensor_vsys_flag_ != nullptr) {
-    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag_bool(true));
+    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_cached_flag_vsys_flag());
   }
   if (this->binary_sensor_chg_tmr_flag_ != nullptr) {
-    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag_bool(true));
+    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_cached_flag_chg_tmr_flag());
   }
   if (this->binary_sensor_trichg_tmr_flag_ != nullptr) {
-    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag_bool(true));
+    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_cached_flag_trichg_tmr_flag());
   }
   if (this->binary_sensor_prechg_tmr_flag_ != nullptr) {
-    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag_bool(true));
+    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_cached_flag_prechg_tmr_flag());
   }
   if (this->binary_sensor_topoff_tmr_flag_ != nullptr) {
-    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag_bool(true));
+    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_cached_flag_topoff_tmr_flag());
   }
   if (this->binary_sensor_vbatotg_low_flag_ != nullptr) {
-    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag_bool(true));
+    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_cached_flag_vbatotg_low_flag());
   }
   if (this->binary_sensor_ts_cold_flag_ != nullptr) {
-    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag_bool(true));
+    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_cached_flag_ts_cold_flag());
   }
   if (this->binary_sensor_ts_cool_flag_ != nullptr) {
-    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag_bool(true));
+    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_cached_flag_ts_cool_flag());
   }
   if (this->binary_sensor_ts_warm_flag_ != nullptr) {
-    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag_bool(true));
+    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_cached_flag_ts_warm_flag());
   }
   if (this->binary_sensor_ts_hot_flag_ != nullptr) {
-    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag_bool(true));
+    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_cached_flag_ts_hot_flag());
   }
   if (this->binary_sensor_ibat_reg_flag_ != nullptr) {
-    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag_bool(true));
+    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_cached_flag_ibat_reg_flag());
   }
   if (this->binary_sensor_vbus_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag_bool(true));
+    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_cached_flag_vbus_ovp_flag());
   }
   if (this->binary_sensor_vbat_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag_bool(true));
+    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_cached_flag_vbat_ovp_flag());
   }
   if (this->binary_sensor_ibus_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag_bool(true));
+    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_cached_flag_ibus_ocp_flag());
   }
   if (this->binary_sensor_ibat_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag_bool(true));
+    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_cached_flag_ibat_ocp_flag());
   }
   if (this->binary_sensor_conv_ocp_flag_ != nullptr) {
-    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag_bool(true));
+    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_cached_flag_conv_ocp_flag());
   }
   if (this->binary_sensor_vac2_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag_bool(true));
+    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_cached_flag_vac2_ovp_flag());
   }
   if (this->binary_sensor_vac1_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag_bool(true));
+    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_cached_flag_vac1_ovp_flag());
   }
   if (this->binary_sensor_vsys_short_flag_ != nullptr) {
-    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag_bool(true));
+    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_cached_flag_vsys_short_flag());
   }
   if (this->binary_sensor_vsys_ovp_flag_ != nullptr) {
-    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag_bool(true));
+    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_cached_flag_vsys_ovp_flag());
   }
   if (this->binary_sensor_otg_ovp_flag_ != nullptr) {
-    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag_bool(true));
+    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_cached_flag_otg_ovp_flag());
   }
   if (this->binary_sensor_otg_uvp_flag_ != nullptr) {
-    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag_bool(true));
+    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_cached_flag_otg_uvp_flag());
   }
   if (this->binary_sensor_tshut_flag_ != nullptr) {
-    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag_bool(true));
+    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_cached_flag_tshut_flag());
   }
   if (this->binary_sensor_adc_en_ != nullptr) {
     this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en_bool(true));

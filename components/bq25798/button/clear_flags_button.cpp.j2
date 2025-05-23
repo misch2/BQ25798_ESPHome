@@ -15,8 +15,8 @@ void BQ25798ClearFlagsButton::press_action() {
     ESP_LOGI(TAG, "ClearFlagsButton pressed. Executing action...");
 
 {%- for def in settings %}
-{%     if def.is_flag %}
-    this->parent_->clear_flag_{{ def._snake_case_name }}();
+{%     if def._is_flag %}
+    this->parent_->clear_cached_flag_{{ def._snake_case_name }}();
 {%     endif %}
 {% endfor %}
 }

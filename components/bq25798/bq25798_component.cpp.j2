@@ -142,16 +142,28 @@ void BQ25798Component::set_{{ def._snake_case_name }}_raw(uint16_t raw_value, bo
 }
 {%     endif %}
 
+{%         if def._is_flag %}
+bool BQ25798Component::get_{{ def._snake_case_name }}_flag(bool read_from_i2c) {
+  uint16_t raw = get_{{ def._snake_case_name }}_raw(read_from_i2c);
+  bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->{{ def.name }});
+  // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
+  if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
+    this->raise_cached_flag_{{ def._snake_case_name }}();
+  }
+  // Always return the value of the flag, never the current register value
+  bool_val = this->get_cached_flag_{{ def._snake_case_name }}();
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning();
+    this->bq25798_noi2c_->clearError();
+  }
+  return bool_val;
+}
+{%         endif %}
+{# #}
 {%         if def._is_bool %}
 bool BQ25798Component::get_{{ def._snake_case_name }}_bool(bool read_from_i2c) {
   uint16_t raw = get_{{ def._snake_case_name }}_raw(read_from_i2c);
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->{{ def.name }});
-{%             if def.is_flag %}
-  // This is a workaround for the fact that the BQ25798 clears the flag registers on read so we can't just read them and keep them raised too
-  if (bool_val) {  // only set the flag if it is on. All the flags need to be cleared explicitly
-    this->raise_flag_{{ def._snake_case_name }}();
-  }
-{%             endif %}
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning();
     this->bq25798_noi2c_->clearError();

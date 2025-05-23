@@ -2291,7 +2291,7 @@
             "regname": "REG1F_Charger_Status_4",
             "long_reg": false,
             "name": "VBATOTG_LOW_STAT",
-            "description": "VBAT too low to enable OTG flag",
+            "description": "The battery voltage is too low to enable OTG mode",
             "ha_device_class": "status",
             "type": "enum",
             "bits": 1,
