@@ -1,4 +1,3 @@
-
 #include "bq25798_number.h"
 
 #include "esphome/core/log.h"

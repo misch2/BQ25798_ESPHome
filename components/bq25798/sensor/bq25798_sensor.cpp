@@ -1,4 +1,3 @@
-
 #include "bq25798_sensor.h"
 
 #include "esphome/core/log.h"

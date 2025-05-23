@@ -16,6 +16,7 @@
     | title
     | replace(' ', '')
 }) -%}
+{%- set _ = def.update({ '_ENUM_t': (def.name | upper) ~ "_t" }) -%}
 {# #}
 {%- set _ = def.update({ '_is_bool': def.type == "bool" or (def.type == "enum" and def.bits == 1) }) -%}
 {%- set _ = def.update({ '_is_int': def.type == "int" }) -%}

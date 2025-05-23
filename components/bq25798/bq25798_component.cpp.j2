@@ -1,4 +1,4 @@
-{% include "/globals.j2" %}
+{% include "/globals.j2" -%}
 
 #include "bq25798_component.h"
 #include "esphome/core/log.h"
@@ -61,41 +61,86 @@ void BQ25798Component::update() {
 }
 
 {% for def in settings %}
-{# #}
-{# Getters for all #}
 // {{ def.name }} - {{ def.description }}
-
 uint16_t BQ25798Component::get_{{ def._snake_case_name }}_raw(bool read_from_i2c) {
-{# #}
+  if (this->is_failed()) {
+    return 0;
+  }
+
   if (read_from_i2c && this->bq25798_noi2c_ != nullptr) {
-    // read the value from the chip
-{%         if def.long_reg %}
+{%     if def.long_reg %}
     uint16_t reg_value;
     if (!this->read_byte_16({{ def.regname }}, &reg_value)) {
       this->mark_failed();
     }
     // ESP_LOGD(TAG, "  received raw 16-bit register value: 0x%04X", reg_value);
-{%         else %}
+{%     else %}
     uint8_t reg_value;
     if (!this->read_byte({{ def.regname }}, &reg_value)) {
       this->mark_failed();
     }
     // ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }}, reg_value);
-{%         endif %}
+{%     endif %}
 
-    // shift and mask it to get the raw value
     uint16_t raw_value = (reg_value >> {{ def.shift }}) & BITLENGTH_TO_MASK({{ def.bits }});
     // ESP_LOGD(TAG, "  shifted (>> {{ def.shift }}) and masked ({{ def.bits }} bits) raw value: 0x%04X", raw_value);
 
-    this->last_raw_value_{{ def._snake_case_name }}_ = raw_value;
-
-    if (this->bq25798_noi2c_->lastError()) {
-      this->status_set_warning();
-      this->bq25798_noi2c_->clearError();
-    }
+    this->last_{{ def._snake_case_name }}_raw_ = raw_value;
   }
-  return this->last_raw_value_{{ def._snake_case_name }}_;
-} // getter
+
+  return this->last_{{ def._snake_case_name }}_raw_;
+}
+
+{%     if def._is_rw %}
+void BQ25798Component::set_{{ def._snake_case_name }}_raw(uint16_t raw_value, bool write_to_i2c) {
+  this->last_{{ def._snake_case_name }}_raw_ = raw_value;
+  if (this->is_failed()) {
+    return;
+  }
+
+  bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
+  ESP_LOGD(TAG, "%s {{ def.name }} to 0x%04X", _write ? "Setting and writing" : "Will eventually set", raw_value);
+  if (!_write) {
+    return;
+  }
+
+{%         if def.long_reg %}
+  uint16_t reg_value;
+  if (!this->read_byte_16({{ def.regname }}, &reg_value)) {
+    this->mark_failed();
+    return;
+  }
+  // ESP_LOGD(TAG, "  received raw 16-bit register %02X value: 0x%04X", {{ def.regname }}, reg_value);
+
+  reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
+  //ESP_LOGD(TAG, "  masked register value: 0x%04X", reg_value);
+
+  reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
+  //ESP_LOGD(TAG, "  new register value: 0x%04X", reg_value);
+
+  if (!this->write_byte_16({{ def.regname }}, reg_value)) {
+    this->mark_failed();
+  }
+{%         else %}
+  uint8_t reg_value;
+  if (!this->read_byte({{ def.regname }}, &reg_value)) {
+    this->mark_failed();
+    return;
+  }
+  // ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }},    reg_value);
+
+  reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
+  // ESP_LOGD(TAG, "  masked ({{ def.bits }} bits shifted by {{ def.shift }}) register value: 0x%02X", reg_value);
+
+  reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
+  // ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
+
+  if (!this->write_byte({{ def.regname }}, reg_value)) {
+    this->mark_failed();
+  }
+{%         endif %}
+}
+{%     endif %}
 
 {%         if def._is_bool %}
 bool BQ25798Component::get_{{ def._snake_case_name }}_bool(bool read_from_i2c) {
@@ -107,24 +152,28 @@ bool BQ25798Component::get_{{ def._snake_case_name }}_bool(bool read_from_i2c) {
     this->raise_flag_{{ def._snake_case_name }}();
   }
 {%             endif %}
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning();
+    this->bq25798_noi2c_->clearError();
+  }
   return bool_val;
 }
 {%         endif %}
-
+{# #}
 {%         if def._is_int %}
 int BQ25798Component::get_{{ def._snake_case_name }}_int(bool read_from_i2c) {
   uint16_t raw = get_{{ def._snake_case_name }}_raw(read_from_i2c);
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->{{ def.name }});
 }
 {%         endif %}
-
+{# #}
 {%         if def._is_float %}
 float BQ25798Component::get_{{ def._snake_case_name }}_float(bool read_from_i2c) {
   uint16_t raw = get_{{ def._snake_case_name }}_raw(read_from_i2c);
   return this->bq25798_noi2c_->rawToFloat(raw, this->bq25798_noi2c_->{{ def.name }});
 }
 {%         endif %}
-
+{# #}
 {%         if def._is_enum %}
 int BQ25798Component::get_{{ def._snake_case_name }}_enum_int(bool read_from_i2c) {
   uint16_t raw = get_{{ def._snake_case_name }}_raw(read_from_i2c);
@@ -136,95 +185,38 @@ const char* BQ25798Component::get_{{ def._snake_case_name }}_enum_string(bool re
 }
 {%         endif %}
 
-
-
-{# Setters for writeable only #}
 {%     if def._is_rw %}
-
-void BQ25798Component::set_{{ def._snake_case_name }}_raw(uint16_t raw_value, bool write_to_i2c) {
-  this->last_raw_value_{{ def._snake_case_name }}_ = raw_value;
-
-  bool _write = write_to_i2c && this->bq25798_noi2c_ != nullptr;
-  ESP_LOGD(TAG, "%s {{ def.name }} to 0x%04X", _write ? "Setting and writing" : "Will eventually set", raw_value);
-  if (!_write) {
-    return;
-  }
-{%         if def.long_reg %}
-  uint16_t reg_value;
-  if (!this->read_byte_16({{ def.regname }}, &reg_value)) {
-    this->mark_failed();
-    return;
-  }
-  // ESP_LOGD(TAG, "  received raw 16-bit register %02X value: 0x%04X", {{ def.regname }}, reg_value);
-  // mask out the bits we are going to change
-  reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
-  //ESP_LOGD(TAG, "  masked register value: 0x%04X", reg_value);
-  // shift the new value into place and mask it
-  reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
-  //ESP_LOGD(TAG, "  new register value: 0x%04X", reg_value);
-  if (!this->write_byte_16({{ def.regname }}, reg_value)) {
-    this->mark_failed();
-  }
-{%         else %}
-  uint8_t reg_value;
-  if (!this->read_byte({{ def.regname }}, &reg_value)) {
-    this->mark_failed();
-    return;
-  }
-  // ESP_LOGD(TAG, "  received raw 8-bit register %02X (\"{{ def.regname }}\") value: 0x%02X", {{ def.regname }},    reg_value);
-  // mask out the bits we are going to change
-  reg_value &= ~(BITLENGTH_TO_MASK({{ def.bits }}) << {{ def.shift }});
-  // ESP_LOGD(TAG, "  masked ({{ def.bits }} bits shifted by {{ def.shift }}) register value: 0x%02X", reg_value);
-  // shift the new value into place and mask it
-  reg_value |= ((raw_value & BITLENGTH_TO_MASK({{ def.bits }})) << {{ def.shift }});
-  // ESP_LOGD(TAG, "  or-ed register value: 0x%02X", reg_value);
-  if (!this->write_byte({{ def.regname }}, reg_value)) {
-    this->mark_failed();
-  }
-{%         endif %}
-}
-
 {%          if def._is_bool %}
 void BQ25798Component::set_{{ def._snake_case_name }}_bool(bool value, bool write_to_i2c) {
-  if (this->is_failed()) {
-    return;
-  }
+  ESP_LOGD(TAG, "Setting {{ def.name }} to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->{{ def.name }});
-  this->set_{{ def._snake_case_name }}_raw(value, write_to_i2c);
+  this->set_{{ def._snake_case_name }}_raw(raw_value, write_to_i2c);
 };
 {%         endif %}
 
 {%         if def.type == "int" %}
 void BQ25798Component::set_{{ def._snake_case_name }}_int(int value, bool write_to_i2c) {
-  if (this->is_failed()) {
-    return;
-  }
+  ESP_LOGD(TAG, "Setting {{ def.name }} to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->{{ def.name }});
-  this->set_{{ def._snake_case_name }}_raw(value, write_to_i2c);
+  this->set_{{ def._snake_case_name }}_raw(raw_value, write_to_i2c);
 };
 {%         endif %}
 
 {%         if def._is_float %}
 void BQ25798Component::set_{{ def._snake_case_name }}_float(float value, bool write_to_i2c) {
-  if (this->is_failed()) {
-    return;
-  }
-this->set_{{ def._snake_case_name }}_raw(value, write_to_i2c);
+  ESP_LOGD(TAG, "Setting {{ def.name }} to %f", value);
   uint16_t raw_value = this->bq25798_noi2c_->floatToRaw(value, this->bq25798_noi2c_->{{ def.name }});
-  this->set_{{ def._snake_case_name }}_raw(value, write_to_i2c);
+  this->set_{{ def._snake_case_name }}_raw(raw_value, write_to_i2c);
 };
 {%         endif %}
 
 {%         if def._is_enum %}
 void BQ25798Component::set_{{ def._snake_case_name }}_enum_int(int value, bool write_to_i2c) {
-  if (this->is_failed()) {
-    return;
-  }
+  ESP_LOGD(TAG, "Setting {{ def.name }} to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->{{ def.name }});
-  this->set_{{ def._snake_case_name }}_raw(value, write_to_i2c);
+  this->set_{{ def._snake_case_name }}_raw(raw_value, write_to_i2c);
 };
 {%         endif %}
-
 {%     endif -%}
 
 {% endfor %}

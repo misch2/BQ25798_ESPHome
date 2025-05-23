@@ -1,4 +1,3 @@
-
 #include "bq25798_switch.h"
 
 #include "esphome/core/log.h"

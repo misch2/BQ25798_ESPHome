@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "esphome/core/component.h"
@@ -25,1331 +24,1522 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
   // VSYSMIN - Minimal System Voltage
   uint16_t get_vsysmin_raw(bool read_from_i2c);
+  void set_vsysmin_raw(uint16_t value, bool write_to_i2c);
+
   int get_vsysmin_int(bool read_from_i2c);
-  void set_vsysmin_raw(uint16_t value, bool read_from_i2c);
   void set_vsysmin_int(int value, bool write_to_i2c);
 
   // VREG - Charge Voltage Limit
   uint16_t get_vreg_raw(bool read_from_i2c);
+  void set_vreg_raw(uint16_t value, bool write_to_i2c);
+
   int get_vreg_int(bool read_from_i2c);
-  void set_vreg_raw(uint16_t value, bool read_from_i2c);
   void set_vreg_int(int value, bool write_to_i2c);
 
   // ICHG - Charge Current Limit
   uint16_t get_ichg_raw(bool read_from_i2c);
+  void set_ichg_raw(uint16_t value, bool write_to_i2c);
+
   int get_ichg_int(bool read_from_i2c);
-  void set_ichg_raw(uint16_t value, bool read_from_i2c);
   void set_ichg_int(int value, bool write_to_i2c);
 
   // VINDPM - Input Voltage Limit
   uint16_t get_vindpm_raw(bool read_from_i2c);
+  void set_vindpm_raw(uint16_t value, bool write_to_i2c);
+
   int get_vindpm_int(bool read_from_i2c);
-  void set_vindpm_raw(uint16_t value, bool read_from_i2c);
   void set_vindpm_int(int value, bool write_to_i2c);
 
   // IINDPM - Input Current Limit
   uint16_t get_iindpm_raw(bool read_from_i2c);
+  void set_iindpm_raw(uint16_t value, bool write_to_i2c);
+
   int get_iindpm_int(bool read_from_i2c);
-  void set_iindpm_raw(uint16_t value, bool read_from_i2c);
   void set_iindpm_int(int value, bool write_to_i2c);
 
   // VBAT_LOWV - Battery voltage thresholds for fast charge (percent of VREG)
   uint16_t get_vbat_lowv_raw(bool read_from_i2c);
+  void set_vbat_lowv_raw(uint16_t value, bool write_to_i2c);
+
   int get_vbat_lowv_enum_int(bool read_from_i2c);
   const char* get_vbat_lowv_enum_string(bool read_from_i2c);
-  void set_vbat_lowv_raw(uint16_t value, bool read_from_i2c);
   void set_vbat_lowv_enum_int(int value, bool write_to_i2c);
 
   // IPRECHG - Precharge Current Limit
   uint16_t get_iprechg_raw(bool read_from_i2c);
+  void set_iprechg_raw(uint16_t value, bool write_to_i2c);
+
   int get_iprechg_int(bool read_from_i2c);
-  void set_iprechg_raw(uint16_t value, bool read_from_i2c);
   void set_iprechg_int(int value, bool write_to_i2c);
 
   // REG_RST - Reset registers to default values and reset timer
   uint16_t get_reg_rst_raw(bool read_from_i2c);
+  void set_reg_rst_raw(uint16_t value, bool write_to_i2c);
+
   bool get_reg_rst_bool(bool read_from_i2c);
-  void set_reg_rst_raw(uint16_t value, bool read_from_i2c);
   void set_reg_rst_bool(bool value, bool write_to_i2c);
 
   // STOP_WD_CHG - Defines whether a watchdog timer expiration will disable charging
   uint16_t get_stop_wd_chg_raw(bool read_from_i2c);
+  void set_stop_wd_chg_raw(uint16_t value, bool write_to_i2c);
+
   bool get_stop_wd_chg_bool(bool read_from_i2c);
-  void set_stop_wd_chg_raw(uint16_t value, bool read_from_i2c);
   void set_stop_wd_chg_bool(bool value, bool write_to_i2c);
 
   // ITERM - Termination Current Limit
   uint16_t get_iterm_raw(bool read_from_i2c);
+  void set_iterm_raw(uint16_t value, bool write_to_i2c);
+
   int get_iterm_int(bool read_from_i2c);
-  void set_iterm_raw(uint16_t value, bool read_from_i2c);
   void set_iterm_int(int value, bool write_to_i2c);
 
   // CELL - Battery cell count
   uint16_t get_cell_raw(bool read_from_i2c);
+  void set_cell_raw(uint16_t value, bool write_to_i2c);
+
   int get_cell_enum_int(bool read_from_i2c);
   const char* get_cell_enum_string(bool read_from_i2c);
-  void set_cell_raw(uint16_t value, bool read_from_i2c);
   void set_cell_enum_int(int value, bool write_to_i2c);
 
   // TRECHG - Battery recharge delay time
   uint16_t get_trechg_raw(bool read_from_i2c);
+  void set_trechg_raw(uint16_t value, bool write_to_i2c);
+
   int get_trechg_enum_int(bool read_from_i2c);
   const char* get_trechg_enum_string(bool read_from_i2c);
-  void set_trechg_raw(uint16_t value, bool read_from_i2c);
   void set_trechg_enum_int(int value, bool write_to_i2c);
 
   // VRECHG - Battery Recharge Threshold Offset (Below VREG)
   uint16_t get_vrechg_raw(bool read_from_i2c);
+  void set_vrechg_raw(uint16_t value, bool write_to_i2c);
+
   int get_vrechg_int(bool read_from_i2c);
-  void set_vrechg_raw(uint16_t value, bool read_from_i2c);
   void set_vrechg_int(int value, bool write_to_i2c);
 
   // VOTG - OTG mode regulation voltage
   uint16_t get_votg_raw(bool read_from_i2c);
+  void set_votg_raw(uint16_t value, bool write_to_i2c);
+
   int get_votg_int(bool read_from_i2c);
-  void set_votg_raw(uint16_t value, bool read_from_i2c);
   void set_votg_int(int value, bool write_to_i2c);
 
   // PRECHG_TMR - Pre-charge safety timer setting
   uint16_t get_prechg_tmr_raw(bool read_from_i2c);
+  void set_prechg_tmr_raw(uint16_t value, bool write_to_i2c);
+
   bool get_prechg_tmr_bool(bool read_from_i2c);
+  void set_prechg_tmr_bool(bool value, bool write_to_i2c);
   int get_prechg_tmr_enum_int(bool read_from_i2c);
   const char* get_prechg_tmr_enum_string(bool read_from_i2c);
-  void set_prechg_tmr_raw(uint16_t value, bool read_from_i2c);
-  void set_prechg_tmr_bool(bool value, bool write_to_i2c);
   void set_prechg_tmr_enum_int(int value, bool write_to_i2c);
 
   // IOTG - OTG current limit
   uint16_t get_iotg_raw(bool read_from_i2c);
+  void set_iotg_raw(uint16_t value, bool write_to_i2c);
+
   int get_iotg_int(bool read_from_i2c);
-  void set_iotg_raw(uint16_t value, bool read_from_i2c);
   void set_iotg_int(int value, bool write_to_i2c);
 
   // TOPOFF_TMR - Top-off timer control
   uint16_t get_topoff_tmr_raw(bool read_from_i2c);
+  void set_topoff_tmr_raw(uint16_t value, bool write_to_i2c);
+
   int get_topoff_tmr_enum_int(bool read_from_i2c);
   const char* get_topoff_tmr_enum_string(bool read_from_i2c);
-  void set_topoff_tmr_raw(uint16_t value, bool read_from_i2c);
   void set_topoff_tmr_enum_int(int value, bool write_to_i2c);
 
   // EN_TRICHG_TMR - Trickle charge timer enable
   uint16_t get_en_trichg_tmr_raw(bool read_from_i2c);
+  void set_en_trichg_tmr_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_trichg_tmr_bool(bool read_from_i2c);
-  void set_en_trichg_tmr_raw(uint16_t value, bool read_from_i2c);
   void set_en_trichg_tmr_bool(bool value, bool write_to_i2c);
 
   // EN_PRECHG_TMR - Precharge timer enable
   uint16_t get_en_prechg_tmr_raw(bool read_from_i2c);
+  void set_en_prechg_tmr_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_prechg_tmr_bool(bool read_from_i2c);
-  void set_en_prechg_tmr_raw(uint16_t value, bool read_from_i2c);
   void set_en_prechg_tmr_bool(bool value, bool write_to_i2c);
 
   // EN_CHG_TMR - Fast charge timer enable
   uint16_t get_en_chg_tmr_raw(bool read_from_i2c);
+  void set_en_chg_tmr_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_chg_tmr_bool(bool read_from_i2c);
-  void set_en_chg_tmr_raw(uint16_t value, bool read_from_i2c);
   void set_en_chg_tmr_bool(bool value, bool write_to_i2c);
 
   // CHG_TMR - Fast charge timer setting
   uint16_t get_chg_tmr_raw(bool read_from_i2c);
+  void set_chg_tmr_raw(uint16_t value, bool write_to_i2c);
+
   int get_chg_tmr_enum_int(bool read_from_i2c);
   const char* get_chg_tmr_enum_string(bool read_from_i2c);
-  void set_chg_tmr_raw(uint16_t value, bool read_from_i2c);
   void set_chg_tmr_enum_int(int value, bool write_to_i2c);
 
   // TMR2X_EN - 2x slower charging in DPM enable
   uint16_t get_tmr2x_en_raw(bool read_from_i2c);
+  void set_tmr2x_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_tmr2x_en_bool(bool read_from_i2c);
-  void set_tmr2x_en_raw(uint16_t value, bool read_from_i2c);
   void set_tmr2x_en_bool(bool value, bool write_to_i2c);
 
   // EN_AUTO_IBATDIS - Enable the auto battery discharging during the battery OVP fault
   uint16_t get_en_auto_ibatdis_raw(bool read_from_i2c);
+  void set_en_auto_ibatdis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_auto_ibatdis_bool(bool read_from_i2c);
-  void set_en_auto_ibatdis_raw(uint16_t value, bool read_from_i2c);
   void set_en_auto_ibatdis_bool(bool value, bool write_to_i2c);
 
   // FORCE_IBATDIS - Force the battery discharging current
   uint16_t get_force_ibatdis_raw(bool read_from_i2c);
+  void set_force_ibatdis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_force_ibatdis_bool(bool read_from_i2c);
-  void set_force_ibatdis_raw(uint16_t value, bool read_from_i2c);
   void set_force_ibatdis_bool(bool value, bool write_to_i2c);
 
   // EN_CHG - Enable the charger
   uint16_t get_en_chg_raw(bool read_from_i2c);
+  void set_en_chg_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_chg_bool(bool read_from_i2c);
-  void set_en_chg_raw(uint16_t value, bool read_from_i2c);
   void set_en_chg_bool(bool value, bool write_to_i2c);
 
   // EN_ICO - Enable the ICO (Input Current Optimizer)
   uint16_t get_en_ico_raw(bool read_from_i2c);
+  void set_en_ico_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_ico_bool(bool read_from_i2c);
-  void set_en_ico_raw(uint16_t value, bool read_from_i2c);
   void set_en_ico_bool(bool value, bool write_to_i2c);
 
   // FORCE_ICO - Force the ICO (Input Current Optimizer)
   uint16_t get_force_ico_raw(bool read_from_i2c);
+  void set_force_ico_raw(uint16_t value, bool write_to_i2c);
+
   bool get_force_ico_bool(bool read_from_i2c);
-  void set_force_ico_raw(uint16_t value, bool read_from_i2c);
   void set_force_ico_bool(bool value, bool write_to_i2c);
 
   // EN_HIZ - Enable the high impedance mode
   uint16_t get_en_hiz_raw(bool read_from_i2c);
+  void set_en_hiz_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_hiz_bool(bool read_from_i2c);
-  void set_en_hiz_raw(uint16_t value, bool read_from_i2c);
   void set_en_hiz_bool(bool value, bool write_to_i2c);
 
   // EN_TERM - Enable the termination
   uint16_t get_en_term_raw(bool read_from_i2c);
+  void set_en_term_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_term_bool(bool read_from_i2c);
-  void set_en_term_raw(uint16_t value, bool read_from_i2c);
   void set_en_term_bool(bool value, bool write_to_i2c);
 
   // EN_BACKUP - Enable the backup (auto OTG) mode
   uint16_t get_en_backup_raw(bool read_from_i2c);
+  void set_en_backup_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_backup_bool(bool read_from_i2c);
-  void set_en_backup_raw(uint16_t value, bool read_from_i2c);
   void set_en_backup_bool(bool value, bool write_to_i2c);
 
   // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
   uint16_t get_vbus_backup_raw(bool read_from_i2c);
+  void set_vbus_backup_raw(uint16_t value, bool write_to_i2c);
+
   int get_vbus_backup_enum_int(bool read_from_i2c);
   const char* get_vbus_backup_enum_string(bool read_from_i2c);
-  void set_vbus_backup_raw(uint16_t value, bool read_from_i2c);
   void set_vbus_backup_enum_int(int value, bool write_to_i2c);
 
   // VAC_OVP - Over voltage protection thresholds
   uint16_t get_vac_ovp_raw(bool read_from_i2c);
+  void set_vac_ovp_raw(uint16_t value, bool write_to_i2c);
+
   int get_vac_ovp_enum_int(bool read_from_i2c);
   const char* get_vac_ovp_enum_string(bool read_from_i2c);
-  void set_vac_ovp_raw(uint16_t value, bool read_from_i2c);
   void set_vac_ovp_enum_int(int value, bool write_to_i2c);
 
   // WD_RST - I2C watch dog timer reset
   uint16_t get_wd_rst_raw(bool read_from_i2c);
+  void set_wd_rst_raw(uint16_t value, bool write_to_i2c);
+
   bool get_wd_rst_bool(bool read_from_i2c);
-  void set_wd_rst_raw(uint16_t value, bool read_from_i2c);
   void set_wd_rst_bool(bool value, bool write_to_i2c);
 
   // WATCHDOG - Watchdog timer settings
   uint16_t get_watchdog_raw(bool read_from_i2c);
+  void set_watchdog_raw(uint16_t value, bool write_to_i2c);
+
   int get_watchdog_enum_int(bool read_from_i2c);
   const char* get_watchdog_enum_string(bool read_from_i2c);
-  void set_watchdog_raw(uint16_t value, bool read_from_i2c);
   void set_watchdog_enum_int(int value, bool write_to_i2c);
 
   // FORCE_INDET - Force D+/D- detection
   uint16_t get_force_indet_raw(bool read_from_i2c);
+  void set_force_indet_raw(uint16_t value, bool write_to_i2c);
+
   bool get_force_indet_bool(bool read_from_i2c);
-  void set_force_indet_raw(uint16_t value, bool read_from_i2c);
   void set_force_indet_bool(bool value, bool write_to_i2c);
 
   // AUTO_INDET_EN - Enable automatic D+/D- detection
   uint16_t get_auto_indet_en_raw(bool read_from_i2c);
+  void set_auto_indet_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_auto_indet_en_bool(bool read_from_i2c);
-  void set_auto_indet_en_raw(uint16_t value, bool read_from_i2c);
   void set_auto_indet_en_bool(bool value, bool write_to_i2c);
 
   // EN_12V - Enable 12V output in HVDCP
   uint16_t get_en_12v_raw(bool read_from_i2c);
+  void set_en_12v_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_12v_bool(bool read_from_i2c);
-  void set_en_12v_raw(uint16_t value, bool read_from_i2c);
   void set_en_12v_bool(bool value, bool write_to_i2c);
 
   // EN_9V - Enable 9V output in HVDCP
   uint16_t get_en_9v_raw(bool read_from_i2c);
+  void set_en_9v_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_9v_bool(bool read_from_i2c);
-  void set_en_9v_raw(uint16_t value, bool read_from_i2c);
   void set_en_9v_bool(bool value, bool write_to_i2c);
 
   // HVDCP_EN - Enable HVDCP (High Voltage Device Charging Protocol)
   uint16_t get_hvdcp_en_raw(bool read_from_i2c);
+  void set_hvdcp_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_hvdcp_en_bool(bool read_from_i2c);
-  void set_hvdcp_en_raw(uint16_t value, bool read_from_i2c);
   void set_hvdcp_en_bool(bool value, bool write_to_i2c);
 
   // SDRV_CTRL - Enable external Ship FET control
   uint16_t get_sdrv_ctrl_raw(bool read_from_i2c);
+  void set_sdrv_ctrl_raw(uint16_t value, bool write_to_i2c);
+
   int get_sdrv_ctrl_enum_int(bool read_from_i2c);
   const char* get_sdrv_ctrl_enum_string(bool read_from_i2c);
-  void set_sdrv_ctrl_raw(uint16_t value, bool read_from_i2c);
   void set_sdrv_ctrl_enum_int(int value, bool write_to_i2c);
 
   // SDRV_DLY - Delay for SDRV control
   uint16_t get_sdrv_dly_raw(bool read_from_i2c);
+  void set_sdrv_dly_raw(uint16_t value, bool write_to_i2c);
+
   bool get_sdrv_dly_bool(bool read_from_i2c);
+  void set_sdrv_dly_bool(bool value, bool write_to_i2c);
   int get_sdrv_dly_enum_int(bool read_from_i2c);
   const char* get_sdrv_dly_enum_string(bool read_from_i2c);
-  void set_sdrv_dly_raw(uint16_t value, bool read_from_i2c);
-  void set_sdrv_dly_bool(bool value, bool write_to_i2c);
   void set_sdrv_dly_enum_int(int value, bool write_to_i2c);
 
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
   uint16_t get_dis_acdrv_raw(bool read_from_i2c);
+  void set_dis_acdrv_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_acdrv_bool(bool read_from_i2c);
-  void set_dis_acdrv_raw(uint16_t value, bool read_from_i2c);
   void set_dis_acdrv_bool(bool value, bool write_to_i2c);
 
   // EN_OTG - Enable OTG mode
   uint16_t get_en_otg_raw(bool read_from_i2c);
+  void set_en_otg_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_otg_bool(bool read_from_i2c);
-  void set_en_otg_raw(uint16_t value, bool read_from_i2c);
   void set_en_otg_bool(bool value, bool write_to_i2c);
 
   // PFM_OTG_DIS - Disable PFM in OTG mode
   uint16_t get_pfm_otg_dis_raw(bool read_from_i2c);
+  void set_pfm_otg_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_pfm_otg_dis_bool(bool read_from_i2c);
-  void set_pfm_otg_dis_raw(uint16_t value, bool read_from_i2c);
   void set_pfm_otg_dis_bool(bool value, bool write_to_i2c);
 
   // PFM_FWD_DIS - Disable PFM in forward mode
   uint16_t get_pfm_fwd_dis_raw(bool read_from_i2c);
+  void set_pfm_fwd_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_pfm_fwd_dis_bool(bool read_from_i2c);
-  void set_pfm_fwd_dis_raw(uint16_t value, bool read_from_i2c);
   void set_pfm_fwd_dis_bool(bool value, bool write_to_i2c);
 
   // WKUP_DLY - Wakeup (Ship FET) delay
   uint16_t get_wkup_dly_raw(bool read_from_i2c);
+  void set_wkup_dly_raw(uint16_t value, bool write_to_i2c);
+
   bool get_wkup_dly_bool(bool read_from_i2c);
+  void set_wkup_dly_bool(bool value, bool write_to_i2c);
   int get_wkup_dly_enum_int(bool read_from_i2c);
   const char* get_wkup_dly_enum_string(bool read_from_i2c);
-  void set_wkup_dly_raw(uint16_t value, bool read_from_i2c);
-  void set_wkup_dly_bool(bool value, bool write_to_i2c);
   void set_wkup_dly_enum_int(int value, bool write_to_i2c);
 
   // DIS_LDO - Disable BATFET LDO mode in precharge state
   uint16_t get_dis_ldo_raw(bool read_from_i2c);
+  void set_dis_ldo_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_ldo_bool(bool read_from_i2c);
-  void set_dis_ldo_raw(uint16_t value, bool read_from_i2c);
   void set_dis_ldo_bool(bool value, bool write_to_i2c);
 
   // DIS_OTG_OOA - Disable OOA in OTG mode
   uint16_t get_dis_otg_ooa_raw(bool read_from_i2c);
+  void set_dis_otg_ooa_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_otg_ooa_bool(bool read_from_i2c);
-  void set_dis_otg_ooa_raw(uint16_t value, bool read_from_i2c);
   void set_dis_otg_ooa_bool(bool value, bool write_to_i2c);
 
   // DIS_FWD_OOA - Disable OOA in forward mode
   uint16_t get_dis_fwd_ooa_raw(bool read_from_i2c);
+  void set_dis_fwd_ooa_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_fwd_ooa_bool(bool read_from_i2c);
-  void set_dis_fwd_ooa_raw(uint16_t value, bool read_from_i2c);
   void set_dis_fwd_ooa_bool(bool value, bool write_to_i2c);
 
   // EN_ACDRV2 - Enable AC2 gate driver control
   uint16_t get_en_acdrv2_raw(bool read_from_i2c);
+  void set_en_acdrv2_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_acdrv2_bool(bool read_from_i2c);
-  void set_en_acdrv2_raw(uint16_t value, bool read_from_i2c);
   void set_en_acdrv2_bool(bool value, bool write_to_i2c);
 
   // EN_ACDRV1 - Enable AC1 gate driver control
   uint16_t get_en_acdrv1_raw(bool read_from_i2c);
+  void set_en_acdrv1_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_acdrv1_bool(bool read_from_i2c);
-  void set_en_acdrv1_raw(uint16_t value, bool read_from_i2c);
   void set_en_acdrv1_bool(bool value, bool write_to_i2c);
 
   // PWM_FREQ - PWM frequency setting
   uint16_t get_pwm_freq_raw(bool read_from_i2c);
+  void set_pwm_freq_raw(uint16_t value, bool write_to_i2c);
+
   bool get_pwm_freq_bool(bool read_from_i2c);
+  void set_pwm_freq_bool(bool value, bool write_to_i2c);
   int get_pwm_freq_enum_int(bool read_from_i2c);
   const char* get_pwm_freq_enum_string(bool read_from_i2c);
-  void set_pwm_freq_raw(uint16_t value, bool read_from_i2c);
-  void set_pwm_freq_bool(bool value, bool write_to_i2c);
   void set_pwm_freq_enum_int(int value, bool write_to_i2c);
 
   // DIS_STAT - Disable STAT pin output
   uint16_t get_dis_stat_raw(bool read_from_i2c);
+  void set_dis_stat_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_stat_bool(bool read_from_i2c);
-  void set_dis_stat_raw(uint16_t value, bool read_from_i2c);
   void set_dis_stat_bool(bool value, bool write_to_i2c);
 
   // DIS_VSYS_SHORT - Disable VSYS short hiccup protection
   uint16_t get_dis_vsys_short_raw(bool read_from_i2c);
+  void set_dis_vsys_short_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_vsys_short_bool(bool read_from_i2c);
-  void set_dis_vsys_short_raw(uint16_t value, bool read_from_i2c);
   void set_dis_vsys_short_bool(bool value, bool write_to_i2c);
 
   // DIS_VOTG_UVP - Disable VOTG under voltage hiccup protection
   uint16_t get_dis_votg_uvp_raw(bool read_from_i2c);
+  void set_dis_votg_uvp_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dis_votg_uvp_bool(bool read_from_i2c);
-  void set_dis_votg_uvp_raw(uint16_t value, bool read_from_i2c);
   void set_dis_votg_uvp_bool(bool value, bool write_to_i2c);
 
   // FORCE_VINDPM_DET - Force VINDPM detection (settable only when VBAT>VSYSMIN)
   uint16_t get_force_vindpm_det_raw(bool read_from_i2c);
+  void set_force_vindpm_det_raw(uint16_t value, bool write_to_i2c);
+
   bool get_force_vindpm_det_bool(bool read_from_i2c);
-  void set_force_vindpm_det_raw(uint16_t value, bool read_from_i2c);
   void set_force_vindpm_det_bool(bool value, bool write_to_i2c);
 
   // EN_IBUS_OCP - Enable input over current protection in forward mode
   uint16_t get_en_ibus_ocp_raw(bool read_from_i2c);
+  void set_en_ibus_ocp_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_ibus_ocp_bool(bool read_from_i2c);
-  void set_en_ibus_ocp_raw(uint16_t value, bool read_from_i2c);
   void set_en_ibus_ocp_bool(bool value, bool write_to_i2c);
 
   // SFET_PRESENT - Ship FET present
   uint16_t get_sfet_present_raw(bool read_from_i2c);
+  void set_sfet_present_raw(uint16_t value, bool write_to_i2c);
+
   bool get_sfet_present_bool(bool read_from_i2c);
-  void set_sfet_present_raw(uint16_t value, bool read_from_i2c);
   void set_sfet_present_bool(bool value, bool write_to_i2c);
 
   // EN_IBAT - Enable battery discharge current sensing
   uint16_t get_en_ibat_raw(bool read_from_i2c);
+  void set_en_ibat_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_ibat_bool(bool read_from_i2c);
-  void set_en_ibat_raw(uint16_t value, bool read_from_i2c);
   void set_en_ibat_bool(bool value, bool write_to_i2c);
 
   // IBAT_REG - Battery discharge current regulation in OTG mode
   uint16_t get_ibat_reg_raw(bool read_from_i2c);
+  void set_ibat_reg_raw(uint16_t value, bool write_to_i2c);
+
   int get_ibat_reg_enum_int(bool read_from_i2c);
   const char* get_ibat_reg_enum_string(bool read_from_i2c);
-  void set_ibat_reg_raw(uint16_t value, bool read_from_i2c);
   void set_ibat_reg_enum_int(int value, bool write_to_i2c);
 
   // EN_IINDPM - Enable input current regulation
   uint16_t get_en_iindpm_raw(bool read_from_i2c);
+  void set_en_iindpm_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_iindpm_bool(bool read_from_i2c);
-  void set_en_iindpm_raw(uint16_t value, bool read_from_i2c);
   void set_en_iindpm_bool(bool value, bool write_to_i2c);
 
   // EN_EXTILIM - Enable external ILIM_HIZ pin current regulation
   uint16_t get_en_extilim_raw(bool read_from_i2c);
+  void set_en_extilim_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_extilim_bool(bool read_from_i2c);
-  void set_en_extilim_raw(uint16_t value, bool read_from_i2c);
   void set_en_extilim_bool(bool value, bool write_to_i2c);
 
   // EN_BATOC - Enable battery discharging over current protection
   uint16_t get_en_batoc_raw(bool read_from_i2c);
+  void set_en_batoc_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_batoc_bool(bool read_from_i2c);
-  void set_en_batoc_raw(uint16_t value, bool read_from_i2c);
   void set_en_batoc_bool(bool value, bool write_to_i2c);
 
   // VOC_PCT - 
   uint16_t get_voc_pct_raw(bool read_from_i2c);
+  void set_voc_pct_raw(uint16_t value, bool write_to_i2c);
+
   int get_voc_pct_enum_int(bool read_from_i2c);
   const char* get_voc_pct_enum_string(bool read_from_i2c);
-  void set_voc_pct_raw(uint16_t value, bool read_from_i2c);
   void set_voc_pct_enum_int(int value, bool write_to_i2c);
 
   // VOC_DLY - 
   uint16_t get_voc_dly_raw(bool read_from_i2c);
+  void set_voc_dly_raw(uint16_t value, bool write_to_i2c);
+
   int get_voc_dly_enum_int(bool read_from_i2c);
   const char* get_voc_dly_enum_string(bool read_from_i2c);
-  void set_voc_dly_raw(uint16_t value, bool read_from_i2c);
   void set_voc_dly_enum_int(int value, bool write_to_i2c);
 
   // VOC_RATE - 
   uint16_t get_voc_rate_raw(bool read_from_i2c);
+  void set_voc_rate_raw(uint16_t value, bool write_to_i2c);
+
   int get_voc_rate_enum_int(bool read_from_i2c);
   const char* get_voc_rate_enum_string(bool read_from_i2c);
-  void set_voc_rate_raw(uint16_t value, bool read_from_i2c);
   void set_voc_rate_enum_int(int value, bool write_to_i2c);
 
   // EN_MPPT - 
   uint16_t get_en_mppt_raw(bool read_from_i2c);
+  void set_en_mppt_raw(uint16_t value, bool write_to_i2c);
+
   bool get_en_mppt_bool(bool read_from_i2c);
-  void set_en_mppt_raw(uint16_t value, bool read_from_i2c);
   void set_en_mppt_bool(bool value, bool write_to_i2c);
 
   // TREG - 
   uint16_t get_treg_raw(bool read_from_i2c);
+  void set_treg_raw(uint16_t value, bool write_to_i2c);
+
   int get_treg_enum_int(bool read_from_i2c);
   const char* get_treg_enum_string(bool read_from_i2c);
-  void set_treg_raw(uint16_t value, bool read_from_i2c);
   void set_treg_enum_int(int value, bool write_to_i2c);
 
   // TSHUT - 
   uint16_t get_tshut_raw(bool read_from_i2c);
+  void set_tshut_raw(uint16_t value, bool write_to_i2c);
+
   int get_tshut_enum_int(bool read_from_i2c);
   const char* get_tshut_enum_string(bool read_from_i2c);
-  void set_tshut_raw(uint16_t value, bool read_from_i2c);
   void set_tshut_enum_int(int value, bool write_to_i2c);
 
   // VBUS_PD_EN - 
   uint16_t get_vbus_pd_en_raw(bool read_from_i2c);
+  void set_vbus_pd_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vbus_pd_en_bool(bool read_from_i2c);
-  void set_vbus_pd_en_raw(uint16_t value, bool read_from_i2c);
   void set_vbus_pd_en_bool(bool value, bool write_to_i2c);
 
   // VAC1_PD_EN - 
   uint16_t get_vac1_pd_en_raw(bool read_from_i2c);
+  void set_vac1_pd_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vac1_pd_en_bool(bool read_from_i2c);
-  void set_vac1_pd_en_raw(uint16_t value, bool read_from_i2c);
   void set_vac1_pd_en_bool(bool value, bool write_to_i2c);
 
   // VAC2_PD_EN - 
   uint16_t get_vac2_pd_en_raw(bool read_from_i2c);
+  void set_vac2_pd_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vac2_pd_en_bool(bool read_from_i2c);
-  void set_vac2_pd_en_raw(uint16_t value, bool read_from_i2c);
   void set_vac2_pd_en_bool(bool value, bool write_to_i2c);
 
   // BKUP_ACFET1_ON - 
   uint16_t get_bkup_acfet1_on_raw(bool read_from_i2c);
+  void set_bkup_acfet1_on_raw(uint16_t value, bool write_to_i2c);
+
   bool get_bkup_acfet1_on_bool(bool read_from_i2c);
+  void set_bkup_acfet1_on_bool(bool value, bool write_to_i2c);
   int get_bkup_acfet1_on_enum_int(bool read_from_i2c);
   const char* get_bkup_acfet1_on_enum_string(bool read_from_i2c);
-  void set_bkup_acfet1_on_raw(uint16_t value, bool read_from_i2c);
-  void set_bkup_acfet1_on_bool(bool value, bool write_to_i2c);
   void set_bkup_acfet1_on_enum_int(int value, bool write_to_i2c);
 
   // JEITA_VSET - 
   uint16_t get_jeita_vset_raw(bool read_from_i2c);
+  void set_jeita_vset_raw(uint16_t value, bool write_to_i2c);
+
   int get_jeita_vset_enum_int(bool read_from_i2c);
   const char* get_jeita_vset_enum_string(bool read_from_i2c);
-  void set_jeita_vset_raw(uint16_t value, bool read_from_i2c);
   void set_jeita_vset_enum_int(int value, bool write_to_i2c);
 
   // JEITA_ISETH - 
   uint16_t get_jeita_iseth_raw(bool read_from_i2c);
+  void set_jeita_iseth_raw(uint16_t value, bool write_to_i2c);
+
   int get_jeita_iseth_enum_int(bool read_from_i2c);
   const char* get_jeita_iseth_enum_string(bool read_from_i2c);
-  void set_jeita_iseth_raw(uint16_t value, bool read_from_i2c);
   void set_jeita_iseth_enum_int(int value, bool write_to_i2c);
 
   // JEITA_ISETC - 
   uint16_t get_jeita_isetc_raw(bool read_from_i2c);
+  void set_jeita_isetc_raw(uint16_t value, bool write_to_i2c);
+
   int get_jeita_isetc_enum_int(bool read_from_i2c);
   const char* get_jeita_isetc_enum_string(bool read_from_i2c);
-  void set_jeita_isetc_raw(uint16_t value, bool read_from_i2c);
   void set_jeita_isetc_enum_int(int value, bool write_to_i2c);
 
   // TS_COOL - 
   uint16_t get_ts_cool_raw(bool read_from_i2c);
+  void set_ts_cool_raw(uint16_t value, bool write_to_i2c);
+
   int get_ts_cool_enum_int(bool read_from_i2c);
   const char* get_ts_cool_enum_string(bool read_from_i2c);
-  void set_ts_cool_raw(uint16_t value, bool read_from_i2c);
   void set_ts_cool_enum_int(int value, bool write_to_i2c);
 
   // TS_WARM - 
   uint16_t get_ts_warm_raw(bool read_from_i2c);
+  void set_ts_warm_raw(uint16_t value, bool write_to_i2c);
+
   int get_ts_warm_enum_int(bool read_from_i2c);
   const char* get_ts_warm_enum_string(bool read_from_i2c);
-  void set_ts_warm_raw(uint16_t value, bool read_from_i2c);
   void set_ts_warm_enum_int(int value, bool write_to_i2c);
 
   // BHOT - 
   uint16_t get_bhot_raw(bool read_from_i2c);
+  void set_bhot_raw(uint16_t value, bool write_to_i2c);
+
   int get_bhot_enum_int(bool read_from_i2c);
   const char* get_bhot_enum_string(bool read_from_i2c);
-  void set_bhot_raw(uint16_t value, bool read_from_i2c);
   void set_bhot_enum_int(int value, bool write_to_i2c);
 
   // BCOLD - 
   uint16_t get_bcold_raw(bool read_from_i2c);
+  void set_bcold_raw(uint16_t value, bool write_to_i2c);
+
   bool get_bcold_bool(bool read_from_i2c);
+  void set_bcold_bool(bool value, bool write_to_i2c);
   int get_bcold_enum_int(bool read_from_i2c);
   const char* get_bcold_enum_string(bool read_from_i2c);
-  void set_bcold_raw(uint16_t value, bool read_from_i2c);
-  void set_bcold_bool(bool value, bool write_to_i2c);
   void set_bcold_enum_int(int value, bool write_to_i2c);
 
   // TS_IGNORE - 
   uint16_t get_ts_ignore_raw(bool read_from_i2c);
+  void set_ts_ignore_raw(uint16_t value, bool write_to_i2c);
+
   bool get_ts_ignore_bool(bool read_from_i2c);
-  void set_ts_ignore_raw(uint16_t value, bool read_from_i2c);
   void set_ts_ignore_bool(bool value, bool write_to_i2c);
 
   // ICO_ILIM - 
   uint16_t get_ico_ilim_raw(bool read_from_i2c);
+
   int get_ico_ilim_int(bool read_from_i2c);
 
   // IINDPM_STAT - 
   uint16_t get_iindpm_stat_raw(bool read_from_i2c);
+
   bool get_iindpm_stat_bool(bool read_from_i2c);
   int get_iindpm_stat_enum_int(bool read_from_i2c);
   const char* get_iindpm_stat_enum_string(bool read_from_i2c);
 
   // VINDPM_STAT - 
   uint16_t get_vindpm_stat_raw(bool read_from_i2c);
+
   bool get_vindpm_stat_bool(bool read_from_i2c);
   int get_vindpm_stat_enum_int(bool read_from_i2c);
   const char* get_vindpm_stat_enum_string(bool read_from_i2c);
 
   // WD_STAT - 
   uint16_t get_wd_stat_raw(bool read_from_i2c);
+
   bool get_wd_stat_bool(bool read_from_i2c);
   int get_wd_stat_enum_int(bool read_from_i2c);
   const char* get_wd_stat_enum_string(bool read_from_i2c);
 
   // PG_STAT - 
   uint16_t get_pg_stat_raw(bool read_from_i2c);
+
   bool get_pg_stat_bool(bool read_from_i2c);
   int get_pg_stat_enum_int(bool read_from_i2c);
   const char* get_pg_stat_enum_string(bool read_from_i2c);
 
   // AC2_PRESENT_STAT - 
   uint16_t get_ac2_present_stat_raw(bool read_from_i2c);
+
   bool get_ac2_present_stat_bool(bool read_from_i2c);
   int get_ac2_present_stat_enum_int(bool read_from_i2c);
   const char* get_ac2_present_stat_enum_string(bool read_from_i2c);
 
   // AC1_PRESENT_STAT - 
   uint16_t get_ac1_present_stat_raw(bool read_from_i2c);
+
   bool get_ac1_present_stat_bool(bool read_from_i2c);
   int get_ac1_present_stat_enum_int(bool read_from_i2c);
   const char* get_ac1_present_stat_enum_string(bool read_from_i2c);
 
   // VBUS_PRESENT_STAT - 
   uint16_t get_vbus_present_stat_raw(bool read_from_i2c);
+
   bool get_vbus_present_stat_bool(bool read_from_i2c);
   int get_vbus_present_stat_enum_int(bool read_from_i2c);
   const char* get_vbus_present_stat_enum_string(bool read_from_i2c);
 
   // CHG_STAT - Charge Status bits
   uint16_t get_chg_stat_raw(bool read_from_i2c);
+
   int get_chg_stat_enum_int(bool read_from_i2c);
   const char* get_chg_stat_enum_string(bool read_from_i2c);
 
   // VBUS_STAT - VBUS status bits
   uint16_t get_vbus_stat_raw(bool read_from_i2c);
+
   int get_vbus_stat_enum_int(bool read_from_i2c);
   const char* get_vbus_stat_enum_string(bool read_from_i2c);
 
   // BC12_DONE_STAT - 
   uint16_t get_bc12_done_stat_raw(bool read_from_i2c);
+
   bool get_bc12_done_stat_bool(bool read_from_i2c);
 
   // ICO_STAT - 
   uint16_t get_ico_stat_raw(bool read_from_i2c);
+
   int get_ico_stat_enum_int(bool read_from_i2c);
   const char* get_ico_stat_enum_string(bool read_from_i2c);
 
   // TREG_STAT - 
   uint16_t get_treg_stat_raw(bool read_from_i2c);
+
   bool get_treg_stat_bool(bool read_from_i2c);
   int get_treg_stat_enum_int(bool read_from_i2c);
   const char* get_treg_stat_enum_string(bool read_from_i2c);
 
   // DPDM_STAT - 
   uint16_t get_dpdm_stat_raw(bool read_from_i2c);
+
   bool get_dpdm_stat_bool(bool read_from_i2c);
   int get_dpdm_stat_enum_int(bool read_from_i2c);
   const char* get_dpdm_stat_enum_string(bool read_from_i2c);
 
   // VBAT_PRESENT_STAT - 
   uint16_t get_vbat_present_stat_raw(bool read_from_i2c);
+
   bool get_vbat_present_stat_bool(bool read_from_i2c);
   int get_vbat_present_stat_enum_int(bool read_from_i2c);
   const char* get_vbat_present_stat_enum_string(bool read_from_i2c);
 
   // ACRB2_STAT - The ACFET2-RBFET2 status
   uint16_t get_acrb2_stat_raw(bool read_from_i2c);
+
   bool get_acrb2_stat_bool(bool read_from_i2c);
   int get_acrb2_stat_enum_int(bool read_from_i2c);
   const char* get_acrb2_stat_enum_string(bool read_from_i2c);
 
   // ACRB1_STAT - The ACFET1-RBFET1 status
   uint16_t get_acrb1_stat_raw(bool read_from_i2c);
+
   bool get_acrb1_stat_bool(bool read_from_i2c);
   int get_acrb1_stat_enum_int(bool read_from_i2c);
   const char* get_acrb1_stat_enum_string(bool read_from_i2c);
 
   // ADC_DONE_STAT - ADC Conversion Status
   uint16_t get_adc_done_stat_raw(bool read_from_i2c);
+
   bool get_adc_done_stat_bool(bool read_from_i2c);
 
   // VSYS_STAT - VSYS Regulation Status
   uint16_t get_vsys_stat_raw(bool read_from_i2c);
+
   bool get_vsys_stat_bool(bool read_from_i2c);
   int get_vsys_stat_enum_int(bool read_from_i2c);
   const char* get_vsys_stat_enum_string(bool read_from_i2c);
 
   // CHG_TMR_STAT - Fast charge timer status
   uint16_t get_chg_tmr_stat_raw(bool read_from_i2c);
+
   bool get_chg_tmr_stat_bool(bool read_from_i2c);
   int get_chg_tmr_stat_enum_int(bool read_from_i2c);
   const char* get_chg_tmr_stat_enum_string(bool read_from_i2c);
 
   // TRICHG_TMR_STAT - Trickle charge timer status
   uint16_t get_trichg_tmr_stat_raw(bool read_from_i2c);
+
   bool get_trichg_tmr_stat_bool(bool read_from_i2c);
   int get_trichg_tmr_stat_enum_int(bool read_from_i2c);
   const char* get_trichg_tmr_stat_enum_string(bool read_from_i2c);
 
   // PRECHG_TMR_STAT - Pre-charge timer status
   uint16_t get_prechg_tmr_stat_raw(bool read_from_i2c);
+
   bool get_prechg_tmr_stat_bool(bool read_from_i2c);
   int get_prechg_tmr_stat_enum_int(bool read_from_i2c);
   const char* get_prechg_tmr_stat_enum_string(bool read_from_i2c);
 
   // VBATOTG_LOW_STAT - VBAT too low to enable OTG flag
   uint16_t get_vbatotg_low_stat_raw(bool read_from_i2c);
+
   bool get_vbatotg_low_stat_bool(bool read_from_i2c);
   int get_vbatotg_low_stat_enum_int(bool read_from_i2c);
   const char* get_vbatotg_low_stat_enum_string(bool read_from_i2c);
 
   // TS_COLD_STAT - The TS temperature is in the cold range
   uint16_t get_ts_cold_stat_raw(bool read_from_i2c);
+
   bool get_ts_cold_stat_bool(bool read_from_i2c);
   int get_ts_cold_stat_enum_int(bool read_from_i2c);
   const char* get_ts_cold_stat_enum_string(bool read_from_i2c);
 
   // TS_COOL_STAT - The TS temperature is in the cool range
   uint16_t get_ts_cool_stat_raw(bool read_from_i2c);
+
   bool get_ts_cool_stat_bool(bool read_from_i2c);
   int get_ts_cool_stat_enum_int(bool read_from_i2c);
   const char* get_ts_cool_stat_enum_string(bool read_from_i2c);
 
   // TS_WARM_STAT - The TS temperature is in the warm range
   uint16_t get_ts_warm_stat_raw(bool read_from_i2c);
+
   bool get_ts_warm_stat_bool(bool read_from_i2c);
   int get_ts_warm_stat_enum_int(bool read_from_i2c);
   const char* get_ts_warm_stat_enum_string(bool read_from_i2c);
 
   // TS_HOT_STAT - The TS temperature is in the hot range
   uint16_t get_ts_hot_stat_raw(bool read_from_i2c);
+
   bool get_ts_hot_stat_bool(bool read_from_i2c);
   int get_ts_hot_stat_enum_int(bool read_from_i2c);
   const char* get_ts_hot_stat_enum_string(bool read_from_i2c);
 
   // IBAT_REG_STAT - IBAT regulation status
   uint16_t get_ibat_reg_stat_raw(bool read_from_i2c);
+
   bool get_ibat_reg_stat_bool(bool read_from_i2c);
 
   // VBUS_OVP_STAT - VBUS over-voltage status
   uint16_t get_vbus_ovp_stat_raw(bool read_from_i2c);
+
   bool get_vbus_ovp_stat_bool(bool read_from_i2c);
 
   // VBAT_OVP_STAT - VBAT over-voltage status
   uint16_t get_vbat_ovp_stat_raw(bool read_from_i2c);
+
   bool get_vbat_ovp_stat_bool(bool read_from_i2c);
 
   // IBUS_OCP_STAT - IBUS over-current status
   uint16_t get_ibus_ocp_stat_raw(bool read_from_i2c);
+
   bool get_ibus_ocp_stat_bool(bool read_from_i2c);
 
   // IBAT_OCP_STAT - IBAT over-current status
   uint16_t get_ibat_ocp_stat_raw(bool read_from_i2c);
+
   bool get_ibat_ocp_stat_bool(bool read_from_i2c);
 
   // CONV_OCP_STAT - Converter over-current status
   uint16_t get_conv_ocp_stat_raw(bool read_from_i2c);
+
   bool get_conv_ocp_stat_bool(bool read_from_i2c);
 
   // VAC2_OVP_STAT - VAC2 over-voltage status
   uint16_t get_vac2_ovp_stat_raw(bool read_from_i2c);
+
   bool get_vac2_ovp_stat_bool(bool read_from_i2c);
 
   // VAC1_OVP_STAT - VAC1 over-voltage status
   uint16_t get_vac1_ovp_stat_raw(bool read_from_i2c);
+
   bool get_vac1_ovp_stat_bool(bool read_from_i2c);
 
   // VSYS_SHORT_STAT - 
   uint16_t get_vsys_short_stat_raw(bool read_from_i2c);
+
   bool get_vsys_short_stat_bool(bool read_from_i2c);
 
   // VSYS_OVP_STAT - 
   uint16_t get_vsys_ovp_stat_raw(bool read_from_i2c);
+
   bool get_vsys_ovp_stat_bool(bool read_from_i2c);
 
   // OTG_OVP_STAT - 
   uint16_t get_otg_ovp_stat_raw(bool read_from_i2c);
+
   bool get_otg_ovp_stat_bool(bool read_from_i2c);
 
   // OTG_UVP_STAT - 
   uint16_t get_otg_uvp_stat_raw(bool read_from_i2c);
+
   bool get_otg_uvp_stat_bool(bool read_from_i2c);
 
   // TSHUT_STAT - 
   uint16_t get_tshut_stat_raw(bool read_from_i2c);
+
   bool get_tshut_stat_bool(bool read_from_i2c);
 
   // IINDPM_FLAG - In IINDPM / IOTG regulation
   uint16_t get_iindpm_flag_raw(bool read_from_i2c);
+
   bool get_iindpm_flag_bool(bool read_from_i2c);
-  void clear_flag_iindpm_flag() { this->last_raw_value_iindpm_flag_ = 0; }
-  void raise_flag_iindpm_flag() { this->last_raw_value_iindpm_flag_ = 1; }
+  void clear_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 0; }
+  void raise_flag_iindpm_flag() { this->last_iindpm_flag_raw_ = 1; }
 
   // VINDPM_FLAG - In VINDPM / VOTG regulation
   uint16_t get_vindpm_flag_raw(bool read_from_i2c);
+
   bool get_vindpm_flag_bool(bool read_from_i2c);
-  void clear_flag_vindpm_flag() { this->last_raw_value_vindpm_flag_ = 0; }
-  void raise_flag_vindpm_flag() { this->last_raw_value_vindpm_flag_ = 1; }
+  void clear_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 0; }
+  void raise_flag_vindpm_flag() { this->last_vindpm_flag_raw_ = 1; }
 
   // WD_FLAG - Watchdog timer expired
   uint16_t get_wd_flag_raw(bool read_from_i2c);
+
   bool get_wd_flag_bool(bool read_from_i2c);
-  void clear_flag_wd_flag() { this->last_raw_value_wd_flag_ = 0; }
-  void raise_flag_wd_flag() { this->last_raw_value_wd_flag_ = 1; }
+  void clear_flag_wd_flag() { this->last_wd_flag_raw_ = 0; }
+  void raise_flag_wd_flag() { this->last_wd_flag_raw_ = 1; }
 
   // POORSRC_FLAG - Poor source detected
   uint16_t get_poorsrc_flag_raw(bool read_from_i2c);
+
   bool get_poorsrc_flag_bool(bool read_from_i2c);
-  void clear_flag_poorsrc_flag() { this->last_raw_value_poorsrc_flag_ = 0; }
-  void raise_flag_poorsrc_flag() { this->last_raw_value_poorsrc_flag_ = 1; }
+  void clear_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 0; }
+  void raise_flag_poorsrc_flag() { this->last_poorsrc_flag_raw_ = 1; }
 
   // PG_FLAG - Power status changed
   uint16_t get_pg_flag_raw(bool read_from_i2c);
+
   bool get_pg_flag_bool(bool read_from_i2c);
-  void clear_flag_pg_flag() { this->last_raw_value_pg_flag_ = 0; }
-  void raise_flag_pg_flag() { this->last_raw_value_pg_flag_ = 1; }
+  void clear_flag_pg_flag() { this->last_pg_flag_raw_ = 0; }
+  void raise_flag_pg_flag() { this->last_pg_flag_raw_ = 1; }
 
   // AC2_PRESENT_FLAG - AC2 present status changed
   uint16_t get_ac2_present_flag_raw(bool read_from_i2c);
+
   bool get_ac2_present_flag_bool(bool read_from_i2c);
-  void clear_flag_ac2_present_flag() { this->last_raw_value_ac2_present_flag_ = 0; }
-  void raise_flag_ac2_present_flag() { this->last_raw_value_ac2_present_flag_ = 1; }
+  void clear_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 0; }
+  void raise_flag_ac2_present_flag() { this->last_ac2_present_flag_raw_ = 1; }
 
   // AC1_PRESENT_FLAG - AC1 present status changed
   uint16_t get_ac1_present_flag_raw(bool read_from_i2c);
+
   bool get_ac1_present_flag_bool(bool read_from_i2c);
-  void clear_flag_ac1_present_flag() { this->last_raw_value_ac1_present_flag_ = 0; }
-  void raise_flag_ac1_present_flag() { this->last_raw_value_ac1_present_flag_ = 1; }
+  void clear_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 0; }
+  void raise_flag_ac1_present_flag() { this->last_ac1_present_flag_raw_ = 1; }
 
   // VBUS_PRESENT_FLAG - VBUS present status changed
   uint16_t get_vbus_present_flag_raw(bool read_from_i2c);
+
   bool get_vbus_present_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_present_flag() { this->last_raw_value_vbus_present_flag_ = 0; }
-  void raise_flag_vbus_present_flag() { this->last_raw_value_vbus_present_flag_ = 1; }
+  void clear_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 0; }
+  void raise_flag_vbus_present_flag() { this->last_vbus_present_flag_raw_ = 1; }
 
   // CHG_FLAG - Charging status changed
   uint16_t get_chg_flag_raw(bool read_from_i2c);
+
   bool get_chg_flag_bool(bool read_from_i2c);
-  void clear_flag_chg_flag() { this->last_raw_value_chg_flag_ = 0; }
-  void raise_flag_chg_flag() { this->last_raw_value_chg_flag_ = 1; }
+  void clear_flag_chg_flag() { this->last_chg_flag_raw_ = 0; }
+  void raise_flag_chg_flag() { this->last_chg_flag_raw_ = 1; }
 
   // ICO_FLAG - ICO status changed
   uint16_t get_ico_flag_raw(bool read_from_i2c);
+
   bool get_ico_flag_bool(bool read_from_i2c);
-  void clear_flag_ico_flag() { this->last_raw_value_ico_flag_ = 0; }
-  void raise_flag_ico_flag() { this->last_raw_value_ico_flag_ = 1; }
+  void clear_flag_ico_flag() { this->last_ico_flag_raw_ = 0; }
+  void raise_flag_ico_flag() { this->last_ico_flag_raw_ = 1; }
 
   // VBUS_FLAG - VBUS status changed
   uint16_t get_vbus_flag_raw(bool read_from_i2c);
+
   bool get_vbus_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_flag() { this->last_raw_value_vbus_flag_ = 0; }
-  void raise_flag_vbus_flag() { this->last_raw_value_vbus_flag_ = 1; }
+  void clear_flag_vbus_flag() { this->last_vbus_flag_raw_ = 0; }
+  void raise_flag_vbus_flag() { this->last_vbus_flag_raw_ = 1; }
 
   // TREG_FLAG - 
   uint16_t get_treg_flag_raw(bool read_from_i2c);
+
   bool get_treg_flag_bool(bool read_from_i2c);
-  void clear_flag_treg_flag() { this->last_raw_value_treg_flag_ = 0; }
-  void raise_flag_treg_flag() { this->last_raw_value_treg_flag_ = 1; }
+  void clear_flag_treg_flag() { this->last_treg_flag_raw_ = 0; }
+  void raise_flag_treg_flag() { this->last_treg_flag_raw_ = 1; }
 
   // VBAT_PRESENT_FLAG - 
   uint16_t get_vbat_present_flag_raw(bool read_from_i2c);
+
   bool get_vbat_present_flag_bool(bool read_from_i2c);
-  void clear_flag_vbat_present_flag() { this->last_raw_value_vbat_present_flag_ = 0; }
-  void raise_flag_vbat_present_flag() { this->last_raw_value_vbat_present_flag_ = 1; }
+  void clear_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 0; }
+  void raise_flag_vbat_present_flag() { this->last_vbat_present_flag_raw_ = 1; }
 
   // BC1_2_DONE_FLAG - 
   uint16_t get_bc1_2_done_flag_raw(bool read_from_i2c);
+
   bool get_bc1_2_done_flag_bool(bool read_from_i2c);
-  void clear_flag_bc1_2_done_flag() { this->last_raw_value_bc1_2_done_flag_ = 0; }
-  void raise_flag_bc1_2_done_flag() { this->last_raw_value_bc1_2_done_flag_ = 1; }
+  void clear_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 0; }
+  void raise_flag_bc1_2_done_flag() { this->last_bc1_2_done_flag_raw_ = 1; }
 
   // DPDM_DONE_FLAG - 
   uint16_t get_dpdm_done_flag_raw(bool read_from_i2c);
+
   bool get_dpdm_done_flag_bool(bool read_from_i2c);
-  void clear_flag_dpdm_done_flag() { this->last_raw_value_dpdm_done_flag_ = 0; }
-  void raise_flag_dpdm_done_flag() { this->last_raw_value_dpdm_done_flag_ = 1; }
+  void clear_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 0; }
+  void raise_flag_dpdm_done_flag() { this->last_dpdm_done_flag_raw_ = 1; }
 
   // ADC_DONE_FLAG - 
   uint16_t get_adc_done_flag_raw(bool read_from_i2c);
+
   bool get_adc_done_flag_bool(bool read_from_i2c);
-  void clear_flag_adc_done_flag() { this->last_raw_value_adc_done_flag_ = 0; }
-  void raise_flag_adc_done_flag() { this->last_raw_value_adc_done_flag_ = 1; }
+  void clear_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 0; }
+  void raise_flag_adc_done_flag() { this->last_adc_done_flag_raw_ = 1; }
 
   // VSYS_FLAG - 
   uint16_t get_vsys_flag_raw(bool read_from_i2c);
+
   bool get_vsys_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_flag() { this->last_raw_value_vsys_flag_ = 0; }
-  void raise_flag_vsys_flag() { this->last_raw_value_vsys_flag_ = 1; }
+  void clear_flag_vsys_flag() { this->last_vsys_flag_raw_ = 0; }
+  void raise_flag_vsys_flag() { this->last_vsys_flag_raw_ = 1; }
 
   // CHG_TMR_FLAG - 
   uint16_t get_chg_tmr_flag_raw(bool read_from_i2c);
+
   bool get_chg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_chg_tmr_flag() { this->last_raw_value_chg_tmr_flag_ = 0; }
-  void raise_flag_chg_tmr_flag() { this->last_raw_value_chg_tmr_flag_ = 1; }
+  void clear_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 0; }
+  void raise_flag_chg_tmr_flag() { this->last_chg_tmr_flag_raw_ = 1; }
 
   // TRICHG_TMR_FLAG - 
   uint16_t get_trichg_tmr_flag_raw(bool read_from_i2c);
+
   bool get_trichg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_trichg_tmr_flag() { this->last_raw_value_trichg_tmr_flag_ = 0; }
-  void raise_flag_trichg_tmr_flag() { this->last_raw_value_trichg_tmr_flag_ = 1; }
+  void clear_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 0; }
+  void raise_flag_trichg_tmr_flag() { this->last_trichg_tmr_flag_raw_ = 1; }
 
   // PRECHG_TMR_FLAG - 
   uint16_t get_prechg_tmr_flag_raw(bool read_from_i2c);
+
   bool get_prechg_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_prechg_tmr_flag() { this->last_raw_value_prechg_tmr_flag_ = 0; }
-  void raise_flag_prechg_tmr_flag() { this->last_raw_value_prechg_tmr_flag_ = 1; }
+  void clear_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 0; }
+  void raise_flag_prechg_tmr_flag() { this->last_prechg_tmr_flag_raw_ = 1; }
 
   // TOPOFF_TMR_FLAG - 
   uint16_t get_topoff_tmr_flag_raw(bool read_from_i2c);
+
   bool get_topoff_tmr_flag_bool(bool read_from_i2c);
-  void clear_flag_topoff_tmr_flag() { this->last_raw_value_topoff_tmr_flag_ = 0; }
-  void raise_flag_topoff_tmr_flag() { this->last_raw_value_topoff_tmr_flag_ = 1; }
+  void clear_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 0; }
+  void raise_flag_topoff_tmr_flag() { this->last_topoff_tmr_flag_raw_ = 1; }
 
   // VBATOTG_LOW_FLAG - 
   uint16_t get_vbatotg_low_flag_raw(bool read_from_i2c);
+
   bool get_vbatotg_low_flag_bool(bool read_from_i2c);
-  void clear_flag_vbatotg_low_flag() { this->last_raw_value_vbatotg_low_flag_ = 0; }
-  void raise_flag_vbatotg_low_flag() { this->last_raw_value_vbatotg_low_flag_ = 1; }
+  void clear_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 0; }
+  void raise_flag_vbatotg_low_flag() { this->last_vbatotg_low_flag_raw_ = 1; }
 
   // TS_COLD_FLAG - 
   uint16_t get_ts_cold_flag_raw(bool read_from_i2c);
+
   bool get_ts_cold_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_cold_flag() { this->last_raw_value_ts_cold_flag_ = 0; }
-  void raise_flag_ts_cold_flag() { this->last_raw_value_ts_cold_flag_ = 1; }
+  void clear_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 0; }
+  void raise_flag_ts_cold_flag() { this->last_ts_cold_flag_raw_ = 1; }
 
   // TS_COOL_FLAG - 
   uint16_t get_ts_cool_flag_raw(bool read_from_i2c);
+
   bool get_ts_cool_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_cool_flag() { this->last_raw_value_ts_cool_flag_ = 0; }
-  void raise_flag_ts_cool_flag() { this->last_raw_value_ts_cool_flag_ = 1; }
+  void clear_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 0; }
+  void raise_flag_ts_cool_flag() { this->last_ts_cool_flag_raw_ = 1; }
 
   // TS_WARM_FLAG - 
   uint16_t get_ts_warm_flag_raw(bool read_from_i2c);
+
   bool get_ts_warm_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_warm_flag() { this->last_raw_value_ts_warm_flag_ = 0; }
-  void raise_flag_ts_warm_flag() { this->last_raw_value_ts_warm_flag_ = 1; }
+  void clear_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 0; }
+  void raise_flag_ts_warm_flag() { this->last_ts_warm_flag_raw_ = 1; }
 
   // TS_HOT_FLAG - 
   uint16_t get_ts_hot_flag_raw(bool read_from_i2c);
+
   bool get_ts_hot_flag_bool(bool read_from_i2c);
-  void clear_flag_ts_hot_flag() { this->last_raw_value_ts_hot_flag_ = 0; }
-  void raise_flag_ts_hot_flag() { this->last_raw_value_ts_hot_flag_ = 1; }
+  void clear_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 0; }
+  void raise_flag_ts_hot_flag() { this->last_ts_hot_flag_raw_ = 1; }
 
   // IBAT_REG_FLAG - 
   uint16_t get_ibat_reg_flag_raw(bool read_from_i2c);
+
   bool get_ibat_reg_flag_bool(bool read_from_i2c);
-  void clear_flag_ibat_reg_flag() { this->last_raw_value_ibat_reg_flag_ = 0; }
-  void raise_flag_ibat_reg_flag() { this->last_raw_value_ibat_reg_flag_ = 1; }
+  void clear_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 0; }
+  void raise_flag_ibat_reg_flag() { this->last_ibat_reg_flag_raw_ = 1; }
 
   // VBUS_OVP_FLAG - 
   uint16_t get_vbus_ovp_flag_raw(bool read_from_i2c);
+
   bool get_vbus_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vbus_ovp_flag() { this->last_raw_value_vbus_ovp_flag_ = 0; }
-  void raise_flag_vbus_ovp_flag() { this->last_raw_value_vbus_ovp_flag_ = 1; }
+  void clear_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 0; }
+  void raise_flag_vbus_ovp_flag() { this->last_vbus_ovp_flag_raw_ = 1; }
 
   // VBAT_OVP_FLAG - 
   uint16_t get_vbat_ovp_flag_raw(bool read_from_i2c);
+
   bool get_vbat_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vbat_ovp_flag() { this->last_raw_value_vbat_ovp_flag_ = 0; }
-  void raise_flag_vbat_ovp_flag() { this->last_raw_value_vbat_ovp_flag_ = 1; }
+  void clear_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 0; }
+  void raise_flag_vbat_ovp_flag() { this->last_vbat_ovp_flag_raw_ = 1; }
 
   // IBUS_OCP_FLAG - 
   uint16_t get_ibus_ocp_flag_raw(bool read_from_i2c);
+
   bool get_ibus_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_ibus_ocp_flag() { this->last_raw_value_ibus_ocp_flag_ = 0; }
-  void raise_flag_ibus_ocp_flag() { this->last_raw_value_ibus_ocp_flag_ = 1; }
+  void clear_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 0; }
+  void raise_flag_ibus_ocp_flag() { this->last_ibus_ocp_flag_raw_ = 1; }
 
   // IBAT_OCP_FLAG - 
   uint16_t get_ibat_ocp_flag_raw(bool read_from_i2c);
+
   bool get_ibat_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_ibat_ocp_flag() { this->last_raw_value_ibat_ocp_flag_ = 0; }
-  void raise_flag_ibat_ocp_flag() { this->last_raw_value_ibat_ocp_flag_ = 1; }
+  void clear_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 0; }
+  void raise_flag_ibat_ocp_flag() { this->last_ibat_ocp_flag_raw_ = 1; }
 
   // CONV_OCP_FLAG - 
   uint16_t get_conv_ocp_flag_raw(bool read_from_i2c);
+
   bool get_conv_ocp_flag_bool(bool read_from_i2c);
-  void clear_flag_conv_ocp_flag() { this->last_raw_value_conv_ocp_flag_ = 0; }
-  void raise_flag_conv_ocp_flag() { this->last_raw_value_conv_ocp_flag_ = 1; }
+  void clear_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 0; }
+  void raise_flag_conv_ocp_flag() { this->last_conv_ocp_flag_raw_ = 1; }
 
   // VAC2_OVP_FLAG - 
   uint16_t get_vac2_ovp_flag_raw(bool read_from_i2c);
+
   bool get_vac2_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vac2_ovp_flag() { this->last_raw_value_vac2_ovp_flag_ = 0; }
-  void raise_flag_vac2_ovp_flag() { this->last_raw_value_vac2_ovp_flag_ = 1; }
+  void clear_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 0; }
+  void raise_flag_vac2_ovp_flag() { this->last_vac2_ovp_flag_raw_ = 1; }
 
   // VAC1_OVP_FLAG - 
   uint16_t get_vac1_ovp_flag_raw(bool read_from_i2c);
+
   bool get_vac1_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vac1_ovp_flag() { this->last_raw_value_vac1_ovp_flag_ = 0; }
-  void raise_flag_vac1_ovp_flag() { this->last_raw_value_vac1_ovp_flag_ = 1; }
+  void clear_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 0; }
+  void raise_flag_vac1_ovp_flag() { this->last_vac1_ovp_flag_raw_ = 1; }
 
   // VSYS_SHORT_FLAG - 
   uint16_t get_vsys_short_flag_raw(bool read_from_i2c);
+
   bool get_vsys_short_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_short_flag() { this->last_raw_value_vsys_short_flag_ = 0; }
-  void raise_flag_vsys_short_flag() { this->last_raw_value_vsys_short_flag_ = 1; }
+  void clear_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 0; }
+  void raise_flag_vsys_short_flag() { this->last_vsys_short_flag_raw_ = 1; }
 
   // VSYS_OVP_FLAG - 
   uint16_t get_vsys_ovp_flag_raw(bool read_from_i2c);
+
   bool get_vsys_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_vsys_ovp_flag() { this->last_raw_value_vsys_ovp_flag_ = 0; }
-  void raise_flag_vsys_ovp_flag() { this->last_raw_value_vsys_ovp_flag_ = 1; }
+  void clear_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 0; }
+  void raise_flag_vsys_ovp_flag() { this->last_vsys_ovp_flag_raw_ = 1; }
 
   // OTG_OVP_FLAG - 
   uint16_t get_otg_ovp_flag_raw(bool read_from_i2c);
+
   bool get_otg_ovp_flag_bool(bool read_from_i2c);
-  void clear_flag_otg_ovp_flag() { this->last_raw_value_otg_ovp_flag_ = 0; }
-  void raise_flag_otg_ovp_flag() { this->last_raw_value_otg_ovp_flag_ = 1; }
+  void clear_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 0; }
+  void raise_flag_otg_ovp_flag() { this->last_otg_ovp_flag_raw_ = 1; }
 
   // OTG_UVP_FLAG - 
   uint16_t get_otg_uvp_flag_raw(bool read_from_i2c);
+
   bool get_otg_uvp_flag_bool(bool read_from_i2c);
-  void clear_flag_otg_uvp_flag() { this->last_raw_value_otg_uvp_flag_ = 0; }
-  void raise_flag_otg_uvp_flag() { this->last_raw_value_otg_uvp_flag_ = 1; }
+  void clear_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 0; }
+  void raise_flag_otg_uvp_flag() { this->last_otg_uvp_flag_raw_ = 1; }
 
   // TSHUT_FLAG - 
   uint16_t get_tshut_flag_raw(bool read_from_i2c);
+
   bool get_tshut_flag_bool(bool read_from_i2c);
-  void clear_flag_tshut_flag() { this->last_raw_value_tshut_flag_ = 0; }
-  void raise_flag_tshut_flag() { this->last_raw_value_tshut_flag_ = 1; }
+  void clear_flag_tshut_flag() { this->last_tshut_flag_raw_ = 0; }
+  void raise_flag_tshut_flag() { this->last_tshut_flag_raw_ = 1; }
 
   // ADC_EN - 
   uint16_t get_adc_en_raw(bool read_from_i2c);
+  void set_adc_en_raw(uint16_t value, bool write_to_i2c);
+
   bool get_adc_en_bool(bool read_from_i2c);
-  void set_adc_en_raw(uint16_t value, bool read_from_i2c);
   void set_adc_en_bool(bool value, bool write_to_i2c);
 
   // ADC_RATE - 
   uint16_t get_adc_rate_raw(bool read_from_i2c);
+  void set_adc_rate_raw(uint16_t value, bool write_to_i2c);
+
   bool get_adc_rate_bool(bool read_from_i2c);
+  void set_adc_rate_bool(bool value, bool write_to_i2c);
   int get_adc_rate_enum_int(bool read_from_i2c);
   const char* get_adc_rate_enum_string(bool read_from_i2c);
-  void set_adc_rate_raw(uint16_t value, bool read_from_i2c);
-  void set_adc_rate_bool(bool value, bool write_to_i2c);
   void set_adc_rate_enum_int(int value, bool write_to_i2c);
 
   // ADC_SAMPLE - 
   uint16_t get_adc_sample_raw(bool read_from_i2c);
+  void set_adc_sample_raw(uint16_t value, bool write_to_i2c);
+
   int get_adc_sample_enum_int(bool read_from_i2c);
   const char* get_adc_sample_enum_string(bool read_from_i2c);
-  void set_adc_sample_raw(uint16_t value, bool read_from_i2c);
   void set_adc_sample_enum_int(int value, bool write_to_i2c);
 
   // ADC_AVG - 
   uint16_t get_adc_avg_raw(bool read_from_i2c);
+  void set_adc_avg_raw(uint16_t value, bool write_to_i2c);
+
   bool get_adc_avg_bool(bool read_from_i2c);
+  void set_adc_avg_bool(bool value, bool write_to_i2c);
   int get_adc_avg_enum_int(bool read_from_i2c);
   const char* get_adc_avg_enum_string(bool read_from_i2c);
-  void set_adc_avg_raw(uint16_t value, bool read_from_i2c);
-  void set_adc_avg_bool(bool value, bool write_to_i2c);
   void set_adc_avg_enum_int(int value, bool write_to_i2c);
 
   // ADC_AVG_INIT - 
   uint16_t get_adc_avg_init_raw(bool read_from_i2c);
+  void set_adc_avg_init_raw(uint16_t value, bool write_to_i2c);
+
   bool get_adc_avg_init_bool(bool read_from_i2c);
-  void set_adc_avg_init_raw(uint16_t value, bool read_from_i2c);
   void set_adc_avg_init_bool(bool value, bool write_to_i2c);
 
   // IBUS_ADC_DIS - 
   uint16_t get_ibus_adc_dis_raw(bool read_from_i2c);
+  void set_ibus_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_ibus_adc_dis_bool(bool read_from_i2c);
-  void set_ibus_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_ibus_adc_dis_bool(bool value, bool write_to_i2c);
 
   // IBAT_ADC_DIS - 
   uint16_t get_ibat_adc_dis_raw(bool read_from_i2c);
+  void set_ibat_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_ibat_adc_dis_bool(bool read_from_i2c);
-  void set_ibat_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_ibat_adc_dis_bool(bool value, bool write_to_i2c);
 
   // VBUS_ADC_DIS - 
   uint16_t get_vbus_adc_dis_raw(bool read_from_i2c);
+  void set_vbus_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vbus_adc_dis_bool(bool read_from_i2c);
-  void set_vbus_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_vbus_adc_dis_bool(bool value, bool write_to_i2c);
 
   // VBAT_ADC_DIS - 
   uint16_t get_vbat_adc_dis_raw(bool read_from_i2c);
+  void set_vbat_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vbat_adc_dis_bool(bool read_from_i2c);
-  void set_vbat_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_vbat_adc_dis_bool(bool value, bool write_to_i2c);
 
   // VSYS_ADC_DIS - 
   uint16_t get_vsys_adc_dis_raw(bool read_from_i2c);
+  void set_vsys_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vsys_adc_dis_bool(bool read_from_i2c);
-  void set_vsys_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_vsys_adc_dis_bool(bool value, bool write_to_i2c);
 
   // TS_ADC_DIS - 
   uint16_t get_ts_adc_dis_raw(bool read_from_i2c);
+  void set_ts_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_ts_adc_dis_bool(bool read_from_i2c);
-  void set_ts_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_ts_adc_dis_bool(bool value, bool write_to_i2c);
 
   // TDIE_ADC_DIS - 
   uint16_t get_tdie_adc_dis_raw(bool read_from_i2c);
+  void set_tdie_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_tdie_adc_dis_bool(bool read_from_i2c);
-  void set_tdie_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_tdie_adc_dis_bool(bool value, bool write_to_i2c);
 
   // DPLUS_ADC_DIS - 
   uint16_t get_dplus_adc_dis_raw(bool read_from_i2c);
+  void set_dplus_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dplus_adc_dis_bool(bool read_from_i2c);
-  void set_dplus_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_dplus_adc_dis_bool(bool value, bool write_to_i2c);
 
   // DMINUS_ADC_DIS - 
   uint16_t get_dminus_adc_dis_raw(bool read_from_i2c);
+  void set_dminus_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_dminus_adc_dis_bool(bool read_from_i2c);
-  void set_dminus_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_dminus_adc_dis_bool(bool value, bool write_to_i2c);
 
   // VAC2_ADC_DIS - 
   uint16_t get_vac2_adc_dis_raw(bool read_from_i2c);
+  void set_vac2_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vac2_adc_dis_bool(bool read_from_i2c);
-  void set_vac2_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_vac2_adc_dis_bool(bool value, bool write_to_i2c);
 
   // VAC1_ADC_DIS - 
   uint16_t get_vac1_adc_dis_raw(bool read_from_i2c);
+  void set_vac1_adc_dis_raw(uint16_t value, bool write_to_i2c);
+
   bool get_vac1_adc_dis_bool(bool read_from_i2c);
-  void set_vac1_adc_dis_raw(uint16_t value, bool read_from_i2c);
   void set_vac1_adc_dis_bool(bool value, bool write_to_i2c);
 
   // IBUS_ADC - 
   uint16_t get_ibus_adc_raw(bool read_from_i2c);
+
   int get_ibus_adc_int(bool read_from_i2c);
 
   // IBAT_ADC - 
   uint16_t get_ibat_adc_raw(bool read_from_i2c);
+
   int get_ibat_adc_int(bool read_from_i2c);
 
   // VBUS_ADC - 
   uint16_t get_vbus_adc_raw(bool read_from_i2c);
+
   int get_vbus_adc_int(bool read_from_i2c);
 
   // VAC1_ADC - 
   uint16_t get_vac1_adc_raw(bool read_from_i2c);
+
   int get_vac1_adc_int(bool read_from_i2c);
 
   // VAC2_ADC - 
   uint16_t get_vac2_adc_raw(bool read_from_i2c);
+
   int get_vac2_adc_int(bool read_from_i2c);
 
   // VBAT_ADC - 
   uint16_t get_vbat_adc_raw(bool read_from_i2c);
+
   int get_vbat_adc_int(bool read_from_i2c);
 
   // VSYS_ADC - 
   uint16_t get_vsys_adc_raw(bool read_from_i2c);
+
   int get_vsys_adc_int(bool read_from_i2c);
 
   // TS_ADC - 
   uint16_t get_ts_adc_raw(bool read_from_i2c);
+
   float get_ts_adc_float(bool read_from_i2c);
 
   // TDIE_ADC - TDIE ADC reading
   uint16_t get_tdie_adc_raw(bool read_from_i2c);
+
   float get_tdie_adc_float(bool read_from_i2c);
 
   // DPLUS_ADC - D+ ADC reading
   uint16_t get_dplus_adc_raw(bool read_from_i2c);
+
   int get_dplus_adc_int(bool read_from_i2c);
 
   // DMINUS_ADC - D- ADC reading
   uint16_t get_dminus_adc_raw(bool read_from_i2c);
+
   int get_dminus_adc_int(bool read_from_i2c);
 
   // DPLUS_DAC - D+ Output Driver
   uint16_t get_dplus_dac_raw(bool read_from_i2c);
+  void set_dplus_dac_raw(uint16_t value, bool write_to_i2c);
+
   int get_dplus_dac_enum_int(bool read_from_i2c);
   const char* get_dplus_dac_enum_string(bool read_from_i2c);
-  void set_dplus_dac_raw(uint16_t value, bool read_from_i2c);
   void set_dplus_dac_enum_int(int value, bool write_to_i2c);
 
   // DMINUS_DAC - D- Output Driver
   uint16_t get_dminus_dac_raw(bool read_from_i2c);
+  void set_dminus_dac_raw(uint16_t value, bool write_to_i2c);
+
   int get_dminus_dac_enum_int(bool read_from_i2c);
   const char* get_dminus_dac_enum_string(bool read_from_i2c);
-  void set_dminus_dac_raw(uint16_t value, bool read_from_i2c);
   void set_dminus_dac_enum_int(int value, bool write_to_i2c);
 
   // PN - 
   uint16_t get_pn_raw(bool read_from_i2c);
+
   int get_pn_enum_int(bool read_from_i2c);
   const char* get_pn_enum_string(bool read_from_i2c);
 
   // DEV_REV - 
   uint16_t get_dev_rev_raw(bool read_from_i2c);
+
   int get_dev_rev_enum_int(bool read_from_i2c);
   const char* get_dev_rev_enum_string(bool read_from_i2c);
 
 protected:
-  uint16_t last_raw_value_vsysmin_ = 0;
-  uint16_t last_raw_value_vreg_ = 0;
-  uint16_t last_raw_value_ichg_ = 0;
-  uint16_t last_raw_value_vindpm_ = 0;
-  uint16_t last_raw_value_iindpm_ = 0;
-  uint16_t last_raw_value_vbat_lowv_ = 0;
-  uint16_t last_raw_value_iprechg_ = 0;
-  uint16_t last_raw_value_reg_rst_ = 0;
-  uint16_t last_raw_value_stop_wd_chg_ = 0;
-  uint16_t last_raw_value_iterm_ = 0;
-  uint16_t last_raw_value_cell_ = 0;
-  uint16_t last_raw_value_trechg_ = 0;
-  uint16_t last_raw_value_vrechg_ = 0;
-  uint16_t last_raw_value_votg_ = 0;
-  uint16_t last_raw_value_prechg_tmr_ = 0;
-  uint16_t last_raw_value_iotg_ = 0;
-  uint16_t last_raw_value_topoff_tmr_ = 0;
-  uint16_t last_raw_value_en_trichg_tmr_ = 0;
-  uint16_t last_raw_value_en_prechg_tmr_ = 0;
-  uint16_t last_raw_value_en_chg_tmr_ = 0;
-  uint16_t last_raw_value_chg_tmr_ = 0;
-  uint16_t last_raw_value_tmr2x_en_ = 0;
-  uint16_t last_raw_value_en_auto_ibatdis_ = 0;
-  uint16_t last_raw_value_force_ibatdis_ = 0;
-  uint16_t last_raw_value_en_chg_ = 0;
-  uint16_t last_raw_value_en_ico_ = 0;
-  uint16_t last_raw_value_force_ico_ = 0;
-  uint16_t last_raw_value_en_hiz_ = 0;
-  uint16_t last_raw_value_en_term_ = 0;
-  uint16_t last_raw_value_en_backup_ = 0;
-  uint16_t last_raw_value_vbus_backup_ = 0;
-  uint16_t last_raw_value_vac_ovp_ = 0;
-  uint16_t last_raw_value_wd_rst_ = 0;
-  uint16_t last_raw_value_watchdog_ = 0;
-  uint16_t last_raw_value_force_indet_ = 0;
-  uint16_t last_raw_value_auto_indet_en_ = 0;
-  uint16_t last_raw_value_en_12v_ = 0;
-  uint16_t last_raw_value_en_9v_ = 0;
-  uint16_t last_raw_value_hvdcp_en_ = 0;
-  uint16_t last_raw_value_sdrv_ctrl_ = 0;
-  uint16_t last_raw_value_sdrv_dly_ = 0;
-  uint16_t last_raw_value_dis_acdrv_ = 0;
-  uint16_t last_raw_value_en_otg_ = 0;
-  uint16_t last_raw_value_pfm_otg_dis_ = 0;
-  uint16_t last_raw_value_pfm_fwd_dis_ = 0;
-  uint16_t last_raw_value_wkup_dly_ = 0;
-  uint16_t last_raw_value_dis_ldo_ = 0;
-  uint16_t last_raw_value_dis_otg_ooa_ = 0;
-  uint16_t last_raw_value_dis_fwd_ooa_ = 0;
-  uint16_t last_raw_value_en_acdrv2_ = 0;
-  uint16_t last_raw_value_en_acdrv1_ = 0;
-  uint16_t last_raw_value_pwm_freq_ = 0;
-  uint16_t last_raw_value_dis_stat_ = 0;
-  uint16_t last_raw_value_dis_vsys_short_ = 0;
-  uint16_t last_raw_value_dis_votg_uvp_ = 0;
-  uint16_t last_raw_value_force_vindpm_det_ = 0;
-  uint16_t last_raw_value_en_ibus_ocp_ = 0;
-  uint16_t last_raw_value_sfet_present_ = 0;
-  uint16_t last_raw_value_en_ibat_ = 0;
-  uint16_t last_raw_value_ibat_reg_ = 0;
-  uint16_t last_raw_value_en_iindpm_ = 0;
-  uint16_t last_raw_value_en_extilim_ = 0;
-  uint16_t last_raw_value_en_batoc_ = 0;
-  uint16_t last_raw_value_voc_pct_ = 0;
-  uint16_t last_raw_value_voc_dly_ = 0;
-  uint16_t last_raw_value_voc_rate_ = 0;
-  uint16_t last_raw_value_en_mppt_ = 0;
-  uint16_t last_raw_value_treg_ = 0;
-  uint16_t last_raw_value_tshut_ = 0;
-  uint16_t last_raw_value_vbus_pd_en_ = 0;
-  uint16_t last_raw_value_vac1_pd_en_ = 0;
-  uint16_t last_raw_value_vac2_pd_en_ = 0;
-  uint16_t last_raw_value_bkup_acfet1_on_ = 0;
-  uint16_t last_raw_value_jeita_vset_ = 0;
-  uint16_t last_raw_value_jeita_iseth_ = 0;
-  uint16_t last_raw_value_jeita_isetc_ = 0;
-  uint16_t last_raw_value_ts_cool_ = 0;
-  uint16_t last_raw_value_ts_warm_ = 0;
-  uint16_t last_raw_value_bhot_ = 0;
-  uint16_t last_raw_value_bcold_ = 0;
-  uint16_t last_raw_value_ts_ignore_ = 0;
-  uint16_t last_raw_value_ico_ilim_ = 0;
-  uint16_t last_raw_value_iindpm_stat_ = 0;
-  uint16_t last_raw_value_vindpm_stat_ = 0;
-  uint16_t last_raw_value_wd_stat_ = 0;
-  uint16_t last_raw_value_pg_stat_ = 0;
-  uint16_t last_raw_value_ac2_present_stat_ = 0;
-  uint16_t last_raw_value_ac1_present_stat_ = 0;
-  uint16_t last_raw_value_vbus_present_stat_ = 0;
-  uint16_t last_raw_value_chg_stat_ = 0;
-  uint16_t last_raw_value_vbus_stat_ = 0;
-  uint16_t last_raw_value_bc12_done_stat_ = 0;
-  uint16_t last_raw_value_ico_stat_ = 0;
-  uint16_t last_raw_value_treg_stat_ = 0;
-  uint16_t last_raw_value_dpdm_stat_ = 0;
-  uint16_t last_raw_value_vbat_present_stat_ = 0;
-  uint16_t last_raw_value_acrb2_stat_ = 0;
-  uint16_t last_raw_value_acrb1_stat_ = 0;
-  uint16_t last_raw_value_adc_done_stat_ = 0;
-  uint16_t last_raw_value_vsys_stat_ = 0;
-  uint16_t last_raw_value_chg_tmr_stat_ = 0;
-  uint16_t last_raw_value_trichg_tmr_stat_ = 0;
-  uint16_t last_raw_value_prechg_tmr_stat_ = 0;
-  uint16_t last_raw_value_vbatotg_low_stat_ = 0;
-  uint16_t last_raw_value_ts_cold_stat_ = 0;
-  uint16_t last_raw_value_ts_cool_stat_ = 0;
-  uint16_t last_raw_value_ts_warm_stat_ = 0;
-  uint16_t last_raw_value_ts_hot_stat_ = 0;
-  uint16_t last_raw_value_ibat_reg_stat_ = 0;
-  uint16_t last_raw_value_vbus_ovp_stat_ = 0;
-  uint16_t last_raw_value_vbat_ovp_stat_ = 0;
-  uint16_t last_raw_value_ibus_ocp_stat_ = 0;
-  uint16_t last_raw_value_ibat_ocp_stat_ = 0;
-  uint16_t last_raw_value_conv_ocp_stat_ = 0;
-  uint16_t last_raw_value_vac2_ovp_stat_ = 0;
-  uint16_t last_raw_value_vac1_ovp_stat_ = 0;
-  uint16_t last_raw_value_vsys_short_stat_ = 0;
-  uint16_t last_raw_value_vsys_ovp_stat_ = 0;
-  uint16_t last_raw_value_otg_ovp_stat_ = 0;
-  uint16_t last_raw_value_otg_uvp_stat_ = 0;
-  uint16_t last_raw_value_tshut_stat_ = 0;
-  uint16_t last_raw_value_iindpm_flag_ = 0;
-  uint16_t last_raw_value_vindpm_flag_ = 0;
-  uint16_t last_raw_value_wd_flag_ = 0;
-  uint16_t last_raw_value_poorsrc_flag_ = 0;
-  uint16_t last_raw_value_pg_flag_ = 0;
-  uint16_t last_raw_value_ac2_present_flag_ = 0;
-  uint16_t last_raw_value_ac1_present_flag_ = 0;
-  uint16_t last_raw_value_vbus_present_flag_ = 0;
-  uint16_t last_raw_value_chg_flag_ = 0;
-  uint16_t last_raw_value_ico_flag_ = 0;
-  uint16_t last_raw_value_vbus_flag_ = 0;
-  uint16_t last_raw_value_treg_flag_ = 0;
-  uint16_t last_raw_value_vbat_present_flag_ = 0;
-  uint16_t last_raw_value_bc1_2_done_flag_ = 0;
-  uint16_t last_raw_value_dpdm_done_flag_ = 0;
-  uint16_t last_raw_value_adc_done_flag_ = 0;
-  uint16_t last_raw_value_vsys_flag_ = 0;
-  uint16_t last_raw_value_chg_tmr_flag_ = 0;
-  uint16_t last_raw_value_trichg_tmr_flag_ = 0;
-  uint16_t last_raw_value_prechg_tmr_flag_ = 0;
-  uint16_t last_raw_value_topoff_tmr_flag_ = 0;
-  uint16_t last_raw_value_vbatotg_low_flag_ = 0;
-  uint16_t last_raw_value_ts_cold_flag_ = 0;
-  uint16_t last_raw_value_ts_cool_flag_ = 0;
-  uint16_t last_raw_value_ts_warm_flag_ = 0;
-  uint16_t last_raw_value_ts_hot_flag_ = 0;
-  uint16_t last_raw_value_ibat_reg_flag_ = 0;
-  uint16_t last_raw_value_vbus_ovp_flag_ = 0;
-  uint16_t last_raw_value_vbat_ovp_flag_ = 0;
-  uint16_t last_raw_value_ibus_ocp_flag_ = 0;
-  uint16_t last_raw_value_ibat_ocp_flag_ = 0;
-  uint16_t last_raw_value_conv_ocp_flag_ = 0;
-  uint16_t last_raw_value_vac2_ovp_flag_ = 0;
-  uint16_t last_raw_value_vac1_ovp_flag_ = 0;
-  uint16_t last_raw_value_vsys_short_flag_ = 0;
-  uint16_t last_raw_value_vsys_ovp_flag_ = 0;
-  uint16_t last_raw_value_otg_ovp_flag_ = 0;
-  uint16_t last_raw_value_otg_uvp_flag_ = 0;
-  uint16_t last_raw_value_tshut_flag_ = 0;
-  uint16_t last_raw_value_adc_en_ = 0;
-  uint16_t last_raw_value_adc_rate_ = 0;
-  uint16_t last_raw_value_adc_sample_ = 0;
-  uint16_t last_raw_value_adc_avg_ = 0;
-  uint16_t last_raw_value_adc_avg_init_ = 0;
-  uint16_t last_raw_value_ibus_adc_dis_ = 0;
-  uint16_t last_raw_value_ibat_adc_dis_ = 0;
-  uint16_t last_raw_value_vbus_adc_dis_ = 0;
-  uint16_t last_raw_value_vbat_adc_dis_ = 0;
-  uint16_t last_raw_value_vsys_adc_dis_ = 0;
-  uint16_t last_raw_value_ts_adc_dis_ = 0;
-  uint16_t last_raw_value_tdie_adc_dis_ = 0;
-  uint16_t last_raw_value_dplus_adc_dis_ = 0;
-  uint16_t last_raw_value_dminus_adc_dis_ = 0;
-  uint16_t last_raw_value_vac2_adc_dis_ = 0;
-  uint16_t last_raw_value_vac1_adc_dis_ = 0;
-  uint16_t last_raw_value_ibus_adc_ = 0;
-  uint16_t last_raw_value_ibat_adc_ = 0;
-  uint16_t last_raw_value_vbus_adc_ = 0;
-  uint16_t last_raw_value_vac1_adc_ = 0;
-  uint16_t last_raw_value_vac2_adc_ = 0;
-  uint16_t last_raw_value_vbat_adc_ = 0;
-  uint16_t last_raw_value_vsys_adc_ = 0;
-  uint16_t last_raw_value_ts_adc_ = 0;
-  uint16_t last_raw_value_tdie_adc_ = 0;
-  uint16_t last_raw_value_dplus_adc_ = 0;
-  uint16_t last_raw_value_dminus_adc_ = 0;
-  uint16_t last_raw_value_dplus_dac_ = 0;
-  uint16_t last_raw_value_dminus_dac_ = 0;
-  uint16_t last_raw_value_pn_ = 0;
-  uint16_t last_raw_value_dev_rev_ = 0;
+  uint16_t last_vsysmin_raw_ = 0;
+  uint16_t last_vreg_raw_ = 0;
+  uint16_t last_ichg_raw_ = 0;
+  uint16_t last_vindpm_raw_ = 0;
+  uint16_t last_iindpm_raw_ = 0;
+  uint16_t last_vbat_lowv_raw_ = 0;
+  uint16_t last_iprechg_raw_ = 0;
+  uint16_t last_reg_rst_raw_ = 0;
+  uint16_t last_stop_wd_chg_raw_ = 0;
+  uint16_t last_iterm_raw_ = 0;
+  uint16_t last_cell_raw_ = 0;
+  uint16_t last_trechg_raw_ = 0;
+  uint16_t last_vrechg_raw_ = 0;
+  uint16_t last_votg_raw_ = 0;
+  uint16_t last_prechg_tmr_raw_ = 0;
+  uint16_t last_iotg_raw_ = 0;
+  uint16_t last_topoff_tmr_raw_ = 0;
+  uint16_t last_en_trichg_tmr_raw_ = 0;
+  uint16_t last_en_prechg_tmr_raw_ = 0;
+  uint16_t last_en_chg_tmr_raw_ = 0;
+  uint16_t last_chg_tmr_raw_ = 0;
+  uint16_t last_tmr2x_en_raw_ = 0;
+  uint16_t last_en_auto_ibatdis_raw_ = 0;
+  uint16_t last_force_ibatdis_raw_ = 0;
+  uint16_t last_en_chg_raw_ = 0;
+  uint16_t last_en_ico_raw_ = 0;
+  uint16_t last_force_ico_raw_ = 0;
+  uint16_t last_en_hiz_raw_ = 0;
+  uint16_t last_en_term_raw_ = 0;
+  uint16_t last_en_backup_raw_ = 0;
+  uint16_t last_vbus_backup_raw_ = 0;
+  uint16_t last_vac_ovp_raw_ = 0;
+  uint16_t last_wd_rst_raw_ = 0;
+  uint16_t last_watchdog_raw_ = 0;
+  uint16_t last_force_indet_raw_ = 0;
+  uint16_t last_auto_indet_en_raw_ = 0;
+  uint16_t last_en_12v_raw_ = 0;
+  uint16_t last_en_9v_raw_ = 0;
+  uint16_t last_hvdcp_en_raw_ = 0;
+  uint16_t last_sdrv_ctrl_raw_ = 0;
+  uint16_t last_sdrv_dly_raw_ = 0;
+  uint16_t last_dis_acdrv_raw_ = 0;
+  uint16_t last_en_otg_raw_ = 0;
+  uint16_t last_pfm_otg_dis_raw_ = 0;
+  uint16_t last_pfm_fwd_dis_raw_ = 0;
+  uint16_t last_wkup_dly_raw_ = 0;
+  uint16_t last_dis_ldo_raw_ = 0;
+  uint16_t last_dis_otg_ooa_raw_ = 0;
+  uint16_t last_dis_fwd_ooa_raw_ = 0;
+  uint16_t last_en_acdrv2_raw_ = 0;
+  uint16_t last_en_acdrv1_raw_ = 0;
+  uint16_t last_pwm_freq_raw_ = 0;
+  uint16_t last_dis_stat_raw_ = 0;
+  uint16_t last_dis_vsys_short_raw_ = 0;
+  uint16_t last_dis_votg_uvp_raw_ = 0;
+  uint16_t last_force_vindpm_det_raw_ = 0;
+  uint16_t last_en_ibus_ocp_raw_ = 0;
+  uint16_t last_sfet_present_raw_ = 0;
+  uint16_t last_en_ibat_raw_ = 0;
+  uint16_t last_ibat_reg_raw_ = 0;
+  uint16_t last_en_iindpm_raw_ = 0;
+  uint16_t last_en_extilim_raw_ = 0;
+  uint16_t last_en_batoc_raw_ = 0;
+  uint16_t last_voc_pct_raw_ = 0;
+  uint16_t last_voc_dly_raw_ = 0;
+  uint16_t last_voc_rate_raw_ = 0;
+  uint16_t last_en_mppt_raw_ = 0;
+  uint16_t last_treg_raw_ = 0;
+  uint16_t last_tshut_raw_ = 0;
+  uint16_t last_vbus_pd_en_raw_ = 0;
+  uint16_t last_vac1_pd_en_raw_ = 0;
+  uint16_t last_vac2_pd_en_raw_ = 0;
+  uint16_t last_bkup_acfet1_on_raw_ = 0;
+  uint16_t last_jeita_vset_raw_ = 0;
+  uint16_t last_jeita_iseth_raw_ = 0;
+  uint16_t last_jeita_isetc_raw_ = 0;
+  uint16_t last_ts_cool_raw_ = 0;
+  uint16_t last_ts_warm_raw_ = 0;
+  uint16_t last_bhot_raw_ = 0;
+  uint16_t last_bcold_raw_ = 0;
+  uint16_t last_ts_ignore_raw_ = 0;
+  uint16_t last_ico_ilim_raw_ = 0;
+  uint16_t last_iindpm_stat_raw_ = 0;
+  uint16_t last_vindpm_stat_raw_ = 0;
+  uint16_t last_wd_stat_raw_ = 0;
+  uint16_t last_pg_stat_raw_ = 0;
+  uint16_t last_ac2_present_stat_raw_ = 0;
+  uint16_t last_ac1_present_stat_raw_ = 0;
+  uint16_t last_vbus_present_stat_raw_ = 0;
+  uint16_t last_chg_stat_raw_ = 0;
+  uint16_t last_vbus_stat_raw_ = 0;
+  uint16_t last_bc12_done_stat_raw_ = 0;
+  uint16_t last_ico_stat_raw_ = 0;
+  uint16_t last_treg_stat_raw_ = 0;
+  uint16_t last_dpdm_stat_raw_ = 0;
+  uint16_t last_vbat_present_stat_raw_ = 0;
+  uint16_t last_acrb2_stat_raw_ = 0;
+  uint16_t last_acrb1_stat_raw_ = 0;
+  uint16_t last_adc_done_stat_raw_ = 0;
+  uint16_t last_vsys_stat_raw_ = 0;
+  uint16_t last_chg_tmr_stat_raw_ = 0;
+  uint16_t last_trichg_tmr_stat_raw_ = 0;
+  uint16_t last_prechg_tmr_stat_raw_ = 0;
+  uint16_t last_vbatotg_low_stat_raw_ = 0;
+  uint16_t last_ts_cold_stat_raw_ = 0;
+  uint16_t last_ts_cool_stat_raw_ = 0;
+  uint16_t last_ts_warm_stat_raw_ = 0;
+  uint16_t last_ts_hot_stat_raw_ = 0;
+  uint16_t last_ibat_reg_stat_raw_ = 0;
+  uint16_t last_vbus_ovp_stat_raw_ = 0;
+  uint16_t last_vbat_ovp_stat_raw_ = 0;
+  uint16_t last_ibus_ocp_stat_raw_ = 0;
+  uint16_t last_ibat_ocp_stat_raw_ = 0;
+  uint16_t last_conv_ocp_stat_raw_ = 0;
+  uint16_t last_vac2_ovp_stat_raw_ = 0;
+  uint16_t last_vac1_ovp_stat_raw_ = 0;
+  uint16_t last_vsys_short_stat_raw_ = 0;
+  uint16_t last_vsys_ovp_stat_raw_ = 0;
+  uint16_t last_otg_ovp_stat_raw_ = 0;
+  uint16_t last_otg_uvp_stat_raw_ = 0;
+  uint16_t last_tshut_stat_raw_ = 0;
+  uint16_t last_iindpm_flag_raw_ = 0;
+  uint16_t last_vindpm_flag_raw_ = 0;
+  uint16_t last_wd_flag_raw_ = 0;
+  uint16_t last_poorsrc_flag_raw_ = 0;
+  uint16_t last_pg_flag_raw_ = 0;
+  uint16_t last_ac2_present_flag_raw_ = 0;
+  uint16_t last_ac1_present_flag_raw_ = 0;
+  uint16_t last_vbus_present_flag_raw_ = 0;
+  uint16_t last_chg_flag_raw_ = 0;
+  uint16_t last_ico_flag_raw_ = 0;
+  uint16_t last_vbus_flag_raw_ = 0;
+  uint16_t last_treg_flag_raw_ = 0;
+  uint16_t last_vbat_present_flag_raw_ = 0;
+  uint16_t last_bc1_2_done_flag_raw_ = 0;
+  uint16_t last_dpdm_done_flag_raw_ = 0;
+  uint16_t last_adc_done_flag_raw_ = 0;
+  uint16_t last_vsys_flag_raw_ = 0;
+  uint16_t last_chg_tmr_flag_raw_ = 0;
+  uint16_t last_trichg_tmr_flag_raw_ = 0;
+  uint16_t last_prechg_tmr_flag_raw_ = 0;
+  uint16_t last_topoff_tmr_flag_raw_ = 0;
+  uint16_t last_vbatotg_low_flag_raw_ = 0;
+  uint16_t last_ts_cold_flag_raw_ = 0;
+  uint16_t last_ts_cool_flag_raw_ = 0;
+  uint16_t last_ts_warm_flag_raw_ = 0;
+  uint16_t last_ts_hot_flag_raw_ = 0;
+  uint16_t last_ibat_reg_flag_raw_ = 0;
+  uint16_t last_vbus_ovp_flag_raw_ = 0;
+  uint16_t last_vbat_ovp_flag_raw_ = 0;
+  uint16_t last_ibus_ocp_flag_raw_ = 0;
+  uint16_t last_ibat_ocp_flag_raw_ = 0;
+  uint16_t last_conv_ocp_flag_raw_ = 0;
+  uint16_t last_vac2_ovp_flag_raw_ = 0;
+  uint16_t last_vac1_ovp_flag_raw_ = 0;
+  uint16_t last_vsys_short_flag_raw_ = 0;
+  uint16_t last_vsys_ovp_flag_raw_ = 0;
+  uint16_t last_otg_ovp_flag_raw_ = 0;
+  uint16_t last_otg_uvp_flag_raw_ = 0;
+  uint16_t last_tshut_flag_raw_ = 0;
+  uint16_t last_adc_en_raw_ = 0;
+  uint16_t last_adc_rate_raw_ = 0;
+  uint16_t last_adc_sample_raw_ = 0;
+  uint16_t last_adc_avg_raw_ = 0;
+  uint16_t last_adc_avg_init_raw_ = 0;
+  uint16_t last_ibus_adc_dis_raw_ = 0;
+  uint16_t last_ibat_adc_dis_raw_ = 0;
+  uint16_t last_vbus_adc_dis_raw_ = 0;
+  uint16_t last_vbat_adc_dis_raw_ = 0;
+  uint16_t last_vsys_adc_dis_raw_ = 0;
+  uint16_t last_ts_adc_dis_raw_ = 0;
+  uint16_t last_tdie_adc_dis_raw_ = 0;
+  uint16_t last_dplus_adc_dis_raw_ = 0;
+  uint16_t last_dminus_adc_dis_raw_ = 0;
+  uint16_t last_vac2_adc_dis_raw_ = 0;
+  uint16_t last_vac1_adc_dis_raw_ = 0;
+  uint16_t last_ibus_adc_raw_ = 0;
+  uint16_t last_ibat_adc_raw_ = 0;
+  uint16_t last_vbus_adc_raw_ = 0;
+  uint16_t last_vac1_adc_raw_ = 0;
+  uint16_t last_vac2_adc_raw_ = 0;
+  uint16_t last_vbat_adc_raw_ = 0;
+  uint16_t last_vsys_adc_raw_ = 0;
+  uint16_t last_ts_adc_raw_ = 0;
+  uint16_t last_tdie_adc_raw_ = 0;
+  uint16_t last_dplus_adc_raw_ = 0;
+  uint16_t last_dminus_adc_raw_ = 0;
+  uint16_t last_dplus_dac_raw_ = 0;
+  uint16_t last_dminus_dac_raw_ = 0;
+  uint16_t last_pn_raw_ = 0;
+  uint16_t last_dev_rev_raw_ = 0;
 
   BQ25798NoI2C *bq25798_noi2c_ {nullptr};
 };  // class BQ25798Component
