@@ -220,7 +220,7 @@ class BQ25798IbatRegSelect : public select::Select,
 };
 
 
-// VOC_PCT - 
+// VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
 class BQ25798VocPctSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -235,7 +235,7 @@ class BQ25798VocPctSelect : public select::Select,
 };
 
 
-// VOC_DLY - 
+// VOC_DLY - After the converter stops switching, the time delay before the VOC is measured
 class BQ25798VocDlySelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -250,7 +250,7 @@ class BQ25798VocDlySelect : public select::Select,
 };
 
 
-// VOC_RATE - 
+// VOC_RATE - The time interval between two consecutive VOC measurements
 class BQ25798VocRateSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -265,7 +265,7 @@ class BQ25798VocRateSelect : public select::Select,
 };
 
 
-// TREG - 
+// TREG - Thermal regulation thresholds
 class BQ25798TregSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -280,7 +280,7 @@ class BQ25798TregSelect : public select::Select,
 };
 
 
-// TSHUT - 
+// TSHUT - Thermal shutdown thresholds
 class BQ25798TshutSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -295,7 +295,7 @@ class BQ25798TshutSelect : public select::Select,
 };
 
 
-// BKUP_ACFET1_ON - 
+// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
 class BQ25798BkupAcfet1OnSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -310,7 +310,7 @@ class BQ25798BkupAcfet1OnSelect : public select::Select,
 };
 
 
-// JEITA_VSET - 
+// JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 class BQ25798JeitaVsetSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -325,7 +325,7 @@ class BQ25798JeitaVsetSelect : public select::Select,
 };
 
 
-// JEITA_ISETH - 
+// JEITA_ISETH - JEITA high temperature range (TWARN - THOT) charge current setting
 class BQ25798JeitaIsethSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -340,7 +340,7 @@ class BQ25798JeitaIsethSelect : public select::Select,
 };
 
 
-// JEITA_ISETC - 
+// JEITA_ISETC - JEITA low temperature range (TCOLD - TWARN) charge current setting
 class BQ25798JeitaIsetcSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -355,7 +355,7 @@ class BQ25798JeitaIsetcSelect : public select::Select,
 };
 
 
-// TS_COOL - 
+// TS_COOL - JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.
 class BQ25798TsCoolSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -370,7 +370,7 @@ class BQ25798TsCoolSelect : public select::Select,
 };
 
 
-// TS_WARM - 
+// TS_WARM - JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.
 class BQ25798TsWarmSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -385,7 +385,7 @@ class BQ25798TsWarmSelect : public select::Select,
 };
 
 
-// BHOT - 
+// BHOT - OTG mode TS HOT temperature threshold
 class BQ25798BhotSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -400,7 +400,7 @@ class BQ25798BhotSelect : public select::Select,
 };
 
 
-// BCOLD - 
+// BCOLD - OTG mode TS COLD temperature threshold
 class BQ25798BcoldSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -415,7 +415,7 @@ class BQ25798BcoldSelect : public select::Select,
 };
 
 
-// ADC_RATE - 
+// ADC_RATE - ADC conversion rate
 class BQ25798AdcRateSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -430,7 +430,7 @@ class BQ25798AdcRateSelect : public select::Select,
 };
 
 
-// ADC_SAMPLE - 
+// ADC_SAMPLE - ADC sample speed
 class BQ25798AdcSampleSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -445,7 +445,7 @@ class BQ25798AdcSampleSelect : public select::Select,
 };
 
 
-// ADC_AVG - 
+// ADC_AVG - ADC averaging
 class BQ25798AdcAvgSelect : public select::Select,
                             public PollingComponent,
                             public Parented<BQ25798Component> {

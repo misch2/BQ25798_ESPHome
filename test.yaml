@@ -90,59 +90,59 @@ sensor:
     ibat_reg:
       name: "IBAT_REG (Battery discharge current regulation in OTG mode)"
     voc_pct:
-      name: "VOC_PCT ()"
+      name: "VOC_PCT (Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done)"
     voc_dly:
-      name: "VOC_DLY ()"
+      name: "VOC_DLY (After the converter stops switching, the time delay before the VOC is measured)"
     voc_rate:
-      name: "VOC_RATE ()"
+      name: "VOC_RATE (The time interval between two consecutive VOC measurements)"
     treg:
-      name: "TREG ()"
+      name: "TREG (Thermal regulation thresholds)"
     tshut:
-      name: "TSHUT ()"
+      name: "TSHUT (Thermal shutdown thresholds)"
     bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON ()"
+      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
     jeita_vset:
-      name: "JEITA_VSET ()"
+      name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
     jeita_iseth:
-      name: "JEITA_ISETH ()"
+      name: "JEITA_ISETH (JEITA high temperature range (TWARN - THOT) charge current setting)"
     jeita_isetc:
-      name: "JEITA_ISETC ()"
+      name: "JEITA_ISETC (JEITA low temperature range (TCOLD - TWARN) charge current setting)"
     ts_cool:
-      name: "TS_COOL ()"
+      name: "TS_COOL (JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.)"
     ts_warm:
-      name: "TS_WARM ()"
+      name: "TS_WARM (JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.)"
     bhot:
-      name: "BHOT ()"
+      name: "BHOT (OTG mode TS HOT temperature threshold)"
     bcold:
-      name: "BCOLD ()"
+      name: "BCOLD (OTG mode TS COLD temperature threshold)"
     ico_ilim:
-      name: "ICO_ILIM ()"
+      name: "ICO_ILIM (Input Current Limit obtained from ICO or ILIM_HIZ pin setting)"
     iindpm_stat:
-      name: "IINDPM_STAT ()"
+      name: "IINDPM_STAT (IINDPM status (forward mode) or IOTG status (OTG mode))"
     vindpm_stat:
-      name: "VINDPM_STAT ()"
+      name: "VINDPM_STAT (VINDPM status (forward mode) or VOTG status (OTG mode))"
     wd_stat:
-      name: "WD_STAT ()"
+      name: "WD_STAT (Watchdog timer status)"
     pg_stat:
-      name: "PG_STAT ()"
+      name: "PG_STAT (Power good status)"
     ac2_present_stat:
-      name: "AC2_PRESENT_STAT ()"
+      name: "AC2_PRESENT_STAT (VAC2 present status)"
     ac1_present_stat:
-      name: "AC1_PRESENT_STAT ()"
+      name: "AC1_PRESENT_STAT (VAC1 present status)"
     vbus_present_stat:
-      name: "VBUS_PRESENT_STAT ()"
+      name: "VBUS_PRESENT_STAT (VBUS present status)"
     chg_stat:
       name: "CHG_STAT (Charge Status bits)"
     vbus_stat:
       name: "VBUS_STAT (VBUS status bits)"
     ico_stat:
-      name: "ICO_STAT ()"
+      name: "ICO_STAT (Input Current Optimizer (ICO) status)"
     treg_stat:
-      name: "TREG_STAT ()"
+      name: "TREG_STAT (IC thermal regulation status)"
     dpdm_stat:
-      name: "DPDM_STAT ()"
+      name: "DPDM_STAT (D+/D- detection status)"
     vbat_present_stat:
-      name: "VBAT_PRESENT_STAT ()"
+      name: "VBAT_PRESENT_STAT (Battery present status)"
     acrb2_stat:
       name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
     acrb1_stat:
@@ -166,27 +166,27 @@ sensor:
     ts_hot_stat:
       name: "TS_HOT_STAT (The TS temperature is in the hot range)"
     adc_rate:
-      name: "ADC_RATE ()"
+      name: "ADC_RATE (ADC conversion rate)"
     adc_sample:
-      name: "ADC_SAMPLE ()"
+      name: "ADC_SAMPLE (ADC sample speed)"
     adc_avg:
-      name: "ADC_AVG ()"
+      name: "ADC_AVG (ADC averaging)"
     ibus_adc:
-      name: "IBUS_ADC ()"
+      name: "IBUS_ADC (IBUS ADC reading)"
     ibat_adc:
-      name: "IBAT_ADC ()"
+      name: "IBAT_ADC (IBAT ADC reading)"
     vbus_adc:
-      name: "VBUS_ADC ()"
+      name: "VBUS_ADC (VBUS ADC reading)"
     vac1_adc:
-      name: "VAC1_ADC ()"
+      name: "VAC1_ADC (VAC1 ADC reading)"
     vac2_adc:
-      name: "VAC2_ADC ()"
+      name: "VAC2_ADC (VAC2 ADC reading)"
     vbat_adc:
-      name: "VBAT_ADC ()"
+      name: "VBAT_ADC (VBAT ADC reading)"
     vsys_adc:
-      name: "VSYS_ADC ()"
+      name: "VSYS_ADC (VSYS ADC reading)"
     ts_adc:
-      name: "TS_ADC ()"
+      name: "TS_ADC (TS ADC reading)"
     tdie_adc:
       name: "TDIE_ADC (TDIE ADC reading)"
     dplus_adc:
@@ -198,9 +198,9 @@ sensor:
     dminus_dac:
       name: "DMINUS_DAC (D- Output Driver)"
     pn:
-      name: "PN ()"
+      name: "PN (Part number)"
     dev_rev:
-      name: "DEV_REV ()"
+      name: "DEV_REV (Device revision)"
  
 binary_sensor:
   - platform: bq25798
@@ -293,41 +293,41 @@ binary_sensor:
     en_batoc:
       name: "EN_BATOC (Enable battery discharging over current protection)"
     en_mppt:
-      name: "EN_MPPT ()"
+      name: "EN_MPPT (Enable MPPT (Maximum Power Point Tracking))"
     vbus_pd_en:
-      name: "VBUS_PD_EN ()"
+      name: "VBUS_PD_EN (Enable VBUS pull down resistor (6 kOhm))"
     vac1_pd_en:
-      name: "VAC1_PD_EN ()"
+      name: "VAC1_PD_EN (Enable VAC1 pull down resistor)"
     vac2_pd_en:
-      name: "VAC2_PD_EN ()"
+      name: "VAC2_PD_EN (Enable VAC2 pull down resistor)"
     bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON ()"
+      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
     bcold:
-      name: "BCOLD ()"
+      name: "BCOLD (OTG mode TS COLD temperature threshold)"
     ts_ignore:
-      name: "TS_IGNORE ()"
+      name: "TS_IGNORE (Ignore TS detection (the charger considers the TS is always good))"
     iindpm_stat:
-      name: "IINDPM_STAT ()"
+      name: "IINDPM_STAT (IINDPM status (forward mode) or IOTG status (OTG mode))"
     vindpm_stat:
-      name: "VINDPM_STAT ()"
+      name: "VINDPM_STAT (VINDPM status (forward mode) or VOTG status (OTG mode))"
     wd_stat:
-      name: "WD_STAT ()"
+      name: "WD_STAT (Watchdog timer status)"
     pg_stat:
-      name: "PG_STAT ()"
+      name: "PG_STAT (Power good status)"
     ac2_present_stat:
-      name: "AC2_PRESENT_STAT ()"
+      name: "AC2_PRESENT_STAT (VAC2 present status)"
     ac1_present_stat:
-      name: "AC1_PRESENT_STAT ()"
+      name: "AC1_PRESENT_STAT (VAC1 present status)"
     vbus_present_stat:
-      name: "VBUS_PRESENT_STAT ()"
+      name: "VBUS_PRESENT_STAT (VBUS present status)"
     bc12_done_stat:
-      name: "BC12_DONE_STAT ()"
+      name: "BC12_DONE_STAT (BC1.2 detection done status)"
     treg_stat:
-      name: "TREG_STAT ()"
+      name: "TREG_STAT (IC thermal regulation status)"
     dpdm_stat:
-      name: "DPDM_STAT ()"
+      name: "DPDM_STAT (D+/D- detection status)"
     vbat_present_stat:
-      name: "VBAT_PRESENT_STAT ()"
+      name: "VBAT_PRESENT_STAT (Battery present status)"
     acrb2_stat:
       name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
     acrb1_stat:
@@ -369,15 +369,15 @@ binary_sensor:
     vac1_ovp_stat:
       name: "VAC1_OVP_STAT (VAC1 over-voltage status)"
     vsys_short_stat:
-      name: "VSYS_SHORT_STAT ()"
+      name: "VSYS_SHORT_STAT (VSYS short circuit status)"
     vsys_ovp_stat:
-      name: "VSYS_OVP_STAT ()"
+      name: "VSYS_OVP_STAT (VSYS over-voltage status)"
     otg_ovp_stat:
-      name: "OTG_OVP_STAT ()"
+      name: "OTG_OVP_STAT (OTG over-voltage status)"
     otg_uvp_stat:
-      name: "OTG_UVP_STAT ()"
+      name: "OTG_UVP_STAT (OTG under-voltage status)"
     tshut_stat:
-      name: "TSHUT_STAT ()"
+      name: "TSHUT_STAT (IC thermal shutdown status)"
     iindpm_flag:
       name: "IINDPM_FLAG (In IINDPM / IOTG regulation)"
     vindpm_flag:
@@ -401,91 +401,91 @@ binary_sensor:
     vbus_flag:
       name: "VBUS_FLAG (VBUS status changed)"
     treg_flag:
-      name: "TREG_FLAG ()"
+      name: "TREG_FLAG (TREG signal rising threshold detected)"
     vbat_present_flag:
-      name: "VBAT_PRESENT_FLAG ()"
+      name: "VBAT_PRESENT_FLAG (Battery present status changed)"
     bc1_2_done_flag:
-      name: "BC1_2_DONE_FLAG ()"
+      name: "BC1_2_DONE_FLAG (BC1.2 detection status changed)"
     dpdm_done_flag:
-      name: "DPDM_DONE_FLAG ()"
+      name: "DPDM_DONE_FLAG (D+/D- detection is completed)"
     adc_done_flag:
-      name: "ADC_DONE_FLAG ()"
+      name: "ADC_DONE_FLAG (ADC conversion is completed)"
     vsys_flag:
-      name: "VSYS_FLAG ()"
+      name: "VSYS_FLAG (Entered or existed VSYSMIN regulation)"
     chg_tmr_flag:
-      name: "CHG_TMR_FLAG ()"
+      name: "CHG_TMR_FLAG (Fast charge timer expired rising edge detected)"
     trichg_tmr_flag:
-      name: "TRICHG_TMR_FLAG ()"
+      name: "TRICHG_TMR_FLAG (Trickle charge timer expired rising edge detected)"
     prechg_tmr_flag:
-      name: "PRECHG_TMR_FLAG ()"
+      name: "PRECHG_TMR_FLAG (Pre-charge timer expired rising edge detected)"
     topoff_tmr_flag:
-      name: "TOPOFF_TMR_FLAG ()"
+      name: "TOPOFF_TMR_FLAG (Top-off timer expired rising edge detected)"
     vbatotg_low_flag:
-      name: "VBATOTG_LOW_FLAG ()"
+      name: "VBATOTG_LOW_FLAG (VBAT falls below the threshold to enable the OTG mode)"
     ts_cold_flag:
-      name: "TS_COLD_FLAG ()"
+      name: "TS_COLD_FLAG (TS across cold temperature (T1) is detected)"
     ts_cool_flag:
-      name: "TS_COOL_FLAG ()"
+      name: "TS_COOL_FLAG (TS across cool temperature (T2) is detected)"
     ts_warm_flag:
-      name: "TS_WARM_FLAG ()"
+      name: "TS_WARM_FLAG (TS across warm temperature (T3) is detected)"
     ts_hot_flag:
-      name: "TS_HOT_FLAG ()"
+      name: "TS_HOT_FLAG (TS across hot temperature (T5) is detected)"
     ibat_reg_flag:
-      name: "IBAT_REG_FLAG ()"
+      name: "IBAT_REG_FLAG (Enter or exit IBAT regulation)"
     vbus_ovp_flag:
-      name: "VBUS_OVP_FLAG ()"
+      name: "VBUS_OVP_FLAG (Enter VBUS OVP)"
     vbat_ovp_flag:
-      name: "VBAT_OVP_FLAG ()"
+      name: "VBAT_OVP_FLAG (Enter VBAT OVP)"
     ibus_ocp_flag:
-      name: "IBUS_OCP_FLAG ()"
+      name: "IBUS_OCP_FLAG (Enter IBUS OCP)"
     ibat_ocp_flag:
-      name: "IBAT_OCP_FLAG ()"
+      name: "IBAT_OCP_FLAG (Enter discharged OCP)"
     conv_ocp_flag:
-      name: "CONV_OCP_FLAG ()"
+      name: "CONV_OCP_FLAG (Enter converter OCP)"
     vac2_ovp_flag:
-      name: "VAC2_OVP_FLAG ()"
+      name: "VAC2_OVP_FLAG (Enter VAC2 OVP)"
     vac1_ovp_flag:
-      name: "VAC1_OVP_FLAG ()"
+      name: "VAC1_OVP_FLAG (Enter VAC1 OVP)"
     vsys_short_flag:
-      name: "VSYS_SHORT_FLAG ()"
+      name: "VSYS_SHORT_FLAG (Stop switching due to system short)"
     vsys_ovp_flag:
-      name: "VSYS_OVP_FLAG ()"
+      name: "VSYS_OVP_FLAG (Stop switching due to system over-voltage)"
     otg_ovp_flag:
-      name: "OTG_OVP_FLAG ()"
+      name: "OTG_OVP_FLAG (Stop OTG due to VBUS over voltage)"
     otg_uvp_flag:
-      name: "OTG_UVP_FLAG ()"
+      name: "OTG_UVP_FLAG (Stop OTG due to VBUS under voltage)"
     tshut_flag:
-      name: "TSHUT_FLAG ()"
+      name: "TSHUT_FLAG (TS shutdown signal rising threshold detected)"
     adc_en:
-      name: "ADC_EN ()"
+      name: "ADC_EN (ADC enable)"
     adc_rate:
-      name: "ADC_RATE ()"
+      name: "ADC_RATE (ADC conversion rate)"
     adc_avg:
-      name: "ADC_AVG ()"
+      name: "ADC_AVG (ADC averaging)"
     adc_avg_init:
-      name: "ADC_AVG_INIT ()"
+      name: "ADC_AVG_INIT (ADC average initialization)"
     ibus_adc_dis:
-      name: "IBUS_ADC_DIS ()"
+      name: "IBUS_ADC_DIS (IBUS ADC disable)"
     ibat_adc_dis:
-      name: "IBAT_ADC_DIS ()"
+      name: "IBAT_ADC_DIS (IBAT ADC disable)"
     vbus_adc_dis:
-      name: "VBUS_ADC_DIS ()"
+      name: "VBUS_ADC_DIS (VBUS ADC disable)"
     vbat_adc_dis:
-      name: "VBAT_ADC_DIS ()"
+      name: "VBAT_ADC_DIS (VBAT ADC disable)"
     vsys_adc_dis:
-      name: "VSYS_ADC_DIS ()"
+      name: "VSYS_ADC_DIS (VSYS ADC disable)"
     ts_adc_dis:
-      name: "TS_ADC_DIS ()"
+      name: "TS_ADC_DIS (TS ADC disable)"
     tdie_adc_dis:
-      name: "TDIE_ADC_DIS ()"
+      name: "TDIE_ADC_DIS (TDIE ADC disable)"
     dplus_adc_dis:
-      name: "DPLUS_ADC_DIS ()"
+      name: "DPLUS_ADC_DIS (D+ ADC disable)"
     dminus_adc_dis:
-      name: "DMINUS_ADC_DIS ()"
+      name: "DMINUS_ADC_DIS (D- ADC disable)"
     vac2_adc_dis:
-      name: "VAC2_ADC_DIS ()"
+      name: "VAC2_ADC_DIS (VAC2 ADC disable)"
     vac1_adc_dis:
-      name: "VAC1_ADC_DIS ()"
+      name: "VAC1_ADC_DIS (VAC1 ADC disable)"
 
 text_sensor:
   - platform: bq25798
@@ -520,57 +520,57 @@ text_sensor:
     ibat_reg:
       name: "IBAT_REG (Battery discharge current regulation in OTG mode)"
     voc_pct:
-      name: "VOC_PCT ()"
+      name: "VOC_PCT (Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done)"
     voc_dly:
-      name: "VOC_DLY ()"
+      name: "VOC_DLY (After the converter stops switching, the time delay before the VOC is measured)"
     voc_rate:
-      name: "VOC_RATE ()"
+      name: "VOC_RATE (The time interval between two consecutive VOC measurements)"
     treg:
-      name: "TREG ()"
+      name: "TREG (Thermal regulation thresholds)"
     tshut:
-      name: "TSHUT ()"
+      name: "TSHUT (Thermal shutdown thresholds)"
     bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON ()"
+      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
     jeita_vset:
-      name: "JEITA_VSET ()"
+      name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
     jeita_iseth:
-      name: "JEITA_ISETH ()"
+      name: "JEITA_ISETH (JEITA high temperature range (TWARN - THOT) charge current setting)"
     jeita_isetc:
-      name: "JEITA_ISETC ()"
+      name: "JEITA_ISETC (JEITA low temperature range (TCOLD - TWARN) charge current setting)"
     ts_cool:
-      name: "TS_COOL ()"
+      name: "TS_COOL (JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.)"
     ts_warm:
-      name: "TS_WARM ()"
+      name: "TS_WARM (JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.)"
     bhot:
-      name: "BHOT ()"
+      name: "BHOT (OTG mode TS HOT temperature threshold)"
     bcold:
-      name: "BCOLD ()"
+      name: "BCOLD (OTG mode TS COLD temperature threshold)"
     iindpm_stat:
-      name: "IINDPM_STAT ()"
+      name: "IINDPM_STAT (IINDPM status (forward mode) or IOTG status (OTG mode))"
     vindpm_stat:
-      name: "VINDPM_STAT ()"
+      name: "VINDPM_STAT (VINDPM status (forward mode) or VOTG status (OTG mode))"
     wd_stat:
-      name: "WD_STAT ()"
+      name: "WD_STAT (Watchdog timer status)"
     pg_stat:
-      name: "PG_STAT ()"
+      name: "PG_STAT (Power good status)"
     ac2_present_stat:
-      name: "AC2_PRESENT_STAT ()"
+      name: "AC2_PRESENT_STAT (VAC2 present status)"
     ac1_present_stat:
-      name: "AC1_PRESENT_STAT ()"
+      name: "AC1_PRESENT_STAT (VAC1 present status)"
     vbus_present_stat:
-      name: "VBUS_PRESENT_STAT ()"
+      name: "VBUS_PRESENT_STAT (VBUS present status)"
     chg_stat:
       name: "CHG_STAT (Charge Status bits)"
     vbus_stat:
       name: "VBUS_STAT (VBUS status bits)"
     ico_stat:
-      name: "ICO_STAT ()"
+      name: "ICO_STAT (Input Current Optimizer (ICO) status)"
     treg_stat:
-      name: "TREG_STAT ()"
+      name: "TREG_STAT (IC thermal regulation status)"
     dpdm_stat:
-      name: "DPDM_STAT ()"
+      name: "DPDM_STAT (D+/D- detection status)"
     vbat_present_stat:
-      name: "VBAT_PRESENT_STAT ()"
+      name: "VBAT_PRESENT_STAT (Battery present status)"
     acrb2_stat:
       name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
     acrb1_stat:
@@ -594,19 +594,19 @@ text_sensor:
     ts_hot_stat:
       name: "TS_HOT_STAT (The TS temperature is in the hot range)"
     adc_rate:
-      name: "ADC_RATE ()"
+      name: "ADC_RATE (ADC conversion rate)"
     adc_sample:
-      name: "ADC_SAMPLE ()"
+      name: "ADC_SAMPLE (ADC sample speed)"
     adc_avg:
-      name: "ADC_AVG ()"
+      name: "ADC_AVG (ADC averaging)"
     dplus_dac:
       name: "DPLUS_DAC (D+ Output Driver)"
     dminus_dac:
       name: "DMINUS_DAC (D- Output Driver)"
     pn:
-      name: "PN ()"
+      name: "PN (Part number)"
     dev_rev:
-      name: "DEV_REV ()"
+      name: "DEV_REV (Device revision)"
 
 switch:
   - platform: bq25798
@@ -730,58 +730,58 @@ switch:
       name: "EN_BATOC (Enable battery discharging over current protection)"
       id: en_batoc
     en_mppt:
-      name: "EN_MPPT ()"
+      name: "EN_MPPT (Enable MPPT (Maximum Power Point Tracking))"
       id: en_mppt
     vbus_pd_en:
-      name: "VBUS_PD_EN ()"
+      name: "VBUS_PD_EN (Enable VBUS pull down resistor (6 kOhm))"
       id: vbus_pd_en
     vac1_pd_en:
-      name: "VAC1_PD_EN ()"
+      name: "VAC1_PD_EN (Enable VAC1 pull down resistor)"
       id: vac1_pd_en
     vac2_pd_en:
-      name: "VAC2_PD_EN ()"
+      name: "VAC2_PD_EN (Enable VAC2 pull down resistor)"
       id: vac2_pd_en
     ts_ignore:
-      name: "TS_IGNORE ()"
+      name: "TS_IGNORE (Ignore TS detection (the charger considers the TS is always good))"
       id: ts_ignore
     adc_en:
-      name: "ADC_EN ()"
+      name: "ADC_EN (ADC enable)"
       id: adc_en
     adc_avg_init:
-      name: "ADC_AVG_INIT ()"
+      name: "ADC_AVG_INIT (ADC average initialization)"
       id: adc_avg_init
     ibus_adc_dis:
-      name: "IBUS_ADC_DIS ()"
+      name: "IBUS_ADC_DIS (IBUS ADC disable)"
       id: ibus_adc_dis
     ibat_adc_dis:
-      name: "IBAT_ADC_DIS ()"
+      name: "IBAT_ADC_DIS (IBAT ADC disable)"
       id: ibat_adc_dis
     vbus_adc_dis:
-      name: "VBUS_ADC_DIS ()"
+      name: "VBUS_ADC_DIS (VBUS ADC disable)"
       id: vbus_adc_dis
     vbat_adc_dis:
-      name: "VBAT_ADC_DIS ()"
+      name: "VBAT_ADC_DIS (VBAT ADC disable)"
       id: vbat_adc_dis
     vsys_adc_dis:
-      name: "VSYS_ADC_DIS ()"
+      name: "VSYS_ADC_DIS (VSYS ADC disable)"
       id: vsys_adc_dis
     ts_adc_dis:
-      name: "TS_ADC_DIS ()"
+      name: "TS_ADC_DIS (TS ADC disable)"
       id: ts_adc_dis
     tdie_adc_dis:
-      name: "TDIE_ADC_DIS ()"
+      name: "TDIE_ADC_DIS (TDIE ADC disable)"
       id: tdie_adc_dis
     dplus_adc_dis:
-      name: "DPLUS_ADC_DIS ()"
+      name: "DPLUS_ADC_DIS (D+ ADC disable)"
       id: dplus_adc_dis
     dminus_adc_dis:
-      name: "DMINUS_ADC_DIS ()"
+      name: "DMINUS_ADC_DIS (D- ADC disable)"
       id: dminus_adc_dis
     vac2_adc_dis:
-      name: "VAC2_ADC_DIS ()"
+      name: "VAC2_ADC_DIS (VAC2 ADC disable)"
       id: vac2_adc_dis
     vac1_adc_dis:
-      name: "VAC1_ADC_DIS ()"
+      name: "VAC1_ADC_DIS (VAC1 ADC disable)"
       id: vac1_adc_dis
 
 number:
@@ -866,52 +866,52 @@ select:
       name: "IBAT_REG (Battery discharge current regulation in OTG mode)"
       id: ibat_reg
     voc_pct:
-      name: "VOC_PCT ()"
+      name: "VOC_PCT (Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done)"
       id: voc_pct
     voc_dly:
-      name: "VOC_DLY ()"
+      name: "VOC_DLY (After the converter stops switching, the time delay before the VOC is measured)"
       id: voc_dly
     voc_rate:
-      name: "VOC_RATE ()"
+      name: "VOC_RATE (The time interval between two consecutive VOC measurements)"
       id: voc_rate
     treg:
-      name: "TREG ()"
+      name: "TREG (Thermal regulation thresholds)"
       id: treg
     tshut:
-      name: "TSHUT ()"
+      name: "TSHUT (Thermal shutdown thresholds)"
       id: tshut
     bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON ()"
+      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
       id: bkup_acfet1_on
     jeita_vset:
-      name: "JEITA_VSET ()"
+      name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
       id: jeita_vset
     jeita_iseth:
-      name: "JEITA_ISETH ()"
+      name: "JEITA_ISETH (JEITA high temperature range (TWARN - THOT) charge current setting)"
       id: jeita_iseth
     jeita_isetc:
-      name: "JEITA_ISETC ()"
+      name: "JEITA_ISETC (JEITA low temperature range (TCOLD - TWARN) charge current setting)"
       id: jeita_isetc
     ts_cool:
-      name: "TS_COOL ()"
+      name: "TS_COOL (JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.)"
       id: ts_cool
     ts_warm:
-      name: "TS_WARM ()"
+      name: "TS_WARM (JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.)"
       id: ts_warm
     bhot:
-      name: "BHOT ()"
+      name: "BHOT (OTG mode TS HOT temperature threshold)"
       id: bhot
     bcold:
-      name: "BCOLD ()"
+      name: "BCOLD (OTG mode TS COLD temperature threshold)"
       id: bcold
     adc_rate:
-      name: "ADC_RATE ()"
+      name: "ADC_RATE (ADC conversion rate)"
       id: adc_rate
     adc_sample:
-      name: "ADC_SAMPLE ()"
+      name: "ADC_SAMPLE (ADC sample speed)"
       id: adc_sample
     adc_avg:
-      name: "ADC_AVG ()"
+      name: "ADC_AVG (ADC averaging)"
       id: adc_avg
     dplus_dac:
       name: "DPLUS_DAC (D+ Output Driver)"

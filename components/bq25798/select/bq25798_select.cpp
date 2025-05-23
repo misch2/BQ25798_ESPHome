@@ -688,7 +688,7 @@ void BQ25798IbatRegSelect::control(const std::string &value) {
 }
 
 
-// VOC_PCT - 
+// VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
 float BQ25798VocPctSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VocPctSelect::dump_config() {
@@ -745,7 +745,7 @@ void BQ25798VocPctSelect::control(const std::string &value) {
 }
 
 
-// VOC_DLY - 
+// VOC_DLY - After the converter stops switching, the time delay before the VOC is measured
 float BQ25798VocDlySelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VocDlySelect::dump_config() {
@@ -794,7 +794,7 @@ void BQ25798VocDlySelect::control(const std::string &value) {
 }
 
 
-// VOC_RATE - 
+// VOC_RATE - The time interval between two consecutive VOC measurements
 float BQ25798VocRateSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VocRateSelect::dump_config() {
@@ -843,7 +843,7 @@ void BQ25798VocRateSelect::control(const std::string &value) {
 }
 
 
-// TREG - 
+// TREG - Thermal regulation thresholds
 float BQ25798TregSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TregSelect::dump_config() {
@@ -892,7 +892,7 @@ void BQ25798TregSelect::control(const std::string &value) {
 }
 
 
-// TSHUT - 
+// TSHUT - Thermal shutdown thresholds
 float BQ25798TshutSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TshutSelect::dump_config() {
@@ -941,7 +941,7 @@ void BQ25798TshutSelect::control(const std::string &value) {
 }
 
 
-// BKUP_ACFET1_ON - 
+// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
 float BQ25798BkupAcfet1OnSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798BkupAcfet1OnSelect::dump_config() {
@@ -986,7 +986,7 @@ void BQ25798BkupAcfet1OnSelect::control(const std::string &value) {
 }
 
 
-// JEITA_VSET - 
+// JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 float BQ25798JeitaVsetSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798JeitaVsetSelect::dump_config() {
@@ -1043,7 +1043,7 @@ void BQ25798JeitaVsetSelect::control(const std::string &value) {
 }
 
 
-// JEITA_ISETH - 
+// JEITA_ISETH - JEITA high temperature range (TWARN - THOT) charge current setting
 float BQ25798JeitaIsethSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798JeitaIsethSelect::dump_config() {
@@ -1092,7 +1092,7 @@ void BQ25798JeitaIsethSelect::control(const std::string &value) {
 }
 
 
-// JEITA_ISETC - 
+// JEITA_ISETC - JEITA low temperature range (TCOLD - TWARN) charge current setting
 float BQ25798JeitaIsetcSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798JeitaIsetcSelect::dump_config() {
@@ -1141,7 +1141,7 @@ void BQ25798JeitaIsetcSelect::control(const std::string &value) {
 }
 
 
-// TS_COOL - 
+// TS_COOL - JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.
 float BQ25798TsCoolSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TsCoolSelect::dump_config() {
@@ -1190,7 +1190,7 @@ void BQ25798TsCoolSelect::control(const std::string &value) {
 }
 
 
-// TS_WARM - 
+// TS_WARM - JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.
 float BQ25798TsWarmSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TsWarmSelect::dump_config() {
@@ -1239,7 +1239,7 @@ void BQ25798TsWarmSelect::control(const std::string &value) {
 }
 
 
-// BHOT - 
+// BHOT - OTG mode TS HOT temperature threshold
 float BQ25798BhotSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798BhotSelect::dump_config() {
@@ -1288,7 +1288,7 @@ void BQ25798BhotSelect::control(const std::string &value) {
 }
 
 
-// BCOLD - 
+// BCOLD - OTG mode TS COLD temperature threshold
 float BQ25798BcoldSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798BcoldSelect::dump_config() {
@@ -1333,7 +1333,7 @@ void BQ25798BcoldSelect::control(const std::string &value) {
 }
 
 
-// ADC_RATE - 
+// ADC_RATE - ADC conversion rate
 float BQ25798AdcRateSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798AdcRateSelect::dump_config() {
@@ -1378,7 +1378,7 @@ void BQ25798AdcRateSelect::control(const std::string &value) {
 }
 
 
-// ADC_SAMPLE - 
+// ADC_SAMPLE - ADC sample speed
 float BQ25798AdcSampleSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798AdcSampleSelect::dump_config() {
@@ -1427,7 +1427,7 @@ void BQ25798AdcSampleSelect::control(const std::string &value) {
 }
 
 
-// ADC_AVG - 
+// ADC_AVG - ADC averaging
 float BQ25798AdcAvgSelect::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798AdcAvgSelect::dump_config() {

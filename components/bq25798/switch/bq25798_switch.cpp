@@ -1295,7 +1295,7 @@ void BQ25798EnBatocSwitch::write_state(bool state) {
 
 
 
-// EN_MPPT - 
+// EN_MPPT - Enable MPPT (Maximum Power Point Tracking)
 float BQ25798EnMpptSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798EnMpptSwitch::dump_config() {
@@ -1328,7 +1328,7 @@ void BQ25798EnMpptSwitch::write_state(bool state) {
 
 
 
-// VBUS_PD_EN - 
+// VBUS_PD_EN - Enable VBUS pull down resistor (6 kOhm)
 float BQ25798VbusPdEnSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VbusPdEnSwitch::dump_config() {
@@ -1361,7 +1361,7 @@ void BQ25798VbusPdEnSwitch::write_state(bool state) {
 
 
 
-// VAC1_PD_EN - 
+// VAC1_PD_EN - Enable VAC1 pull down resistor
 float BQ25798Vac1PdEnSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Vac1PdEnSwitch::dump_config() {
@@ -1394,7 +1394,7 @@ void BQ25798Vac1PdEnSwitch::write_state(bool state) {
 
 
 
-// VAC2_PD_EN - 
+// VAC2_PD_EN - Enable VAC2 pull down resistor
 float BQ25798Vac2PdEnSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Vac2PdEnSwitch::dump_config() {
@@ -1427,7 +1427,7 @@ void BQ25798Vac2PdEnSwitch::write_state(bool state) {
 
 
 
-// TS_IGNORE - 
+// TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 float BQ25798TsIgnoreSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TsIgnoreSwitch::dump_config() {
@@ -1460,7 +1460,7 @@ void BQ25798TsIgnoreSwitch::write_state(bool state) {
 
 
 
-// ADC_EN - 
+// ADC_EN - ADC enable
 float BQ25798AdcEnSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798AdcEnSwitch::dump_config() {
@@ -1493,7 +1493,7 @@ void BQ25798AdcEnSwitch::write_state(bool state) {
 
 
 
-// ADC_AVG_INIT - 
+// ADC_AVG_INIT - ADC average initialization
 float BQ25798AdcAvgInitSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798AdcAvgInitSwitch::dump_config() {
@@ -1526,7 +1526,7 @@ void BQ25798AdcAvgInitSwitch::write_state(bool state) {
 
 
 
-// IBUS_ADC_DIS - 
+// IBUS_ADC_DIS - IBUS ADC disable
 float BQ25798IbusAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798IbusAdcDisSwitch::dump_config() {
@@ -1559,7 +1559,7 @@ void BQ25798IbusAdcDisSwitch::write_state(bool state) {
 
 
 
-// IBAT_ADC_DIS - 
+// IBAT_ADC_DIS - IBAT ADC disable
 float BQ25798IbatAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798IbatAdcDisSwitch::dump_config() {
@@ -1592,7 +1592,7 @@ void BQ25798IbatAdcDisSwitch::write_state(bool state) {
 
 
 
-// VBUS_ADC_DIS - 
+// VBUS_ADC_DIS - VBUS ADC disable
 float BQ25798VbusAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VbusAdcDisSwitch::dump_config() {
@@ -1625,7 +1625,7 @@ void BQ25798VbusAdcDisSwitch::write_state(bool state) {
 
 
 
-// VBAT_ADC_DIS - 
+// VBAT_ADC_DIS - VBAT ADC disable
 float BQ25798VbatAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VbatAdcDisSwitch::dump_config() {
@@ -1658,7 +1658,7 @@ void BQ25798VbatAdcDisSwitch::write_state(bool state) {
 
 
 
-// VSYS_ADC_DIS - 
+// VSYS_ADC_DIS - VSYS ADC disable
 float BQ25798VsysAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798VsysAdcDisSwitch::dump_config() {
@@ -1691,7 +1691,7 @@ void BQ25798VsysAdcDisSwitch::write_state(bool state) {
 
 
 
-// TS_ADC_DIS - 
+// TS_ADC_DIS - TS ADC disable
 float BQ25798TsAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TsAdcDisSwitch::dump_config() {
@@ -1724,7 +1724,7 @@ void BQ25798TsAdcDisSwitch::write_state(bool state) {
 
 
 
-// TDIE_ADC_DIS - 
+// TDIE_ADC_DIS - TDIE ADC disable
 float BQ25798TdieAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798TdieAdcDisSwitch::dump_config() {
@@ -1757,7 +1757,7 @@ void BQ25798TdieAdcDisSwitch::write_state(bool state) {
 
 
 
-// DPLUS_ADC_DIS - 
+// DPLUS_ADC_DIS - D+ ADC disable
 float BQ25798DplusAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798DplusAdcDisSwitch::dump_config() {
@@ -1790,7 +1790,7 @@ void BQ25798DplusAdcDisSwitch::write_state(bool state) {
 
 
 
-// DMINUS_ADC_DIS - 
+// DMINUS_ADC_DIS - D- ADC disable
 float BQ25798DminusAdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798DminusAdcDisSwitch::dump_config() {
@@ -1823,7 +1823,7 @@ void BQ25798DminusAdcDisSwitch::write_state(bool state) {
 
 
 
-// VAC2_ADC_DIS - 
+// VAC2_ADC_DIS - VAC2 ADC disable
 float BQ25798Vac2AdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Vac2AdcDisSwitch::dump_config() {
@@ -1856,7 +1856,7 @@ void BQ25798Vac2AdcDisSwitch::write_state(bool state) {
 
 
 
-// VAC1_ADC_DIS - 
+// VAC1_ADC_DIS - VAC1 ADC disable
 float BQ25798Vac1AdcDisSwitch::get_setup_priority() const { return setup_priority::DATA; }
 
 void BQ25798Vac1AdcDisSwitch::dump_config() {

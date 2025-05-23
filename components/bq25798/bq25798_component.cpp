@@ -4460,7 +4460,7 @@ void BQ25798Component::set_en_batoc_bool(bool value, bool write_to_i2c) {
 
 
 
-// VOC_PCT - 
+// VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
 uint16_t BQ25798Component::get_voc_pct_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4529,7 +4529,7 @@ void BQ25798Component::set_voc_pct_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_PCT);
   this->set_voc_pct_raw(raw_value, write_to_i2c);
 };
-// VOC_DLY - 
+// VOC_DLY - After the converter stops switching, the time delay before the VOC is measured
 uint16_t BQ25798Component::get_voc_dly_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4598,7 +4598,7 @@ void BQ25798Component::set_voc_dly_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_DLY);
   this->set_voc_dly_raw(raw_value, write_to_i2c);
 };
-// VOC_RATE - 
+// VOC_RATE - The time interval between two consecutive VOC measurements
 uint16_t BQ25798Component::get_voc_rate_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4667,7 +4667,7 @@ void BQ25798Component::set_voc_rate_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_RATE);
   this->set_voc_rate_raw(raw_value, write_to_i2c);
 };
-// EN_MPPT - 
+// EN_MPPT - Enable MPPT (Maximum Power Point Tracking)
 uint16_t BQ25798Component::get_en_mppt_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4737,7 +4737,7 @@ void BQ25798Component::set_en_mppt_bool(bool value, bool write_to_i2c) {
 
 
 
-// TREG - 
+// TREG - Thermal regulation thresholds
 uint16_t BQ25798Component::get_treg_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4806,7 +4806,7 @@ void BQ25798Component::set_treg_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TREG);
   this->set_treg_raw(raw_value, write_to_i2c);
 };
-// TSHUT - 
+// TSHUT - Thermal shutdown thresholds
 uint16_t BQ25798Component::get_tshut_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4875,7 +4875,7 @@ void BQ25798Component::set_tshut_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TSHUT);
   this->set_tshut_raw(raw_value, write_to_i2c);
 };
-// VBUS_PD_EN - 
+// VBUS_PD_EN - Enable VBUS pull down resistor (6 kOhm)
 uint16_t BQ25798Component::get_vbus_pd_en_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -4945,7 +4945,7 @@ void BQ25798Component::set_vbus_pd_en_bool(bool value, bool write_to_i2c) {
 
 
 
-// VAC1_PD_EN - 
+// VAC1_PD_EN - Enable VAC1 pull down resistor
 uint16_t BQ25798Component::get_vac1_pd_en_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5015,7 +5015,7 @@ void BQ25798Component::set_vac1_pd_en_bool(bool value, bool write_to_i2c) {
 
 
 
-// VAC2_PD_EN - 
+// VAC2_PD_EN - Enable VAC2 pull down resistor
 uint16_t BQ25798Component::get_vac2_pd_en_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5085,7 +5085,7 @@ void BQ25798Component::set_vac2_pd_en_bool(bool value, bool write_to_i2c) {
 
 
 
-// BKUP_ACFET1_ON - 
+// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
 uint16_t BQ25798Component::get_bkup_acfet1_on_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5168,7 +5168,7 @@ void BQ25798Component::set_bkup_acfet1_on_enum_int(int value, bool write_to_i2c)
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BKUP_ACFET1_ON);
   this->set_bkup_acfet1_on_raw(raw_value, write_to_i2c);
 };
-// JEITA_VSET - 
+// JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 uint16_t BQ25798Component::get_jeita_vset_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5237,7 +5237,7 @@ void BQ25798Component::set_jeita_vset_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_VSET);
   this->set_jeita_vset_raw(raw_value, write_to_i2c);
 };
-// JEITA_ISETH - 
+// JEITA_ISETH - JEITA high temperature range (TWARN - THOT) charge current setting
 uint16_t BQ25798Component::get_jeita_iseth_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5306,7 +5306,7 @@ void BQ25798Component::set_jeita_iseth_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETH);
   this->set_jeita_iseth_raw(raw_value, write_to_i2c);
 };
-// JEITA_ISETC - 
+// JEITA_ISETC - JEITA low temperature range (TCOLD - TWARN) charge current setting
 uint16_t BQ25798Component::get_jeita_isetc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5375,7 +5375,7 @@ void BQ25798Component::set_jeita_isetc_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETC);
   this->set_jeita_isetc_raw(raw_value, write_to_i2c);
 };
-// TS_COOL - 
+// TS_COOL - JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.
 uint16_t BQ25798Component::get_ts_cool_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5444,7 +5444,7 @@ void BQ25798Component::set_ts_cool_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_COOL);
   this->set_ts_cool_raw(raw_value, write_to_i2c);
 };
-// TS_WARM - 
+// TS_WARM - JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.
 uint16_t BQ25798Component::get_ts_warm_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5513,7 +5513,7 @@ void BQ25798Component::set_ts_warm_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_WARM);
   this->set_ts_warm_raw(raw_value, write_to_i2c);
 };
-// BHOT - 
+// BHOT - OTG mode TS HOT temperature threshold
 uint16_t BQ25798Component::get_bhot_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5582,7 +5582,7 @@ void BQ25798Component::set_bhot_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BHOT);
   this->set_bhot_raw(raw_value, write_to_i2c);
 };
-// BCOLD - 
+// BCOLD - OTG mode TS COLD temperature threshold
 uint16_t BQ25798Component::get_bcold_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5665,7 +5665,7 @@ void BQ25798Component::set_bcold_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BCOLD);
   this->set_bcold_raw(raw_value, write_to_i2c);
 };
-// TS_IGNORE - 
+// TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 uint16_t BQ25798Component::get_ts_ignore_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5735,7 +5735,7 @@ void BQ25798Component::set_ts_ignore_bool(bool value, bool write_to_i2c) {
 
 
 
-// ICO_ILIM - 
+// ICO_ILIM - Input Current Limit obtained from ICO or ILIM_HIZ pin setting
 uint16_t BQ25798Component::get_ico_ilim_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5763,7 +5763,7 @@ int BQ25798Component::get_ico_ilim_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICO_ILIM);
 }
 
-// IINDPM_STAT - 
+// IINDPM_STAT - IINDPM status (forward mode) or IOTG status (OTG mode)
 uint16_t BQ25798Component::get_iindpm_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5804,7 +5804,7 @@ const char* BQ25798Component::get_iindpm_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->IINDPM_STAT);
 }
 
-// VINDPM_STAT - 
+// VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
 uint16_t BQ25798Component::get_vindpm_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5845,7 +5845,7 @@ const char* BQ25798Component::get_vindpm_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VINDPM_STAT);
 }
 
-// WD_STAT - 
+// WD_STAT - Watchdog timer status
 uint16_t BQ25798Component::get_wd_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5886,7 +5886,7 @@ const char* BQ25798Component::get_wd_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WD_STAT);
 }
 
-// PG_STAT - 
+// PG_STAT - Power good status
 uint16_t BQ25798Component::get_pg_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5927,7 +5927,7 @@ const char* BQ25798Component::get_pg_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PG_STAT);
 }
 
-// AC2_PRESENT_STAT - 
+// AC2_PRESENT_STAT - VAC2 present status
 uint16_t BQ25798Component::get_ac2_present_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -5968,7 +5968,7 @@ const char* BQ25798Component::get_ac2_present_stat_enum_string(bool read_from_i2
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
 }
 
-// AC1_PRESENT_STAT - 
+// AC1_PRESENT_STAT - VAC1 present status
 uint16_t BQ25798Component::get_ac1_present_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6009,7 +6009,7 @@ const char* BQ25798Component::get_ac1_present_stat_enum_string(bool read_from_i2
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
 }
 
-// VBUS_PRESENT_STAT - 
+// VBUS_PRESENT_STAT - VBUS present status
 uint16_t BQ25798Component::get_vbus_present_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6114,7 +6114,7 @@ const char* BQ25798Component::get_vbus_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_STAT);
 }
 
-// BC12_DONE_STAT - 
+// BC12_DONE_STAT - BC1.2 detection done status
 uint16_t BQ25798Component::get_bc12_done_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6147,7 +6147,7 @@ bool BQ25798Component::get_bc12_done_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// ICO_STAT - 
+// ICO_STAT - Input Current Optimizer (ICO) status
 uint16_t BQ25798Component::get_ico_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6179,7 +6179,7 @@ const char* BQ25798Component::get_ico_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ICO_STAT);
 }
 
-// TREG_STAT - 
+// TREG_STAT - IC thermal regulation status
 uint16_t BQ25798Component::get_treg_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6220,7 +6220,7 @@ const char* BQ25798Component::get_treg_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TREG_STAT);
 }
 
-// DPDM_STAT - 
+// DPDM_STAT - D+/D- detection status
 uint16_t BQ25798Component::get_dpdm_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -6261,7 +6261,7 @@ const char* BQ25798Component::get_dpdm_stat_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DPDM_STAT);
 }
 
-// VBAT_PRESENT_STAT - 
+// VBAT_PRESENT_STAT - Battery present status
 uint16_t BQ25798Component::get_vbat_present_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7050,7 +7050,7 @@ bool BQ25798Component::get_vac1_ovp_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VSYS_SHORT_STAT - 
+// VSYS_SHORT_STAT - VSYS short circuit status
 uint16_t BQ25798Component::get_vsys_short_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7083,7 +7083,7 @@ bool BQ25798Component::get_vsys_short_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VSYS_OVP_STAT - 
+// VSYS_OVP_STAT - VSYS over-voltage status
 uint16_t BQ25798Component::get_vsys_ovp_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7116,7 +7116,7 @@ bool BQ25798Component::get_vsys_ovp_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// OTG_OVP_STAT - 
+// OTG_OVP_STAT - OTG over-voltage status
 uint16_t BQ25798Component::get_otg_ovp_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7149,7 +7149,7 @@ bool BQ25798Component::get_otg_ovp_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// OTG_UVP_STAT - 
+// OTG_UVP_STAT - OTG under-voltage status
 uint16_t BQ25798Component::get_otg_uvp_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7182,7 +7182,7 @@ bool BQ25798Component::get_otg_uvp_stat_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TSHUT_STAT - 
+// TSHUT_STAT - IC thermal shutdown status
 uint16_t BQ25798Component::get_tshut_stat_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7622,7 +7622,7 @@ bool BQ25798Component::get_vbus_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TREG_FLAG - 
+// TREG_FLAG - TREG signal rising threshold detected
 uint16_t BQ25798Component::get_treg_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7659,7 +7659,7 @@ bool BQ25798Component::get_treg_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VBAT_PRESENT_FLAG - 
+// VBAT_PRESENT_FLAG - Battery present status changed
 uint16_t BQ25798Component::get_vbat_present_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7696,7 +7696,7 @@ bool BQ25798Component::get_vbat_present_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// BC1_2_DONE_FLAG - 
+// BC1_2_DONE_FLAG - BC1.2 detection status changed
 uint16_t BQ25798Component::get_bc1_2_done_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7733,7 +7733,7 @@ bool BQ25798Component::get_bc1_2_done_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// DPDM_DONE_FLAG - 
+// DPDM_DONE_FLAG - D+/D- detection is completed
 uint16_t BQ25798Component::get_dpdm_done_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7770,7 +7770,7 @@ bool BQ25798Component::get_dpdm_done_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// ADC_DONE_FLAG - 
+// ADC_DONE_FLAG - ADC conversion is completed
 uint16_t BQ25798Component::get_adc_done_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7807,7 +7807,7 @@ bool BQ25798Component::get_adc_done_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VSYS_FLAG - 
+// VSYS_FLAG - Entered or existed VSYSMIN regulation
 uint16_t BQ25798Component::get_vsys_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7844,7 +7844,7 @@ bool BQ25798Component::get_vsys_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// CHG_TMR_FLAG - 
+// CHG_TMR_FLAG - Fast charge timer expired rising edge detected
 uint16_t BQ25798Component::get_chg_tmr_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7881,7 +7881,7 @@ bool BQ25798Component::get_chg_tmr_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TRICHG_TMR_FLAG - 
+// TRICHG_TMR_FLAG - Trickle charge timer expired rising edge detected
 uint16_t BQ25798Component::get_trichg_tmr_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7918,7 +7918,7 @@ bool BQ25798Component::get_trichg_tmr_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// PRECHG_TMR_FLAG - 
+// PRECHG_TMR_FLAG - Pre-charge timer expired rising edge detected
 uint16_t BQ25798Component::get_prechg_tmr_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7955,7 +7955,7 @@ bool BQ25798Component::get_prechg_tmr_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TOPOFF_TMR_FLAG - 
+// TOPOFF_TMR_FLAG - Top-off timer expired rising edge detected
 uint16_t BQ25798Component::get_topoff_tmr_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -7992,7 +7992,7 @@ bool BQ25798Component::get_topoff_tmr_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VBATOTG_LOW_FLAG - 
+// VBATOTG_LOW_FLAG - VBAT falls below the threshold to enable the OTG mode
 uint16_t BQ25798Component::get_vbatotg_low_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8029,7 +8029,7 @@ bool BQ25798Component::get_vbatotg_low_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TS_COLD_FLAG - 
+// TS_COLD_FLAG - TS across cold temperature (T1) is detected
 uint16_t BQ25798Component::get_ts_cold_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8066,7 +8066,7 @@ bool BQ25798Component::get_ts_cold_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TS_COOL_FLAG - 
+// TS_COOL_FLAG - TS across cool temperature (T2) is detected
 uint16_t BQ25798Component::get_ts_cool_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8103,7 +8103,7 @@ bool BQ25798Component::get_ts_cool_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TS_WARM_FLAG - 
+// TS_WARM_FLAG - TS across warm temperature (T3) is detected
 uint16_t BQ25798Component::get_ts_warm_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8140,7 +8140,7 @@ bool BQ25798Component::get_ts_warm_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TS_HOT_FLAG - 
+// TS_HOT_FLAG - TS across hot temperature (T5) is detected
 uint16_t BQ25798Component::get_ts_hot_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8177,7 +8177,7 @@ bool BQ25798Component::get_ts_hot_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// IBAT_REG_FLAG - 
+// IBAT_REG_FLAG - Enter or exit IBAT regulation
 uint16_t BQ25798Component::get_ibat_reg_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8214,7 +8214,7 @@ bool BQ25798Component::get_ibat_reg_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VBUS_OVP_FLAG - 
+// VBUS_OVP_FLAG - Enter VBUS OVP
 uint16_t BQ25798Component::get_vbus_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8251,7 +8251,7 @@ bool BQ25798Component::get_vbus_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VBAT_OVP_FLAG - 
+// VBAT_OVP_FLAG - Enter VBAT OVP
 uint16_t BQ25798Component::get_vbat_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8288,7 +8288,7 @@ bool BQ25798Component::get_vbat_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// IBUS_OCP_FLAG - 
+// IBUS_OCP_FLAG - Enter IBUS OCP
 uint16_t BQ25798Component::get_ibus_ocp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8325,7 +8325,7 @@ bool BQ25798Component::get_ibus_ocp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// IBAT_OCP_FLAG - 
+// IBAT_OCP_FLAG - Enter discharged OCP
 uint16_t BQ25798Component::get_ibat_ocp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8362,7 +8362,7 @@ bool BQ25798Component::get_ibat_ocp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// CONV_OCP_FLAG - 
+// CONV_OCP_FLAG - Enter converter OCP
 uint16_t BQ25798Component::get_conv_ocp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8399,7 +8399,7 @@ bool BQ25798Component::get_conv_ocp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VAC2_OVP_FLAG - 
+// VAC2_OVP_FLAG - Enter VAC2 OVP
 uint16_t BQ25798Component::get_vac2_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8436,7 +8436,7 @@ bool BQ25798Component::get_vac2_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VAC1_OVP_FLAG - 
+// VAC1_OVP_FLAG - Enter VAC1 OVP
 uint16_t BQ25798Component::get_vac1_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8473,7 +8473,7 @@ bool BQ25798Component::get_vac1_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VSYS_SHORT_FLAG - 
+// VSYS_SHORT_FLAG - Stop switching due to system short
 uint16_t BQ25798Component::get_vsys_short_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8510,7 +8510,7 @@ bool BQ25798Component::get_vsys_short_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// VSYS_OVP_FLAG - 
+// VSYS_OVP_FLAG - Stop switching due to system over-voltage
 uint16_t BQ25798Component::get_vsys_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8547,7 +8547,7 @@ bool BQ25798Component::get_vsys_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// OTG_OVP_FLAG - 
+// OTG_OVP_FLAG - Stop OTG due to VBUS over voltage
 uint16_t BQ25798Component::get_otg_ovp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8584,7 +8584,7 @@ bool BQ25798Component::get_otg_ovp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// OTG_UVP_FLAG - 
+// OTG_UVP_FLAG - Stop OTG due to VBUS under voltage
 uint16_t BQ25798Component::get_otg_uvp_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8621,7 +8621,7 @@ bool BQ25798Component::get_otg_uvp_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// TSHUT_FLAG - 
+// TSHUT_FLAG - TS shutdown signal rising threshold detected
 uint16_t BQ25798Component::get_tshut_flag_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8658,7 +8658,7 @@ bool BQ25798Component::get_tshut_flag_bool(bool read_from_i2c) {
   return bool_val;
 }
 
-// ADC_EN - 
+// ADC_EN - ADC enable
 uint16_t BQ25798Component::get_adc_en_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8728,7 +8728,7 @@ void BQ25798Component::set_adc_en_bool(bool value, bool write_to_i2c) {
 
 
 
-// ADC_RATE - 
+// ADC_RATE - ADC conversion rate
 uint16_t BQ25798Component::get_adc_rate_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8811,7 +8811,7 @@ void BQ25798Component::set_adc_rate_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_RATE);
   this->set_adc_rate_raw(raw_value, write_to_i2c);
 };
-// ADC_SAMPLE - 
+// ADC_SAMPLE - ADC sample speed
 uint16_t BQ25798Component::get_adc_sample_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8880,7 +8880,7 @@ void BQ25798Component::set_adc_sample_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_SAMPLE);
   this->set_adc_sample_raw(raw_value, write_to_i2c);
 };
-// ADC_AVG - 
+// ADC_AVG - ADC averaging
 uint16_t BQ25798Component::get_adc_avg_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -8963,7 +8963,7 @@ void BQ25798Component::set_adc_avg_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_AVG);
   this->set_adc_avg_raw(raw_value, write_to_i2c);
 };
-// ADC_AVG_INIT - 
+// ADC_AVG_INIT - ADC average initialization
 uint16_t BQ25798Component::get_adc_avg_init_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9033,7 +9033,7 @@ void BQ25798Component::set_adc_avg_init_bool(bool value, bool write_to_i2c) {
 
 
 
-// IBUS_ADC_DIS - 
+// IBUS_ADC_DIS - IBUS ADC disable
 uint16_t BQ25798Component::get_ibus_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9103,7 +9103,7 @@ void BQ25798Component::set_ibus_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// IBAT_ADC_DIS - 
+// IBAT_ADC_DIS - IBAT ADC disable
 uint16_t BQ25798Component::get_ibat_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9173,7 +9173,7 @@ void BQ25798Component::set_ibat_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// VBUS_ADC_DIS - 
+// VBUS_ADC_DIS - VBUS ADC disable
 uint16_t BQ25798Component::get_vbus_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9243,7 +9243,7 @@ void BQ25798Component::set_vbus_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// VBAT_ADC_DIS - 
+// VBAT_ADC_DIS - VBAT ADC disable
 uint16_t BQ25798Component::get_vbat_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9313,7 +9313,7 @@ void BQ25798Component::set_vbat_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// VSYS_ADC_DIS - 
+// VSYS_ADC_DIS - VSYS ADC disable
 uint16_t BQ25798Component::get_vsys_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9383,7 +9383,7 @@ void BQ25798Component::set_vsys_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// TS_ADC_DIS - 
+// TS_ADC_DIS - TS ADC disable
 uint16_t BQ25798Component::get_ts_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9453,7 +9453,7 @@ void BQ25798Component::set_ts_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// TDIE_ADC_DIS - 
+// TDIE_ADC_DIS - TDIE ADC disable
 uint16_t BQ25798Component::get_tdie_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9523,7 +9523,7 @@ void BQ25798Component::set_tdie_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// DPLUS_ADC_DIS - 
+// DPLUS_ADC_DIS - D+ ADC disable
 uint16_t BQ25798Component::get_dplus_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9593,7 +9593,7 @@ void BQ25798Component::set_dplus_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// DMINUS_ADC_DIS - 
+// DMINUS_ADC_DIS - D- ADC disable
 uint16_t BQ25798Component::get_dminus_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9663,7 +9663,7 @@ void BQ25798Component::set_dminus_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// VAC2_ADC_DIS - 
+// VAC2_ADC_DIS - VAC2 ADC disable
 uint16_t BQ25798Component::get_vac2_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9733,7 +9733,7 @@ void BQ25798Component::set_vac2_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// VAC1_ADC_DIS - 
+// VAC1_ADC_DIS - VAC1 ADC disable
 uint16_t BQ25798Component::get_vac1_adc_dis_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9803,7 +9803,7 @@ void BQ25798Component::set_vac1_adc_dis_bool(bool value, bool write_to_i2c) {
 
 
 
-// IBUS_ADC - 
+// IBUS_ADC - IBUS ADC reading
 uint16_t BQ25798Component::get_ibus_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9831,7 +9831,7 @@ int BQ25798Component::get_ibus_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBUS_ADC);
 }
 
-// IBAT_ADC - 
+// IBAT_ADC - IBAT ADC reading
 uint16_t BQ25798Component::get_ibat_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9859,7 +9859,7 @@ int BQ25798Component::get_ibat_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBAT_ADC);
 }
 
-// VBUS_ADC - 
+// VBUS_ADC - VBUS ADC reading
 uint16_t BQ25798Component::get_vbus_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9887,7 +9887,7 @@ int BQ25798Component::get_vbus_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_ADC);
 }
 
-// VAC1_ADC - 
+// VAC1_ADC - VAC1 ADC reading
 uint16_t BQ25798Component::get_vac1_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9915,7 +9915,7 @@ int BQ25798Component::get_vac1_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC1_ADC);
 }
 
-// VAC2_ADC - 
+// VAC2_ADC - VAC2 ADC reading
 uint16_t BQ25798Component::get_vac2_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9943,7 +9943,7 @@ int BQ25798Component::get_vac2_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC2_ADC);
 }
 
-// VBAT_ADC - 
+// VBAT_ADC - VBAT ADC reading
 uint16_t BQ25798Component::get_vbat_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9971,7 +9971,7 @@ int BQ25798Component::get_vbat_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_ADC);
 }
 
-// VSYS_ADC - 
+// VSYS_ADC - VSYS ADC reading
 uint16_t BQ25798Component::get_vsys_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -9999,7 +9999,7 @@ int BQ25798Component::get_vsys_adc_int(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYS_ADC);
 }
 
-// TS_ADC - 
+// TS_ADC - TS ADC reading
 uint16_t BQ25798Component::get_ts_adc_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -10249,7 +10249,7 @@ void BQ25798Component::set_dminus_dac_enum_int(int value, bool write_to_i2c) {
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DMINUS_DAC);
   this->set_dminus_dac_raw(raw_value, write_to_i2c);
 };
-// PN - 
+// PN - Part number
 uint16_t BQ25798Component::get_pn_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;
@@ -10281,7 +10281,7 @@ const char* BQ25798Component::get_pn_enum_string(bool read_from_i2c) {
   return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PN);
 }
 
-// DEV_REV - 
+// DEV_REV - Device revision
 uint16_t BQ25798Component::get_dev_rev_raw(bool read_from_i2c) {
   if (this->is_failed()) {
     return 0;

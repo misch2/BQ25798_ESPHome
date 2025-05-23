@@ -595,7 +595,7 @@ class BQ25798EnBatocSwitch : public switch_::Switch,
 };
 
 
-// EN_MPPT - 
+// EN_MPPT - Enable MPPT (Maximum Power Point Tracking)
 class BQ25798EnMpptSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -610,7 +610,7 @@ class BQ25798EnMpptSwitch : public switch_::Switch,
 };
 
 
-// VBUS_PD_EN - 
+// VBUS_PD_EN - Enable VBUS pull down resistor (6 kOhm)
 class BQ25798VbusPdEnSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -625,7 +625,7 @@ class BQ25798VbusPdEnSwitch : public switch_::Switch,
 };
 
 
-// VAC1_PD_EN - 
+// VAC1_PD_EN - Enable VAC1 pull down resistor
 class BQ25798Vac1PdEnSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -640,7 +640,7 @@ class BQ25798Vac1PdEnSwitch : public switch_::Switch,
 };
 
 
-// VAC2_PD_EN - 
+// VAC2_PD_EN - Enable VAC2 pull down resistor
 class BQ25798Vac2PdEnSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -655,7 +655,7 @@ class BQ25798Vac2PdEnSwitch : public switch_::Switch,
 };
 
 
-// TS_IGNORE - 
+// TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 class BQ25798TsIgnoreSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -670,7 +670,7 @@ class BQ25798TsIgnoreSwitch : public switch_::Switch,
 };
 
 
-// ADC_EN - 
+// ADC_EN - ADC enable
 class BQ25798AdcEnSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -685,7 +685,7 @@ class BQ25798AdcEnSwitch : public switch_::Switch,
 };
 
 
-// ADC_AVG_INIT - 
+// ADC_AVG_INIT - ADC average initialization
 class BQ25798AdcAvgInitSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -700,7 +700,7 @@ class BQ25798AdcAvgInitSwitch : public switch_::Switch,
 };
 
 
-// IBUS_ADC_DIS - 
+// IBUS_ADC_DIS - IBUS ADC disable
 class BQ25798IbusAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -715,7 +715,7 @@ class BQ25798IbusAdcDisSwitch : public switch_::Switch,
 };
 
 
-// IBAT_ADC_DIS - 
+// IBAT_ADC_DIS - IBAT ADC disable
 class BQ25798IbatAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -730,7 +730,7 @@ class BQ25798IbatAdcDisSwitch : public switch_::Switch,
 };
 
 
-// VBUS_ADC_DIS - 
+// VBUS_ADC_DIS - VBUS ADC disable
 class BQ25798VbusAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -745,7 +745,7 @@ class BQ25798VbusAdcDisSwitch : public switch_::Switch,
 };
 
 
-// VBAT_ADC_DIS - 
+// VBAT_ADC_DIS - VBAT ADC disable
 class BQ25798VbatAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -760,7 +760,7 @@ class BQ25798VbatAdcDisSwitch : public switch_::Switch,
 };
 
 
-// VSYS_ADC_DIS - 
+// VSYS_ADC_DIS - VSYS ADC disable
 class BQ25798VsysAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -775,7 +775,7 @@ class BQ25798VsysAdcDisSwitch : public switch_::Switch,
 };
 
 
-// TS_ADC_DIS - 
+// TS_ADC_DIS - TS ADC disable
 class BQ25798TsAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -790,7 +790,7 @@ class BQ25798TsAdcDisSwitch : public switch_::Switch,
 };
 
 
-// TDIE_ADC_DIS - 
+// TDIE_ADC_DIS - TDIE ADC disable
 class BQ25798TdieAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -805,7 +805,7 @@ class BQ25798TdieAdcDisSwitch : public switch_::Switch,
 };
 
 
-// DPLUS_ADC_DIS - 
+// DPLUS_ADC_DIS - D+ ADC disable
 class BQ25798DplusAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -820,7 +820,7 @@ class BQ25798DplusAdcDisSwitch : public switch_::Switch,
 };
 
 
-// DMINUS_ADC_DIS - 
+// DMINUS_ADC_DIS - D- ADC disable
 class BQ25798DminusAdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -835,7 +835,7 @@ class BQ25798DminusAdcDisSwitch : public switch_::Switch,
 };
 
 
-// VAC2_ADC_DIS - 
+// VAC2_ADC_DIS - VAC2 ADC disable
 class BQ25798Vac2AdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
@@ -850,7 +850,7 @@ class BQ25798Vac2AdcDisSwitch : public switch_::Switch,
 };
 
 
-// VAC1_ADC_DIS - 
+// VAC1_ADC_DIS - VAC1 ADC disable
 class BQ25798Vac1AdcDisSwitch : public switch_::Switch,
                             public PollingComponent,
                             public Parented<BQ25798Component> {
