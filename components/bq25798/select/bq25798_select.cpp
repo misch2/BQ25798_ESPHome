@@ -941,51 +941,6 @@ void BQ25798TshutSelect::control(const std::string &value) {
 }
 
 
-// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
-float BQ25798BkupAcfet1OnSelect::get_setup_priority() const { return setup_priority::DATA; }
-
-void BQ25798BkupAcfet1OnSelect::dump_config() {
-  ESP_LOGCONFIG(TAG, "Dumping BQ25798BkupAcfet1OnSelect configuration...");
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-  LOG_SELECT("  ", "BKUP_ACFET1_ON", this);
-  LOG_UPDATE_INTERVAL(this);
-}
-
-static const std::map<uint8_t, std::string> BQ25798BkupAcfet1OnSelect_INT_TO_ENUM {
-  { 0, "BKUP_ACFET1_ON_IDLE" },
-  { 1, "BKUP_ACFET1_ON_TURN_ON" },
-};
-
-static const std::map<std::string, uint8_t> BQ25798BkupAcfet1OnSelect_ENUM_TO_INT {
-  { "BKUP_ACFET1_ON_IDLE", 0 },
-  { "BKUP_ACFET1_ON_TURN_ON", 1 },
-};
-
-void BQ25798BkupAcfet1OnSelect::update() {
-  if (this->parent_->is_failed()) {
-    return;
-  }
-
-//ESP_LOGD(TAG, "Updating BQ25798BkupAcfet1OnSelect...");
-  uint8_t num_value = this->parent_->get_bkup_acfet1_on_enum_int();
-  std::string str_value = BQ25798BkupAcfet1OnSelect_INT_TO_ENUM.at(num_value);
-  
-  this->publish_state(str_value);
-}
-
-void BQ25798BkupAcfet1OnSelect::control(const std::string &value) {
-  //ESP_LOGD(TAG, "Controlling BQ25798BkupAcfet1OnSelect...");
-
-  uint8_t num_value = BQ25798BkupAcfet1OnSelect_ENUM_TO_INT.at(value);
-  this->parent_->set_bkup_acfet1_on_enum_int(num_value);
-
-  this->publish_state(value);
-}
-
-
 // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 float BQ25798JeitaVsetSelect::get_setup_priority() const { return setup_priority::DATA; }
 

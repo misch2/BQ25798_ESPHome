@@ -35,7 +35,6 @@ CONF_BQ25798_VOC_DLY = "voc_dly"
 CONF_BQ25798_VOC_RATE = "voc_rate"
 CONF_BQ25798_TREG = "treg"
 CONF_BQ25798_TSHUT = "tshut"
-CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
 CONF_BQ25798_JEITA_ISETH = "jeita_iseth"
 CONF_BQ25798_JEITA_ISETC = "jeita_isetc"
@@ -67,6 +66,45 @@ CONF_BQ25798_TS_COLD_STAT = "ts_cold_stat"
 CONF_BQ25798_TS_COOL_STAT = "ts_cool_stat"
 CONF_BQ25798_TS_WARM_STAT = "ts_warm_stat"
 CONF_BQ25798_TS_HOT_STAT = "ts_hot_stat"
+CONF_BQ25798_IINDPM_FLAG = "iindpm_flag"
+CONF_BQ25798_VINDPM_FLAG = "vindpm_flag"
+CONF_BQ25798_WD_FLAG = "wd_flag"
+CONF_BQ25798_POORSRC_FLAG = "poorsrc_flag"
+CONF_BQ25798_PG_FLAG = "pg_flag"
+CONF_BQ25798_AC2_PRESENT_FLAG = "ac2_present_flag"
+CONF_BQ25798_AC1_PRESENT_FLAG = "ac1_present_flag"
+CONF_BQ25798_VBUS_PRESENT_FLAG = "vbus_present_flag"
+CONF_BQ25798_CHG_FLAG = "chg_flag"
+CONF_BQ25798_ICO_FLAG = "ico_flag"
+CONF_BQ25798_VBUS_FLAG = "vbus_flag"
+CONF_BQ25798_TREG_FLAG = "treg_flag"
+CONF_BQ25798_VBAT_PRESENT_FLAG = "vbat_present_flag"
+CONF_BQ25798_BC1_2_DONE_FLAG = "bc1_2_done_flag"
+CONF_BQ25798_DPDM_DONE_FLAG = "dpdm_done_flag"
+CONF_BQ25798_ADC_DONE_FLAG = "adc_done_flag"
+CONF_BQ25798_VSYS_FLAG = "vsys_flag"
+CONF_BQ25798_CHG_TMR_FLAG = "chg_tmr_flag"
+CONF_BQ25798_TRICHG_TMR_FLAG = "trichg_tmr_flag"
+CONF_BQ25798_PRECHG_TMR_FLAG = "prechg_tmr_flag"
+CONF_BQ25798_TOPOFF_TMR_FLAG = "topoff_tmr_flag"
+CONF_BQ25798_VBATOTG_LOW_FLAG = "vbatotg_low_flag"
+CONF_BQ25798_TS_COLD_FLAG = "ts_cold_flag"
+CONF_BQ25798_TS_COOL_FLAG = "ts_cool_flag"
+CONF_BQ25798_TS_WARM_FLAG = "ts_warm_flag"
+CONF_BQ25798_TS_HOT_FLAG = "ts_hot_flag"
+CONF_BQ25798_IBAT_REG_FLAG = "ibat_reg_flag"
+CONF_BQ25798_VBUS_OVP_FLAG = "vbus_ovp_flag"
+CONF_BQ25798_VBAT_OVP_FLAG = "vbat_ovp_flag"
+CONF_BQ25798_IBUS_OCP_FLAG = "ibus_ocp_flag"
+CONF_BQ25798_IBAT_OCP_FLAG = "ibat_ocp_flag"
+CONF_BQ25798_CONV_OCP_FLAG = "conv_ocp_flag"
+CONF_BQ25798_VAC2_OVP_FLAG = "vac2_ovp_flag"
+CONF_BQ25798_VAC1_OVP_FLAG = "vac1_ovp_flag"
+CONF_BQ25798_VSYS_SHORT_FLAG = "vsys_short_flag"
+CONF_BQ25798_VSYS_OVP_FLAG = "vsys_ovp_flag"
+CONF_BQ25798_OTG_OVP_FLAG = "otg_ovp_flag"
+CONF_BQ25798_OTG_UVP_FLAG = "otg_uvp_flag"
+CONF_BQ25798_TSHUT_FLAG = "tshut_flag"
 CONF_BQ25798_ADC_RATE = "adc_rate"
 CONF_BQ25798_ADC_SAMPLE = "adc_sample"
 CONF_BQ25798_ADC_AVG = "adc_avg"
@@ -101,7 +139,6 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_VOC_RATE): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_TREG): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_TSHUT): text_sensor.text_sensor_schema(),
-            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_JEITA_VSET): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_JEITA_ISETH): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_JEITA_ISETC): text_sensor.text_sensor_schema(),
@@ -133,6 +170,45 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_TS_COOL_STAT): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_TS_WARM_STAT): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_TS_HOT_STAT): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_IINDPM_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VINDPM_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_WD_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_POORSRC_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_PG_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_AC2_PRESENT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_AC1_PRESENT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBUS_PRESENT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_CHG_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_ICO_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBUS_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TREG_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBAT_PRESENT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_BC1_2_DONE_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_DPDM_DONE_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_ADC_DONE_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VSYS_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_CHG_TMR_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TRICHG_TMR_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TOPOFF_TMR_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBATOTG_LOW_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TS_COLD_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TS_COOL_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TS_WARM_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TS_HOT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_IBAT_REG_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBUS_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VBAT_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_IBUS_OCP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_IBAT_OCP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_CONV_OCP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VAC2_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VAC1_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VSYS_SHORT_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_VSYS_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_OTG_OVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_OTG_UVP_FLAG): text_sensor.text_sensor_schema(),
+            cv.Optional(CONF_BQ25798_TSHUT_FLAG): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_ADC_RATE): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_ADC_SAMPLE): text_sensor.text_sensor_schema(),
             cv.Optional(CONF_BQ25798_ADC_AVG): text_sensor.text_sensor_schema(),
@@ -209,9 +285,6 @@ async def to_code(config):
     if tshut := config.get(CONF_BQ25798_TSHUT):
         sens = await text_sensor.new_text_sensor(tshut)
         cg.add(var.assign_text_sensor_tshut(sens))
-    if bkup_acfet1_on := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
-        sens = await text_sensor.new_text_sensor(bkup_acfet1_on)
-        cg.add(var.assign_text_sensor_bkup_acfet1_on(sens))
     if jeita_vset := config.get(CONF_BQ25798_JEITA_VSET):
         sens = await text_sensor.new_text_sensor(jeita_vset)
         cg.add(var.assign_text_sensor_jeita_vset(sens))
@@ -305,6 +378,123 @@ async def to_code(config):
     if ts_hot_stat := config.get(CONF_BQ25798_TS_HOT_STAT):
         sens = await text_sensor.new_text_sensor(ts_hot_stat)
         cg.add(var.assign_text_sensor_ts_hot_stat(sens))
+    if iindpm_flag := config.get(CONF_BQ25798_IINDPM_FLAG):
+        sens = await text_sensor.new_text_sensor(iindpm_flag)
+        cg.add(var.assign_text_sensor_iindpm_flag(sens))
+    if vindpm_flag := config.get(CONF_BQ25798_VINDPM_FLAG):
+        sens = await text_sensor.new_text_sensor(vindpm_flag)
+        cg.add(var.assign_text_sensor_vindpm_flag(sens))
+    if wd_flag := config.get(CONF_BQ25798_WD_FLAG):
+        sens = await text_sensor.new_text_sensor(wd_flag)
+        cg.add(var.assign_text_sensor_wd_flag(sens))
+    if poorsrc_flag := config.get(CONF_BQ25798_POORSRC_FLAG):
+        sens = await text_sensor.new_text_sensor(poorsrc_flag)
+        cg.add(var.assign_text_sensor_poorsrc_flag(sens))
+    if pg_flag := config.get(CONF_BQ25798_PG_FLAG):
+        sens = await text_sensor.new_text_sensor(pg_flag)
+        cg.add(var.assign_text_sensor_pg_flag(sens))
+    if ac2_present_flag := config.get(CONF_BQ25798_AC2_PRESENT_FLAG):
+        sens = await text_sensor.new_text_sensor(ac2_present_flag)
+        cg.add(var.assign_text_sensor_ac2_present_flag(sens))
+    if ac1_present_flag := config.get(CONF_BQ25798_AC1_PRESENT_FLAG):
+        sens = await text_sensor.new_text_sensor(ac1_present_flag)
+        cg.add(var.assign_text_sensor_ac1_present_flag(sens))
+    if vbus_present_flag := config.get(CONF_BQ25798_VBUS_PRESENT_FLAG):
+        sens = await text_sensor.new_text_sensor(vbus_present_flag)
+        cg.add(var.assign_text_sensor_vbus_present_flag(sens))
+    if chg_flag := config.get(CONF_BQ25798_CHG_FLAG):
+        sens = await text_sensor.new_text_sensor(chg_flag)
+        cg.add(var.assign_text_sensor_chg_flag(sens))
+    if ico_flag := config.get(CONF_BQ25798_ICO_FLAG):
+        sens = await text_sensor.new_text_sensor(ico_flag)
+        cg.add(var.assign_text_sensor_ico_flag(sens))
+    if vbus_flag := config.get(CONF_BQ25798_VBUS_FLAG):
+        sens = await text_sensor.new_text_sensor(vbus_flag)
+        cg.add(var.assign_text_sensor_vbus_flag(sens))
+    if treg_flag := config.get(CONF_BQ25798_TREG_FLAG):
+        sens = await text_sensor.new_text_sensor(treg_flag)
+        cg.add(var.assign_text_sensor_treg_flag(sens))
+    if vbat_present_flag := config.get(CONF_BQ25798_VBAT_PRESENT_FLAG):
+        sens = await text_sensor.new_text_sensor(vbat_present_flag)
+        cg.add(var.assign_text_sensor_vbat_present_flag(sens))
+    if bc1_2_done_flag := config.get(CONF_BQ25798_BC1_2_DONE_FLAG):
+        sens = await text_sensor.new_text_sensor(bc1_2_done_flag)
+        cg.add(var.assign_text_sensor_bc1_2_done_flag(sens))
+    if dpdm_done_flag := config.get(CONF_BQ25798_DPDM_DONE_FLAG):
+        sens = await text_sensor.new_text_sensor(dpdm_done_flag)
+        cg.add(var.assign_text_sensor_dpdm_done_flag(sens))
+    if adc_done_flag := config.get(CONF_BQ25798_ADC_DONE_FLAG):
+        sens = await text_sensor.new_text_sensor(adc_done_flag)
+        cg.add(var.assign_text_sensor_adc_done_flag(sens))
+    if vsys_flag := config.get(CONF_BQ25798_VSYS_FLAG):
+        sens = await text_sensor.new_text_sensor(vsys_flag)
+        cg.add(var.assign_text_sensor_vsys_flag(sens))
+    if chg_tmr_flag := config.get(CONF_BQ25798_CHG_TMR_FLAG):
+        sens = await text_sensor.new_text_sensor(chg_tmr_flag)
+        cg.add(var.assign_text_sensor_chg_tmr_flag(sens))
+    if trichg_tmr_flag := config.get(CONF_BQ25798_TRICHG_TMR_FLAG):
+        sens = await text_sensor.new_text_sensor(trichg_tmr_flag)
+        cg.add(var.assign_text_sensor_trichg_tmr_flag(sens))
+    if prechg_tmr_flag := config.get(CONF_BQ25798_PRECHG_TMR_FLAG):
+        sens = await text_sensor.new_text_sensor(prechg_tmr_flag)
+        cg.add(var.assign_text_sensor_prechg_tmr_flag(sens))
+    if topoff_tmr_flag := config.get(CONF_BQ25798_TOPOFF_TMR_FLAG):
+        sens = await text_sensor.new_text_sensor(topoff_tmr_flag)
+        cg.add(var.assign_text_sensor_topoff_tmr_flag(sens))
+    if vbatotg_low_flag := config.get(CONF_BQ25798_VBATOTG_LOW_FLAG):
+        sens = await text_sensor.new_text_sensor(vbatotg_low_flag)
+        cg.add(var.assign_text_sensor_vbatotg_low_flag(sens))
+    if ts_cold_flag := config.get(CONF_BQ25798_TS_COLD_FLAG):
+        sens = await text_sensor.new_text_sensor(ts_cold_flag)
+        cg.add(var.assign_text_sensor_ts_cold_flag(sens))
+    if ts_cool_flag := config.get(CONF_BQ25798_TS_COOL_FLAG):
+        sens = await text_sensor.new_text_sensor(ts_cool_flag)
+        cg.add(var.assign_text_sensor_ts_cool_flag(sens))
+    if ts_warm_flag := config.get(CONF_BQ25798_TS_WARM_FLAG):
+        sens = await text_sensor.new_text_sensor(ts_warm_flag)
+        cg.add(var.assign_text_sensor_ts_warm_flag(sens))
+    if ts_hot_flag := config.get(CONF_BQ25798_TS_HOT_FLAG):
+        sens = await text_sensor.new_text_sensor(ts_hot_flag)
+        cg.add(var.assign_text_sensor_ts_hot_flag(sens))
+    if ibat_reg_flag := config.get(CONF_BQ25798_IBAT_REG_FLAG):
+        sens = await text_sensor.new_text_sensor(ibat_reg_flag)
+        cg.add(var.assign_text_sensor_ibat_reg_flag(sens))
+    if vbus_ovp_flag := config.get(CONF_BQ25798_VBUS_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(vbus_ovp_flag)
+        cg.add(var.assign_text_sensor_vbus_ovp_flag(sens))
+    if vbat_ovp_flag := config.get(CONF_BQ25798_VBAT_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(vbat_ovp_flag)
+        cg.add(var.assign_text_sensor_vbat_ovp_flag(sens))
+    if ibus_ocp_flag := config.get(CONF_BQ25798_IBUS_OCP_FLAG):
+        sens = await text_sensor.new_text_sensor(ibus_ocp_flag)
+        cg.add(var.assign_text_sensor_ibus_ocp_flag(sens))
+    if ibat_ocp_flag := config.get(CONF_BQ25798_IBAT_OCP_FLAG):
+        sens = await text_sensor.new_text_sensor(ibat_ocp_flag)
+        cg.add(var.assign_text_sensor_ibat_ocp_flag(sens))
+    if conv_ocp_flag := config.get(CONF_BQ25798_CONV_OCP_FLAG):
+        sens = await text_sensor.new_text_sensor(conv_ocp_flag)
+        cg.add(var.assign_text_sensor_conv_ocp_flag(sens))
+    if vac2_ovp_flag := config.get(CONF_BQ25798_VAC2_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(vac2_ovp_flag)
+        cg.add(var.assign_text_sensor_vac2_ovp_flag(sens))
+    if vac1_ovp_flag := config.get(CONF_BQ25798_VAC1_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(vac1_ovp_flag)
+        cg.add(var.assign_text_sensor_vac1_ovp_flag(sens))
+    if vsys_short_flag := config.get(CONF_BQ25798_VSYS_SHORT_FLAG):
+        sens = await text_sensor.new_text_sensor(vsys_short_flag)
+        cg.add(var.assign_text_sensor_vsys_short_flag(sens))
+    if vsys_ovp_flag := config.get(CONF_BQ25798_VSYS_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(vsys_ovp_flag)
+        cg.add(var.assign_text_sensor_vsys_ovp_flag(sens))
+    if otg_ovp_flag := config.get(CONF_BQ25798_OTG_OVP_FLAG):
+        sens = await text_sensor.new_text_sensor(otg_ovp_flag)
+        cg.add(var.assign_text_sensor_otg_ovp_flag(sens))
+    if otg_uvp_flag := config.get(CONF_BQ25798_OTG_UVP_FLAG):
+        sens = await text_sensor.new_text_sensor(otg_uvp_flag)
+        cg.add(var.assign_text_sensor_otg_uvp_flag(sens))
+    if tshut_flag := config.get(CONF_BQ25798_TSHUT_FLAG):
+        sens = await text_sensor.new_text_sensor(tshut_flag)
+        cg.add(var.assign_text_sensor_tshut_flag(sens))
     if adc_rate := config.get(CONF_BQ25798_ADC_RATE):
         sens = await text_sensor.new_text_sensor(adc_rate)
         cg.add(var.assign_text_sensor_adc_rate(sens))

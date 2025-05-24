@@ -3368,24 +3368,9 @@ bool BQ25798Component::get_bkup_acfet1_on_bool() {
   return bool_val;
 }
 
-int BQ25798Component::get_bkup_acfet1_on_enum_int() {
-  uint16_t raw = get_bkup_acfet1_on_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->BKUP_ACFET1_ON);
-}
-const char* BQ25798Component::get_bkup_acfet1_on_enum_string() {
-  uint16_t raw = get_bkup_acfet1_on_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->BKUP_ACFET1_ON);
-}
-
 void BQ25798Component::set_bkup_acfet1_on_bool(bool value) {
   ESP_LOGD(TAG, "Setting BKUP_ACFET1_ON to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->BKUP_ACFET1_ON);
-  this->set_bkup_acfet1_on_raw(raw_value);
-};
-
-void BQ25798Component::set_bkup_acfet1_on_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting BKUP_ACFET1_ON to %d", value);
-  uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BKUP_ACFET1_ON);
   this->set_bkup_acfet1_on_raw(raw_value);
 };
 
@@ -4604,7 +4589,7 @@ bool BQ25798Component::get_tshut_stat_bool() {
   return bool_val;
 }
 
-// IINDPM_FLAG - In IINDPM / IOTG regulation
+// IINDPM_FLAG - IINDPM / IOTG flag
 uint16_t BQ25798Component::get_iindpm_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4633,7 +4618,7 @@ bool BQ25798Component::get_iindpm_flag_flag() {
   return val;
 }
 
-// VINDPM_FLAG - In VINDPM / VOTG regulation
+// VINDPM_FLAG - VINDPM / VOTG Flag
 uint16_t BQ25798Component::get_vindpm_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4662,7 +4647,7 @@ bool BQ25798Component::get_vindpm_flag_flag() {
   return val;
 }
 
-// WD_FLAG - Watchdog timer expired
+// WD_FLAG - I2C watchdog timer flag
 uint16_t BQ25798Component::get_wd_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4691,7 +4676,7 @@ bool BQ25798Component::get_wd_flag_flag() {
   return val;
 }
 
-// POORSRC_FLAG - Poor source detected
+// POORSRC_FLAG - Poor source detection flag
 uint16_t BQ25798Component::get_poorsrc_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4720,7 +4705,7 @@ bool BQ25798Component::get_poorsrc_flag_flag() {
   return val;
 }
 
-// PG_FLAG - Power status changed
+// PG_FLAG - Poor source detection flag
 uint16_t BQ25798Component::get_pg_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4749,7 +4734,7 @@ bool BQ25798Component::get_pg_flag_flag() {
   return val;
 }
 
-// AC2_PRESENT_FLAG - AC2 present status changed
+// AC2_PRESENT_FLAG - VAC2 present flag
 uint16_t BQ25798Component::get_ac2_present_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4778,7 +4763,7 @@ bool BQ25798Component::get_ac2_present_flag_flag() {
   return val;
 }
 
-// AC1_PRESENT_FLAG - AC1 present status changed
+// AC1_PRESENT_FLAG - VAC1 present flag
 uint16_t BQ25798Component::get_ac1_present_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4807,7 +4792,7 @@ bool BQ25798Component::get_ac1_present_flag_flag() {
   return val;
 }
 
-// VBUS_PRESENT_FLAG - VBUS present status changed
+// VBUS_PRESENT_FLAG - VBUS present flag
 uint16_t BQ25798Component::get_vbus_present_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4836,7 +4821,7 @@ bool BQ25798Component::get_vbus_present_flag_flag() {
   return val;
 }
 
-// CHG_FLAG - Charging status changed
+// CHG_FLAG - Charge status flag
 uint16_t BQ25798Component::get_chg_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4865,7 +4850,7 @@ bool BQ25798Component::get_chg_flag_flag() {
   return val;
 }
 
-// ICO_FLAG - ICO status changed
+// ICO_FLAG - ICO status flag
 uint16_t BQ25798Component::get_ico_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4894,7 +4879,7 @@ bool BQ25798Component::get_ico_flag_flag() {
   return val;
 }
 
-// VBUS_FLAG - VBUS status changed
+// VBUS_FLAG - VBUS status flag
 uint16_t BQ25798Component::get_vbus_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4923,7 +4908,7 @@ bool BQ25798Component::get_vbus_flag_flag() {
   return val;
 }
 
-// TREG_FLAG - TREG signal rising threshold detected
+// TREG_FLAG - IC thermal regulation flag
 uint16_t BQ25798Component::get_treg_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4952,7 +4937,7 @@ bool BQ25798Component::get_treg_flag_flag() {
   return val;
 }
 
-// VBAT_PRESENT_FLAG - Battery present status changed
+// VBAT_PRESENT_FLAG - VBAT present flag
 uint16_t BQ25798Component::get_vbat_present_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -4981,7 +4966,7 @@ bool BQ25798Component::get_vbat_present_flag_flag() {
   return val;
 }
 
-// BC1_2_DONE_FLAG - BC1.2 detection status changed
+// BC1_2_DONE_FLAG - BC1.2 status Flag
 uint16_t BQ25798Component::get_bc1_2_done_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5010,7 +4995,7 @@ bool BQ25798Component::get_bc1_2_done_flag_flag() {
   return val;
 }
 
-// DPDM_DONE_FLAG - D+/D- detection is completed
+// DPDM_DONE_FLAG - D+/D- detection is done flag.
 uint16_t BQ25798Component::get_dpdm_done_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5039,7 +5024,7 @@ bool BQ25798Component::get_dpdm_done_flag_flag() {
   return val;
 }
 
-// ADC_DONE_FLAG - ADC conversion is completed
+// ADC_DONE_FLAG - ADC conversion flag (only in one-shot mode)
 uint16_t BQ25798Component::get_adc_done_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5068,7 +5053,7 @@ bool BQ25798Component::get_adc_done_flag_flag() {
   return val;
 }
 
-// VSYS_FLAG - Entered or existed VSYSMIN regulation
+// VSYS_FLAG - VSYSMIN regulation flag
 uint16_t BQ25798Component::get_vsys_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5097,7 +5082,7 @@ bool BQ25798Component::get_vsys_flag_flag() {
   return val;
 }
 
-// CHG_TMR_FLAG - Fast charge timer expired rising edge detected
+// CHG_TMR_FLAG - Fast charge timer flag
 uint16_t BQ25798Component::get_chg_tmr_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5126,7 +5111,7 @@ bool BQ25798Component::get_chg_tmr_flag_flag() {
   return val;
 }
 
-// TRICHG_TMR_FLAG - Trickle charge timer expired rising edge detected
+// TRICHG_TMR_FLAG - Trickle charge timer flag
 uint16_t BQ25798Component::get_trichg_tmr_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5155,7 +5140,7 @@ bool BQ25798Component::get_trichg_tmr_flag_flag() {
   return val;
 }
 
-// PRECHG_TMR_FLAG - Pre-charge timer expired rising edge detected
+// PRECHG_TMR_FLAG - Pre-charge timer flag
 uint16_t BQ25798Component::get_prechg_tmr_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5184,7 +5169,7 @@ bool BQ25798Component::get_prechg_tmr_flag_flag() {
   return val;
 }
 
-// TOPOFF_TMR_FLAG - Top-off timer expired rising edge detected
+// TOPOFF_TMR_FLAG - Top off timer flag
 uint16_t BQ25798Component::get_topoff_tmr_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5213,7 +5198,7 @@ bool BQ25798Component::get_topoff_tmr_flag_flag() {
   return val;
 }
 
-// VBATOTG_LOW_FLAG - VBAT falls below the threshold to enable the OTG mode
+// VBATOTG_LOW_FLAG - VBAT too low to enable OTG flag
 uint16_t BQ25798Component::get_vbatotg_low_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5242,7 +5227,7 @@ bool BQ25798Component::get_vbatotg_low_flag_flag() {
   return val;
 }
 
-// TS_COLD_FLAG - TS across cold temperature (T1) is detected
+// TS_COLD_FLAG - TS cold temperature flag
 uint16_t BQ25798Component::get_ts_cold_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5271,7 +5256,7 @@ bool BQ25798Component::get_ts_cold_flag_flag() {
   return val;
 }
 
-// TS_COOL_FLAG - TS across cool temperature (T2) is detected
+// TS_COOL_FLAG - TS cool temperature flag
 uint16_t BQ25798Component::get_ts_cool_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5300,7 +5285,7 @@ bool BQ25798Component::get_ts_cool_flag_flag() {
   return val;
 }
 
-// TS_WARM_FLAG - TS across warm temperature (T3) is detected
+// TS_WARM_FLAG - TS warm temperature flag
 uint16_t BQ25798Component::get_ts_warm_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5329,7 +5314,7 @@ bool BQ25798Component::get_ts_warm_flag_flag() {
   return val;
 }
 
-// TS_HOT_FLAG - TS across hot temperature (T5) is detected
+// TS_HOT_FLAG - TS hot temperature flag
 uint16_t BQ25798Component::get_ts_hot_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5358,7 +5343,7 @@ bool BQ25798Component::get_ts_hot_flag_flag() {
   return val;
 }
 
-// IBAT_REG_FLAG - Enter or exit IBAT regulation
+// IBAT_REG_FLAG - IBAT regulation flag
 uint16_t BQ25798Component::get_ibat_reg_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5387,7 +5372,7 @@ bool BQ25798Component::get_ibat_reg_flag_flag() {
   return val;
 }
 
-// VBUS_OVP_FLAG - Enter VBUS OVP
+// VBUS_OVP_FLAG - VBUS over-voltage flag
 uint16_t BQ25798Component::get_vbus_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5416,7 +5401,7 @@ bool BQ25798Component::get_vbus_ovp_flag_flag() {
   return val;
 }
 
-// VBAT_OVP_FLAG - Enter VBAT OVP
+// VBAT_OVP_FLAG - VBAT over-voltage flag
 uint16_t BQ25798Component::get_vbat_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5445,7 +5430,7 @@ bool BQ25798Component::get_vbat_ovp_flag_flag() {
   return val;
 }
 
-// IBUS_OCP_FLAG - Enter IBUS OCP
+// IBUS_OCP_FLAG - IBUS over-current flag
 uint16_t BQ25798Component::get_ibus_ocp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5474,7 +5459,7 @@ bool BQ25798Component::get_ibus_ocp_flag_flag() {
   return val;
 }
 
-// IBAT_OCP_FLAG - Enter discharged OCP
+// IBAT_OCP_FLAG - IBAT over-current flag
 uint16_t BQ25798Component::get_ibat_ocp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5503,7 +5488,7 @@ bool BQ25798Component::get_ibat_ocp_flag_flag() {
   return val;
 }
 
-// CONV_OCP_FLAG - Enter converter OCP
+// CONV_OCP_FLAG - Converter over-current flag
 uint16_t BQ25798Component::get_conv_ocp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5532,7 +5517,7 @@ bool BQ25798Component::get_conv_ocp_flag_flag() {
   return val;
 }
 
-// VAC2_OVP_FLAG - Enter VAC2 OVP
+// VAC2_OVP_FLAG - VAC2 over-voltage flag
 uint16_t BQ25798Component::get_vac2_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5561,7 +5546,7 @@ bool BQ25798Component::get_vac2_ovp_flag_flag() {
   return val;
 }
 
-// VAC1_OVP_FLAG - Enter VAC1 OVP
+// VAC1_OVP_FLAG - VAC1 over-voltage flag
 uint16_t BQ25798Component::get_vac1_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5590,7 +5575,7 @@ bool BQ25798Component::get_vac1_ovp_flag_flag() {
   return val;
 }
 
-// VSYS_SHORT_FLAG - Stop switching due to system short
+// VSYS_SHORT_FLAG - VSYS short circuit flag
 uint16_t BQ25798Component::get_vsys_short_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5619,7 +5604,7 @@ bool BQ25798Component::get_vsys_short_flag_flag() {
   return val;
 }
 
-// VSYS_OVP_FLAG - Stop switching due to system over-voltage
+// VSYS_OVP_FLAG - VSYS over-voltage flag
 uint16_t BQ25798Component::get_vsys_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5648,7 +5633,7 @@ bool BQ25798Component::get_vsys_ovp_flag_flag() {
   return val;
 }
 
-// OTG_OVP_FLAG - Stop OTG due to VBUS over voltage
+// OTG_OVP_FLAG - OTG over-voltage flag
 uint16_t BQ25798Component::get_otg_ovp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5677,7 +5662,7 @@ bool BQ25798Component::get_otg_ovp_flag_flag() {
   return val;
 }
 
-// OTG_UVP_FLAG - Stop OTG due to VBUS under voltage
+// OTG_UVP_FLAG - OTG under-voltage flag
 uint16_t BQ25798Component::get_otg_uvp_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
@@ -5706,7 +5691,7 @@ bool BQ25798Component::get_otg_uvp_flag_flag() {
   return val;
 }
 
-// TSHUT_FLAG - TS shutdown signal rising threshold detected
+// TSHUT_FLAG - IC thermal shutdown flag
 uint16_t BQ25798Component::get_tshut_flag_raw() {
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];

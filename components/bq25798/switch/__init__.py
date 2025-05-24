@@ -145,6 +145,9 @@ CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
 BQ25798Vac2PdEnSwitch = bq25798_ns.class_("BQ25798Vac2PdEnSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
 
+BQ25798BkupAcfet1OnSwitch = bq25798_ns.class_("BQ25798BkupAcfet1OnSwitch", switch.Switch, cg.PollingComponent)
+CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
+
 BQ25798TsIgnoreSwitch = bq25798_ns.class_("BQ25798TsIgnoreSwitch", switch.Switch, cg.PollingComponent)
 CONF_BQ25798_TS_IGNORE = "ts_ignore"
 
@@ -362,6 +365,10 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BQ25798_VAC2_PD_EN): switch.switch_schema(
                 BQ25798Vac2PdEnSwitch,
+                default_restore_mode="DISABLED",    # read the current state from the device
+            ),
+            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): switch.switch_schema(
+                BQ25798BkupAcfet1OnSwitch,
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
             cv.Optional(CONF_BQ25798_TS_IGNORE): switch.switch_schema(
@@ -714,6 +721,11 @@ async def to_code(config):
         await cg.register_parented(sw, config[CONF_BQ25798_ID])
         await cg.register_component(sw, config)
 
+
+    if bkup_acfet1_on_config := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
+        sw = await switch.new_switch(bkup_acfet1_on_config)
+        await cg.register_parented(sw, config[CONF_BQ25798_ID])
+        await cg.register_component(sw, config)
 
 
 

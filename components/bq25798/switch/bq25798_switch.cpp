@@ -1427,6 +1427,39 @@ void BQ25798Vac2PdEnSwitch::write_state(bool state) {
 
 
 
+// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
+float BQ25798BkupAcfet1OnSwitch::get_setup_priority() const { return setup_priority::DATA; }
+
+void BQ25798BkupAcfet1OnSwitch::dump_config() {
+  ESP_LOGCONFIG(TAG, "Dumping BQ25798BkupAcfet1OnSwitch configuration...");
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  LOG_SWITCH("  ", "BKUP_ACFET1_ON", this);
+  LOG_UPDATE_INTERVAL(this);
+}
+
+void BQ25798BkupAcfet1OnSwitch::update() {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->publish_state(this->parent_->get_bkup_acfet1_on_bool());
+}
+
+void BQ25798BkupAcfet1OnSwitch::write_state(bool state) {
+  if (this->parent_->is_failed()) {
+    return;
+  }
+
+  this->parent_->set_bkup_acfet1_on_bool(state);
+  this->publish_state(state);
+}
+
+
+
+
 // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 float BQ25798TsIgnoreSwitch::get_setup_priority() const { return setup_priority::DATA; }
 

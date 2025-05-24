@@ -655,6 +655,21 @@ class BQ25798Vac2PdEnSwitch : public switch_::Switch,
 };
 
 
+// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
+class BQ25798BkupAcfet1OnSwitch : public switch_::Switch,
+                            public PollingComponent,
+                            public Parented<BQ25798Component> {
+ public:
+  BQ25798BkupAcfet1OnSwitch() = default;
+  void update() override;
+  void dump_config() override;
+  float get_setup_priority() const override;
+
+ protected:
+  void write_state(bool state) override;
+};
+
+
 // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 class BQ25798TsIgnoreSwitch : public switch_::Switch,
                             public PollingComponent,

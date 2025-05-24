@@ -102,9 +102,6 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_tshut_ != nullptr) {
     LOG_SENSOR("  ", "TSHUT", this->sensor_tshut_);
   }
-  if (this->sensor_bkup_acfet1_on_ != nullptr) {
-    LOG_SENSOR("  ", "BKUP_ACFET1_ON", this->sensor_bkup_acfet1_on_);
-  }
   if (this->sensor_jeita_vset_ != nullptr) {
     LOG_SENSOR("  ", "JEITA_VSET", this->sensor_jeita_vset_);
   }
@@ -424,9 +421,6 @@ void BQ25798Sensor::update() {
   // VAC1_PD_EN - Enable VAC1 pull down resistor
   // VAC2_PD_EN - Enable VAC2 pull down resistor
   // BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
-  if (this->sensor_bkup_acfet1_on_ != nullptr) {
-    this->sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_enum_int());
-  }
   // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
   if (this->sensor_jeita_vset_ != nullptr) {
     this->sensor_jeita_vset_->publish_state(this->parent_->get_jeita_vset_enum_int());
@@ -571,45 +565,45 @@ void BQ25798Sensor::update() {
   // OTG_OVP_STAT - OTG over-voltage status
   // OTG_UVP_STAT - OTG under-voltage status
   // TSHUT_STAT - IC thermal shutdown status
-  // IINDPM_FLAG - In IINDPM / IOTG regulation
-  // VINDPM_FLAG - In VINDPM / VOTG regulation
-  // WD_FLAG - Watchdog timer expired
-  // POORSRC_FLAG - Poor source detected
-  // PG_FLAG - Power status changed
-  // AC2_PRESENT_FLAG - AC2 present status changed
-  // AC1_PRESENT_FLAG - AC1 present status changed
-  // VBUS_PRESENT_FLAG - VBUS present status changed
-  // CHG_FLAG - Charging status changed
-  // ICO_FLAG - ICO status changed
-  // VBUS_FLAG - VBUS status changed
-  // TREG_FLAG - TREG signal rising threshold detected
-  // VBAT_PRESENT_FLAG - Battery present status changed
-  // BC1_2_DONE_FLAG - BC1.2 detection status changed
-  // DPDM_DONE_FLAG - D+/D- detection is completed
-  // ADC_DONE_FLAG - ADC conversion is completed
-  // VSYS_FLAG - Entered or existed VSYSMIN regulation
-  // CHG_TMR_FLAG - Fast charge timer expired rising edge detected
-  // TRICHG_TMR_FLAG - Trickle charge timer expired rising edge detected
-  // PRECHG_TMR_FLAG - Pre-charge timer expired rising edge detected
-  // TOPOFF_TMR_FLAG - Top-off timer expired rising edge detected
-  // VBATOTG_LOW_FLAG - VBAT falls below the threshold to enable the OTG mode
-  // TS_COLD_FLAG - TS across cold temperature (T1) is detected
-  // TS_COOL_FLAG - TS across cool temperature (T2) is detected
-  // TS_WARM_FLAG - TS across warm temperature (T3) is detected
-  // TS_HOT_FLAG - TS across hot temperature (T5) is detected
-  // IBAT_REG_FLAG - Enter or exit IBAT regulation
-  // VBUS_OVP_FLAG - Enter VBUS OVP
-  // VBAT_OVP_FLAG - Enter VBAT OVP
-  // IBUS_OCP_FLAG - Enter IBUS OCP
-  // IBAT_OCP_FLAG - Enter discharged OCP
-  // CONV_OCP_FLAG - Enter converter OCP
-  // VAC2_OVP_FLAG - Enter VAC2 OVP
-  // VAC1_OVP_FLAG - Enter VAC1 OVP
-  // VSYS_SHORT_FLAG - Stop switching due to system short
-  // VSYS_OVP_FLAG - Stop switching due to system over-voltage
-  // OTG_OVP_FLAG - Stop OTG due to VBUS over voltage
-  // OTG_UVP_FLAG - Stop OTG due to VBUS under voltage
-  // TSHUT_FLAG - TS shutdown signal rising threshold detected
+  // IINDPM_FLAG - IINDPM / IOTG flag
+  // VINDPM_FLAG - VINDPM / VOTG Flag
+  // WD_FLAG - I2C watchdog timer flag
+  // POORSRC_FLAG - Poor source detection flag
+  // PG_FLAG - Poor source detection flag
+  // AC2_PRESENT_FLAG - VAC2 present flag
+  // AC1_PRESENT_FLAG - VAC1 present flag
+  // VBUS_PRESENT_FLAG - VBUS present flag
+  // CHG_FLAG - Charge status flag
+  // ICO_FLAG - ICO status flag
+  // VBUS_FLAG - VBUS status flag
+  // TREG_FLAG - IC thermal regulation flag
+  // VBAT_PRESENT_FLAG - VBAT present flag
+  // BC1_2_DONE_FLAG - BC1.2 status Flag
+  // DPDM_DONE_FLAG - D+/D- detection is done flag.
+  // ADC_DONE_FLAG - ADC conversion flag (only in one-shot mode)
+  // VSYS_FLAG - VSYSMIN regulation flag
+  // CHG_TMR_FLAG - Fast charge timer flag
+  // TRICHG_TMR_FLAG - Trickle charge timer flag
+  // PRECHG_TMR_FLAG - Pre-charge timer flag
+  // TOPOFF_TMR_FLAG - Top off timer flag
+  // VBATOTG_LOW_FLAG - VBAT too low to enable OTG flag
+  // TS_COLD_FLAG - TS cold temperature flag
+  // TS_COOL_FLAG - TS cool temperature flag
+  // TS_WARM_FLAG - TS warm temperature flag
+  // TS_HOT_FLAG - TS hot temperature flag
+  // IBAT_REG_FLAG - IBAT regulation flag
+  // VBUS_OVP_FLAG - VBUS over-voltage flag
+  // VBAT_OVP_FLAG - VBAT over-voltage flag
+  // IBUS_OCP_FLAG - IBUS over-current flag
+  // IBAT_OCP_FLAG - IBAT over-current flag
+  // CONV_OCP_FLAG - Converter over-current flag
+  // VAC2_OVP_FLAG - VAC2 over-voltage flag
+  // VAC1_OVP_FLAG - VAC1 over-voltage flag
+  // VSYS_SHORT_FLAG - VSYS short circuit flag
+  // VSYS_OVP_FLAG - VSYS over-voltage flag
+  // OTG_OVP_FLAG - OTG over-voltage flag
+  // OTG_UVP_FLAG - OTG under-voltage flag
+  // TSHUT_FLAG - IC thermal shutdown flag
   // ADC_EN - ADC enable
   // ADC_RATE - ADC conversion rate
   if (this->sensor_adc_rate_ != nullptr) {
@@ -783,9 +777,6 @@ void BQ25798Sensor::assign_sensor_treg(sensor::Sensor *sensor) {
 }
 void BQ25798Sensor::assign_sensor_tshut(sensor::Sensor *sensor) {
   this->sensor_tshut_ = sensor;
-}
-void BQ25798Sensor::assign_sensor_bkup_acfet1_on(sensor::Sensor *sensor) {
-  this->sensor_bkup_acfet1_on_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_jeita_vset(sensor::Sensor *sensor) {
   this->sensor_jeita_vset_ = sensor;

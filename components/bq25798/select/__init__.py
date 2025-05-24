@@ -74,9 +74,6 @@ CONF_BQ25798_TREG = "treg"
 BQ25798TshutSelect = bq25798_ns.class_("BQ25798TshutSelect", select.Select, cg.PollingComponent)
 CONF_BQ25798_TSHUT = "tshut"
 
-BQ25798BkupAcfet1OnSelect = bq25798_ns.class_("BQ25798BkupAcfet1OnSelect", select.Select, cg.PollingComponent)
-CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
-
 BQ25798JeitaVsetSelect = bq25798_ns.class_("BQ25798JeitaVsetSelect", select.Select, cg.PollingComponent)
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
 
@@ -192,10 +189,6 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BQ25798_TSHUT): select.select_schema(
                 BQ25798TshutSelect,
-                entity_category=ENTITY_CATEGORY_CONFIG,
-            ),
-            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): select.select_schema(
-                BQ25798BkupAcfet1OnSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
             cv.Optional(CONF_BQ25798_JEITA_VSET): select.select_schema(
@@ -553,16 +546,6 @@ async def to_code(config):
 
 
 
-    if bkup_acfet1_on_config := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
-        sel = await select.new_select(
-            bkup_acfet1_on_config,
-            options=[
-                "BKUP_ACFET1_ON_IDLE",
-                "BKUP_ACFET1_ON_TURN_ON",
-            ]
-        )
-        await cg.register_parented(sel, config[CONF_BQ25798_ID])
-        await cg.register_component(sel, config)
 
     if jeita_vset_config := config.get(CONF_BQ25798_JEITA_VSET):
         sel = await select.new_select(

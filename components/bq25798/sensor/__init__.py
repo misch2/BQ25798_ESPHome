@@ -52,7 +52,6 @@ CONF_BQ25798_VOC_DLY = "voc_dly"
 CONF_BQ25798_VOC_RATE = "voc_rate"
 CONF_BQ25798_TREG = "treg"
 CONF_BQ25798_TSHUT = "tshut"
-CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
 CONF_BQ25798_JEITA_ISETH = "jeita_iseth"
 CONF_BQ25798_JEITA_ISETC = "jeita_isetc"
@@ -217,10 +216,6 @@ ENUM_BQ25798_TSHUT = {
     "TSHUT_130": 1,
     "TSHUT_120": 2,
     "TSHUT_85": 3,
-}
-ENUM_BQ25798_BKUP_ACFET1_ON = {
-    "BKUP_ACFET1_ON_IDLE": 0,
-    "BKUP_ACFET1_ON_TURN_ON": 1,
 }
 ENUM_BQ25798_JEITA_VSET = {
     "JEITA_VSET_CHARGE_SUSPEND": 0,
@@ -562,9 +557,6 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_TSHUT): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
-            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): sensor.sensor_schema(
-                state_class=STATE_CLASS_MEASUREMENT,
-            ),
             cv.Optional(CONF_BQ25798_JEITA_VSET): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
@@ -847,9 +839,6 @@ async def to_code(config):
     if tshut := config.get(CONF_BQ25798_TSHUT):
         sens = await sensor.new_sensor(tshut)
         cg.add(var.assign_sensor_tshut(sens))
-    if bkup_acfet1_on := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
-        sens = await sensor.new_sensor(bkup_acfet1_on)
-        cg.add(var.assign_sensor_bkup_acfet1_on(sens))
     if jeita_vset := config.get(CONF_BQ25798_JEITA_VSET):
         sens = await sensor.new_sensor(jeita_vset)
         cg.add(var.assign_sensor_jeita_vset(sens))

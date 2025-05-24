@@ -295,21 +295,6 @@ class BQ25798TshutSelect : public select::Select,
 };
 
 
-// BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
-class BQ25798BkupAcfet1OnSelect : public select::Select,
-                            public PollingComponent,
-                            public Parented<BQ25798Component> {
- public:
-  BQ25798BkupAcfet1OnSelect() = default;
-  void update() override;
-  void dump_config() override;
-  float get_setup_priority() const override;
-
- protected:
-  void control(const std::string &value) override;
-};
-
-
 // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 class BQ25798JeitaVsetSelect : public select::Select,
                             public PollingComponent,

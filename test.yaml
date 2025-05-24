@@ -99,8 +99,6 @@ sensor:
       name: "TREG (Thermal regulation thresholds)"
     tshut:
       name: "TSHUT (Thermal shutdown thresholds)"
-    bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
     jeita_vset:
       name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
     jeita_iseth:
@@ -156,7 +154,7 @@ sensor:
     prechg_tmr_stat:
       name: "PRECHG_TMR_STAT (Pre-charge timer status)"
     vbatotg_low_stat:
-      name: "VBATOTG_LOW_STAT (VBAT too low to enable OTG flag)"
+      name: "VBATOTG_LOW_STAT (The battery voltage is too low to enable OTG mode)"
     ts_cold_stat:
       name: "TS_COLD_STAT (The TS temperature is in the cold range)"
     ts_cool_stat:
@@ -343,7 +341,7 @@ binary_sensor:
     prechg_tmr_stat:
       name: "PRECHG_TMR_STAT (Pre-charge timer status)"
     vbatotg_low_stat:
-      name: "VBATOTG_LOW_STAT (VBAT too low to enable OTG flag)"
+      name: "VBATOTG_LOW_STAT (The battery voltage is too low to enable OTG mode)"
     ts_cold_stat:
       name: "TS_COLD_STAT (The TS temperature is in the cold range)"
     ts_cool_stat:
@@ -353,7 +351,7 @@ binary_sensor:
     ts_hot_stat:
       name: "TS_HOT_STAT (The TS temperature is in the hot range)"
     ibat_reg_stat:
-      name: "IBAT_REG_STAT (IBAT regulation status)"
+      name: "IBAT_REG_STAT (In battery discharging current regulation)"
     vbus_ovp_stat:
       name: "VBUS_OVP_STAT (VBUS over-voltage status)"
     vbat_ovp_stat:
@@ -379,83 +377,83 @@ binary_sensor:
     tshut_stat:
       name: "TSHUT_STAT (IC thermal shutdown status)"
     iindpm_flag:
-      name: "IINDPM_FLAG (In IINDPM / IOTG regulation)"
+      name: "IINDPM_FLAG (IINDPM / IOTG flag)"
     vindpm_flag:
-      name: "VINDPM_FLAG (In VINDPM / VOTG regulation)"
+      name: "VINDPM_FLAG (VINDPM / VOTG Flag)"
     wd_flag:
-      name: "WD_FLAG (Watchdog timer expired)"
+      name: "WD_FLAG (I2C watchdog timer flag)"
     poorsrc_flag:
-      name: "POORSRC_FLAG (Poor source detected)"
+      name: "POORSRC_FLAG (Poor source detection flag)"
     pg_flag:
-      name: "PG_FLAG (Power status changed)"
+      name: "PG_FLAG (Poor source detection flag)"
     ac2_present_flag:
-      name: "AC2_PRESENT_FLAG (AC2 present status changed)"
+      name: "AC2_PRESENT_FLAG (VAC2 present flag)"
     ac1_present_flag:
-      name: "AC1_PRESENT_FLAG (AC1 present status changed)"
+      name: "AC1_PRESENT_FLAG (VAC1 present flag)"
     vbus_present_flag:
-      name: "VBUS_PRESENT_FLAG (VBUS present status changed)"
+      name: "VBUS_PRESENT_FLAG (VBUS present flag)"
     chg_flag:
-      name: "CHG_FLAG (Charging status changed)"
+      name: "CHG_FLAG (Charge status flag)"
     ico_flag:
-      name: "ICO_FLAG (ICO status changed)"
+      name: "ICO_FLAG (ICO status flag)"
     vbus_flag:
-      name: "VBUS_FLAG (VBUS status changed)"
+      name: "VBUS_FLAG (VBUS status flag)"
     treg_flag:
-      name: "TREG_FLAG (TREG signal rising threshold detected)"
+      name: "TREG_FLAG (IC thermal regulation flag)"
     vbat_present_flag:
-      name: "VBAT_PRESENT_FLAG (Battery present status changed)"
+      name: "VBAT_PRESENT_FLAG (VBAT present flag)"
     bc1_2_done_flag:
-      name: "BC1_2_DONE_FLAG (BC1.2 detection status changed)"
+      name: "BC1_2_DONE_FLAG (BC1.2 status Flag)"
     dpdm_done_flag:
-      name: "DPDM_DONE_FLAG (D+/D- detection is completed)"
+      name: "DPDM_DONE_FLAG (D+/D- detection is done flag.)"
     adc_done_flag:
-      name: "ADC_DONE_FLAG (ADC conversion is completed)"
+      name: "ADC_DONE_FLAG (ADC conversion flag (only in one-shot mode))"
     vsys_flag:
-      name: "VSYS_FLAG (Entered or existed VSYSMIN regulation)"
+      name: "VSYS_FLAG (VSYSMIN regulation flag)"
     chg_tmr_flag:
-      name: "CHG_TMR_FLAG (Fast charge timer expired rising edge detected)"
+      name: "CHG_TMR_FLAG (Fast charge timer flag)"
     trichg_tmr_flag:
-      name: "TRICHG_TMR_FLAG (Trickle charge timer expired rising edge detected)"
+      name: "TRICHG_TMR_FLAG (Trickle charge timer flag)"
     prechg_tmr_flag:
-      name: "PRECHG_TMR_FLAG (Pre-charge timer expired rising edge detected)"
+      name: "PRECHG_TMR_FLAG (Pre-charge timer flag)"
     topoff_tmr_flag:
-      name: "TOPOFF_TMR_FLAG (Top-off timer expired rising edge detected)"
+      name: "TOPOFF_TMR_FLAG (Top off timer flag)"
     vbatotg_low_flag:
-      name: "VBATOTG_LOW_FLAG (VBAT falls below the threshold to enable the OTG mode)"
+      name: "VBATOTG_LOW_FLAG (VBAT too low to enable OTG flag)"
     ts_cold_flag:
-      name: "TS_COLD_FLAG (TS across cold temperature (T1) is detected)"
+      name: "TS_COLD_FLAG (TS cold temperature flag)"
     ts_cool_flag:
-      name: "TS_COOL_FLAG (TS across cool temperature (T2) is detected)"
+      name: "TS_COOL_FLAG (TS cool temperature flag)"
     ts_warm_flag:
-      name: "TS_WARM_FLAG (TS across warm temperature (T3) is detected)"
+      name: "TS_WARM_FLAG (TS warm temperature flag)"
     ts_hot_flag:
-      name: "TS_HOT_FLAG (TS across hot temperature (T5) is detected)"
+      name: "TS_HOT_FLAG (TS hot temperature flag)"
     ibat_reg_flag:
-      name: "IBAT_REG_FLAG (Enter or exit IBAT regulation)"
+      name: "IBAT_REG_FLAG (IBAT regulation flag)"
     vbus_ovp_flag:
-      name: "VBUS_OVP_FLAG (Enter VBUS OVP)"
+      name: "VBUS_OVP_FLAG (VBUS over-voltage flag)"
     vbat_ovp_flag:
-      name: "VBAT_OVP_FLAG (Enter VBAT OVP)"
+      name: "VBAT_OVP_FLAG (VBAT over-voltage flag)"
     ibus_ocp_flag:
-      name: "IBUS_OCP_FLAG (Enter IBUS OCP)"
+      name: "IBUS_OCP_FLAG (IBUS over-current flag)"
     ibat_ocp_flag:
-      name: "IBAT_OCP_FLAG (Enter discharged OCP)"
+      name: "IBAT_OCP_FLAG (IBAT over-current flag)"
     conv_ocp_flag:
-      name: "CONV_OCP_FLAG (Enter converter OCP)"
+      name: "CONV_OCP_FLAG (Converter over-current flag)"
     vac2_ovp_flag:
-      name: "VAC2_OVP_FLAG (Enter VAC2 OVP)"
+      name: "VAC2_OVP_FLAG (VAC2 over-voltage flag)"
     vac1_ovp_flag:
-      name: "VAC1_OVP_FLAG (Enter VAC1 OVP)"
+      name: "VAC1_OVP_FLAG (VAC1 over-voltage flag)"
     vsys_short_flag:
-      name: "VSYS_SHORT_FLAG (Stop switching due to system short)"
+      name: "VSYS_SHORT_FLAG (VSYS short circuit flag)"
     vsys_ovp_flag:
-      name: "VSYS_OVP_FLAG (Stop switching due to system over-voltage)"
+      name: "VSYS_OVP_FLAG (VSYS over-voltage flag)"
     otg_ovp_flag:
-      name: "OTG_OVP_FLAG (Stop OTG due to VBUS over voltage)"
+      name: "OTG_OVP_FLAG (OTG over-voltage flag)"
     otg_uvp_flag:
-      name: "OTG_UVP_FLAG (Stop OTG due to VBUS under voltage)"
+      name: "OTG_UVP_FLAG (OTG under-voltage flag)"
     tshut_flag:
-      name: "TSHUT_FLAG (TS shutdown signal rising threshold detected)"
+      name: "TSHUT_FLAG (IC thermal shutdown flag)"
     adc_en:
       name: "ADC_EN (ADC enable)"
     adc_rate:
@@ -529,8 +527,6 @@ text_sensor:
       name: "TREG (Thermal regulation thresholds)"
     tshut:
       name: "TSHUT (Thermal shutdown thresholds)"
-    bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
     jeita_vset:
       name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
     jeita_iseth:
@@ -584,7 +580,7 @@ text_sensor:
     prechg_tmr_stat:
       name: "PRECHG_TMR_STAT (Pre-charge timer status)"
     vbatotg_low_stat:
-      name: "VBATOTG_LOW_STAT (VBAT too low to enable OTG flag)"
+      name: "VBATOTG_LOW_STAT (The battery voltage is too low to enable OTG mode)"
     ts_cold_stat:
       name: "TS_COLD_STAT (The TS temperature is in the cold range)"
     ts_cool_stat:
@@ -593,6 +589,84 @@ text_sensor:
       name: "TS_WARM_STAT (The TS temperature is in the warm range)"
     ts_hot_stat:
       name: "TS_HOT_STAT (The TS temperature is in the hot range)"
+    iindpm_flag:
+      name: "IINDPM_FLAG (IINDPM / IOTG flag)"
+    vindpm_flag:
+      name: "VINDPM_FLAG (VINDPM / VOTG Flag)"
+    wd_flag:
+      name: "WD_FLAG (I2C watchdog timer flag)"
+    poorsrc_flag:
+      name: "POORSRC_FLAG (Poor source detection flag)"
+    pg_flag:
+      name: "PG_FLAG (Poor source detection flag)"
+    ac2_present_flag:
+      name: "AC2_PRESENT_FLAG (VAC2 present flag)"
+    ac1_present_flag:
+      name: "AC1_PRESENT_FLAG (VAC1 present flag)"
+    vbus_present_flag:
+      name: "VBUS_PRESENT_FLAG (VBUS present flag)"
+    chg_flag:
+      name: "CHG_FLAG (Charge status flag)"
+    ico_flag:
+      name: "ICO_FLAG (ICO status flag)"
+    vbus_flag:
+      name: "VBUS_FLAG (VBUS status flag)"
+    treg_flag:
+      name: "TREG_FLAG (IC thermal regulation flag)"
+    vbat_present_flag:
+      name: "VBAT_PRESENT_FLAG (VBAT present flag)"
+    bc1_2_done_flag:
+      name: "BC1_2_DONE_FLAG (BC1.2 status Flag)"
+    dpdm_done_flag:
+      name: "DPDM_DONE_FLAG (D+/D- detection is done flag.)"
+    adc_done_flag:
+      name: "ADC_DONE_FLAG (ADC conversion flag (only in one-shot mode))"
+    vsys_flag:
+      name: "VSYS_FLAG (VSYSMIN regulation flag)"
+    chg_tmr_flag:
+      name: "CHG_TMR_FLAG (Fast charge timer flag)"
+    trichg_tmr_flag:
+      name: "TRICHG_TMR_FLAG (Trickle charge timer flag)"
+    prechg_tmr_flag:
+      name: "PRECHG_TMR_FLAG (Pre-charge timer flag)"
+    topoff_tmr_flag:
+      name: "TOPOFF_TMR_FLAG (Top off timer flag)"
+    vbatotg_low_flag:
+      name: "VBATOTG_LOW_FLAG (VBAT too low to enable OTG flag)"
+    ts_cold_flag:
+      name: "TS_COLD_FLAG (TS cold temperature flag)"
+    ts_cool_flag:
+      name: "TS_COOL_FLAG (TS cool temperature flag)"
+    ts_warm_flag:
+      name: "TS_WARM_FLAG (TS warm temperature flag)"
+    ts_hot_flag:
+      name: "TS_HOT_FLAG (TS hot temperature flag)"
+    ibat_reg_flag:
+      name: "IBAT_REG_FLAG (IBAT regulation flag)"
+    vbus_ovp_flag:
+      name: "VBUS_OVP_FLAG (VBUS over-voltage flag)"
+    vbat_ovp_flag:
+      name: "VBAT_OVP_FLAG (VBAT over-voltage flag)"
+    ibus_ocp_flag:
+      name: "IBUS_OCP_FLAG (IBUS over-current flag)"
+    ibat_ocp_flag:
+      name: "IBAT_OCP_FLAG (IBAT over-current flag)"
+    conv_ocp_flag:
+      name: "CONV_OCP_FLAG (Converter over-current flag)"
+    vac2_ovp_flag:
+      name: "VAC2_OVP_FLAG (VAC2 over-voltage flag)"
+    vac1_ovp_flag:
+      name: "VAC1_OVP_FLAG (VAC1 over-voltage flag)"
+    vsys_short_flag:
+      name: "VSYS_SHORT_FLAG (VSYS short circuit flag)"
+    vsys_ovp_flag:
+      name: "VSYS_OVP_FLAG (VSYS over-voltage flag)"
+    otg_ovp_flag:
+      name: "OTG_OVP_FLAG (OTG over-voltage flag)"
+    otg_uvp_flag:
+      name: "OTG_UVP_FLAG (OTG under-voltage flag)"
+    tshut_flag:
+      name: "TSHUT_FLAG (IC thermal shutdown flag)"
     adc_rate:
       name: "ADC_RATE (ADC conversion rate)"
     adc_sample:
@@ -741,6 +815,9 @@ switch:
     vac2_pd_en:
       name: "VAC2_PD_EN (Enable VAC2 pull down resistor)"
       id: vac2_pd_en
+    bkup_acfet1_on:
+      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
+      id: bkup_acfet1_on
     ts_ignore:
       name: "TS_IGNORE (Ignore TS detection (the charger considers the TS is always good))"
       id: ts_ignore
@@ -880,9 +957,6 @@ select:
     tshut:
       name: "TSHUT (Thermal shutdown thresholds)"
       id: tshut
-    bkup_acfet1_on:
-      name: "BKUP_ACFET1_ON (Enable ACFET1 in backup mode (exit backup mode))"
-      id: bkup_acfet1_on
     jeita_vset:
       name: "JEITA_VSET (JEITA high temperature range (TWARN - THOT) charge voltage setting)"
       id: jeita_vset

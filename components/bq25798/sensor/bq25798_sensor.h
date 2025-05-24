@@ -46,7 +46,6 @@ class BQ25798Sensor : public sensor::Sensor,
   void assign_sensor_voc_rate(sensor::Sensor *sensor);
   void assign_sensor_treg(sensor::Sensor *sensor);
   void assign_sensor_tshut(sensor::Sensor *sensor);
-  void assign_sensor_bkup_acfet1_on(sensor::Sensor *sensor);
   void assign_sensor_jeita_vset(sensor::Sensor *sensor);
   void assign_sensor_jeita_iseth(sensor::Sensor *sensor);
   void assign_sensor_jeita_isetc(sensor::Sensor *sensor);
@@ -128,7 +127,6 @@ class BQ25798Sensor : public sensor::Sensor,
   sensor::Sensor *sensor_voc_rate_ {nullptr};
   sensor::Sensor *sensor_treg_ {nullptr};
   sensor::Sensor *sensor_tshut_ {nullptr};
-  sensor::Sensor *sensor_bkup_acfet1_on_ {nullptr};
   sensor::Sensor *sensor_jeita_vset_ {nullptr};
   sensor::Sensor *sensor_jeita_iseth_ {nullptr};
   sensor::Sensor *sensor_jeita_isetc_ {nullptr};
