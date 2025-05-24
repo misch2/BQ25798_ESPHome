@@ -594,7 +594,7 @@ CONFIG_SCHEMA = (
             ),
         }
     )
-    .extend(cv.polling_component_schema("5s"))
+    .extend(cv.polling_component_schema("1s"))
 )
 
 async def to_code(config):

@@ -21,7 +21,7 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(cv.polling_component_schema("15s"))  # For the watchdog purpose only
+    .extend(cv.polling_component_schema("1s"))  # For batch reading all registers and updating the watchdog
     .extend(i2c.i2c_device_schema(0x6B))
 )
 

@@ -26,45 +26,43 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
 {% for def in settings %}
   // {{ def.name }} - {{ def.description }}
-  uint16_t get_{{ def._snake_case_name }}_raw(bool read_from_i2c);
+  uint16_t get_{{ def._snake_case_name }}_raw();
 {%     if def._is_rw %}
-  void set_{{ def._snake_case_name }}_raw(uint16_t value, bool write_to_i2c);
+  void set_{{ def._snake_case_name }}_raw(uint16_t value);
 {%     endif %}
-
 {%     if def._is_flag %}
-  bool get_{{ def._snake_case_name }}_flag(bool read_from_i2c);
-  void clear_cached_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 0; }
-  void raise_cached_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_raw_ = 1; }
-  bool get_cached_flag_{{ def._snake_case_name }}() { return this->last_{{ def._snake_case_name }}_raw_ ; }
+  bool get_{{ def._snake_case_name }}_flag();
+  void clear_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_ = false; }
+  void raise_flag_{{ def._snake_case_name }}() { this->last_{{ def._snake_case_name }}_ = true; }
 {%     endif %}
 {# #}
 {%     if def._is_bool %}
-  bool get_{{ def._snake_case_name }}_bool(bool read_from_i2c);
+  bool get_{{ def._snake_case_name }}_bool();
 {%         if def._is_rw %}
-  void set_{{ def._snake_case_name }}_bool(bool value, bool write_to_i2c);
+  void set_{{ def._snake_case_name }}_bool(bool value);
 {%         endif %}
 {%     endif %}
 {# #}
 {%     if def._is_int %}
-  int get_{{ def._snake_case_name }}_int(bool read_from_i2c);
+  int get_{{ def._snake_case_name }}_int();
 {%         if def._is_rw %}
-  void set_{{ def._snake_case_name }}_int(int value, bool write_to_i2c);
+  void set_{{ def._snake_case_name }}_int(int value);
 {%         endif %}
 {%     endif %}
 {# #}
 {%     if def._is_float %}
-  float get_{{ def._snake_case_name }}_float(bool read_from_i2c);
+  float get_{{ def._snake_case_name }}_float();
 {%         if def._is_rw %}
-  void set_{{ def._snake_case_name }}_float(float value, bool write_to_i2c);
+  void set_{{ def._snake_case_name }}_float(float value);
 {%         endif %}
 {%     endif %}{# #}
 {# #}
 {%     if def._is_enum %}
-{# TODO {{ def._ENUM_t }} get_{{ def._snake_case_name }}_enum(bool read_from_i2c); #}
-  int get_{{ def._snake_case_name }}_enum_int(bool read_from_i2c);
-  const char* get_{{ def._snake_case_name }}_enum_string(bool read_from_i2c);
+{# TODO {{ def._ENUM_t }} get_{{ def._snake_case_name }}_enum(); #}
+  int get_{{ def._snake_case_name }}_enum_int();
+  const char* get_{{ def._snake_case_name }}_enum_string();
 {%         if def._is_rw %}
-  void set_{{ def._snake_case_name }}_enum_int(int value, bool write_to_i2c);
+  void set_{{ def._snake_case_name }}_enum_int(int value);
 {%         endif %}
 {%     endif %}
 
@@ -72,7 +70,9 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 
  protected:
 {% for def in settings %}
-  uint16_t last_{{ def._snake_case_name }}_raw_ = 0;
+{%     if def._is_flag %}
+  bool last_{{ def._snake_case_name }}_ = false;
+{%     endif %}
 {% endfor %}
 
   BQ25798NoI2C *bq25798_noi2c_ {nullptr};

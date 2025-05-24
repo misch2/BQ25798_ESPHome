@@ -247,7 +247,7 @@ CONFIG_SCHEMA = (
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
     })
-    .extend(cv.polling_component_schema("5s"))
+    .extend(cv.polling_component_schema("1s"))
 )
 
 async def to_code(config):

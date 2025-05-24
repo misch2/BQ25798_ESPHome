@@ -32,18 +32,18 @@ void {{ className }}::update() {
 
   //ESP_LOGD(TAG, "Updating {{ className }}...");
 {% if def._is_int %}
-  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_int(true));
+  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_int());
 {% else %}
-  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_float(true));
+  this->publish_state(this->parent_->get_{{ def._snake_case_name }}_float());
 {% endif %}
 }
 
 void {{ className }}::control(float new_value) {
   //ESP_LOGD(TAG, "Controlling {{ className }}...");
 {% if def._is_int %}
-  this->parent_->set_{{ def._snake_case_name }}_int(new_value, true);
+  this->parent_->set_{{ def._snake_case_name }}_int(new_value);
 {% else %}
-  this->parent_->set_{{ def._snake_case_name }}_float(new_value, true);
+  this->parent_->set_{{ def._snake_case_name }}_float(new_value);
 {% endif %}
   this->publish_state(new_value);
 }

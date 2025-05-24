@@ -28,9 +28,9 @@ void BQ25798BinarySensor::update() {
 {%     if def._is_ha_binary_sensor %}
   if (this->binary_sensor_{{ def._snake_case_name }}_ != nullptr) {
 {%         if def._is_flag %}
-    this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_cached_flag_{{ def._snake_case_name }}());
+    this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_flag());
 {%         else %}
-    this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool(true));
+    this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool());
 {%         endif %}
   }
 {%     endif %}

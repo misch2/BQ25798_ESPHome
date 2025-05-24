@@ -210,7 +210,7 @@ void BQ25798TextSensor::update() {
    
   // VBAT_LOWV - Battery voltage thresholds for fast charge (percent of VREG)
   if (this->text_sensor_vbat_lowv_ != nullptr) {   
-    this->text_sensor_vbat_lowv_->publish_state(this->parent_->get_vbat_lowv_enum_string(true));   
+    this->text_sensor_vbat_lowv_->publish_state(this->parent_->get_vbat_lowv_enum_string());   
   }   
    
   // IPRECHG - Precharge Current Limit
@@ -223,12 +223,12 @@ void BQ25798TextSensor::update() {
    
   // CELL - Battery cell count
   if (this->text_sensor_cell_ != nullptr) {   
-    this->text_sensor_cell_->publish_state(this->parent_->get_cell_enum_string(true));   
+    this->text_sensor_cell_->publish_state(this->parent_->get_cell_enum_string());   
   }   
    
   // TRECHG - Battery recharge delay time
   if (this->text_sensor_trechg_ != nullptr) {   
-    this->text_sensor_trechg_->publish_state(this->parent_->get_trechg_enum_string(true));   
+    this->text_sensor_trechg_->publish_state(this->parent_->get_trechg_enum_string());   
   }   
    
   // VRECHG - Battery Recharge Threshold Offset (Below VREG)
@@ -237,14 +237,14 @@ void BQ25798TextSensor::update() {
    
   // PRECHG_TMR - Pre-charge safety timer setting
   if (this->text_sensor_prechg_tmr_ != nullptr) {   
-    this->text_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_enum_string(true));   
+    this->text_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_enum_string());   
   }   
    
   // IOTG - OTG current limit
    
   // TOPOFF_TMR - Top-off timer control
   if (this->text_sensor_topoff_tmr_ != nullptr) {   
-    this->text_sensor_topoff_tmr_->publish_state(this->parent_->get_topoff_tmr_enum_string(true));   
+    this->text_sensor_topoff_tmr_->publish_state(this->parent_->get_topoff_tmr_enum_string());   
   }   
    
   // EN_TRICHG_TMR - Trickle charge timer enable
@@ -255,7 +255,7 @@ void BQ25798TextSensor::update() {
    
   // CHG_TMR - Fast charge timer setting
   if (this->text_sensor_chg_tmr_ != nullptr) {   
-    this->text_sensor_chg_tmr_->publish_state(this->parent_->get_chg_tmr_enum_string(true));   
+    this->text_sensor_chg_tmr_->publish_state(this->parent_->get_chg_tmr_enum_string());   
   }   
    
   // TMR2X_EN - 2x slower charging in DPM enable
@@ -278,19 +278,19 @@ void BQ25798TextSensor::update() {
    
   // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
   if (this->text_sensor_vbus_backup_ != nullptr) {   
-    this->text_sensor_vbus_backup_->publish_state(this->parent_->get_vbus_backup_enum_string(true));   
+    this->text_sensor_vbus_backup_->publish_state(this->parent_->get_vbus_backup_enum_string());   
   }   
    
   // VAC_OVP - Over voltage protection thresholds
   if (this->text_sensor_vac_ovp_ != nullptr) {   
-    this->text_sensor_vac_ovp_->publish_state(this->parent_->get_vac_ovp_enum_string(true));   
+    this->text_sensor_vac_ovp_->publish_state(this->parent_->get_vac_ovp_enum_string());   
   }   
    
   // WD_RST - I2C watch dog timer reset
    
   // WATCHDOG - Watchdog timer settings
   if (this->text_sensor_watchdog_ != nullptr) {   
-    this->text_sensor_watchdog_->publish_state(this->parent_->get_watchdog_enum_string(true));   
+    this->text_sensor_watchdog_->publish_state(this->parent_->get_watchdog_enum_string());   
   }   
    
   // FORCE_INDET - Force D+/D- detection
@@ -305,12 +305,12 @@ void BQ25798TextSensor::update() {
    
   // SDRV_CTRL - Enable external Ship FET control
   if (this->text_sensor_sdrv_ctrl_ != nullptr) {   
-    this->text_sensor_sdrv_ctrl_->publish_state(this->parent_->get_sdrv_ctrl_enum_string(true));   
+    this->text_sensor_sdrv_ctrl_->publish_state(this->parent_->get_sdrv_ctrl_enum_string());   
   }   
    
   // SDRV_DLY - Delay for SDRV control
   if (this->text_sensor_sdrv_dly_ != nullptr) {   
-    this->text_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_enum_string(true));   
+    this->text_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_enum_string());   
   }   
    
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
@@ -323,7 +323,7 @@ void BQ25798TextSensor::update() {
    
   // WKUP_DLY - Wakeup (Ship FET) delay
   if (this->text_sensor_wkup_dly_ != nullptr) {   
-    this->text_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_enum_string(true));   
+    this->text_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_enum_string());   
   }   
    
   // DIS_LDO - Disable BATFET LDO mode in precharge state
@@ -338,7 +338,7 @@ void BQ25798TextSensor::update() {
    
   // PWM_FREQ - PWM frequency setting
   if (this->text_sensor_pwm_freq_ != nullptr) {   
-    this->text_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_enum_string(true));   
+    this->text_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_enum_string());   
   }   
    
   // DIS_STAT - Disable STAT pin output
@@ -357,7 +357,7 @@ void BQ25798TextSensor::update() {
    
   // IBAT_REG - Battery discharge current regulation in OTG mode
   if (this->text_sensor_ibat_reg_ != nullptr) {   
-    this->text_sensor_ibat_reg_->publish_state(this->parent_->get_ibat_reg_enum_string(true));   
+    this->text_sensor_ibat_reg_->publish_state(this->parent_->get_ibat_reg_enum_string());   
   }   
    
   // EN_IINDPM - Enable input current regulation
@@ -368,29 +368,29 @@ void BQ25798TextSensor::update() {
    
   // VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
   if (this->text_sensor_voc_pct_ != nullptr) {   
-    this->text_sensor_voc_pct_->publish_state(this->parent_->get_voc_pct_enum_string(true));   
+    this->text_sensor_voc_pct_->publish_state(this->parent_->get_voc_pct_enum_string());   
   }   
    
   // VOC_DLY - After the converter stops switching, the time delay before the VOC is measured
   if (this->text_sensor_voc_dly_ != nullptr) {   
-    this->text_sensor_voc_dly_->publish_state(this->parent_->get_voc_dly_enum_string(true));   
+    this->text_sensor_voc_dly_->publish_state(this->parent_->get_voc_dly_enum_string());   
   }   
    
   // VOC_RATE - The time interval between two consecutive VOC measurements
   if (this->text_sensor_voc_rate_ != nullptr) {   
-    this->text_sensor_voc_rate_->publish_state(this->parent_->get_voc_rate_enum_string(true));   
+    this->text_sensor_voc_rate_->publish_state(this->parent_->get_voc_rate_enum_string());   
   }   
    
   // EN_MPPT - Enable MPPT (Maximum Power Point Tracking)
    
   // TREG - Thermal regulation thresholds
   if (this->text_sensor_treg_ != nullptr) {   
-    this->text_sensor_treg_->publish_state(this->parent_->get_treg_enum_string(true));   
+    this->text_sensor_treg_->publish_state(this->parent_->get_treg_enum_string());   
   }   
    
   // TSHUT - Thermal shutdown thresholds
   if (this->text_sensor_tshut_ != nullptr) {   
-    this->text_sensor_tshut_->publish_state(this->parent_->get_tshut_enum_string(true));   
+    this->text_sensor_tshut_->publish_state(this->parent_->get_tshut_enum_string());   
   }   
    
   // VBUS_PD_EN - Enable VBUS pull down resistor (6 kOhm)
@@ -401,42 +401,42 @@ void BQ25798TextSensor::update() {
    
   // BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
   if (this->text_sensor_bkup_acfet1_on_ != nullptr) {   
-    this->text_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_enum_string(true));   
+    this->text_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_enum_string());   
   }   
    
   // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
   if (this->text_sensor_jeita_vset_ != nullptr) {   
-    this->text_sensor_jeita_vset_->publish_state(this->parent_->get_jeita_vset_enum_string(true));   
+    this->text_sensor_jeita_vset_->publish_state(this->parent_->get_jeita_vset_enum_string());   
   }   
    
   // JEITA_ISETH - JEITA high temperature range (TWARN - THOT) charge current setting
   if (this->text_sensor_jeita_iseth_ != nullptr) {   
-    this->text_sensor_jeita_iseth_->publish_state(this->parent_->get_jeita_iseth_enum_string(true));   
+    this->text_sensor_jeita_iseth_->publish_state(this->parent_->get_jeita_iseth_enum_string());   
   }   
    
   // JEITA_ISETC - JEITA low temperature range (TCOLD - TWARN) charge current setting
   if (this->text_sensor_jeita_isetc_ != nullptr) {   
-    this->text_sensor_jeita_isetc_->publish_state(this->parent_->get_jeita_isetc_enum_string(true));   
+    this->text_sensor_jeita_isetc_->publish_state(this->parent_->get_jeita_isetc_enum_string());   
   }   
    
   // TS_COOL - JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.
   if (this->text_sensor_ts_cool_ != nullptr) {   
-    this->text_sensor_ts_cool_->publish_state(this->parent_->get_ts_cool_enum_string(true));   
+    this->text_sensor_ts_cool_->publish_state(this->parent_->get_ts_cool_enum_string());   
   }   
    
   // TS_WARM - JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.
   if (this->text_sensor_ts_warm_ != nullptr) {   
-    this->text_sensor_ts_warm_->publish_state(this->parent_->get_ts_warm_enum_string(true));   
+    this->text_sensor_ts_warm_->publish_state(this->parent_->get_ts_warm_enum_string());   
   }   
    
   // BHOT - OTG mode TS HOT temperature threshold
   if (this->text_sensor_bhot_ != nullptr) {   
-    this->text_sensor_bhot_->publish_state(this->parent_->get_bhot_enum_string(true));   
+    this->text_sensor_bhot_->publish_state(this->parent_->get_bhot_enum_string());   
   }   
    
   // BCOLD - OTG mode TS COLD temperature threshold
   if (this->text_sensor_bcold_ != nullptr) {   
-    this->text_sensor_bcold_->publish_state(this->parent_->get_bcold_enum_string(true));   
+    this->text_sensor_bcold_->publish_state(this->parent_->get_bcold_enum_string());   
   }   
    
   // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
@@ -445,126 +445,126 @@ void BQ25798TextSensor::update() {
    
   // IINDPM_STAT - IINDPM status (forward mode) or IOTG status (OTG mode)
   if (this->text_sensor_iindpm_stat_ != nullptr) {   
-    this->text_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_enum_string(true));   
+    this->text_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_enum_string());   
   }   
    
   // VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
   if (this->text_sensor_vindpm_stat_ != nullptr) {   
-    this->text_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_enum_string(true));   
+    this->text_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_enum_string());   
   }   
    
   // WD_STAT - Watchdog timer status
   if (this->text_sensor_wd_stat_ != nullptr) {   
-    this->text_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_enum_string(true));   
+    this->text_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_enum_string());   
   }   
    
   // PG_STAT - Power good status
   if (this->text_sensor_pg_stat_ != nullptr) {   
-    this->text_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_enum_string(true));   
+    this->text_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_enum_string());   
   }   
    
   // AC2_PRESENT_STAT - VAC2 present status
   if (this->text_sensor_ac2_present_stat_ != nullptr) {   
-    this->text_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_enum_string(true));   
+    this->text_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_enum_string());   
   }   
    
   // AC1_PRESENT_STAT - VAC1 present status
   if (this->text_sensor_ac1_present_stat_ != nullptr) {   
-    this->text_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_enum_string(true));   
+    this->text_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_enum_string());   
   }   
    
   // VBUS_PRESENT_STAT - VBUS present status
   if (this->text_sensor_vbus_present_stat_ != nullptr) {   
-    this->text_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_enum_string(true));   
+    this->text_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_enum_string());   
   }   
    
   // CHG_STAT - Charge Status bits
   if (this->text_sensor_chg_stat_ != nullptr) {   
-    this->text_sensor_chg_stat_->publish_state(this->parent_->get_chg_stat_enum_string(true));   
+    this->text_sensor_chg_stat_->publish_state(this->parent_->get_chg_stat_enum_string());   
   }   
    
   // VBUS_STAT - VBUS status bits
   if (this->text_sensor_vbus_stat_ != nullptr) {   
-    this->text_sensor_vbus_stat_->publish_state(this->parent_->get_vbus_stat_enum_string(true));   
+    this->text_sensor_vbus_stat_->publish_state(this->parent_->get_vbus_stat_enum_string());   
   }   
    
   // BC12_DONE_STAT - BC1.2 detection done status
    
   // ICO_STAT - Input Current Optimizer (ICO) status
   if (this->text_sensor_ico_stat_ != nullptr) {   
-    this->text_sensor_ico_stat_->publish_state(this->parent_->get_ico_stat_enum_string(true));   
+    this->text_sensor_ico_stat_->publish_state(this->parent_->get_ico_stat_enum_string());   
   }   
    
   // TREG_STAT - IC thermal regulation status
   if (this->text_sensor_treg_stat_ != nullptr) {   
-    this->text_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_enum_string(true));   
+    this->text_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_enum_string());   
   }   
    
   // DPDM_STAT - D+/D- detection status
   if (this->text_sensor_dpdm_stat_ != nullptr) {   
-    this->text_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_enum_string(true));   
+    this->text_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_enum_string());   
   }   
    
   // VBAT_PRESENT_STAT - Battery present status
   if (this->text_sensor_vbat_present_stat_ != nullptr) {   
-    this->text_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_enum_string(true));   
+    this->text_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_enum_string());   
   }   
    
   // ACRB2_STAT - The ACFET2-RBFET2 status
   if (this->text_sensor_acrb2_stat_ != nullptr) {   
-    this->text_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_enum_string(true));   
+    this->text_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_enum_string());   
   }   
    
   // ACRB1_STAT - The ACFET1-RBFET1 status
   if (this->text_sensor_acrb1_stat_ != nullptr) {   
-    this->text_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_enum_string(true));   
+    this->text_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_enum_string());   
   }   
    
   // ADC_DONE_STAT - ADC Conversion Status
    
   // VSYS_STAT - VSYS Regulation Status
   if (this->text_sensor_vsys_stat_ != nullptr) {   
-    this->text_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_enum_string(true));   
+    this->text_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_enum_string());   
   }   
    
   // CHG_TMR_STAT - Fast charge timer status
   if (this->text_sensor_chg_tmr_stat_ != nullptr) {   
-    this->text_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_enum_string(true));   
+    this->text_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_enum_string());   
   }   
    
   // TRICHG_TMR_STAT - Trickle charge timer status
   if (this->text_sensor_trichg_tmr_stat_ != nullptr) {   
-    this->text_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_enum_string(true));   
+    this->text_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_enum_string());   
   }   
    
   // PRECHG_TMR_STAT - Pre-charge timer status
   if (this->text_sensor_prechg_tmr_stat_ != nullptr) {   
-    this->text_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_string(true));   
+    this->text_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_string());   
   }   
    
   // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
   if (this->text_sensor_vbatotg_low_stat_ != nullptr) {   
-    this->text_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_string(true));   
+    this->text_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_string());   
   }   
    
   // TS_COLD_STAT - The TS temperature is in the cold range
   if (this->text_sensor_ts_cold_stat_ != nullptr) {   
-    this->text_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_enum_string(true));   
+    this->text_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_enum_string());   
   }   
    
   // TS_COOL_STAT - The TS temperature is in the cool range
   if (this->text_sensor_ts_cool_stat_ != nullptr) {   
-    this->text_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_enum_string(true));   
+    this->text_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_enum_string());   
   }   
    
   // TS_WARM_STAT - The TS temperature is in the warm range
   if (this->text_sensor_ts_warm_stat_ != nullptr) {   
-    this->text_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_enum_string(true));   
+    this->text_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_enum_string());   
   }   
    
   // TS_HOT_STAT - The TS temperature is in the hot range
   if (this->text_sensor_ts_hot_stat_ != nullptr) {   
-    this->text_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_string(true));   
+    this->text_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_string());   
   }   
    
   // IBAT_REG_STAT - In battery discharging current regulation
@@ -675,17 +675,17 @@ void BQ25798TextSensor::update() {
    
   // ADC_RATE - ADC conversion rate
   if (this->text_sensor_adc_rate_ != nullptr) {   
-    this->text_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_enum_string(true));   
+    this->text_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_enum_string());   
   }   
    
   // ADC_SAMPLE - ADC sample speed
   if (this->text_sensor_adc_sample_ != nullptr) {   
-    this->text_sensor_adc_sample_->publish_state(this->parent_->get_adc_sample_enum_string(true));   
+    this->text_sensor_adc_sample_->publish_state(this->parent_->get_adc_sample_enum_string());   
   }   
    
   // ADC_AVG - ADC averaging
   if (this->text_sensor_adc_avg_ != nullptr) {   
-    this->text_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_enum_string(true));   
+    this->text_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_enum_string());   
   }   
    
   // ADC_AVG_INIT - ADC average initialization
@@ -736,22 +736,22 @@ void BQ25798TextSensor::update() {
    
   // DPLUS_DAC - D+ Output Driver
   if (this->text_sensor_dplus_dac_ != nullptr) {   
-    this->text_sensor_dplus_dac_->publish_state(this->parent_->get_dplus_dac_enum_string(true));   
+    this->text_sensor_dplus_dac_->publish_state(this->parent_->get_dplus_dac_enum_string());   
   }   
    
   // DMINUS_DAC - D- Output Driver
   if (this->text_sensor_dminus_dac_ != nullptr) {   
-    this->text_sensor_dminus_dac_->publish_state(this->parent_->get_dminus_dac_enum_string(true));   
+    this->text_sensor_dminus_dac_->publish_state(this->parent_->get_dminus_dac_enum_string());   
   }   
    
   // PN - Part number
   if (this->text_sensor_pn_ != nullptr) {   
-    this->text_sensor_pn_->publish_state(this->parent_->get_pn_enum_string(true));   
+    this->text_sensor_pn_->publish_state(this->parent_->get_pn_enum_string());   
   }   
    
   // DEV_REV - Device revision
   if (this->text_sensor_dev_rev_ != nullptr) {   
-    this->text_sensor_dev_rev_->publish_state(this->parent_->get_dev_rev_enum_string(true));   
+    this->text_sensor_dev_rev_->publish_state(this->parent_->get_dev_rev_enum_string());   
   }   
    
 }

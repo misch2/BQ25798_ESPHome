@@ -437,424 +437,424 @@ void BQ25798BinarySensor::dump_config() {
 
 void BQ25798BinarySensor::update() {
   if (this->binary_sensor_reg_rst_ != nullptr) {
-    this->binary_sensor_reg_rst_->publish_state(this->parent_->get_reg_rst_bool(true));
+    this->binary_sensor_reg_rst_->publish_state(this->parent_->get_reg_rst_bool());
   }
   if (this->binary_sensor_stop_wd_chg_ != nullptr) {
-    this->binary_sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg_bool(true));
+    this->binary_sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg_bool());
   }
   if (this->binary_sensor_prechg_tmr_ != nullptr) {
-    this->binary_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_bool(true));
+    this->binary_sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_bool());
   }
   if (this->binary_sensor_en_trichg_tmr_ != nullptr) {
-    this->binary_sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr_bool(true));
+    this->binary_sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr_bool());
   }
   if (this->binary_sensor_en_prechg_tmr_ != nullptr) {
-    this->binary_sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr_bool(true));
+    this->binary_sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr_bool());
   }
   if (this->binary_sensor_en_chg_tmr_ != nullptr) {
-    this->binary_sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr_bool(true));
+    this->binary_sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr_bool());
   }
   if (this->binary_sensor_tmr2x_en_ != nullptr) {
-    this->binary_sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en_bool(true));
+    this->binary_sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en_bool());
   }
   if (this->binary_sensor_en_auto_ibatdis_ != nullptr) {
-    this->binary_sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis_bool(true));
+    this->binary_sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis_bool());
   }
   if (this->binary_sensor_force_ibatdis_ != nullptr) {
-    this->binary_sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis_bool(true));
+    this->binary_sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis_bool());
   }
   if (this->binary_sensor_en_chg_ != nullptr) {
-    this->binary_sensor_en_chg_->publish_state(this->parent_->get_en_chg_bool(true));
+    this->binary_sensor_en_chg_->publish_state(this->parent_->get_en_chg_bool());
   }
   if (this->binary_sensor_en_ico_ != nullptr) {
-    this->binary_sensor_en_ico_->publish_state(this->parent_->get_en_ico_bool(true));
+    this->binary_sensor_en_ico_->publish_state(this->parent_->get_en_ico_bool());
   }
   if (this->binary_sensor_force_ico_ != nullptr) {
-    this->binary_sensor_force_ico_->publish_state(this->parent_->get_force_ico_bool(true));
+    this->binary_sensor_force_ico_->publish_state(this->parent_->get_force_ico_bool());
   }
   if (this->binary_sensor_en_hiz_ != nullptr) {
-    this->binary_sensor_en_hiz_->publish_state(this->parent_->get_en_hiz_bool(true));
+    this->binary_sensor_en_hiz_->publish_state(this->parent_->get_en_hiz_bool());
   }
   if (this->binary_sensor_en_term_ != nullptr) {
-    this->binary_sensor_en_term_->publish_state(this->parent_->get_en_term_bool(true));
+    this->binary_sensor_en_term_->publish_state(this->parent_->get_en_term_bool());
   }
   if (this->binary_sensor_en_backup_ != nullptr) {
-    this->binary_sensor_en_backup_->publish_state(this->parent_->get_en_backup_bool(true));
+    this->binary_sensor_en_backup_->publish_state(this->parent_->get_en_backup_bool());
   }
   if (this->binary_sensor_wd_rst_ != nullptr) {
-    this->binary_sensor_wd_rst_->publish_state(this->parent_->get_wd_rst_bool(true));
+    this->binary_sensor_wd_rst_->publish_state(this->parent_->get_wd_rst_bool());
   }
   if (this->binary_sensor_force_indet_ != nullptr) {
-    this->binary_sensor_force_indet_->publish_state(this->parent_->get_force_indet_bool(true));
+    this->binary_sensor_force_indet_->publish_state(this->parent_->get_force_indet_bool());
   }
   if (this->binary_sensor_auto_indet_en_ != nullptr) {
-    this->binary_sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en_bool(true));
+    this->binary_sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en_bool());
   }
   if (this->binary_sensor_en_12v_ != nullptr) {
-    this->binary_sensor_en_12v_->publish_state(this->parent_->get_en_12v_bool(true));
+    this->binary_sensor_en_12v_->publish_state(this->parent_->get_en_12v_bool());
   }
   if (this->binary_sensor_en_9v_ != nullptr) {
-    this->binary_sensor_en_9v_->publish_state(this->parent_->get_en_9v_bool(true));
+    this->binary_sensor_en_9v_->publish_state(this->parent_->get_en_9v_bool());
   }
   if (this->binary_sensor_hvdcp_en_ != nullptr) {
-    this->binary_sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en_bool(true));
+    this->binary_sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en_bool());
   }
   if (this->binary_sensor_sdrv_dly_ != nullptr) {
-    this->binary_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_bool(true));
+    this->binary_sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_bool());
   }
   if (this->binary_sensor_dis_acdrv_ != nullptr) {
-    this->binary_sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv_bool(true));
+    this->binary_sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv_bool());
   }
   if (this->binary_sensor_en_otg_ != nullptr) {
-    this->binary_sensor_en_otg_->publish_state(this->parent_->get_en_otg_bool(true));
+    this->binary_sensor_en_otg_->publish_state(this->parent_->get_en_otg_bool());
   }
   if (this->binary_sensor_pfm_otg_dis_ != nullptr) {
-    this->binary_sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis_bool(true));
+    this->binary_sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis_bool());
   }
   if (this->binary_sensor_pfm_fwd_dis_ != nullptr) {
-    this->binary_sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis_bool(true));
+    this->binary_sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis_bool());
   }
   if (this->binary_sensor_wkup_dly_ != nullptr) {
-    this->binary_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_bool(true));
+    this->binary_sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_bool());
   }
   if (this->binary_sensor_dis_ldo_ != nullptr) {
-    this->binary_sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo_bool(true));
+    this->binary_sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo_bool());
   }
   if (this->binary_sensor_dis_otg_ooa_ != nullptr) {
-    this->binary_sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa_bool(true));
+    this->binary_sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa_bool());
   }
   if (this->binary_sensor_dis_fwd_ooa_ != nullptr) {
-    this->binary_sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa_bool(true));
+    this->binary_sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa_bool());
   }
   if (this->binary_sensor_en_acdrv2_ != nullptr) {
-    this->binary_sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2_bool(true));
+    this->binary_sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2_bool());
   }
   if (this->binary_sensor_en_acdrv1_ != nullptr) {
-    this->binary_sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1_bool(true));
+    this->binary_sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1_bool());
   }
   if (this->binary_sensor_pwm_freq_ != nullptr) {
-    this->binary_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_bool(true));
+    this->binary_sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_bool());
   }
   if (this->binary_sensor_dis_stat_ != nullptr) {
-    this->binary_sensor_dis_stat_->publish_state(this->parent_->get_dis_stat_bool(true));
+    this->binary_sensor_dis_stat_->publish_state(this->parent_->get_dis_stat_bool());
   }
   if (this->binary_sensor_dis_vsys_short_ != nullptr) {
-    this->binary_sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short_bool(true));
+    this->binary_sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short_bool());
   }
   if (this->binary_sensor_dis_votg_uvp_ != nullptr) {
-    this->binary_sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp_bool(true));
+    this->binary_sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp_bool());
   }
   if (this->binary_sensor_force_vindpm_det_ != nullptr) {
-    this->binary_sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det_bool(true));
+    this->binary_sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det_bool());
   }
   if (this->binary_sensor_en_ibus_ocp_ != nullptr) {
-    this->binary_sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp_bool(true));
+    this->binary_sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp_bool());
   }
   if (this->binary_sensor_sfet_present_ != nullptr) {
-    this->binary_sensor_sfet_present_->publish_state(this->parent_->get_sfet_present_bool(true));
+    this->binary_sensor_sfet_present_->publish_state(this->parent_->get_sfet_present_bool());
   }
   if (this->binary_sensor_en_ibat_ != nullptr) {
-    this->binary_sensor_en_ibat_->publish_state(this->parent_->get_en_ibat_bool(true));
+    this->binary_sensor_en_ibat_->publish_state(this->parent_->get_en_ibat_bool());
   }
   if (this->binary_sensor_en_iindpm_ != nullptr) {
-    this->binary_sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm_bool(true));
+    this->binary_sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm_bool());
   }
   if (this->binary_sensor_en_extilim_ != nullptr) {
-    this->binary_sensor_en_extilim_->publish_state(this->parent_->get_en_extilim_bool(true));
+    this->binary_sensor_en_extilim_->publish_state(this->parent_->get_en_extilim_bool());
   }
   if (this->binary_sensor_en_batoc_ != nullptr) {
-    this->binary_sensor_en_batoc_->publish_state(this->parent_->get_en_batoc_bool(true));
+    this->binary_sensor_en_batoc_->publish_state(this->parent_->get_en_batoc_bool());
   }
   if (this->binary_sensor_en_mppt_ != nullptr) {
-    this->binary_sensor_en_mppt_->publish_state(this->parent_->get_en_mppt_bool(true));
+    this->binary_sensor_en_mppt_->publish_state(this->parent_->get_en_mppt_bool());
   }
   if (this->binary_sensor_vbus_pd_en_ != nullptr) {
-    this->binary_sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en_bool(true));
+    this->binary_sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en_bool());
   }
   if (this->binary_sensor_vac1_pd_en_ != nullptr) {
-    this->binary_sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en_bool(true));
+    this->binary_sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en_bool());
   }
   if (this->binary_sensor_vac2_pd_en_ != nullptr) {
-    this->binary_sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en_bool(true));
+    this->binary_sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en_bool());
   }
   if (this->binary_sensor_bkup_acfet1_on_ != nullptr) {
-    this->binary_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_bool(true));
+    this->binary_sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_bool());
   }
   if (this->binary_sensor_bcold_ != nullptr) {
-    this->binary_sensor_bcold_->publish_state(this->parent_->get_bcold_bool(true));
+    this->binary_sensor_bcold_->publish_state(this->parent_->get_bcold_bool());
   }
   if (this->binary_sensor_ts_ignore_ != nullptr) {
-    this->binary_sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore_bool(true));
+    this->binary_sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore_bool());
   }
   if (this->binary_sensor_iindpm_stat_ != nullptr) {
-    this->binary_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_bool(true));
+    this->binary_sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_bool());
   }
   if (this->binary_sensor_vindpm_stat_ != nullptr) {
-    this->binary_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_bool(true));
+    this->binary_sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_bool());
   }
   if (this->binary_sensor_wd_stat_ != nullptr) {
-    this->binary_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_bool(true));
+    this->binary_sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_bool());
   }
   if (this->binary_sensor_pg_stat_ != nullptr) {
-    this->binary_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_bool(true));
+    this->binary_sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_bool());
   }
   if (this->binary_sensor_ac2_present_stat_ != nullptr) {
-    this->binary_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_bool(true));
+    this->binary_sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_bool());
   }
   if (this->binary_sensor_ac1_present_stat_ != nullptr) {
-    this->binary_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_bool(true));
+    this->binary_sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_bool());
   }
   if (this->binary_sensor_vbus_present_stat_ != nullptr) {
-    this->binary_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_bool(true));
+    this->binary_sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_bool());
   }
   if (this->binary_sensor_bc12_done_stat_ != nullptr) {
-    this->binary_sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat_bool(true));
+    this->binary_sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat_bool());
   }
   if (this->binary_sensor_treg_stat_ != nullptr) {
-    this->binary_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_bool(true));
+    this->binary_sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_bool());
   }
   if (this->binary_sensor_dpdm_stat_ != nullptr) {
-    this->binary_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_bool(true));
+    this->binary_sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_bool());
   }
   if (this->binary_sensor_vbat_present_stat_ != nullptr) {
-    this->binary_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_bool(true));
+    this->binary_sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_bool());
   }
   if (this->binary_sensor_acrb2_stat_ != nullptr) {
-    this->binary_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_bool(true));
+    this->binary_sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_bool());
   }
   if (this->binary_sensor_acrb1_stat_ != nullptr) {
-    this->binary_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_bool(true));
+    this->binary_sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_bool());
   }
   if (this->binary_sensor_adc_done_stat_ != nullptr) {
-    this->binary_sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat_bool(true));
+    this->binary_sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat_bool());
   }
   if (this->binary_sensor_vsys_stat_ != nullptr) {
-    this->binary_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_bool(true));
+    this->binary_sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_bool());
   }
   if (this->binary_sensor_chg_tmr_stat_ != nullptr) {
-    this->binary_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_bool(true));
+    this->binary_sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_bool());
   }
   if (this->binary_sensor_trichg_tmr_stat_ != nullptr) {
-    this->binary_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_bool(true));
+    this->binary_sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_bool());
   }
   if (this->binary_sensor_prechg_tmr_stat_ != nullptr) {
-    this->binary_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_bool(true));
+    this->binary_sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_bool());
   }
   if (this->binary_sensor_vbatotg_low_stat_ != nullptr) {
-    this->binary_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_bool(true));
+    this->binary_sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_bool());
   }
   if (this->binary_sensor_ts_cold_stat_ != nullptr) {
-    this->binary_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_bool(true));
+    this->binary_sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_bool());
   }
   if (this->binary_sensor_ts_cool_stat_ != nullptr) {
-    this->binary_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_bool(true));
+    this->binary_sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_bool());
   }
   if (this->binary_sensor_ts_warm_stat_ != nullptr) {
-    this->binary_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_bool(true));
+    this->binary_sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_bool());
   }
   if (this->binary_sensor_ts_hot_stat_ != nullptr) {
-    this->binary_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_bool(true));
+    this->binary_sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_bool());
   }
   if (this->binary_sensor_ibat_reg_stat_ != nullptr) {
-    this->binary_sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat_bool(true));
+    this->binary_sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat_bool());
   }
   if (this->binary_sensor_vbus_ovp_stat_ != nullptr) {
-    this->binary_sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat_bool(true));
+    this->binary_sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat_bool());
   }
   if (this->binary_sensor_vbat_ovp_stat_ != nullptr) {
-    this->binary_sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat_bool(true));
+    this->binary_sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat_bool());
   }
   if (this->binary_sensor_ibus_ocp_stat_ != nullptr) {
-    this->binary_sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat_bool(true));
+    this->binary_sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat_bool());
   }
   if (this->binary_sensor_ibat_ocp_stat_ != nullptr) {
-    this->binary_sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat_bool(true));
+    this->binary_sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat_bool());
   }
   if (this->binary_sensor_conv_ocp_stat_ != nullptr) {
-    this->binary_sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat_bool(true));
+    this->binary_sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat_bool());
   }
   if (this->binary_sensor_vac2_ovp_stat_ != nullptr) {
-    this->binary_sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat_bool(true));
+    this->binary_sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat_bool());
   }
   if (this->binary_sensor_vac1_ovp_stat_ != nullptr) {
-    this->binary_sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat_bool(true));
+    this->binary_sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat_bool());
   }
   if (this->binary_sensor_vsys_short_stat_ != nullptr) {
-    this->binary_sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat_bool(true));
+    this->binary_sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat_bool());
   }
   if (this->binary_sensor_vsys_ovp_stat_ != nullptr) {
-    this->binary_sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat_bool(true));
+    this->binary_sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat_bool());
   }
   if (this->binary_sensor_otg_ovp_stat_ != nullptr) {
-    this->binary_sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat_bool(true));
+    this->binary_sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat_bool());
   }
   if (this->binary_sensor_otg_uvp_stat_ != nullptr) {
-    this->binary_sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat_bool(true));
+    this->binary_sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat_bool());
   }
   if (this->binary_sensor_tshut_stat_ != nullptr) {
-    this->binary_sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_bool(true));
+    this->binary_sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_bool());
   }
   if (this->binary_sensor_iindpm_flag_ != nullptr) {
-    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_cached_flag_iindpm_flag());
+    this->binary_sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag_flag());
   }
   if (this->binary_sensor_vindpm_flag_ != nullptr) {
-    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_cached_flag_vindpm_flag());
+    this->binary_sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag_flag());
   }
   if (this->binary_sensor_wd_flag_ != nullptr) {
-    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_cached_flag_wd_flag());
+    this->binary_sensor_wd_flag_->publish_state(this->parent_->get_wd_flag_flag());
   }
   if (this->binary_sensor_poorsrc_flag_ != nullptr) {
-    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_cached_flag_poorsrc_flag());
+    this->binary_sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag_flag());
   }
   if (this->binary_sensor_pg_flag_ != nullptr) {
-    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_cached_flag_pg_flag());
+    this->binary_sensor_pg_flag_->publish_state(this->parent_->get_pg_flag_flag());
   }
   if (this->binary_sensor_ac2_present_flag_ != nullptr) {
-    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_cached_flag_ac2_present_flag());
+    this->binary_sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag_flag());
   }
   if (this->binary_sensor_ac1_present_flag_ != nullptr) {
-    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_cached_flag_ac1_present_flag());
+    this->binary_sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag_flag());
   }
   if (this->binary_sensor_vbus_present_flag_ != nullptr) {
-    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_cached_flag_vbus_present_flag());
+    this->binary_sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag_flag());
   }
   if (this->binary_sensor_chg_flag_ != nullptr) {
-    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_cached_flag_chg_flag());
+    this->binary_sensor_chg_flag_->publish_state(this->parent_->get_chg_flag_flag());
   }
   if (this->binary_sensor_ico_flag_ != nullptr) {
-    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_cached_flag_ico_flag());
+    this->binary_sensor_ico_flag_->publish_state(this->parent_->get_ico_flag_flag());
   }
   if (this->binary_sensor_vbus_flag_ != nullptr) {
-    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_cached_flag_vbus_flag());
+    this->binary_sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag_flag());
   }
   if (this->binary_sensor_treg_flag_ != nullptr) {
-    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_cached_flag_treg_flag());
+    this->binary_sensor_treg_flag_->publish_state(this->parent_->get_treg_flag_flag());
   }
   if (this->binary_sensor_vbat_present_flag_ != nullptr) {
-    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_cached_flag_vbat_present_flag());
+    this->binary_sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag_flag());
   }
   if (this->binary_sensor_bc1_2_done_flag_ != nullptr) {
-    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_cached_flag_bc1_2_done_flag());
+    this->binary_sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag_flag());
   }
   if (this->binary_sensor_dpdm_done_flag_ != nullptr) {
-    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_cached_flag_dpdm_done_flag());
+    this->binary_sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag_flag());
   }
   if (this->binary_sensor_adc_done_flag_ != nullptr) {
-    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_cached_flag_adc_done_flag());
+    this->binary_sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag_flag());
   }
   if (this->binary_sensor_vsys_flag_ != nullptr) {
-    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_cached_flag_vsys_flag());
+    this->binary_sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag_flag());
   }
   if (this->binary_sensor_chg_tmr_flag_ != nullptr) {
-    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_cached_flag_chg_tmr_flag());
+    this->binary_sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag_flag());
   }
   if (this->binary_sensor_trichg_tmr_flag_ != nullptr) {
-    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_cached_flag_trichg_tmr_flag());
+    this->binary_sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag_flag());
   }
   if (this->binary_sensor_prechg_tmr_flag_ != nullptr) {
-    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_cached_flag_prechg_tmr_flag());
+    this->binary_sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag_flag());
   }
   if (this->binary_sensor_topoff_tmr_flag_ != nullptr) {
-    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_cached_flag_topoff_tmr_flag());
+    this->binary_sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag_flag());
   }
   if (this->binary_sensor_vbatotg_low_flag_ != nullptr) {
-    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_cached_flag_vbatotg_low_flag());
+    this->binary_sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag_flag());
   }
   if (this->binary_sensor_ts_cold_flag_ != nullptr) {
-    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_cached_flag_ts_cold_flag());
+    this->binary_sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag_flag());
   }
   if (this->binary_sensor_ts_cool_flag_ != nullptr) {
-    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_cached_flag_ts_cool_flag());
+    this->binary_sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag_flag());
   }
   if (this->binary_sensor_ts_warm_flag_ != nullptr) {
-    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_cached_flag_ts_warm_flag());
+    this->binary_sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag_flag());
   }
   if (this->binary_sensor_ts_hot_flag_ != nullptr) {
-    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_cached_flag_ts_hot_flag());
+    this->binary_sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag_flag());
   }
   if (this->binary_sensor_ibat_reg_flag_ != nullptr) {
-    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_cached_flag_ibat_reg_flag());
+    this->binary_sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag_flag());
   }
   if (this->binary_sensor_vbus_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_cached_flag_vbus_ovp_flag());
+    this->binary_sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag_flag());
   }
   if (this->binary_sensor_vbat_ovp_flag_ != nullptr) {
-    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_cached_flag_vbat_ovp_flag());
+    this->binary_sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag_flag());
   }
   if (this->binary_sensor_ibus_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_cached_flag_ibus_ocp_flag());
+    this->binary_sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag_flag());
   }
   if (this->binary_sensor_ibat_ocp_flag_ != nullptr) {
-    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_cached_flag_ibat_ocp_flag());
+    this->binary_sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag_flag());
   }
   if (this->binary_sensor_conv_ocp_flag_ != nullptr) {
-    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_cached_flag_conv_ocp_flag());
+    this->binary_sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag_flag());
   }
   if (this->binary_sensor_vac2_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_cached_flag_vac2_ovp_flag());
+    this->binary_sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag_flag());
   }
   if (this->binary_sensor_vac1_ovp_flag_ != nullptr) {
-    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_cached_flag_vac1_ovp_flag());
+    this->binary_sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag_flag());
   }
   if (this->binary_sensor_vsys_short_flag_ != nullptr) {
-    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_cached_flag_vsys_short_flag());
+    this->binary_sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag_flag());
   }
   if (this->binary_sensor_vsys_ovp_flag_ != nullptr) {
-    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_cached_flag_vsys_ovp_flag());
+    this->binary_sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag_flag());
   }
   if (this->binary_sensor_otg_ovp_flag_ != nullptr) {
-    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_cached_flag_otg_ovp_flag());
+    this->binary_sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag_flag());
   }
   if (this->binary_sensor_otg_uvp_flag_ != nullptr) {
-    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_cached_flag_otg_uvp_flag());
+    this->binary_sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag_flag());
   }
   if (this->binary_sensor_tshut_flag_ != nullptr) {
-    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_cached_flag_tshut_flag());
+    this->binary_sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag_flag());
   }
   if (this->binary_sensor_adc_en_ != nullptr) {
-    this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en_bool(true));
+    this->binary_sensor_adc_en_->publish_state(this->parent_->get_adc_en_bool());
   }
   if (this->binary_sensor_adc_rate_ != nullptr) {
-    this->binary_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_bool(true));
+    this->binary_sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_bool());
   }
   if (this->binary_sensor_adc_avg_ != nullptr) {
-    this->binary_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_bool(true));
+    this->binary_sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_bool());
   }
   if (this->binary_sensor_adc_avg_init_ != nullptr) {
-    this->binary_sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init_bool(true));
+    this->binary_sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init_bool());
   }
   if (this->binary_sensor_ibus_adc_dis_ != nullptr) {
-    this->binary_sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis_bool(true));
+    this->binary_sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis_bool());
   }
   if (this->binary_sensor_ibat_adc_dis_ != nullptr) {
-    this->binary_sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis_bool(true));
+    this->binary_sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis_bool());
   }
   if (this->binary_sensor_vbus_adc_dis_ != nullptr) {
-    this->binary_sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis_bool(true));
+    this->binary_sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis_bool());
   }
   if (this->binary_sensor_vbat_adc_dis_ != nullptr) {
-    this->binary_sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis_bool(true));
+    this->binary_sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis_bool());
   }
   if (this->binary_sensor_vsys_adc_dis_ != nullptr) {
-    this->binary_sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis_bool(true));
+    this->binary_sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis_bool());
   }
   if (this->binary_sensor_ts_adc_dis_ != nullptr) {
-    this->binary_sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis_bool(true));
+    this->binary_sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis_bool());
   }
   if (this->binary_sensor_tdie_adc_dis_ != nullptr) {
-    this->binary_sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis_bool(true));
+    this->binary_sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis_bool());
   }
   if (this->binary_sensor_dplus_adc_dis_ != nullptr) {
-    this->binary_sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis_bool(true));
+    this->binary_sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis_bool());
   }
   if (this->binary_sensor_dminus_adc_dis_ != nullptr) {
-    this->binary_sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis_bool(true));
+    this->binary_sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis_bool());
   }
   if (this->binary_sensor_vac2_adc_dis_ != nullptr) {
-    this->binary_sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis_bool(true));
+    this->binary_sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis_bool());
   }
   if (this->binary_sensor_vac1_adc_dis_ != nullptr) {
-    this->binary_sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis_bool(true));
+    this->binary_sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis_bool());
   }
 }
 

@@ -421,7 +421,7 @@ CONFIG_SCHEMA = (
                 default_restore_mode="DISABLED",    # read the current state from the device
             ),
     })
-    .extend(cv.polling_component_schema("5s"))
+    .extend(cv.polling_component_schema("1s"))
 )
 
 async def to_code(config):

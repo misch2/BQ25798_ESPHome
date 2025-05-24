@@ -50,7 +50,7 @@ void {{ className }}::update() {
   }
 
 //ESP_LOGD(TAG, "Updating {{ className }}...");
-  uint8_t num_value = this->parent_->get_{{ def._snake_case_name }}_enum_int(true);
+  uint8_t num_value = this->parent_->get_{{ def._snake_case_name }}_enum_int();
   std::string str_value = {{ className }}_INT_TO_ENUM.at(num_value);
   
   this->publish_state(str_value);
@@ -60,7 +60,7 @@ void {{ className }}::control(const std::string &value) {
   //ESP_LOGD(TAG, "Controlling {{ className }}...");
 
   uint8_t num_value = {{ className }}_ENUM_TO_INT.at(value);
-  this->parent_->set_{{ def._snake_case_name }}_enum_int(num_value, true);
+  this->parent_->set_{{ def._snake_case_name }}_enum_int(num_value);
 
   this->publish_state(value);
 }
