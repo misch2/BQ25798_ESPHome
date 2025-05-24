@@ -1155,6 +1155,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
   const char* get_dev_rev_enum_string();
 
 protected:
+  void clear_registers();
   bool last_iindpm_flag_ = false;
   bool last_vindpm_flag_ = false;
   bool last_wd_flag_ = false;

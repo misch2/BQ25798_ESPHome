@@ -16,11 +16,13 @@ void BQ25798Component::setup() {
   this->bq25798_noi2c_ = new BQ25798NoI2C();
   this->bq25798_noi2c_->begin(this->address_); // no-op
 
+  this->clear_registers();
   this->update(); // read the registers
 
   int pn = get_pn_enum_int();
   if (pn != static_cast<int>(BQ25798NoI2C::PN_t::PN_BQ25798)) {
     ESP_LOGE(TAG, "BQ25798 chip not found at address 0x%02X. Read signature: %d", this->address_, pn);
+    this->clear_registers();
     this->mark_failed();
     return;
   }
@@ -28,6 +30,7 @@ void BQ25798Component::setup() {
   int dev_rev = get_dev_rev_enum_int();
   if (dev_rev != static_cast<int>(BQ25798NoI2C::DEV_REV_t::DEV_REV_BQ25798)) {
     ESP_LOGE(TAG, "BQ25798 chip at address 0x%02X has unexpected device revision: %d", this->address_, dev_rev);
+    this->clear_registers();
     this->mark_failed();
     return;
   }
@@ -36,13 +39,11 @@ void BQ25798Component::setup() {
   this->set_reg_rst_bool(true);
   while (this->get_reg_rst_bool()) {
     this->update(); // read the registers again
-    delay(1); // wait for the chip to reset
+    delay(10); // wait for the chip to reset
   }
   ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
   ESP_LOGCONFIG(TAG, "BQ25798 initialized successfully at address 0x%02X", this->address_);
-
-  delay(1);
 }
 
 void BQ25798Component::dump_config() {
@@ -219,6 +220,7 @@ void BQ25798Component::update() {
   for (int i = 0; i < 73; i++) {
     if (!this->read_byte(_regindex_to_addr.at(i), &_reg_values[i])) {
       ESP_LOGE(TAG, "Failed to read register 0x%02X", _regindex_to_addr.at(i));
+      this->clear_registers();
       this->mark_failed();
       return;
     }
@@ -228,8 +230,20 @@ void BQ25798Component::update() {
   this->set_wd_rst_bool(true);
 }
 
+// To visibly indicate that the component is not ready to use, we clear all registers
+void BQ25798Component::clear_registers() {
+  ESP_LOGD(TAG, "Clearing all cached registers");
+  for (int i = 0; i < 73; i++) {
+    _reg_values[i] = 0;
+  }
+}
+
 // VSYSMIN - Minimal System Voltage
 uint16_t BQ25798Component::get_vsysmin_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG00_Minimal_System_Voltage);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(6);
@@ -251,6 +265,7 @@ void BQ25798Component::set_vsysmin_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG00_Minimal_System_Voltage (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG00_Minimal_System_Voltage, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -268,6 +283,10 @@ void BQ25798Component::set_vsysmin_int(int value) {
 
 // VREG - Charge Voltage Limit
 uint16_t BQ25798Component::get_vreg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG01_Charge_Voltage_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -292,6 +311,7 @@ void BQ25798Component::set_vreg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG01_Charge_Voltage_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG01_Charge_Voltage_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -309,6 +329,10 @@ void BQ25798Component::set_vreg_int(int value) {
 
 // ICHG - Charge Current Limit
 uint16_t BQ25798Component::get_ichg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG03_Charge_Current_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -333,6 +357,7 @@ void BQ25798Component::set_ichg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG03_Charge_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG03_Charge_Current_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -350,6 +375,10 @@ void BQ25798Component::set_ichg_int(int value) {
 
 // VINDPM - Input Voltage Limit
 uint16_t BQ25798Component::get_vindpm_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG05_Input_Voltage_Limit);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(8);
@@ -371,6 +400,7 @@ void BQ25798Component::set_vindpm_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG05_Input_Voltage_Limit (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG05_Input_Voltage_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -388,6 +418,10 @@ void BQ25798Component::set_vindpm_int(int value) {
 
 // IINDPM - Input Current Limit
 uint16_t BQ25798Component::get_iindpm_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG06_Input_Current_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -412,6 +446,7 @@ void BQ25798Component::set_iindpm_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG06_Input_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG06_Input_Current_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -429,6 +464,10 @@ void BQ25798Component::set_iindpm_int(int value) {
 
 // VBAT_LOWV - Battery voltage thresholds for fast charge (percent of VREG)
 uint16_t BQ25798Component::get_vbat_lowv_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -450,6 +489,7 @@ void BQ25798Component::set_vbat_lowv_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -471,6 +511,10 @@ void BQ25798Component::set_vbat_lowv_enum_int(int value) {
 
 // IPRECHG - Precharge Current Limit
 uint16_t BQ25798Component::get_iprechg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(6);
@@ -492,6 +536,7 @@ void BQ25798Component::set_iprechg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -509,6 +554,10 @@ void BQ25798Component::set_iprechg_int(int value) {
 
 // REG_RST - Reset registers to default values and reset timer
 uint16_t BQ25798Component::get_reg_rst_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -530,6 +579,7 @@ void BQ25798Component::set_reg_rst_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -552,6 +602,10 @@ void BQ25798Component::set_reg_rst_bool(bool value) {
 
 // STOP_WD_CHG - Defines whether a watchdog timer expiration will disable charging
 uint16_t BQ25798Component::get_stop_wd_chg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -573,6 +627,7 @@ void BQ25798Component::set_stop_wd_chg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -595,6 +650,10 @@ void BQ25798Component::set_stop_wd_chg_bool(bool value) {
 
 // ITERM - Termination Current Limit
 uint16_t BQ25798Component::get_iterm_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(5);
@@ -616,6 +675,7 @@ void BQ25798Component::set_iterm_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -633,6 +693,10 @@ void BQ25798Component::set_iterm_int(int value) {
 
 // CELL - Battery cell count
 uint16_t BQ25798Component::get_cell_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -654,6 +718,7 @@ void BQ25798Component::set_cell_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -675,6 +740,10 @@ void BQ25798Component::set_cell_enum_int(int value) {
 
 // TRECHG - Battery recharge delay time
 uint16_t BQ25798Component::get_trechg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -696,6 +765,7 @@ void BQ25798Component::set_trechg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -717,6 +787,10 @@ void BQ25798Component::set_trechg_enum_int(int value) {
 
 // VRECHG - Battery Recharge Threshold Offset (Below VREG)
 uint16_t BQ25798Component::get_vrechg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(4);
@@ -738,6 +812,7 @@ void BQ25798Component::set_vrechg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -755,6 +830,10 @@ void BQ25798Component::set_vrechg_int(int value) {
 
 // VOTG - OTG mode regulation voltage
 uint16_t BQ25798Component::get_votg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0B_VOTG_regulation);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -779,6 +858,7 @@ void BQ25798Component::set_votg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0B_VOTG_regulation (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG0B_VOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -796,6 +876,10 @@ void BQ25798Component::set_votg_int(int value) {
 
 // PRECHG_TMR - Pre-charge safety timer setting
 uint16_t BQ25798Component::get_prechg_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -817,6 +901,7 @@ void BQ25798Component::set_prechg_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -854,6 +939,10 @@ void BQ25798Component::set_prechg_tmr_enum_int(int value) {
 
 // IOTG - OTG current limit
 uint16_t BQ25798Component::get_iotg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(7);
@@ -875,6 +964,7 @@ void BQ25798Component::set_iotg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -892,6 +982,10 @@ void BQ25798Component::set_iotg_int(int value) {
 
 // TOPOFF_TMR - Top-off timer control
 uint16_t BQ25798Component::get_topoff_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -913,6 +1007,7 @@ void BQ25798Component::set_topoff_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -934,6 +1029,10 @@ void BQ25798Component::set_topoff_tmr_enum_int(int value) {
 
 // EN_TRICHG_TMR - Trickle charge timer enable
 uint16_t BQ25798Component::get_en_trichg_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -955,6 +1054,7 @@ void BQ25798Component::set_en_trichg_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -977,6 +1077,10 @@ void BQ25798Component::set_en_trichg_tmr_bool(bool value) {
 
 // EN_PRECHG_TMR - Precharge timer enable
 uint16_t BQ25798Component::get_en_prechg_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -998,6 +1102,7 @@ void BQ25798Component::set_en_prechg_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1020,6 +1125,10 @@ void BQ25798Component::set_en_prechg_tmr_bool(bool value) {
 
 // EN_CHG_TMR - Fast charge timer enable
 uint16_t BQ25798Component::get_en_chg_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -1041,6 +1150,7 @@ void BQ25798Component::set_en_chg_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1063,6 +1173,10 @@ void BQ25798Component::set_en_chg_tmr_bool(bool value) {
 
 // CHG_TMR - Fast charge timer setting
 uint16_t BQ25798Component::get_chg_tmr_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
@@ -1084,6 +1198,7 @@ void BQ25798Component::set_chg_tmr_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1105,6 +1220,10 @@ void BQ25798Component::set_chg_tmr_enum_int(int value) {
 
 // TMR2X_EN - 2x slower charging in DPM enable
 uint16_t BQ25798Component::get_tmr2x_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -1126,6 +1245,7 @@ void BQ25798Component::set_tmr2x_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1148,6 +1268,10 @@ void BQ25798Component::set_tmr2x_en_bool(bool value) {
 
 // EN_AUTO_IBATDIS - Enable the auto battery discharging during the battery OVP fault
 uint16_t BQ25798Component::get_en_auto_ibatdis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -1169,6 +1293,7 @@ void BQ25798Component::set_en_auto_ibatdis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1191,6 +1316,10 @@ void BQ25798Component::set_en_auto_ibatdis_bool(bool value) {
 
 // FORCE_IBATDIS - Force the battery discharging current
 uint16_t BQ25798Component::get_force_ibatdis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -1212,6 +1341,7 @@ void BQ25798Component::set_force_ibatdis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1234,6 +1364,10 @@ void BQ25798Component::set_force_ibatdis_bool(bool value) {
 
 // EN_CHG - Enable the charger
 uint16_t BQ25798Component::get_en_chg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -1255,6 +1389,7 @@ void BQ25798Component::set_en_chg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1277,6 +1412,10 @@ void BQ25798Component::set_en_chg_bool(bool value) {
 
 // EN_ICO - Enable the ICO (Input Current Optimizer)
 uint16_t BQ25798Component::get_en_ico_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -1298,6 +1437,7 @@ void BQ25798Component::set_en_ico_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1320,6 +1460,10 @@ void BQ25798Component::set_en_ico_bool(bool value) {
 
 // FORCE_ICO - Force the ICO (Input Current Optimizer)
 uint16_t BQ25798Component::get_force_ico_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -1341,6 +1485,7 @@ void BQ25798Component::set_force_ico_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1363,6 +1508,10 @@ void BQ25798Component::set_force_ico_bool(bool value) {
 
 // EN_HIZ - Enable the high impedance mode
 uint16_t BQ25798Component::get_en_hiz_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -1384,6 +1533,7 @@ void BQ25798Component::set_en_hiz_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1406,6 +1556,10 @@ void BQ25798Component::set_en_hiz_bool(bool value) {
 
 // EN_TERM - Enable the termination
 uint16_t BQ25798Component::get_en_term_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -1427,6 +1581,7 @@ void BQ25798Component::set_en_term_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1449,6 +1604,10 @@ void BQ25798Component::set_en_term_bool(bool value) {
 
 // EN_BACKUP - Enable the backup (auto OTG) mode
 uint16_t BQ25798Component::get_en_backup_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -1470,6 +1629,7 @@ void BQ25798Component::set_en_backup_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1492,6 +1652,10 @@ void BQ25798Component::set_en_backup_bool(bool value) {
 
 // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
 uint16_t BQ25798Component::get_vbus_backup_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -1513,6 +1677,7 @@ void BQ25798Component::set_vbus_backup_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1534,6 +1699,10 @@ void BQ25798Component::set_vbus_backup_enum_int(int value) {
 
 // VAC_OVP - Over voltage protection thresholds
 uint16_t BQ25798Component::get_vac_ovp_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -1555,6 +1724,7 @@ void BQ25798Component::set_vac_ovp_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1576,6 +1746,10 @@ void BQ25798Component::set_vac_ovp_enum_int(int value) {
 
 // WD_RST - I2C watch dog timer reset
 uint16_t BQ25798Component::get_wd_rst_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -1597,6 +1771,7 @@ void BQ25798Component::set_wd_rst_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1619,6 +1794,10 @@ void BQ25798Component::set_wd_rst_bool(bool value) {
 
 // WATCHDOG - Watchdog timer settings
 uint16_t BQ25798Component::get_watchdog_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(3);
@@ -1640,6 +1819,7 @@ void BQ25798Component::set_watchdog_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1661,6 +1841,10 @@ void BQ25798Component::set_watchdog_enum_int(int value) {
 
 // FORCE_INDET - Force D+/D- detection
 uint16_t BQ25798Component::get_force_indet_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -1682,6 +1866,7 @@ void BQ25798Component::set_force_indet_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1704,6 +1889,10 @@ void BQ25798Component::set_force_indet_bool(bool value) {
 
 // AUTO_INDET_EN - Enable automatic D+/D- detection
 uint16_t BQ25798Component::get_auto_indet_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -1725,6 +1914,7 @@ void BQ25798Component::set_auto_indet_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1747,6 +1937,10 @@ void BQ25798Component::set_auto_indet_en_bool(bool value) {
 
 // EN_12V - Enable 12V output in HVDCP
 uint16_t BQ25798Component::get_en_12v_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -1768,6 +1962,7 @@ void BQ25798Component::set_en_12v_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1790,6 +1985,10 @@ void BQ25798Component::set_en_12v_bool(bool value) {
 
 // EN_9V - Enable 9V output in HVDCP
 uint16_t BQ25798Component::get_en_9v_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -1811,6 +2010,7 @@ void BQ25798Component::set_en_9v_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1833,6 +2033,10 @@ void BQ25798Component::set_en_9v_bool(bool value) {
 
 // HVDCP_EN - Enable HVDCP (High Voltage Device Charging Protocol)
 uint16_t BQ25798Component::get_hvdcp_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -1854,6 +2058,7 @@ void BQ25798Component::set_hvdcp_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1876,6 +2081,10 @@ void BQ25798Component::set_hvdcp_en_bool(bool value) {
 
 // SDRV_CTRL - Enable external Ship FET control
 uint16_t BQ25798Component::get_sdrv_ctrl_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
@@ -1897,6 +2106,7 @@ void BQ25798Component::set_sdrv_ctrl_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1918,6 +2128,10 @@ void BQ25798Component::set_sdrv_ctrl_enum_int(int value) {
 
 // SDRV_DLY - Delay for SDRV control
 uint16_t BQ25798Component::get_sdrv_dly_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -1939,6 +2153,7 @@ void BQ25798Component::set_sdrv_dly_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -1976,6 +2191,10 @@ void BQ25798Component::set_sdrv_dly_enum_int(int value) {
 
 // DIS_ACDRV - Disable both AC1 and AC2 drivers
 uint16_t BQ25798Component::get_dis_acdrv_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -1997,6 +2216,7 @@ void BQ25798Component::set_dis_acdrv_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2019,6 +2239,10 @@ void BQ25798Component::set_dis_acdrv_bool(bool value) {
 
 // EN_OTG - Enable OTG mode
 uint16_t BQ25798Component::get_en_otg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -2040,6 +2264,7 @@ void BQ25798Component::set_en_otg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2062,6 +2287,10 @@ void BQ25798Component::set_en_otg_bool(bool value) {
 
 // PFM_OTG_DIS - Disable PFM in OTG mode
 uint16_t BQ25798Component::get_pfm_otg_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -2083,6 +2312,7 @@ void BQ25798Component::set_pfm_otg_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2105,6 +2335,10 @@ void BQ25798Component::set_pfm_otg_dis_bool(bool value) {
 
 // PFM_FWD_DIS - Disable PFM in forward mode
 uint16_t BQ25798Component::get_pfm_fwd_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -2126,6 +2360,7 @@ void BQ25798Component::set_pfm_fwd_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2148,6 +2383,10 @@ void BQ25798Component::set_pfm_fwd_dis_bool(bool value) {
 
 // WKUP_DLY - Wakeup (Ship FET) delay
 uint16_t BQ25798Component::get_wkup_dly_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -2169,6 +2408,7 @@ void BQ25798Component::set_wkup_dly_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2206,6 +2446,10 @@ void BQ25798Component::set_wkup_dly_enum_int(int value) {
 
 // DIS_LDO - Disable BATFET LDO mode in precharge state
 uint16_t BQ25798Component::get_dis_ldo_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -2227,6 +2471,7 @@ void BQ25798Component::set_dis_ldo_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2249,6 +2494,10 @@ void BQ25798Component::set_dis_ldo_bool(bool value) {
 
 // DIS_OTG_OOA - Disable OOA in OTG mode
 uint16_t BQ25798Component::get_dis_otg_ooa_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -2270,6 +2519,7 @@ void BQ25798Component::set_dis_otg_ooa_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2292,6 +2542,10 @@ void BQ25798Component::set_dis_otg_ooa_bool(bool value) {
 
 // DIS_FWD_OOA - Disable OOA in forward mode
 uint16_t BQ25798Component::get_dis_fwd_ooa_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -2313,6 +2567,7 @@ void BQ25798Component::set_dis_fwd_ooa_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2335,6 +2590,10 @@ void BQ25798Component::set_dis_fwd_ooa_bool(bool value) {
 
 // EN_ACDRV2 - Enable AC2 gate driver control
 uint16_t BQ25798Component::get_en_acdrv2_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -2356,6 +2615,7 @@ void BQ25798Component::set_en_acdrv2_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2378,6 +2638,10 @@ void BQ25798Component::set_en_acdrv2_bool(bool value) {
 
 // EN_ACDRV1 - Enable AC1 gate driver control
 uint16_t BQ25798Component::get_en_acdrv1_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -2399,6 +2663,7 @@ void BQ25798Component::set_en_acdrv1_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2421,6 +2686,10 @@ void BQ25798Component::set_en_acdrv1_bool(bool value) {
 
 // PWM_FREQ - PWM frequency setting
 uint16_t BQ25798Component::get_pwm_freq_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -2442,6 +2711,7 @@ void BQ25798Component::set_pwm_freq_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2479,6 +2749,10 @@ void BQ25798Component::set_pwm_freq_enum_int(int value) {
 
 // DIS_STAT - Disable STAT pin output
 uint16_t BQ25798Component::get_dis_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -2500,6 +2774,7 @@ void BQ25798Component::set_dis_stat_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2522,6 +2797,10 @@ void BQ25798Component::set_dis_stat_bool(bool value) {
 
 // DIS_VSYS_SHORT - Disable VSYS short hiccup protection
 uint16_t BQ25798Component::get_dis_vsys_short_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -2543,6 +2822,7 @@ void BQ25798Component::set_dis_vsys_short_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2565,6 +2845,10 @@ void BQ25798Component::set_dis_vsys_short_bool(bool value) {
 
 // DIS_VOTG_UVP - Disable VOTG under voltage hiccup protection
 uint16_t BQ25798Component::get_dis_votg_uvp_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -2586,6 +2870,7 @@ void BQ25798Component::set_dis_votg_uvp_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2608,6 +2893,10 @@ void BQ25798Component::set_dis_votg_uvp_bool(bool value) {
 
 // FORCE_VINDPM_DET - Force VINDPM detection (settable only when VBAT>VSYSMIN)
 uint16_t BQ25798Component::get_force_vindpm_det_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -2629,6 +2918,7 @@ void BQ25798Component::set_force_vindpm_det_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2651,6 +2941,10 @@ void BQ25798Component::set_force_vindpm_det_bool(bool value) {
 
 // EN_IBUS_OCP - Enable input over current protection in forward mode
 uint16_t BQ25798Component::get_en_ibus_ocp_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -2672,6 +2966,7 @@ void BQ25798Component::set_en_ibus_ocp_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2694,6 +2989,10 @@ void BQ25798Component::set_en_ibus_ocp_bool(bool value) {
 
 // SFET_PRESENT - Ship FET present
 uint16_t BQ25798Component::get_sfet_present_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -2715,6 +3014,7 @@ void BQ25798Component::set_sfet_present_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2737,6 +3037,10 @@ void BQ25798Component::set_sfet_present_bool(bool value) {
 
 // EN_IBAT - Enable battery discharge current sensing
 uint16_t BQ25798Component::get_en_ibat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -2758,6 +3062,7 @@ void BQ25798Component::set_en_ibat_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2780,6 +3085,10 @@ void BQ25798Component::set_en_ibat_bool(bool value) {
 
 // IBAT_REG - Battery discharge current regulation in OTG mode
 uint16_t BQ25798Component::get_ibat_reg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(2);
@@ -2801,6 +3110,7 @@ void BQ25798Component::set_ibat_reg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2822,6 +3132,10 @@ void BQ25798Component::set_ibat_reg_enum_int(int value) {
 
 // EN_IINDPM - Enable input current regulation
 uint16_t BQ25798Component::get_en_iindpm_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -2843,6 +3157,7 @@ void BQ25798Component::set_en_iindpm_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2865,6 +3180,10 @@ void BQ25798Component::set_en_iindpm_bool(bool value) {
 
 // EN_EXTILIM - Enable external ILIM_HIZ pin current regulation
 uint16_t BQ25798Component::get_en_extilim_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -2886,6 +3205,7 @@ void BQ25798Component::set_en_extilim_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2908,6 +3228,10 @@ void BQ25798Component::set_en_extilim_bool(bool value) {
 
 // EN_BATOC - Enable battery discharging over current protection
 uint16_t BQ25798Component::get_en_batoc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -2929,6 +3253,7 @@ void BQ25798Component::set_en_batoc_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2951,6 +3276,10 @@ void BQ25798Component::set_en_batoc_bool(bool value) {
 
 // VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
 uint16_t BQ25798Component::get_voc_pct_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
@@ -2972,6 +3301,7 @@ void BQ25798Component::set_voc_pct_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -2993,6 +3323,10 @@ void BQ25798Component::set_voc_pct_enum_int(int value) {
 
 // VOC_DLY - After the converter stops switching, the time delay before the VOC is measured
 uint16_t BQ25798Component::get_voc_dly_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -3014,6 +3348,7 @@ void BQ25798Component::set_voc_dly_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3035,6 +3370,10 @@ void BQ25798Component::set_voc_dly_enum_int(int value) {
 
 // VOC_RATE - The time interval between two consecutive VOC measurements
 uint16_t BQ25798Component::get_voc_rate_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(2);
@@ -3056,6 +3395,7 @@ void BQ25798Component::set_voc_rate_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3077,6 +3417,10 @@ void BQ25798Component::set_voc_rate_enum_int(int value) {
 
 // EN_MPPT - Enable MPPT (Maximum Power Point Tracking)
 uint16_t BQ25798Component::get_en_mppt_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -3098,6 +3442,7 @@ void BQ25798Component::set_en_mppt_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3120,6 +3465,10 @@ void BQ25798Component::set_en_mppt_bool(bool value) {
 
 // TREG - Thermal regulation thresholds
 uint16_t BQ25798Component::get_treg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -3141,6 +3490,7 @@ void BQ25798Component::set_treg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3162,6 +3512,10 @@ void BQ25798Component::set_treg_enum_int(int value) {
 
 // TSHUT - Thermal shutdown thresholds
 uint16_t BQ25798Component::get_tshut_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -3183,6 +3537,7 @@ void BQ25798Component::set_tshut_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3204,6 +3559,10 @@ void BQ25798Component::set_tshut_enum_int(int value) {
 
 // VBUS_PD_EN - Enable VBUS pull down resistor (6 kOhm)
 uint16_t BQ25798Component::get_vbus_pd_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -3225,6 +3584,7 @@ void BQ25798Component::set_vbus_pd_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3247,6 +3607,10 @@ void BQ25798Component::set_vbus_pd_en_bool(bool value) {
 
 // VAC1_PD_EN - Enable VAC1 pull down resistor
 uint16_t BQ25798Component::get_vac1_pd_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -3268,6 +3632,7 @@ void BQ25798Component::set_vac1_pd_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3290,6 +3655,10 @@ void BQ25798Component::set_vac1_pd_en_bool(bool value) {
 
 // VAC2_PD_EN - Enable VAC2 pull down resistor
 uint16_t BQ25798Component::get_vac2_pd_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -3311,6 +3680,7 @@ void BQ25798Component::set_vac2_pd_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3333,6 +3703,10 @@ void BQ25798Component::set_vac2_pd_en_bool(bool value) {
 
 // BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
 uint16_t BQ25798Component::get_bkup_acfet1_on_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -3354,6 +3728,7 @@ void BQ25798Component::set_bkup_acfet1_on_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3376,6 +3751,10 @@ void BQ25798Component::set_bkup_acfet1_on_bool(bool value) {
 
 // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
 uint16_t BQ25798Component::get_jeita_vset_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
@@ -3397,6 +3776,7 @@ void BQ25798Component::set_jeita_vset_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3418,6 +3798,10 @@ void BQ25798Component::set_jeita_vset_enum_int(int value) {
 
 // JEITA_ISETH - JEITA high temperature range (TWARN - THOT) charge current setting
 uint16_t BQ25798Component::get_jeita_iseth_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(2);
@@ -3439,6 +3823,7 @@ void BQ25798Component::set_jeita_iseth_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3460,6 +3845,10 @@ void BQ25798Component::set_jeita_iseth_enum_int(int value) {
 
 // JEITA_ISETC - JEITA low temperature range (TCOLD - TWARN) charge current setting
 uint16_t BQ25798Component::get_jeita_isetc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
@@ -3481,6 +3870,7 @@ void BQ25798Component::set_jeita_isetc_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3502,6 +3892,10 @@ void BQ25798Component::set_jeita_isetc_enum_int(int value) {
 
 // TS_COOL - JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.
 uint16_t BQ25798Component::get_ts_cool_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -3523,6 +3917,7 @@ void BQ25798Component::set_ts_cool_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3544,6 +3939,10 @@ void BQ25798Component::set_ts_cool_enum_int(int value) {
 
 // TS_WARM - JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.
 uint16_t BQ25798Component::get_ts_warm_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -3565,6 +3964,7 @@ void BQ25798Component::set_ts_warm_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3586,6 +3986,10 @@ void BQ25798Component::set_ts_warm_enum_int(int value) {
 
 // BHOT - OTG mode TS HOT temperature threshold
 uint16_t BQ25798Component::get_bhot_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(2);
@@ -3607,6 +4011,7 @@ void BQ25798Component::set_bhot_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3628,6 +4033,10 @@ void BQ25798Component::set_bhot_enum_int(int value) {
 
 // BCOLD - OTG mode TS COLD temperature threshold
 uint16_t BQ25798Component::get_bcold_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -3649,6 +4058,7 @@ void BQ25798Component::set_bcold_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3686,6 +4096,10 @@ void BQ25798Component::set_bcold_enum_int(int value) {
 
 // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
 uint16_t BQ25798Component::get_ts_ignore_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -3707,6 +4121,7 @@ void BQ25798Component::set_ts_ignore_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -3729,6 +4144,10 @@ void BQ25798Component::set_ts_ignore_bool(bool value) {
 
 // ICO_ILIM - Input Current Limit obtained from ICO or ILIM_HIZ pin setting
 uint16_t BQ25798Component::get_ico_ilim_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG19_ICO_Current_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -3742,6 +4161,10 @@ int BQ25798Component::get_ico_ilim_int() {
 
 // IINDPM_STAT - IINDPM status (forward mode) or IOTG status (OTG mode)
 uint16_t BQ25798Component::get_iindpm_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -3768,6 +4191,10 @@ const char* BQ25798Component::get_iindpm_stat_enum_string() {
 
 // VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
 uint16_t BQ25798Component::get_vindpm_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -3794,6 +4221,10 @@ const char* BQ25798Component::get_vindpm_stat_enum_string() {
 
 // WD_STAT - Watchdog timer status
 uint16_t BQ25798Component::get_wd_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -3820,6 +4251,10 @@ const char* BQ25798Component::get_wd_stat_enum_string() {
 
 // PG_STAT - Power good status
 uint16_t BQ25798Component::get_pg_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -3846,6 +4281,10 @@ const char* BQ25798Component::get_pg_stat_enum_string() {
 
 // AC2_PRESENT_STAT - VAC2 present status
 uint16_t BQ25798Component::get_ac2_present_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -3872,6 +4311,10 @@ const char* BQ25798Component::get_ac2_present_stat_enum_string() {
 
 // AC1_PRESENT_STAT - VAC1 present status
 uint16_t BQ25798Component::get_ac1_present_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -3898,6 +4341,10 @@ const char* BQ25798Component::get_ac1_present_stat_enum_string() {
 
 // VBUS_PRESENT_STAT - VBUS present status
 uint16_t BQ25798Component::get_vbus_present_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -3924,6 +4371,10 @@ const char* BQ25798Component::get_vbus_present_stat_enum_string() {
 
 // CHG_STAT - Charge Status bits
 uint16_t BQ25798Component::get_chg_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
@@ -3940,6 +4391,10 @@ const char* BQ25798Component::get_chg_stat_enum_string() {
 
 // VBUS_STAT - VBUS status bits
 uint16_t BQ25798Component::get_vbus_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(4);
@@ -3956,6 +4411,10 @@ const char* BQ25798Component::get_vbus_stat_enum_string() {
 
 // BC12_DONE_STAT - BC1.2 detection done status
 uint16_t BQ25798Component::get_bc12_done_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -3973,6 +4432,10 @@ bool BQ25798Component::get_bc12_done_stat_bool() {
 
 // ICO_STAT - Input Current Optimizer (ICO) status
 uint16_t BQ25798Component::get_ico_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
@@ -3989,6 +4452,10 @@ const char* BQ25798Component::get_ico_stat_enum_string() {
 
 // TREG_STAT - IC thermal regulation status
 uint16_t BQ25798Component::get_treg_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -4015,6 +4482,10 @@ const char* BQ25798Component::get_treg_stat_enum_string() {
 
 // DPDM_STAT - D+/D- detection status
 uint16_t BQ25798Component::get_dpdm_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4041,6 +4512,10 @@ const char* BQ25798Component::get_dpdm_stat_enum_string() {
 
 // VBAT_PRESENT_STAT - Battery present status
 uint16_t BQ25798Component::get_vbat_present_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -4067,6 +4542,10 @@ const char* BQ25798Component::get_vbat_present_stat_enum_string() {
 
 // ACRB2_STAT - The ACFET2-RBFET2 status
 uint16_t BQ25798Component::get_acrb2_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -4093,6 +4572,10 @@ const char* BQ25798Component::get_acrb2_stat_enum_string() {
 
 // ACRB1_STAT - The ACFET1-RBFET1 status
 uint16_t BQ25798Component::get_acrb1_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -4119,6 +4602,10 @@ const char* BQ25798Component::get_acrb1_stat_enum_string() {
 
 // ADC_DONE_STAT - ADC Conversion Status
 uint16_t BQ25798Component::get_adc_done_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -4136,6 +4623,10 @@ bool BQ25798Component::get_adc_done_stat_bool() {
 
 // VSYS_STAT - VSYS Regulation Status
 uint16_t BQ25798Component::get_vsys_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4162,6 +4653,10 @@ const char* BQ25798Component::get_vsys_stat_enum_string() {
 
 // CHG_TMR_STAT - Fast charge timer status
 uint16_t BQ25798Component::get_chg_tmr_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -4188,6 +4683,10 @@ const char* BQ25798Component::get_chg_tmr_stat_enum_string() {
 
 // TRICHG_TMR_STAT - Trickle charge timer status
 uint16_t BQ25798Component::get_trichg_tmr_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4214,6 +4713,10 @@ const char* BQ25798Component::get_trichg_tmr_stat_enum_string() {
 
 // PRECHG_TMR_STAT - Pre-charge timer status
 uint16_t BQ25798Component::get_prechg_tmr_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -4240,6 +4743,10 @@ const char* BQ25798Component::get_prechg_tmr_stat_enum_string() {
 
 // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
 uint16_t BQ25798Component::get_vbatotg_low_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4266,6 +4773,10 @@ const char* BQ25798Component::get_vbatotg_low_stat_enum_string() {
 
 // TS_COLD_STAT - The TS temperature is in the cold range
 uint16_t BQ25798Component::get_ts_cold_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -4292,6 +4803,10 @@ const char* BQ25798Component::get_ts_cold_stat_enum_string() {
 
 // TS_COOL_STAT - The TS temperature is in the cool range
 uint16_t BQ25798Component::get_ts_cool_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4318,6 +4833,10 @@ const char* BQ25798Component::get_ts_cool_stat_enum_string() {
 
 // TS_WARM_STAT - The TS temperature is in the warm range
 uint16_t BQ25798Component::get_ts_warm_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -4344,6 +4863,10 @@ const char* BQ25798Component::get_ts_warm_stat_enum_string() {
 
 // TS_HOT_STAT - The TS temperature is in the hot range
 uint16_t BQ25798Component::get_ts_hot_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -4370,6 +4893,10 @@ const char* BQ25798Component::get_ts_hot_stat_enum_string() {
 
 // IBAT_REG_STAT - In battery discharging current regulation
 uint16_t BQ25798Component::get_ibat_reg_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -4387,6 +4914,10 @@ bool BQ25798Component::get_ibat_reg_stat_bool() {
 
 // VBUS_OVP_STAT - VBUS over-voltage status
 uint16_t BQ25798Component::get_vbus_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -4404,6 +4935,10 @@ bool BQ25798Component::get_vbus_ovp_stat_bool() {
 
 // VBAT_OVP_STAT - VBAT over-voltage status
 uint16_t BQ25798Component::get_vbat_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -4421,6 +4956,10 @@ bool BQ25798Component::get_vbat_ovp_stat_bool() {
 
 // IBUS_OCP_STAT - IBUS over-current status
 uint16_t BQ25798Component::get_ibus_ocp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4438,6 +4977,10 @@ bool BQ25798Component::get_ibus_ocp_stat_bool() {
 
 // IBAT_OCP_STAT - IBAT over-current status
 uint16_t BQ25798Component::get_ibat_ocp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -4455,6 +4998,10 @@ bool BQ25798Component::get_ibat_ocp_stat_bool() {
 
 // CONV_OCP_STAT - Converter over-current status
 uint16_t BQ25798Component::get_conv_ocp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4472,6 +5019,10 @@ bool BQ25798Component::get_conv_ocp_stat_bool() {
 
 // VAC2_OVP_STAT - VAC2 over-voltage status
 uint16_t BQ25798Component::get_vac2_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -4489,6 +5040,10 @@ bool BQ25798Component::get_vac2_ovp_stat_bool() {
 
 // VAC1_OVP_STAT - VAC1 over-voltage status
 uint16_t BQ25798Component::get_vac1_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -4506,6 +5061,10 @@ bool BQ25798Component::get_vac1_ovp_stat_bool() {
 
 // VSYS_SHORT_STAT - VSYS short circuit status
 uint16_t BQ25798Component::get_vsys_short_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -4523,6 +5082,10 @@ bool BQ25798Component::get_vsys_short_stat_bool() {
 
 // VSYS_OVP_STAT - VSYS over-voltage status
 uint16_t BQ25798Component::get_vsys_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -4540,6 +5103,10 @@ bool BQ25798Component::get_vsys_ovp_stat_bool() {
 
 // OTG_OVP_STAT - OTG over-voltage status
 uint16_t BQ25798Component::get_otg_ovp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -4557,6 +5124,10 @@ bool BQ25798Component::get_otg_ovp_stat_bool() {
 
 // OTG_UVP_STAT - OTG under-voltage status
 uint16_t BQ25798Component::get_otg_uvp_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4574,6 +5145,10 @@ bool BQ25798Component::get_otg_uvp_stat_bool() {
 
 // TSHUT_STAT - IC thermal shutdown status
 uint16_t BQ25798Component::get_tshut_stat_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4591,6 +5166,10 @@ bool BQ25798Component::get_tshut_stat_bool() {
 
 // IINDPM_FLAG - IINDPM / IOTG flag
 uint16_t BQ25798Component::get_iindpm_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -4620,6 +5199,10 @@ bool BQ25798Component::get_iindpm_flag_flag() {
 
 // VINDPM_FLAG - VINDPM / VOTG Flag
 uint16_t BQ25798Component::get_vindpm_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -4649,6 +5232,10 @@ bool BQ25798Component::get_vindpm_flag_flag() {
 
 // WD_FLAG - I2C watchdog timer flag
 uint16_t BQ25798Component::get_wd_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -4678,6 +5265,10 @@ bool BQ25798Component::get_wd_flag_flag() {
 
 // POORSRC_FLAG - Poor source detection flag
 uint16_t BQ25798Component::get_poorsrc_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4707,6 +5298,10 @@ bool BQ25798Component::get_poorsrc_flag_flag() {
 
 // PG_FLAG - Poor source detection flag
 uint16_t BQ25798Component::get_pg_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -4736,6 +5331,10 @@ bool BQ25798Component::get_pg_flag_flag() {
 
 // AC2_PRESENT_FLAG - VAC2 present flag
 uint16_t BQ25798Component::get_ac2_present_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4765,6 +5364,10 @@ bool BQ25798Component::get_ac2_present_flag_flag() {
 
 // AC1_PRESENT_FLAG - VAC1 present flag
 uint16_t BQ25798Component::get_ac1_present_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -4794,6 +5397,10 @@ bool BQ25798Component::get_ac1_present_flag_flag() {
 
 // VBUS_PRESENT_FLAG - VBUS present flag
 uint16_t BQ25798Component::get_vbus_present_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -4823,6 +5430,10 @@ bool BQ25798Component::get_vbus_present_flag_flag() {
 
 // CHG_FLAG - Charge status flag
 uint16_t BQ25798Component::get_chg_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -4852,6 +5463,10 @@ bool BQ25798Component::get_chg_flag_flag() {
 
 // ICO_FLAG - ICO status flag
 uint16_t BQ25798Component::get_ico_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -4881,6 +5496,10 @@ bool BQ25798Component::get_ico_flag_flag() {
 
 // VBUS_FLAG - VBUS status flag
 uint16_t BQ25798Component::get_vbus_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -4910,6 +5529,10 @@ bool BQ25798Component::get_vbus_flag_flag() {
 
 // TREG_FLAG - IC thermal regulation flag
 uint16_t BQ25798Component::get_treg_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -4939,6 +5562,10 @@ bool BQ25798Component::get_treg_flag_flag() {
 
 // VBAT_PRESENT_FLAG - VBAT present flag
 uint16_t BQ25798Component::get_vbat_present_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -4968,6 +5595,10 @@ bool BQ25798Component::get_vbat_present_flag_flag() {
 
 // BC1_2_DONE_FLAG - BC1.2 status Flag
 uint16_t BQ25798Component::get_bc1_2_done_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -4997,6 +5628,10 @@ bool BQ25798Component::get_bc1_2_done_flag_flag() {
 
 // DPDM_DONE_FLAG - D+/D- detection is done flag.
 uint16_t BQ25798Component::get_dpdm_done_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -5026,6 +5661,10 @@ bool BQ25798Component::get_dpdm_done_flag_flag() {
 
 // ADC_DONE_FLAG - ADC conversion flag (only in one-shot mode)
 uint16_t BQ25798Component::get_adc_done_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -5055,6 +5694,10 @@ bool BQ25798Component::get_adc_done_flag_flag() {
 
 // VSYS_FLAG - VSYSMIN regulation flag
 uint16_t BQ25798Component::get_vsys_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -5084,6 +5727,10 @@ bool BQ25798Component::get_vsys_flag_flag() {
 
 // CHG_TMR_FLAG - Fast charge timer flag
 uint16_t BQ25798Component::get_chg_tmr_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -5113,6 +5760,10 @@ bool BQ25798Component::get_chg_tmr_flag_flag() {
 
 // TRICHG_TMR_FLAG - Trickle charge timer flag
 uint16_t BQ25798Component::get_trichg_tmr_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -5142,6 +5793,10 @@ bool BQ25798Component::get_trichg_tmr_flag_flag() {
 
 // PRECHG_TMR_FLAG - Pre-charge timer flag
 uint16_t BQ25798Component::get_prechg_tmr_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -5171,6 +5826,10 @@ bool BQ25798Component::get_prechg_tmr_flag_flag() {
 
 // TOPOFF_TMR_FLAG - Top off timer flag
 uint16_t BQ25798Component::get_topoff_tmr_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -5200,6 +5859,10 @@ bool BQ25798Component::get_topoff_tmr_flag_flag() {
 
 // VBATOTG_LOW_FLAG - VBAT too low to enable OTG flag
 uint16_t BQ25798Component::get_vbatotg_low_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -5229,6 +5892,10 @@ bool BQ25798Component::get_vbatotg_low_flag_flag() {
 
 // TS_COLD_FLAG - TS cold temperature flag
 uint16_t BQ25798Component::get_ts_cold_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -5258,6 +5925,10 @@ bool BQ25798Component::get_ts_cold_flag_flag() {
 
 // TS_COOL_FLAG - TS cool temperature flag
 uint16_t BQ25798Component::get_ts_cool_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -5287,6 +5958,10 @@ bool BQ25798Component::get_ts_cool_flag_flag() {
 
 // TS_WARM_FLAG - TS warm temperature flag
 uint16_t BQ25798Component::get_ts_warm_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -5316,6 +5991,10 @@ bool BQ25798Component::get_ts_warm_flag_flag() {
 
 // TS_HOT_FLAG - TS hot temperature flag
 uint16_t BQ25798Component::get_ts_hot_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -5345,6 +6024,10 @@ bool BQ25798Component::get_ts_hot_flag_flag() {
 
 // IBAT_REG_FLAG - IBAT regulation flag
 uint16_t BQ25798Component::get_ibat_reg_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -5374,6 +6057,10 @@ bool BQ25798Component::get_ibat_reg_flag_flag() {
 
 // VBUS_OVP_FLAG - VBUS over-voltage flag
 uint16_t BQ25798Component::get_vbus_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -5403,6 +6090,10 @@ bool BQ25798Component::get_vbus_ovp_flag_flag() {
 
 // VBAT_OVP_FLAG - VBAT over-voltage flag
 uint16_t BQ25798Component::get_vbat_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -5432,6 +6123,10 @@ bool BQ25798Component::get_vbat_ovp_flag_flag() {
 
 // IBUS_OCP_FLAG - IBUS over-current flag
 uint16_t BQ25798Component::get_ibus_ocp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -5461,6 +6156,10 @@ bool BQ25798Component::get_ibus_ocp_flag_flag() {
 
 // IBAT_OCP_FLAG - IBAT over-current flag
 uint16_t BQ25798Component::get_ibat_ocp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -5490,6 +6189,10 @@ bool BQ25798Component::get_ibat_ocp_flag_flag() {
 
 // CONV_OCP_FLAG - Converter over-current flag
 uint16_t BQ25798Component::get_conv_ocp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -5519,6 +6222,10 @@ bool BQ25798Component::get_conv_ocp_flag_flag() {
 
 // VAC2_OVP_FLAG - VAC2 over-voltage flag
 uint16_t BQ25798Component::get_vac2_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -5548,6 +6255,10 @@ bool BQ25798Component::get_vac2_ovp_flag_flag() {
 
 // VAC1_OVP_FLAG - VAC1 over-voltage flag
 uint16_t BQ25798Component::get_vac1_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
@@ -5577,6 +6288,10 @@ bool BQ25798Component::get_vac1_ovp_flag_flag() {
 
 // VSYS_SHORT_FLAG - VSYS short circuit flag
 uint16_t BQ25798Component::get_vsys_short_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -5606,6 +6321,10 @@ bool BQ25798Component::get_vsys_short_flag_flag() {
 
 // VSYS_OVP_FLAG - VSYS over-voltage flag
 uint16_t BQ25798Component::get_vsys_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -5635,6 +6354,10 @@ bool BQ25798Component::get_vsys_ovp_flag_flag() {
 
 // OTG_OVP_FLAG - OTG over-voltage flag
 uint16_t BQ25798Component::get_otg_ovp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -5664,6 +6387,10 @@ bool BQ25798Component::get_otg_ovp_flag_flag() {
 
 // OTG_UVP_FLAG - OTG under-voltage flag
 uint16_t BQ25798Component::get_otg_uvp_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -5693,6 +6420,10 @@ bool BQ25798Component::get_otg_uvp_flag_flag() {
 
 // TSHUT_FLAG - IC thermal shutdown flag
 uint16_t BQ25798Component::get_tshut_flag_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -5722,6 +6453,10 @@ bool BQ25798Component::get_tshut_flag_flag() {
 
 // ADC_EN - ADC enable
 uint16_t BQ25798Component::get_adc_en_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -5743,6 +6478,7 @@ void BQ25798Component::set_adc_en_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -5765,6 +6501,10 @@ void BQ25798Component::set_adc_en_bool(bool value) {
 
 // ADC_RATE - ADC conversion rate
 uint16_t BQ25798Component::get_adc_rate_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -5786,6 +6526,7 @@ void BQ25798Component::set_adc_rate_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -5823,6 +6564,10 @@ void BQ25798Component::set_adc_rate_enum_int(int value) {
 
 // ADC_SAMPLE - ADC sample speed
 uint16_t BQ25798Component::get_adc_sample_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
@@ -5844,6 +6589,7 @@ void BQ25798Component::set_adc_sample_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -5865,6 +6611,10 @@ void BQ25798Component::set_adc_sample_enum_int(int value) {
 
 // ADC_AVG - ADC averaging
 uint16_t BQ25798Component::get_adc_avg_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -5886,6 +6636,7 @@ void BQ25798Component::set_adc_avg_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -5923,6 +6674,10 @@ void BQ25798Component::set_adc_avg_enum_int(int value) {
 
 // ADC_AVG_INIT - ADC average initialization
 uint16_t BQ25798Component::get_adc_avg_init_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -5944,6 +6699,7 @@ void BQ25798Component::set_adc_avg_init_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -5966,6 +6722,10 @@ void BQ25798Component::set_adc_avg_init_bool(bool value) {
 
 // IBUS_ADC_DIS - IBUS ADC disable
 uint16_t BQ25798Component::get_ibus_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -5987,6 +6747,7 @@ void BQ25798Component::set_ibus_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6009,6 +6770,10 @@ void BQ25798Component::set_ibus_adc_dis_bool(bool value) {
 
 // IBAT_ADC_DIS - IBAT ADC disable
 uint16_t BQ25798Component::get_ibat_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -6030,6 +6795,7 @@ void BQ25798Component::set_ibat_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6052,6 +6818,10 @@ void BQ25798Component::set_ibat_adc_dis_bool(bool value) {
 
 // VBUS_ADC_DIS - VBUS ADC disable
 uint16_t BQ25798Component::get_vbus_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -6073,6 +6843,7 @@ void BQ25798Component::set_vbus_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6095,6 +6866,10 @@ void BQ25798Component::set_vbus_adc_dis_bool(bool value) {
 
 // VBAT_ADC_DIS - VBAT ADC disable
 uint16_t BQ25798Component::get_vbat_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -6116,6 +6891,7 @@ void BQ25798Component::set_vbat_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6138,6 +6914,10 @@ void BQ25798Component::set_vbat_adc_dis_bool(bool value) {
 
 // VSYS_ADC_DIS - VSYS ADC disable
 uint16_t BQ25798Component::get_vsys_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
@@ -6159,6 +6939,7 @@ void BQ25798Component::set_vsys_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6181,6 +6962,10 @@ void BQ25798Component::set_vsys_adc_dis_bool(bool value) {
 
 // TS_ADC_DIS - TS ADC disable
 uint16_t BQ25798Component::get_ts_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
@@ -6202,6 +6987,7 @@ void BQ25798Component::set_ts_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6224,6 +7010,10 @@ void BQ25798Component::set_ts_adc_dis_bool(bool value) {
 
 // TDIE_ADC_DIS - TDIE ADC disable
 uint16_t BQ25798Component::get_tdie_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
@@ -6245,6 +7035,7 @@ void BQ25798Component::set_tdie_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6267,6 +7058,10 @@ void BQ25798Component::set_tdie_adc_dis_bool(bool value) {
 
 // DPLUS_ADC_DIS - D+ ADC disable
 uint16_t BQ25798Component::get_dplus_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
@@ -6288,6 +7083,7 @@ void BQ25798Component::set_dplus_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6310,6 +7106,10 @@ void BQ25798Component::set_dplus_adc_dis_bool(bool value) {
 
 // DMINUS_ADC_DIS - D- ADC disable
 uint16_t BQ25798Component::get_dminus_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
@@ -6331,6 +7131,7 @@ void BQ25798Component::set_dminus_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6353,6 +7154,10 @@ void BQ25798Component::set_dminus_adc_dis_bool(bool value) {
 
 // VAC2_ADC_DIS - VAC2 ADC disable
 uint16_t BQ25798Component::get_vac2_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
@@ -6374,6 +7179,7 @@ void BQ25798Component::set_vac2_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6396,6 +7202,10 @@ void BQ25798Component::set_vac2_adc_dis_bool(bool value) {
 
 // VAC1_ADC_DIS - VAC1 ADC disable
 uint16_t BQ25798Component::get_vac1_adc_dis_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
@@ -6417,6 +7227,7 @@ void BQ25798Component::set_vac1_adc_dis_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6439,6 +7250,10 @@ void BQ25798Component::set_vac1_adc_dis_bool(bool value) {
 
 // IBUS_ADC - IBUS ADC reading
 uint16_t BQ25798Component::get_ibus_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG31_IBUS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6452,6 +7267,10 @@ int BQ25798Component::get_ibus_adc_int() {
 
 // IBAT_ADC - IBAT ADC reading
 uint16_t BQ25798Component::get_ibat_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG33_IBAT_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6465,6 +7284,10 @@ int BQ25798Component::get_ibat_adc_int() {
 
 // VBUS_ADC - VBUS ADC reading
 uint16_t BQ25798Component::get_vbus_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG35_VBUS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6478,6 +7301,10 @@ int BQ25798Component::get_vbus_adc_int() {
 
 // VAC1_ADC - VAC1 ADC reading
 uint16_t BQ25798Component::get_vac1_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG37_VAC1_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6491,6 +7318,10 @@ int BQ25798Component::get_vac1_adc_int() {
 
 // VAC2_ADC - VAC2 ADC reading
 uint16_t BQ25798Component::get_vac2_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG39_VAC2_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6504,6 +7335,10 @@ int BQ25798Component::get_vac2_adc_int() {
 
 // VBAT_ADC - VBAT ADC reading
 uint16_t BQ25798Component::get_vbat_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG3B_VBAT_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6517,6 +7352,10 @@ int BQ25798Component::get_vbat_adc_int() {
 
 // VSYS_ADC - VSYS ADC reading
 uint16_t BQ25798Component::get_vsys_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG3D_VSYS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6530,6 +7369,10 @@ int BQ25798Component::get_vsys_adc_int() {
 
 // TS_ADC - TS ADC reading
 uint16_t BQ25798Component::get_ts_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG3F_TS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6543,6 +7386,10 @@ float BQ25798Component::get_ts_adc_float() {
 
 // TDIE_ADC - TDIE ADC reading
 uint16_t BQ25798Component::get_tdie_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG41_TDIE_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6556,6 +7403,10 @@ float BQ25798Component::get_tdie_adc_float() {
 
 // DPLUS_ADC - D+ ADC reading
 uint16_t BQ25798Component::get_dplus_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG43_DPLUS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6569,6 +7420,10 @@ int BQ25798Component::get_dplus_adc_int() {
 
 // DMINUS_ADC - D- ADC reading
 uint16_t BQ25798Component::get_dminus_adc_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG45_DMINUS_ADC);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -6582,6 +7437,10 @@ int BQ25798Component::get_dminus_adc_int() {
 
 // DPLUS_DAC - D+ Output Driver
 uint16_t BQ25798Component::get_dplus_dac_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
@@ -6603,6 +7462,7 @@ void BQ25798Component::set_dplus_dac_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6624,6 +7484,10 @@ void BQ25798Component::set_dplus_dac_enum_int(int value) {
 
 // DMINUS_DAC - D- Output Driver
 uint16_t BQ25798Component::get_dminus_dac_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 2) & BITLENGTH_TO_MASK(3);
@@ -6645,6 +7509,7 @@ void BQ25798Component::set_dminus_dac_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 }
@@ -6666,6 +7531,10 @@ void BQ25798Component::set_dminus_dac_enum_int(int value) {
 
 // PN - Part number
 uint16_t BQ25798Component::get_pn_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG48_Part_Information);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 3) & BITLENGTH_TO_MASK(3);
@@ -6682,6 +7551,10 @@ const char* BQ25798Component::get_pn_enum_string() {
 
 // DEV_REV - Device revision
 uint16_t BQ25798Component::get_dev_rev_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at(REG48_Part_Information);
   uint8_t reg_value = _reg_values[ reg_addr ];
   return (reg_value >> 0) & BITLENGTH_TO_MASK(3);

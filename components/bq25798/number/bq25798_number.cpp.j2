@@ -27,6 +27,7 @@ void {{ className }}::dump_config() {
 
 void {{ className }}::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 

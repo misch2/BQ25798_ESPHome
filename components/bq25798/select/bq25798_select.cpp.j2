@@ -46,6 +46,7 @@ static const std::map<std::string, uint8_t> {{ className }}_ENUM_TO_INT {
 
 void {{ className }}::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 

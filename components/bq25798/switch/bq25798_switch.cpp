@@ -23,6 +23,7 @@ void BQ25798RegRstSwitch::dump_config() {
 
 void BQ25798RegRstSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -56,6 +57,7 @@ void BQ25798StopWdChgSwitch::dump_config() {
 
 void BQ25798StopWdChgSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -89,6 +91,7 @@ void BQ25798EnTrichgTmrSwitch::dump_config() {
 
 void BQ25798EnTrichgTmrSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -122,6 +125,7 @@ void BQ25798EnPrechgTmrSwitch::dump_config() {
 
 void BQ25798EnPrechgTmrSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -155,6 +159,7 @@ void BQ25798EnChgTmrSwitch::dump_config() {
 
 void BQ25798EnChgTmrSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -188,6 +193,7 @@ void BQ25798Tmr2xEnSwitch::dump_config() {
 
 void BQ25798Tmr2xEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -221,6 +227,7 @@ void BQ25798EnAutoIbatdisSwitch::dump_config() {
 
 void BQ25798EnAutoIbatdisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -254,6 +261,7 @@ void BQ25798ForceIbatdisSwitch::dump_config() {
 
 void BQ25798ForceIbatdisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -287,6 +295,7 @@ void BQ25798EnChgSwitch::dump_config() {
 
 void BQ25798EnChgSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -320,6 +329,7 @@ void BQ25798EnIcoSwitch::dump_config() {
 
 void BQ25798EnIcoSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -353,6 +363,7 @@ void BQ25798ForceIcoSwitch::dump_config() {
 
 void BQ25798ForceIcoSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -386,6 +397,7 @@ void BQ25798EnHizSwitch::dump_config() {
 
 void BQ25798EnHizSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -419,6 +431,7 @@ void BQ25798EnTermSwitch::dump_config() {
 
 void BQ25798EnTermSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -452,6 +465,7 @@ void BQ25798EnBackupSwitch::dump_config() {
 
 void BQ25798EnBackupSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -485,6 +499,7 @@ void BQ25798WdRstSwitch::dump_config() {
 
 void BQ25798WdRstSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -518,6 +533,7 @@ void BQ25798ForceIndetSwitch::dump_config() {
 
 void BQ25798ForceIndetSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -551,6 +567,7 @@ void BQ25798AutoIndetEnSwitch::dump_config() {
 
 void BQ25798AutoIndetEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -584,6 +601,7 @@ void BQ25798En12vSwitch::dump_config() {
 
 void BQ25798En12vSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -617,6 +635,7 @@ void BQ25798En9vSwitch::dump_config() {
 
 void BQ25798En9vSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -650,6 +669,7 @@ void BQ25798HvdcpEnSwitch::dump_config() {
 
 void BQ25798HvdcpEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -683,6 +703,7 @@ void BQ25798DisAcdrvSwitch::dump_config() {
 
 void BQ25798DisAcdrvSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -716,6 +737,7 @@ void BQ25798EnOtgSwitch::dump_config() {
 
 void BQ25798EnOtgSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -749,6 +771,7 @@ void BQ25798PfmOtgDisSwitch::dump_config() {
 
 void BQ25798PfmOtgDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -782,6 +805,7 @@ void BQ25798PfmFwdDisSwitch::dump_config() {
 
 void BQ25798PfmFwdDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -815,6 +839,7 @@ void BQ25798DisLdoSwitch::dump_config() {
 
 void BQ25798DisLdoSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -848,6 +873,7 @@ void BQ25798DisOtgOoaSwitch::dump_config() {
 
 void BQ25798DisOtgOoaSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -881,6 +907,7 @@ void BQ25798DisFwdOoaSwitch::dump_config() {
 
 void BQ25798DisFwdOoaSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -914,6 +941,7 @@ void BQ25798EnAcdrv2Switch::dump_config() {
 
 void BQ25798EnAcdrv2Switch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -947,6 +975,7 @@ void BQ25798EnAcdrv1Switch::dump_config() {
 
 void BQ25798EnAcdrv1Switch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -980,6 +1009,7 @@ void BQ25798DisStatSwitch::dump_config() {
 
 void BQ25798DisStatSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1013,6 +1043,7 @@ void BQ25798DisVsysShortSwitch::dump_config() {
 
 void BQ25798DisVsysShortSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1046,6 +1077,7 @@ void BQ25798DisVotgUvpSwitch::dump_config() {
 
 void BQ25798DisVotgUvpSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1079,6 +1111,7 @@ void BQ25798ForceVindpmDetSwitch::dump_config() {
 
 void BQ25798ForceVindpmDetSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1112,6 +1145,7 @@ void BQ25798EnIbusOcpSwitch::dump_config() {
 
 void BQ25798EnIbusOcpSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1145,6 +1179,7 @@ void BQ25798SfetPresentSwitch::dump_config() {
 
 void BQ25798SfetPresentSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1178,6 +1213,7 @@ void BQ25798EnIbatSwitch::dump_config() {
 
 void BQ25798EnIbatSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1211,6 +1247,7 @@ void BQ25798EnIindpmSwitch::dump_config() {
 
 void BQ25798EnIindpmSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1244,6 +1281,7 @@ void BQ25798EnExtilimSwitch::dump_config() {
 
 void BQ25798EnExtilimSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1277,6 +1315,7 @@ void BQ25798EnBatocSwitch::dump_config() {
 
 void BQ25798EnBatocSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1310,6 +1349,7 @@ void BQ25798EnMpptSwitch::dump_config() {
 
 void BQ25798EnMpptSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1343,6 +1383,7 @@ void BQ25798VbusPdEnSwitch::dump_config() {
 
 void BQ25798VbusPdEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1376,6 +1417,7 @@ void BQ25798Vac1PdEnSwitch::dump_config() {
 
 void BQ25798Vac1PdEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1409,6 +1451,7 @@ void BQ25798Vac2PdEnSwitch::dump_config() {
 
 void BQ25798Vac2PdEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1442,6 +1485,7 @@ void BQ25798BkupAcfet1OnSwitch::dump_config() {
 
 void BQ25798BkupAcfet1OnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1475,6 +1519,7 @@ void BQ25798TsIgnoreSwitch::dump_config() {
 
 void BQ25798TsIgnoreSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1508,6 +1553,7 @@ void BQ25798AdcEnSwitch::dump_config() {
 
 void BQ25798AdcEnSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1541,6 +1587,7 @@ void BQ25798AdcAvgInitSwitch::dump_config() {
 
 void BQ25798AdcAvgInitSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1574,6 +1621,7 @@ void BQ25798IbusAdcDisSwitch::dump_config() {
 
 void BQ25798IbusAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1607,6 +1655,7 @@ void BQ25798IbatAdcDisSwitch::dump_config() {
 
 void BQ25798IbatAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1640,6 +1689,7 @@ void BQ25798VbusAdcDisSwitch::dump_config() {
 
 void BQ25798VbusAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1673,6 +1723,7 @@ void BQ25798VbatAdcDisSwitch::dump_config() {
 
 void BQ25798VbatAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1706,6 +1757,7 @@ void BQ25798VsysAdcDisSwitch::dump_config() {
 
 void BQ25798VsysAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1739,6 +1791,7 @@ void BQ25798TsAdcDisSwitch::dump_config() {
 
 void BQ25798TsAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1772,6 +1825,7 @@ void BQ25798TdieAdcDisSwitch::dump_config() {
 
 void BQ25798TdieAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1805,6 +1859,7 @@ void BQ25798DplusAdcDisSwitch::dump_config() {
 
 void BQ25798DplusAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1838,6 +1893,7 @@ void BQ25798DminusAdcDisSwitch::dump_config() {
 
 void BQ25798DminusAdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1871,6 +1927,7 @@ void BQ25798Vac2AdcDisSwitch::dump_config() {
 
 void BQ25798Vac2AdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 
@@ -1904,6 +1961,7 @@ void BQ25798Vac1AdcDisSwitch::dump_config() {
 
 void BQ25798Vac1AdcDisSwitch::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(false);
     return;
   }
 

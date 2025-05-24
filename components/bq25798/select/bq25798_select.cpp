@@ -39,6 +39,7 @@ static const std::map<std::string, uint8_t> BQ25798VbatLowvSelect_ENUM_TO_INT {
 
 void BQ25798VbatLowvSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -88,6 +89,7 @@ static const std::map<std::string, uint8_t> BQ25798CellSelect_ENUM_TO_INT {
 
 void BQ25798CellSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -137,6 +139,7 @@ static const std::map<std::string, uint8_t> BQ25798TrechgSelect_ENUM_TO_INT {
 
 void BQ25798TrechgSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -182,6 +185,7 @@ static const std::map<std::string, uint8_t> BQ25798PrechgTmrSelect_ENUM_TO_INT {
 
 void BQ25798PrechgTmrSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -231,6 +235,7 @@ static const std::map<std::string, uint8_t> BQ25798TopoffTmrSelect_ENUM_TO_INT {
 
 void BQ25798TopoffTmrSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -280,6 +285,7 @@ static const std::map<std::string, uint8_t> BQ25798ChgTmrSelect_ENUM_TO_INT {
 
 void BQ25798ChgTmrSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -329,6 +335,7 @@ static const std::map<std::string, uint8_t> BQ25798VbusBackupSelect_ENUM_TO_INT 
 
 void BQ25798VbusBackupSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -378,6 +385,7 @@ static const std::map<std::string, uint8_t> BQ25798VacOvpSelect_ENUM_TO_INT {
 
 void BQ25798VacOvpSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -435,6 +443,7 @@ static const std::map<std::string, uint8_t> BQ25798WatchdogSelect_ENUM_TO_INT {
 
 void BQ25798WatchdogSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -484,6 +493,7 @@ static const std::map<std::string, uint8_t> BQ25798SdrvCtrlSelect_ENUM_TO_INT {
 
 void BQ25798SdrvCtrlSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -529,6 +539,7 @@ static const std::map<std::string, uint8_t> BQ25798SdrvDlySelect_ENUM_TO_INT {
 
 void BQ25798SdrvDlySelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -574,6 +585,7 @@ static const std::map<std::string, uint8_t> BQ25798WkupDlySelect_ENUM_TO_INT {
 
 void BQ25798WkupDlySelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -619,6 +631,7 @@ static const std::map<std::string, uint8_t> BQ25798PwmFreqSelect_ENUM_TO_INT {
 
 void BQ25798PwmFreqSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -668,6 +681,7 @@ static const std::map<std::string, uint8_t> BQ25798IbatRegSelect_ENUM_TO_INT {
 
 void BQ25798IbatRegSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -725,6 +739,7 @@ static const std::map<std::string, uint8_t> BQ25798VocPctSelect_ENUM_TO_INT {
 
 void BQ25798VocPctSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -774,6 +789,7 @@ static const std::map<std::string, uint8_t> BQ25798VocDlySelect_ENUM_TO_INT {
 
 void BQ25798VocDlySelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -823,6 +839,7 @@ static const std::map<std::string, uint8_t> BQ25798VocRateSelect_ENUM_TO_INT {
 
 void BQ25798VocRateSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -872,6 +889,7 @@ static const std::map<std::string, uint8_t> BQ25798TregSelect_ENUM_TO_INT {
 
 void BQ25798TregSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -921,6 +939,7 @@ static const std::map<std::string, uint8_t> BQ25798TshutSelect_ENUM_TO_INT {
 
 void BQ25798TshutSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -978,6 +997,7 @@ static const std::map<std::string, uint8_t> BQ25798JeitaVsetSelect_ENUM_TO_INT {
 
 void BQ25798JeitaVsetSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1027,6 +1047,7 @@ static const std::map<std::string, uint8_t> BQ25798JeitaIsethSelect_ENUM_TO_INT 
 
 void BQ25798JeitaIsethSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1076,6 +1097,7 @@ static const std::map<std::string, uint8_t> BQ25798JeitaIsetcSelect_ENUM_TO_INT 
 
 void BQ25798JeitaIsetcSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1125,6 +1147,7 @@ static const std::map<std::string, uint8_t> BQ25798TsCoolSelect_ENUM_TO_INT {
 
 void BQ25798TsCoolSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1174,6 +1197,7 @@ static const std::map<std::string, uint8_t> BQ25798TsWarmSelect_ENUM_TO_INT {
 
 void BQ25798TsWarmSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1223,6 +1247,7 @@ static const std::map<std::string, uint8_t> BQ25798BhotSelect_ENUM_TO_INT {
 
 void BQ25798BhotSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1268,6 +1293,7 @@ static const std::map<std::string, uint8_t> BQ25798BcoldSelect_ENUM_TO_INT {
 
 void BQ25798BcoldSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1313,6 +1339,7 @@ static const std::map<std::string, uint8_t> BQ25798AdcRateSelect_ENUM_TO_INT {
 
 void BQ25798AdcRateSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1362,6 +1389,7 @@ static const std::map<std::string, uint8_t> BQ25798AdcSampleSelect_ENUM_TO_INT {
 
 void BQ25798AdcSampleSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1407,6 +1435,7 @@ static const std::map<std::string, uint8_t> BQ25798AdcAvgSelect_ENUM_TO_INT {
 
 void BQ25798AdcAvgSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1464,6 +1493,7 @@ static const std::map<std::string, uint8_t> BQ25798DplusDacSelect_ENUM_TO_INT {
 
 void BQ25798DplusDacSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 
@@ -1521,6 +1551,7 @@ static const std::map<std::string, uint8_t> BQ25798DminusDacSelect_ENUM_TO_INT {
 
 void BQ25798DminusDacSelect::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(this->at(0).value_or("I2C device failed"));
     return;
   }
 

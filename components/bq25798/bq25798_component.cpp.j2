@@ -18,11 +18,13 @@ void BQ25798Component::setup() {
   this->bq25798_noi2c_ = new BQ25798NoI2C();
   this->bq25798_noi2c_->begin(this->address_); // no-op
 
+  this->clear_registers();
   this->update(); // read the registers
 
   int pn = get_pn_enum_int();
   if (pn != static_cast<int>(BQ25798NoI2C::PN_t::PN_BQ25798)) {
     ESP_LOGE(TAG, "BQ25798 chip not found at address 0x%02X. Read signature: %d", this->address_, pn);
+    this->clear_registers();
     this->mark_failed();
     return;
   }
@@ -30,6 +32,7 @@ void BQ25798Component::setup() {
   int dev_rev = get_dev_rev_enum_int();
   if (dev_rev != static_cast<int>(BQ25798NoI2C::DEV_REV_t::DEV_REV_BQ25798)) {
     ESP_LOGE(TAG, "BQ25798 chip at address 0x%02X has unexpected device revision: %d", this->address_, dev_rev);
+    this->clear_registers();
     this->mark_failed();
     return;
   }
@@ -38,13 +41,11 @@ void BQ25798Component::setup() {
   this->set_reg_rst_bool(true);
   while (this->get_reg_rst_bool()) {
     this->update(); // read the registers again
-    delay(1); // wait for the chip to reset
+    delay(10); // wait for the chip to reset
   }
   ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
   ESP_LOGCONFIG(TAG, "BQ25798 initialized successfully at address 0x%02X", this->address_);
-
-  delay(1);
 }
 
 void BQ25798Component::dump_config() {
@@ -88,6 +89,7 @@ void BQ25798Component::update() {
   for (int i = 0; i < {{ registers_count }}; i++) {
     if (!this->read_byte(_regindex_to_addr.at(i), &_reg_values[i])) {
       ESP_LOGE(TAG, "Failed to read register 0x%02X", _regindex_to_addr.at(i));
+      this->clear_registers();
       this->mark_failed();
       return;
     }
@@ -97,9 +99,21 @@ void BQ25798Component::update() {
   this->set_wd_rst_bool(true);
 }
 
+// To visibly indicate that the component is not ready to use, we clear all registers
+void BQ25798Component::clear_registers() {
+  ESP_LOGD(TAG, "Clearing all cached registers");
+  for (int i = 0; i < {{ registers_count }}; i++) {
+    _reg_values[i] = 0;
+  }
+}
+
 {% for def in settings %}
 // {{ def.name }} - {{ def.description }}
 uint16_t BQ25798Component::get_{{ def._snake_case_name }}_raw() {
+  if (this->is_failed() || this->bq25798_noi2c_ == nullptr) {
+    return 0;
+  }
+
   uint8_t reg_addr = _regaddr_to_index.at({{ def.regname }});
 {%     if def.long_reg %}
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
@@ -130,6 +144,7 @@ void BQ25798Component::set_{{ def._snake_case_name }}_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register {{ def.regname }} (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16({{ def.regname }}, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 {%         else %}
@@ -141,6 +156,7 @@ void BQ25798Component::set_{{ def._snake_case_name }}_raw(uint16_t raw_value) {
   ESP_LOGD(TAG, "  Writing register {{ def.regname }} (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte({{ def.regname }}, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
+    this->clear_registers();
     this->mark_failed();
   }
 {%         endif %}

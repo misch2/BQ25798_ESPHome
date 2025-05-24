@@ -22,6 +22,7 @@ void BQ25798VsysminNumber::dump_config() {
 
 void BQ25798VsysminNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -50,6 +51,7 @@ void BQ25798VregNumber::dump_config() {
 
 void BQ25798VregNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -78,6 +80,7 @@ void BQ25798IchgNumber::dump_config() {
 
 void BQ25798IchgNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -106,6 +109,7 @@ void BQ25798VindpmNumber::dump_config() {
 
 void BQ25798VindpmNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -134,6 +138,7 @@ void BQ25798IindpmNumber::dump_config() {
 
 void BQ25798IindpmNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -162,6 +167,7 @@ void BQ25798IprechgNumber::dump_config() {
 
 void BQ25798IprechgNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -190,6 +196,7 @@ void BQ25798ItermNumber::dump_config() {
 
 void BQ25798ItermNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -218,6 +225,7 @@ void BQ25798VrechgNumber::dump_config() {
 
 void BQ25798VrechgNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -246,6 +254,7 @@ void BQ25798VotgNumber::dump_config() {
 
 void BQ25798VotgNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 
@@ -274,6 +283,7 @@ void BQ25798IotgNumber::dump_config() {
 
 void BQ25798IotgNumber::update() {
   if (this->parent_->is_failed()) {
+    this->publish_state(NAN);
     return;
   }
 

@@ -69,6 +69,7 @@ class BQ25798Component : public PollingComponent, public i2c::I2CDevice {
 {% endfor -%}
 
  protected:
+  void clear_registers();
 {% for def in settings %}
 {%     if def._is_flag %}
   bool last_{{ def._snake_case_name }}_ = false;
