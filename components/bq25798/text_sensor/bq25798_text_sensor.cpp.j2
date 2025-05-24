@@ -24,6 +24,7 @@ void BQ25798TextSensor::dump_config() {
   }
 {%     endif %}
 {% endfor %}
+  LOG_TEXT_SENSOR("  ", "all_flags", this->text_sensor_all_flags_);
 
   LOG_UPDATE_INTERVAL(this);
 }
@@ -41,6 +42,24 @@ void BQ25798TextSensor::update() {
   }   
 {%     endif %}   
 {% endfor %}
+  if (this->text_sensor_all_flags_ != nullptr) {
+    this->text_sensor_all_flags_->publish_state(this->get_all_flags_string());
+  }
+}
+
+std::string BQ25798TextSensor::get_all_flags_string() {
+  std::string ret;
+{% for def in settings %}
+{%     if def._is_flag %}
+  if (this->parent_->get_{{ def._snake_case_name }}_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "{{ def.name | replace('_FLAG', '') }}";
+  }
+{%     endif %}
+{% endfor %}
+  return ret;
 }
 
 
@@ -51,6 +70,8 @@ void BQ25798TextSensor::assign_text_sensor_{{ def._snake_case_name }}(text_senso
 }
 {%     endif %}
 {% endfor %}
-
+void BQ25798TextSensor::assign_text_sensor_all_flags(text_sensor::TextSensor *sensor) {
+  this->text_sensor_all_flags_ = sensor;
+}
 }  // namespace bq25798
 }  // namespace esphome

@@ -189,6 +189,7 @@ void BQ25798TextSensor::dump_config() {
   if (this->text_sensor_dev_rev_ != nullptr) {
     LOG_TEXT_SENSOR("  ", "DEV_REV", this->text_sensor_dev_rev_);
   }
+  LOG_TEXT_SENSOR("  ", "all_flags", this->text_sensor_all_flags_);
 
   LOG_UPDATE_INTERVAL(this);
 }
@@ -754,6 +755,248 @@ void BQ25798TextSensor::update() {
     this->text_sensor_dev_rev_->publish_state(this->parent_->get_dev_rev_enum_string());   
   }   
    
+  if (this->text_sensor_all_flags_ != nullptr) {
+    this->text_sensor_all_flags_->publish_state(this->get_all_flags_string());
+  }
+}
+
+std::string BQ25798TextSensor::get_all_flags_string() {
+  std::string ret;
+  if (this->parent_->get_iindpm_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "IINDPM";
+  }
+  if (this->parent_->get_vindpm_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VINDPM";
+  }
+  if (this->parent_->get_wd_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "WD";
+  }
+  if (this->parent_->get_poorsrc_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "POORSRC";
+  }
+  if (this->parent_->get_pg_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "PG";
+  }
+  if (this->parent_->get_ac2_present_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "AC2_PRESENT";
+  }
+  if (this->parent_->get_ac1_present_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "AC1_PRESENT";
+  }
+  if (this->parent_->get_vbus_present_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBUS_PRESENT";
+  }
+  if (this->parent_->get_chg_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "CHG";
+  }
+  if (this->parent_->get_ico_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "ICO";
+  }
+  if (this->parent_->get_vbus_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBUS";
+  }
+  if (this->parent_->get_treg_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TREG";
+  }
+  if (this->parent_->get_vbat_present_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBAT_PRESENT";
+  }
+  if (this->parent_->get_bc1_2_done_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "BC1_2_DONE";
+  }
+  if (this->parent_->get_dpdm_done_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "DPDM_DONE";
+  }
+  if (this->parent_->get_adc_done_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "ADC_DONE";
+  }
+  if (this->parent_->get_vsys_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VSYS";
+  }
+  if (this->parent_->get_chg_tmr_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "CHG_TMR";
+  }
+  if (this->parent_->get_trichg_tmr_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TRICHG_TMR";
+  }
+  if (this->parent_->get_prechg_tmr_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "PRECHG_TMR";
+  }
+  if (this->parent_->get_topoff_tmr_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TOPOFF_TMR";
+  }
+  if (this->parent_->get_vbatotg_low_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBATOTG_LOW";
+  }
+  if (this->parent_->get_ts_cold_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TS_COLD";
+  }
+  if (this->parent_->get_ts_cool_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TS_COOL";
+  }
+  if (this->parent_->get_ts_warm_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TS_WARM";
+  }
+  if (this->parent_->get_ts_hot_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TS_HOT";
+  }
+  if (this->parent_->get_ibat_reg_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "IBAT_REG";
+  }
+  if (this->parent_->get_vbus_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBUS_OVP";
+  }
+  if (this->parent_->get_vbat_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VBAT_OVP";
+  }
+  if (this->parent_->get_ibus_ocp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "IBUS_OCP";
+  }
+  if (this->parent_->get_ibat_ocp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "IBAT_OCP";
+  }
+  if (this->parent_->get_conv_ocp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "CONV_OCP";
+  }
+  if (this->parent_->get_vac2_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VAC2_OVP";
+  }
+  if (this->parent_->get_vac1_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VAC1_OVP";
+  }
+  if (this->parent_->get_vsys_short_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VSYS_SHORT";
+  }
+  if (this->parent_->get_vsys_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "VSYS_OVP";
+  }
+  if (this->parent_->get_otg_ovp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "OTG_OVP";
+  }
+  if (this->parent_->get_otg_uvp_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "OTG_UVP";
+  }
+  if (this->parent_->get_tshut_flag_flag()) {
+    if (!ret.empty()) {
+      ret += ", ";
+    }
+    ret += "TSHUT";
+  }
+  return ret;
 }
 
 
@@ -931,6 +1174,8 @@ void BQ25798TextSensor::assign_text_sensor_pn(text_sensor::TextSensor *sensor) {
 void BQ25798TextSensor::assign_text_sensor_dev_rev(text_sensor::TextSensor *sensor) {
   this->text_sensor_dev_rev_ = sensor;
 }
-
+void BQ25798TextSensor::assign_text_sensor_all_flags(text_sensor::TextSensor *sensor) {
+  this->text_sensor_all_flags_ = sensor;
+}
 }  // namespace bq25798
 }  // namespace esphome

@@ -75,8 +75,10 @@ class BQ25798TextSensor : public sensor::Sensor,
   void assign_text_sensor_dminus_dac(text_sensor::TextSensor *sensor);
   void assign_text_sensor_pn(text_sensor::TextSensor *sensor);
   void assign_text_sensor_dev_rev(text_sensor::TextSensor *sensor);
+  void assign_text_sensor_all_flags(text_sensor::TextSensor *sensor);
 
  protected:
+  std::string get_all_flags_string();
   text_sensor::TextSensor *text_sensor_vbat_lowv_ {nullptr};
   text_sensor::TextSensor *text_sensor_cell_ {nullptr};
   text_sensor::TextSensor *text_sensor_trechg_ {nullptr};
@@ -135,6 +137,7 @@ class BQ25798TextSensor : public sensor::Sensor,
   text_sensor::TextSensor *text_sensor_dminus_dac_ {nullptr};
   text_sensor::TextSensor *text_sensor_pn_ {nullptr};
   text_sensor::TextSensor *text_sensor_dev_rev_ {nullptr};
+  text_sensor::TextSensor *text_sensor_all_flags_ {nullptr};
 };
 
 }  // namespace bq25798

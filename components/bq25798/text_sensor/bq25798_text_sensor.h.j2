@@ -24,13 +24,16 @@ class BQ25798TextSensor : public sensor::Sensor,
   void assign_text_sensor_{{ def._snake_case_name }}(text_sensor::TextSensor *sensor);
 {%     endif %}
 {% endfor %}
+  void assign_text_sensor_all_flags(text_sensor::TextSensor *sensor);
 
  protected:
+  std::string get_all_flags_string();
 {% for def in settings %}
 {%     if def._is_ha_text_sensor %}
   text_sensor::TextSensor *text_sensor_{{ def._snake_case_name }}_ {nullptr};
 {%     endif %}
 {% endfor %}
+  text_sensor::TextSensor *text_sensor_all_flags_ {nullptr};
 };
 
 }  // namespace bq25798
