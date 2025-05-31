@@ -48,10 +48,10 @@ void BQ25798Component::setup() {
 
 void BQ25798Component::dump_config() {
   ESP_LOGCONFIG(TAG, "Dumping BQ25798 configuration...");
-  LOG_I2C_DEVICE(this);
   if (this->is_failed()) {
     return;
   }
+  LOG_I2C_DEVICE(this);
   LOG_UPDATE_INTERVAL(this);
 }
 
@@ -217,11 +217,12 @@ void BQ25798Component::update() {
   }
 
   // Read all registers
+//  ESP_LOGD(TAG, "Reading all registers to cache");
   for (int i = 0; i < 73; i++) {
     if (!this->read_byte(_regindex_to_addr.at(i), &_reg_values[i])) {
       ESP_LOGE(TAG, "Failed to read register 0x%02X", _regindex_to_addr.at(i));
       this->clear_registers();
-      this->mark_failed();
+//       this->mark_failed();
       return;
     }
   }
@@ -246,6 +247,7 @@ uint16_t BQ25798Component::get_vsysmin_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG00_Minimal_System_Voltage);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG00_Minimal_System_Voltage (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(6);
 }
 
@@ -254,30 +256,40 @@ void BQ25798Component::set_vsysmin_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VSYSMIN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VSYSMIN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG00_Minimal_System_Voltage);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(6) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(6)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG00_Minimal_System_Voltage (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG00_Minimal_System_Voltage (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG00_Minimal_System_Voltage, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vsysmin_int() {
   uint16_t raw = get_vsysmin_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYSMIN);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYSMIN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VSYSMIN");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_vsysmin_int(int value) {
-  ESP_LOGD(TAG, "Setting VSYSMIN to %d", value);
+//  ESP_LOGD(TAG, "Setting VSYSMIN to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VSYSMIN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for VSYSMIN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vsysmin_raw(raw_value);
 };
 
@@ -298,8 +310,7 @@ void BQ25798Component::set_vreg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VREG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VREG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG01_Charge_Voltage_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -308,22 +319,33 @@ void BQ25798Component::set_vreg_raw(uint16_t raw_value) {
   _reg_values[ reg_addr ] = reg_value >> 8;
   _reg_values[ reg_addr + 1 ] = reg_value & 0xFF;
 
-  ESP_LOGD(TAG, "  Writing register REG01_Charge_Voltage_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
+//  ESP_LOGD(TAG, "  Writing register REG01_Charge_Voltage_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG01_Charge_Voltage_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vreg_int() {
   uint16_t raw = get_vreg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VREG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VREG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VREG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_vreg_int(int value) {
-  ESP_LOGD(TAG, "Setting VREG to %d", value);
+//  ESP_LOGD(TAG, "Setting VREG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VREG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for VREG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vreg_raw(raw_value);
 };
 
@@ -344,8 +366,7 @@ void BQ25798Component::set_ichg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ICHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ICHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG03_Charge_Current_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -354,22 +375,33 @@ void BQ25798Component::set_ichg_raw(uint16_t raw_value) {
   _reg_values[ reg_addr ] = reg_value >> 8;
   _reg_values[ reg_addr + 1 ] = reg_value & 0xFF;
 
-  ESP_LOGD(TAG, "  Writing register REG03_Charge_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
+//  ESP_LOGD(TAG, "  Writing register REG03_Charge_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG03_Charge_Current_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_ichg_int() {
   uint16_t raw = get_ichg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICHG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for ICHG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_ichg_int(int value) {
-  ESP_LOGD(TAG, "Setting ICHG to %d", value);
+//  ESP_LOGD(TAG, "Setting ICHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ICHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for ICHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_ichg_raw(raw_value);
 };
 
@@ -381,6 +413,7 @@ uint16_t BQ25798Component::get_vindpm_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG05_Input_Voltage_Limit);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG05_Input_Voltage_Limit (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(8);
 }
 
@@ -389,30 +422,40 @@ void BQ25798Component::set_vindpm_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VINDPM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VINDPM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG05_Input_Voltage_Limit);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(8) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(8)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG05_Input_Voltage_Limit (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG05_Input_Voltage_Limit (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG05_Input_Voltage_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vindpm_int() {
   uint16_t raw = get_vindpm_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VINDPM);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VINDPM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VINDPM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_vindpm_int(int value) {
-  ESP_LOGD(TAG, "Setting VINDPM to %d", value);
+//  ESP_LOGD(TAG, "Setting VINDPM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VINDPM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for VINDPM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vindpm_raw(raw_value);
 };
 
@@ -433,8 +476,7 @@ void BQ25798Component::set_iindpm_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IINDPM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IINDPM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG06_Input_Current_Limit);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -443,22 +485,33 @@ void BQ25798Component::set_iindpm_raw(uint16_t raw_value) {
   _reg_values[ reg_addr ] = reg_value >> 8;
   _reg_values[ reg_addr + 1 ] = reg_value & 0xFF;
 
-  ESP_LOGD(TAG, "  Writing register REG06_Input_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
+//  ESP_LOGD(TAG, "  Writing register REG06_Input_Current_Limit (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG06_Input_Current_Limit, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_iindpm_int() {
   uint16_t raw = get_iindpm_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IINDPM);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IINDPM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for IINDPM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_iindpm_int(int value) {
-  ESP_LOGD(TAG, "Setting IINDPM to %d", value);
+//  ESP_LOGD(TAG, "Setting IINDPM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IINDPM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for IINDPM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_iindpm_raw(raw_value);
 };
 
@@ -470,6 +523,7 @@ uint16_t BQ25798Component::get_vbat_lowv_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -478,34 +532,48 @@ void BQ25798Component::set_vbat_lowv_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VBAT_LOWV to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VBAT_LOWV to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vbat_lowv_enum_int() {
   uint16_t raw = get_vbat_lowv_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_LOWV);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_LOWV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBAT_LOWV");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbat_lowv_enum_string() {
   uint16_t raw = get_vbat_lowv_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBAT_LOWV);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBAT_LOWV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBAT_LOWV");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_vbat_lowv_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VBAT_LOWV to %d", value);
+//  ESP_LOGD(TAG, "Setting VBAT_LOWV to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBAT_LOWV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VBAT_LOWV");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_vbat_lowv_raw(raw_value);
 };
 
@@ -517,6 +585,7 @@ uint16_t BQ25798Component::get_iprechg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(6);
 }
 
@@ -525,30 +594,40 @@ void BQ25798Component::set_iprechg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IPRECHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IPRECHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG08_Precharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(6) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(6)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG08_Precharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG08_Precharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_iprechg_int() {
   uint16_t raw = get_iprechg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IPRECHG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IPRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for IPRECHG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_iprechg_int(int value) {
-  ESP_LOGD(TAG, "Setting IPRECHG to %d", value);
+//  ESP_LOGD(TAG, "Setting IPRECHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IPRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for IPRECHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_iprechg_raw(raw_value);
 };
 
@@ -560,6 +639,7 @@ uint16_t BQ25798Component::get_reg_rst_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -568,19 +648,18 @@ void BQ25798Component::set_reg_rst_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting REG_RST to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting REG_RST to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -588,15 +667,21 @@ bool BQ25798Component::get_reg_rst_bool() {
   uint16_t raw = get_reg_rst_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->REG_RST);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for REG_RST");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_reg_rst_bool(bool value) {
-  ESP_LOGD(TAG, "Setting REG_RST to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting REG_RST to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->REG_RST);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for REG_RST");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_reg_rst_raw(raw_value);
 };
 
@@ -608,6 +693,7 @@ uint16_t BQ25798Component::get_stop_wd_chg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -616,19 +702,18 @@ void BQ25798Component::set_stop_wd_chg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting STOP_WD_CHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting STOP_WD_CHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -636,15 +721,21 @@ bool BQ25798Component::get_stop_wd_chg_bool() {
   uint16_t raw = get_stop_wd_chg_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->STOP_WD_CHG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for STOP_WD_CHG");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_stop_wd_chg_bool(bool value) {
-  ESP_LOGD(TAG, "Setting STOP_WD_CHG to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting STOP_WD_CHG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->STOP_WD_CHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for STOP_WD_CHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_stop_wd_chg_raw(raw_value);
 };
 
@@ -656,6 +747,7 @@ uint16_t BQ25798Component::get_iterm_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(5);
 }
 
@@ -664,30 +756,40 @@ void BQ25798Component::set_iterm_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ITERM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ITERM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG09_Termination_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(5) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(5)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG09_Termination_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG09_Termination_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_iterm_int() {
   uint16_t raw = get_iterm_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ITERM);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ITERM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for ITERM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_iterm_int(int value) {
-  ESP_LOGD(TAG, "Setting ITERM to %d", value);
+//  ESP_LOGD(TAG, "Setting ITERM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ITERM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for ITERM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_iterm_raw(raw_value);
 };
 
@@ -699,6 +801,7 @@ uint16_t BQ25798Component::get_cell_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -707,34 +810,48 @@ void BQ25798Component::set_cell_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting CELL to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting CELL to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_cell_enum_int() {
   uint16_t raw = get_cell_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CELL);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CELL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for CELL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_cell_enum_string() {
   uint16_t raw = get_cell_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CELL);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CELL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for CELL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_cell_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting CELL to %d", value);
+//  ESP_LOGD(TAG, "Setting CELL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CELL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for CELL");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_cell_raw(raw_value);
 };
 
@@ -746,6 +863,7 @@ uint16_t BQ25798Component::get_trechg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -754,34 +872,48 @@ void BQ25798Component::set_trechg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TRECHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TRECHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_trechg_enum_int() {
   uint16_t raw = get_trechg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TRECHG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TRECHG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_trechg_enum_string() {
   uint16_t raw = get_trechg_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TRECHG);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TRECHG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_trechg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TRECHG to %d", value);
+//  ESP_LOGD(TAG, "Setting TRECHG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TRECHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_trechg_raw(raw_value);
 };
 
@@ -793,6 +925,7 @@ uint16_t BQ25798Component::get_vrechg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(4);
 }
 
@@ -801,30 +934,40 @@ void BQ25798Component::set_vrechg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VRECHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VRECHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0A_Recharge_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(4) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(4)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0A_Recharge_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0A_Recharge_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vrechg_int() {
   uint16_t raw = get_vrechg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VRECHG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VRECHG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_vrechg_int(int value) {
-  ESP_LOGD(TAG, "Setting VRECHG to %d", value);
+//  ESP_LOGD(TAG, "Setting VRECHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VRECHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for VRECHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vrechg_raw(raw_value);
 };
 
@@ -845,8 +988,7 @@ void BQ25798Component::set_votg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VOTG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VOTG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0B_VOTG_regulation);
   uint16_t reg_value = (_reg_values[ reg_addr ] << 8) |
                         _reg_values[ reg_addr + 1 ];
@@ -855,22 +997,33 @@ void BQ25798Component::set_votg_raw(uint16_t raw_value) {
   _reg_values[ reg_addr ] = reg_value >> 8;
   _reg_values[ reg_addr + 1 ] = reg_value & 0xFF;
 
-  ESP_LOGD(TAG, "  Writing register REG0B_VOTG_regulation (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
+//  ESP_LOGD(TAG, "  Writing register REG0B_VOTG_regulation (0x%02X): 0x%02X 0x%02X", reg_addr, _reg_values[ reg_addr ], _reg_values[ reg_addr + 1 ]);
   if (!this->write_byte_16(REG0B_VOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_votg_int() {
   uint16_t raw = get_votg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOTG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOTG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VOTG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_votg_int(int value) {
-  ESP_LOGD(TAG, "Setting VOTG to %d", value);
+//  ESP_LOGD(TAG, "Setting VOTG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOTG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for VOTG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_votg_raw(raw_value);
 };
 
@@ -882,6 +1035,7 @@ uint16_t BQ25798Component::get_prechg_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -890,19 +1044,18 @@ void BQ25798Component::set_prechg_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting PRECHG_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting PRECHG_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -910,7 +1063,7 @@ bool BQ25798Component::get_prechg_tmr_bool() {
   uint16_t raw = get_prechg_tmr_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PRECHG_TMR");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -918,22 +1071,43 @@ bool BQ25798Component::get_prechg_tmr_bool() {
 
 int BQ25798Component::get_prechg_tmr_enum_int() {
   uint16_t raw = get_prechg_tmr_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PRECHG_TMR);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PRECHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for PRECHG_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_prechg_tmr_enum_string() {
   uint16_t raw = get_prechg_tmr_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PRECHG_TMR);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PRECHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for PRECHG_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_prechg_tmr_bool(bool value) {
-  ESP_LOGD(TAG, "Setting PRECHG_TMR to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting PRECHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PRECHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for PRECHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_prechg_tmr_raw(raw_value);
 };
 
 void BQ25798Component::set_prechg_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting PRECHG_TMR to %d", value);
+//  ESP_LOGD(TAG, "Setting PRECHG_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PRECHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for PRECHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_prechg_tmr_raw(raw_value);
 };
 
@@ -945,6 +1119,7 @@ uint16_t BQ25798Component::get_iotg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(7);
 }
 
@@ -953,30 +1128,40 @@ void BQ25798Component::set_iotg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IOTG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IOTG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0D_IOTG_regulation);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(7) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(7)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0D_IOTG_regulation (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0D_IOTG_regulation, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_iotg_int() {
   uint16_t raw = get_iotg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IOTG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IOTG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for IOTG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 void BQ25798Component::set_iotg_int(int value) {
-  ESP_LOGD(TAG, "Setting IOTG to %d", value);
+//  ESP_LOGD(TAG, "Setting IOTG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IOTG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting int to raw value for IOTG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_iotg_raw(raw_value);
 };
 
@@ -988,6 +1173,7 @@ uint16_t BQ25798Component::get_topoff_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -996,34 +1182,48 @@ void BQ25798Component::set_topoff_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TOPOFF_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TOPOFF_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_topoff_tmr_enum_int() {
   uint16_t raw = get_topoff_tmr_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TOPOFF_TMR);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TOPOFF_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TOPOFF_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_topoff_tmr_enum_string() {
   uint16_t raw = get_topoff_tmr_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TOPOFF_TMR);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TOPOFF_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TOPOFF_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_topoff_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TOPOFF_TMR to %d", value);
+//  ESP_LOGD(TAG, "Setting TOPOFF_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TOPOFF_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TOPOFF_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_topoff_tmr_raw(raw_value);
 };
 
@@ -1035,6 +1235,7 @@ uint16_t BQ25798Component::get_en_trichg_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1043,19 +1244,18 @@ void BQ25798Component::set_en_trichg_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_TRICHG_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_TRICHG_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1063,15 +1263,21 @@ bool BQ25798Component::get_en_trichg_tmr_bool() {
   uint16_t raw = get_en_trichg_tmr_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_TRICHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_TRICHG_TMR");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_trichg_tmr_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_TRICHG_TMR to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_TRICHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_TRICHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_TRICHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_trichg_tmr_raw(raw_value);
 };
 
@@ -1083,6 +1289,7 @@ uint16_t BQ25798Component::get_en_prechg_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1091,19 +1298,18 @@ void BQ25798Component::set_en_prechg_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_PRECHG_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_PRECHG_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1111,15 +1317,21 @@ bool BQ25798Component::get_en_prechg_tmr_bool() {
   uint16_t raw = get_en_prechg_tmr_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_PRECHG_TMR");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_prechg_tmr_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_PRECHG_TMR to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_PRECHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_PRECHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_PRECHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_prechg_tmr_raw(raw_value);
 };
 
@@ -1131,6 +1343,7 @@ uint16_t BQ25798Component::get_en_chg_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1139,19 +1352,18 @@ void BQ25798Component::set_en_chg_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_CHG_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_CHG_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1159,15 +1371,21 @@ bool BQ25798Component::get_en_chg_tmr_bool() {
   uint16_t raw = get_en_chg_tmr_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_CHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_CHG_TMR");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_chg_tmr_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_CHG_TMR to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_CHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_CHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_CHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_chg_tmr_raw(raw_value);
 };
 
@@ -1179,6 +1397,7 @@ uint16_t BQ25798Component::get_chg_tmr_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
 }
 
@@ -1187,34 +1406,48 @@ void BQ25798Component::set_chg_tmr_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting CHG_TMR to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting CHG_TMR to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_chg_tmr_enum_int() {
   uint16_t raw = get_chg_tmr_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_TMR);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for CHG_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_chg_tmr_enum_string() {
   uint16_t raw = get_chg_tmr_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_TMR);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for CHG_TMR");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_chg_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting CHG_TMR to %d", value);
+//  ESP_LOGD(TAG, "Setting CHG_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CHG_TMR);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for CHG_TMR");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_chg_tmr_raw(raw_value);
 };
 
@@ -1226,6 +1459,7 @@ uint16_t BQ25798Component::get_tmr2x_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1234,19 +1468,18 @@ void BQ25798Component::set_tmr2x_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TMR2X_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TMR2X_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0E_Timer_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0E_Timer_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0E_Timer_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1254,15 +1487,21 @@ bool BQ25798Component::get_tmr2x_en_bool() {
   uint16_t raw = get_tmr2x_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TMR2X_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TMR2X_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_tmr2x_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting TMR2X_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting TMR2X_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TMR2X_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for TMR2X_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_tmr2x_en_raw(raw_value);
 };
 
@@ -1274,6 +1513,7 @@ uint16_t BQ25798Component::get_en_auto_ibatdis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1282,19 +1522,18 @@ void BQ25798Component::set_en_auto_ibatdis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_AUTO_IBATDIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_AUTO_IBATDIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1302,15 +1541,21 @@ bool BQ25798Component::get_en_auto_ibatdis_bool() {
   uint16_t raw = get_en_auto_ibatdis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_AUTO_IBATDIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_AUTO_IBATDIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_auto_ibatdis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_AUTO_IBATDIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_AUTO_IBATDIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_AUTO_IBATDIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_AUTO_IBATDIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_auto_ibatdis_raw(raw_value);
 };
 
@@ -1322,6 +1567,7 @@ uint16_t BQ25798Component::get_force_ibatdis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1330,19 +1576,18 @@ void BQ25798Component::set_force_ibatdis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting FORCE_IBATDIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting FORCE_IBATDIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1350,15 +1595,21 @@ bool BQ25798Component::get_force_ibatdis_bool() {
   uint16_t raw = get_force_ibatdis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->FORCE_IBATDIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for FORCE_IBATDIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_force_ibatdis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting FORCE_IBATDIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting FORCE_IBATDIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_IBATDIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for FORCE_IBATDIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_force_ibatdis_raw(raw_value);
 };
 
@@ -1370,6 +1621,7 @@ uint16_t BQ25798Component::get_en_chg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1378,19 +1630,18 @@ void BQ25798Component::set_en_chg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_CHG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_CHG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1398,15 +1649,21 @@ bool BQ25798Component::get_en_chg_bool() {
   uint16_t raw = get_en_chg_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_CHG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_CHG");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_chg_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_CHG to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_CHG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_CHG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_CHG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_chg_raw(raw_value);
 };
 
@@ -1418,6 +1675,7 @@ uint16_t BQ25798Component::get_en_ico_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1426,19 +1684,18 @@ void BQ25798Component::set_en_ico_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_ICO to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_ICO to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1446,15 +1703,21 @@ bool BQ25798Component::get_en_ico_bool() {
   uint16_t raw = get_en_ico_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_ICO);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_ICO");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_ico_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_ICO to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_ICO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ICO);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_ICO");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_ico_raw(raw_value);
 };
 
@@ -1466,6 +1729,7 @@ uint16_t BQ25798Component::get_force_ico_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1474,19 +1738,18 @@ void BQ25798Component::set_force_ico_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting FORCE_ICO to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting FORCE_ICO to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1494,15 +1757,21 @@ bool BQ25798Component::get_force_ico_bool() {
   uint16_t raw = get_force_ico_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->FORCE_ICO);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for FORCE_ICO");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_force_ico_bool(bool value) {
-  ESP_LOGD(TAG, "Setting FORCE_ICO to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting FORCE_ICO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_ICO);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for FORCE_ICO");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_force_ico_raw(raw_value);
 };
 
@@ -1514,6 +1783,7 @@ uint16_t BQ25798Component::get_en_hiz_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1522,19 +1792,18 @@ void BQ25798Component::set_en_hiz_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_HIZ to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_HIZ to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1542,15 +1811,21 @@ bool BQ25798Component::get_en_hiz_bool() {
   uint16_t raw = get_en_hiz_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_HIZ);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_HIZ");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_hiz_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_HIZ to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_HIZ to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_HIZ);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_HIZ");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_hiz_raw(raw_value);
 };
 
@@ -1562,6 +1837,7 @@ uint16_t BQ25798Component::get_en_term_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1570,19 +1846,18 @@ void BQ25798Component::set_en_term_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_TERM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_TERM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1590,15 +1865,21 @@ bool BQ25798Component::get_en_term_bool() {
   uint16_t raw = get_en_term_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_TERM);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_TERM");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_term_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_TERM to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_TERM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_TERM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_TERM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_term_raw(raw_value);
 };
 
@@ -1610,6 +1891,7 @@ uint16_t BQ25798Component::get_en_backup_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1618,19 +1900,18 @@ void BQ25798Component::set_en_backup_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_BACKUP to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_BACKUP to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG0F_Charger_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG0F_Charger_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG0F_Charger_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1638,15 +1919,21 @@ bool BQ25798Component::get_en_backup_bool() {
   uint16_t raw = get_en_backup_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_BACKUP);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_BACKUP");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_backup_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_BACKUP to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_BACKUP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_BACKUP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_BACKUP");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_backup_raw(raw_value);
 };
 
@@ -1658,6 +1945,7 @@ uint16_t BQ25798Component::get_vbus_backup_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -1666,34 +1954,48 @@ void BQ25798Component::set_vbus_backup_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VBUS_BACKUP to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VBUS_BACKUP to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vbus_backup_enum_int() {
   uint16_t raw = get_vbus_backup_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_BACKUP);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_BACKUP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBUS_BACKUP");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbus_backup_enum_string() {
   uint16_t raw = get_vbus_backup_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_BACKUP);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_BACKUP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBUS_BACKUP");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_vbus_backup_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VBUS_BACKUP to %d", value);
+//  ESP_LOGD(TAG, "Setting VBUS_BACKUP to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBUS_BACKUP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VBUS_BACKUP");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_vbus_backup_raw(raw_value);
 };
 
@@ -1705,6 +2007,7 @@ uint16_t BQ25798Component::get_vac_ovp_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -1713,34 +2016,48 @@ void BQ25798Component::set_vac_ovp_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VAC_OVP to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VAC_OVP to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_vac_ovp_enum_int() {
   uint16_t raw = get_vac_ovp_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC_OVP);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC_OVP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VAC_OVP");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vac_ovp_enum_string() {
   uint16_t raw = get_vac_ovp_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VAC_OVP);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VAC_OVP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VAC_OVP");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_vac_ovp_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VAC_OVP to %d", value);
+//  ESP_LOGD(TAG, "Setting VAC_OVP to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VAC_OVP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VAC_OVP");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_vac_ovp_raw(raw_value);
 };
 
@@ -1752,6 +2069,7 @@ uint16_t BQ25798Component::get_wd_rst_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1760,19 +2078,18 @@ void BQ25798Component::set_wd_rst_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting WD_RST to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting WD_RST to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1780,15 +2097,21 @@ bool BQ25798Component::get_wd_rst_bool() {
   uint16_t raw = get_wd_rst_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->WD_RST);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for WD_RST");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_wd_rst_bool(bool value) {
-  ESP_LOGD(TAG, "Setting WD_RST to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting WD_RST to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->WD_RST);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for WD_RST");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_wd_rst_raw(raw_value);
 };
 
@@ -1800,6 +2123,7 @@ uint16_t BQ25798Component::get_watchdog_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(3);
 }
 
@@ -1808,34 +2132,48 @@ void BQ25798Component::set_watchdog_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting WATCHDOG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting WATCHDOG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG10_Charger_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG10_Charger_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG10_Charger_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_watchdog_enum_int() {
   uint16_t raw = get_watchdog_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WATCHDOG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WATCHDOG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for WATCHDOG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_watchdog_enum_string() {
   uint16_t raw = get_watchdog_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WATCHDOG);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WATCHDOG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for WATCHDOG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_watchdog_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting WATCHDOG to %d", value);
+//  ESP_LOGD(TAG, "Setting WATCHDOG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WATCHDOG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for WATCHDOG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_watchdog_raw(raw_value);
 };
 
@@ -1847,6 +2185,7 @@ uint16_t BQ25798Component::get_force_indet_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1855,19 +2194,18 @@ void BQ25798Component::set_force_indet_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting FORCE_INDET to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting FORCE_INDET to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1875,15 +2213,21 @@ bool BQ25798Component::get_force_indet_bool() {
   uint16_t raw = get_force_indet_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->FORCE_INDET);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for FORCE_INDET");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_force_indet_bool(bool value) {
-  ESP_LOGD(TAG, "Setting FORCE_INDET to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting FORCE_INDET to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_INDET);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for FORCE_INDET");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_force_indet_raw(raw_value);
 };
 
@@ -1895,6 +2239,7 @@ uint16_t BQ25798Component::get_auto_indet_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1903,19 +2248,18 @@ void BQ25798Component::set_auto_indet_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting AUTO_INDET_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting AUTO_INDET_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1923,15 +2267,21 @@ bool BQ25798Component::get_auto_indet_en_bool() {
   uint16_t raw = get_auto_indet_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AUTO_INDET_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for AUTO_INDET_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_auto_indet_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting AUTO_INDET_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting AUTO_INDET_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->AUTO_INDET_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for AUTO_INDET_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_auto_indet_en_raw(raw_value);
 };
 
@@ -1943,6 +2293,7 @@ uint16_t BQ25798Component::get_en_12v_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1951,19 +2302,18 @@ void BQ25798Component::set_en_12v_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_12V to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_12V to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -1971,15 +2321,21 @@ bool BQ25798Component::get_en_12v_bool() {
   uint16_t raw = get_en_12v_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_12V);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_12V");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_12v_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_12V to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_12V to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_12V);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_12V");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_12v_raw(raw_value);
 };
 
@@ -1991,6 +2347,7 @@ uint16_t BQ25798Component::get_en_9v_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -1999,19 +2356,18 @@ void BQ25798Component::set_en_9v_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_9V to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_9V to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2019,15 +2375,21 @@ bool BQ25798Component::get_en_9v_bool() {
   uint16_t raw = get_en_9v_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_9V);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_9V");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_9v_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_9V to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_9V to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_9V);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_9V");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_9v_raw(raw_value);
 };
 
@@ -2039,6 +2401,7 @@ uint16_t BQ25798Component::get_hvdcp_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2047,19 +2410,18 @@ void BQ25798Component::set_hvdcp_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting HVDCP_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting HVDCP_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2067,15 +2429,21 @@ bool BQ25798Component::get_hvdcp_en_bool() {
   uint16_t raw = get_hvdcp_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->HVDCP_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for HVDCP_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_hvdcp_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting HVDCP_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting HVDCP_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->HVDCP_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for HVDCP_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_hvdcp_en_raw(raw_value);
 };
 
@@ -2087,6 +2455,7 @@ uint16_t BQ25798Component::get_sdrv_ctrl_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
 }
 
@@ -2095,34 +2464,48 @@ void BQ25798Component::set_sdrv_ctrl_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting SDRV_CTRL to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting SDRV_CTRL to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_sdrv_ctrl_enum_int() {
   uint16_t raw = get_sdrv_ctrl_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->SDRV_CTRL);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->SDRV_CTRL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for SDRV_CTRL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_sdrv_ctrl_enum_string() {
   uint16_t raw = get_sdrv_ctrl_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->SDRV_CTRL);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->SDRV_CTRL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for SDRV_CTRL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_sdrv_ctrl_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting SDRV_CTRL to %d", value);
+//  ESP_LOGD(TAG, "Setting SDRV_CTRL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_CTRL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for SDRV_CTRL");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_sdrv_ctrl_raw(raw_value);
 };
 
@@ -2134,6 +2517,7 @@ uint16_t BQ25798Component::get_sdrv_dly_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2142,19 +2526,18 @@ void BQ25798Component::set_sdrv_dly_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting SDRV_DLY to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting SDRV_DLY to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG11_Charger_Control_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG11_Charger_Control_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG11_Charger_Control_2, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2162,7 +2545,7 @@ bool BQ25798Component::get_sdrv_dly_bool() {
   uint16_t raw = get_sdrv_dly_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->SDRV_DLY);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for SDRV_DLY");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -2170,22 +2553,43 @@ bool BQ25798Component::get_sdrv_dly_bool() {
 
 int BQ25798Component::get_sdrv_dly_enum_int() {
   uint16_t raw = get_sdrv_dly_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->SDRV_DLY);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->SDRV_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for SDRV_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_sdrv_dly_enum_string() {
   uint16_t raw = get_sdrv_dly_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->SDRV_DLY);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->SDRV_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for SDRV_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_sdrv_dly_bool(bool value) {
-  ESP_LOGD(TAG, "Setting SDRV_DLY to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting SDRV_DLY to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->SDRV_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for SDRV_DLY");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_sdrv_dly_raw(raw_value);
 };
 
 void BQ25798Component::set_sdrv_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting SDRV_DLY to %d", value);
+//  ESP_LOGD(TAG, "Setting SDRV_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for SDRV_DLY");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_sdrv_dly_raw(raw_value);
 };
 
@@ -2197,6 +2601,7 @@ uint16_t BQ25798Component::get_dis_acdrv_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2205,19 +2610,18 @@ void BQ25798Component::set_dis_acdrv_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_ACDRV to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_ACDRV to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2225,15 +2629,21 @@ bool BQ25798Component::get_dis_acdrv_bool() {
   uint16_t raw = get_dis_acdrv_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_ACDRV);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_ACDRV");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_acdrv_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_ACDRV to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_ACDRV to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_ACDRV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_ACDRV");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_acdrv_raw(raw_value);
 };
 
@@ -2245,6 +2655,7 @@ uint16_t BQ25798Component::get_en_otg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2253,19 +2664,18 @@ void BQ25798Component::set_en_otg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_OTG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_OTG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2273,15 +2683,21 @@ bool BQ25798Component::get_en_otg_bool() {
   uint16_t raw = get_en_otg_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_OTG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_OTG");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_otg_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_OTG to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_OTG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_OTG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_OTG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_otg_raw(raw_value);
 };
 
@@ -2293,6 +2709,7 @@ uint16_t BQ25798Component::get_pfm_otg_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2301,19 +2718,18 @@ void BQ25798Component::set_pfm_otg_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting PFM_OTG_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting PFM_OTG_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2321,15 +2737,21 @@ bool BQ25798Component::get_pfm_otg_dis_bool() {
   uint16_t raw = get_pfm_otg_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PFM_OTG_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PFM_OTG_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_pfm_otg_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting PFM_OTG_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting PFM_OTG_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PFM_OTG_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for PFM_OTG_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_pfm_otg_dis_raw(raw_value);
 };
 
@@ -2341,6 +2763,7 @@ uint16_t BQ25798Component::get_pfm_fwd_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2349,19 +2772,18 @@ void BQ25798Component::set_pfm_fwd_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting PFM_FWD_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting PFM_FWD_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2369,15 +2791,21 @@ bool BQ25798Component::get_pfm_fwd_dis_bool() {
   uint16_t raw = get_pfm_fwd_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PFM_FWD_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PFM_FWD_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_pfm_fwd_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting PFM_FWD_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting PFM_FWD_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PFM_FWD_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for PFM_FWD_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_pfm_fwd_dis_raw(raw_value);
 };
 
@@ -2389,6 +2817,7 @@ uint16_t BQ25798Component::get_wkup_dly_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2397,19 +2826,18 @@ void BQ25798Component::set_wkup_dly_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting WKUP_DLY to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting WKUP_DLY to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2417,7 +2845,7 @@ bool BQ25798Component::get_wkup_dly_bool() {
   uint16_t raw = get_wkup_dly_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->WKUP_DLY);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for WKUP_DLY");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -2425,22 +2853,43 @@ bool BQ25798Component::get_wkup_dly_bool() {
 
 int BQ25798Component::get_wkup_dly_enum_int() {
   uint16_t raw = get_wkup_dly_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WKUP_DLY);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WKUP_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for WKUP_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_wkup_dly_enum_string() {
   uint16_t raw = get_wkup_dly_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WKUP_DLY);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WKUP_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for WKUP_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_wkup_dly_bool(bool value) {
-  ESP_LOGD(TAG, "Setting WKUP_DLY to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting WKUP_DLY to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->WKUP_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for WKUP_DLY");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_wkup_dly_raw(raw_value);
 };
 
 void BQ25798Component::set_wkup_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting WKUP_DLY to %d", value);
+//  ESP_LOGD(TAG, "Setting WKUP_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WKUP_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for WKUP_DLY");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_wkup_dly_raw(raw_value);
 };
 
@@ -2452,6 +2901,7 @@ uint16_t BQ25798Component::get_dis_ldo_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2460,19 +2910,18 @@ void BQ25798Component::set_dis_ldo_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_LDO to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_LDO to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2480,15 +2929,21 @@ bool BQ25798Component::get_dis_ldo_bool() {
   uint16_t raw = get_dis_ldo_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_LDO);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_LDO");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_ldo_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_LDO to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_LDO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_LDO);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_LDO");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_ldo_raw(raw_value);
 };
 
@@ -2500,6 +2955,7 @@ uint16_t BQ25798Component::get_dis_otg_ooa_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2508,19 +2964,18 @@ void BQ25798Component::set_dis_otg_ooa_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_OTG_OOA to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_OTG_OOA to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2528,15 +2983,21 @@ bool BQ25798Component::get_dis_otg_ooa_bool() {
   uint16_t raw = get_dis_otg_ooa_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_OTG_OOA);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_OTG_OOA");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_otg_ooa_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_OTG_OOA to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_OTG_OOA to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_OTG_OOA);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_OTG_OOA");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_otg_ooa_raw(raw_value);
 };
 
@@ -2548,6 +3009,7 @@ uint16_t BQ25798Component::get_dis_fwd_ooa_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2556,19 +3018,18 @@ void BQ25798Component::set_dis_fwd_ooa_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_FWD_OOA to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_FWD_OOA to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG12_Charger_Control_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG12_Charger_Control_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG12_Charger_Control_3, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2576,15 +3037,21 @@ bool BQ25798Component::get_dis_fwd_ooa_bool() {
   uint16_t raw = get_dis_fwd_ooa_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_FWD_OOA);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_FWD_OOA");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_fwd_ooa_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_FWD_OOA to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_FWD_OOA to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_FWD_OOA);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_FWD_OOA");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_fwd_ooa_raw(raw_value);
 };
 
@@ -2596,6 +3063,7 @@ uint16_t BQ25798Component::get_en_acdrv2_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2604,19 +3072,18 @@ void BQ25798Component::set_en_acdrv2_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_ACDRV2 to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_ACDRV2 to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2624,15 +3091,21 @@ bool BQ25798Component::get_en_acdrv2_bool() {
   uint16_t raw = get_en_acdrv2_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_ACDRV2);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_ACDRV2");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_acdrv2_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_ACDRV2 to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_ACDRV2 to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ACDRV2);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_ACDRV2");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_acdrv2_raw(raw_value);
 };
 
@@ -2644,6 +3117,7 @@ uint16_t BQ25798Component::get_en_acdrv1_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2652,19 +3126,18 @@ void BQ25798Component::set_en_acdrv1_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_ACDRV1 to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_ACDRV1 to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2672,15 +3145,21 @@ bool BQ25798Component::get_en_acdrv1_bool() {
   uint16_t raw = get_en_acdrv1_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_ACDRV1);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_ACDRV1");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_acdrv1_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_ACDRV1 to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_ACDRV1 to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ACDRV1);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_ACDRV1");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_acdrv1_raw(raw_value);
 };
 
@@ -2692,6 +3171,7 @@ uint16_t BQ25798Component::get_pwm_freq_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2700,19 +3180,18 @@ void BQ25798Component::set_pwm_freq_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting PWM_FREQ to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting PWM_FREQ to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2720,7 +3199,7 @@ bool BQ25798Component::get_pwm_freq_bool() {
   uint16_t raw = get_pwm_freq_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PWM_FREQ);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PWM_FREQ");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -2728,22 +3207,43 @@ bool BQ25798Component::get_pwm_freq_bool() {
 
 int BQ25798Component::get_pwm_freq_enum_int() {
   uint16_t raw = get_pwm_freq_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PWM_FREQ);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PWM_FREQ);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for PWM_FREQ");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_pwm_freq_enum_string() {
   uint16_t raw = get_pwm_freq_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PWM_FREQ);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PWM_FREQ);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for PWM_FREQ");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_pwm_freq_bool(bool value) {
-  ESP_LOGD(TAG, "Setting PWM_FREQ to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting PWM_FREQ to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PWM_FREQ);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for PWM_FREQ");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_pwm_freq_raw(raw_value);
 };
 
 void BQ25798Component::set_pwm_freq_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting PWM_FREQ to %d", value);
+//  ESP_LOGD(TAG, "Setting PWM_FREQ to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PWM_FREQ);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for PWM_FREQ");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_pwm_freq_raw(raw_value);
 };
 
@@ -2755,6 +3255,7 @@ uint16_t BQ25798Component::get_dis_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2763,19 +3264,18 @@ void BQ25798Component::set_dis_stat_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_STAT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_STAT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2783,15 +3283,21 @@ bool BQ25798Component::get_dis_stat_bool() {
   uint16_t raw = get_dis_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_stat_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_STAT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_STAT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_STAT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_stat_raw(raw_value);
 };
 
@@ -2803,6 +3309,7 @@ uint16_t BQ25798Component::get_dis_vsys_short_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2811,19 +3318,18 @@ void BQ25798Component::set_dis_vsys_short_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_VSYS_SHORT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_VSYS_SHORT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2831,15 +3337,21 @@ bool BQ25798Component::get_dis_vsys_short_bool() {
   uint16_t raw = get_dis_vsys_short_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_VSYS_SHORT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_VSYS_SHORT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_vsys_short_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_VSYS_SHORT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_VSYS_SHORT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_VSYS_SHORT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_VSYS_SHORT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_vsys_short_raw(raw_value);
 };
 
@@ -2851,6 +3363,7 @@ uint16_t BQ25798Component::get_dis_votg_uvp_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2859,19 +3372,18 @@ void BQ25798Component::set_dis_votg_uvp_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DIS_VOTG_UVP to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DIS_VOTG_UVP to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2879,15 +3391,21 @@ bool BQ25798Component::get_dis_votg_uvp_bool() {
   uint16_t raw = get_dis_votg_uvp_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DIS_VOTG_UVP);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DIS_VOTG_UVP");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dis_votg_uvp_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DIS_VOTG_UVP to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DIS_VOTG_UVP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_VOTG_UVP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DIS_VOTG_UVP");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dis_votg_uvp_raw(raw_value);
 };
 
@@ -2899,6 +3417,7 @@ uint16_t BQ25798Component::get_force_vindpm_det_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2907,19 +3426,18 @@ void BQ25798Component::set_force_vindpm_det_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting FORCE_VINDPM_DET to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting FORCE_VINDPM_DET to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2927,15 +3445,21 @@ bool BQ25798Component::get_force_vindpm_det_bool() {
   uint16_t raw = get_force_vindpm_det_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->FORCE_VINDPM_DET);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for FORCE_VINDPM_DET");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_force_vindpm_det_bool(bool value) {
-  ESP_LOGD(TAG, "Setting FORCE_VINDPM_DET to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting FORCE_VINDPM_DET to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_VINDPM_DET);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for FORCE_VINDPM_DET");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_force_vindpm_det_raw(raw_value);
 };
 
@@ -2947,6 +3471,7 @@ uint16_t BQ25798Component::get_en_ibus_ocp_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -2955,19 +3480,18 @@ void BQ25798Component::set_en_ibus_ocp_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_IBUS_OCP to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_IBUS_OCP to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG13_Charger_Control_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG13_Charger_Control_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG13_Charger_Control_4, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -2975,15 +3499,21 @@ bool BQ25798Component::get_en_ibus_ocp_bool() {
   uint16_t raw = get_en_ibus_ocp_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_IBUS_OCP);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_IBUS_OCP");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_ibus_ocp_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_IBUS_OCP to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_IBUS_OCP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IBUS_OCP);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_IBUS_OCP");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_ibus_ocp_raw(raw_value);
 };
 
@@ -2995,6 +3525,7 @@ uint16_t BQ25798Component::get_sfet_present_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3003,19 +3534,18 @@ void BQ25798Component::set_sfet_present_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting SFET_PRESENT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting SFET_PRESENT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3023,15 +3553,21 @@ bool BQ25798Component::get_sfet_present_bool() {
   uint16_t raw = get_sfet_present_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->SFET_PRESENT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for SFET_PRESENT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_sfet_present_bool(bool value) {
-  ESP_LOGD(TAG, "Setting SFET_PRESENT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting SFET_PRESENT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->SFET_PRESENT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for SFET_PRESENT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_sfet_present_raw(raw_value);
 };
 
@@ -3043,6 +3579,7 @@ uint16_t BQ25798Component::get_en_ibat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3051,19 +3588,18 @@ void BQ25798Component::set_en_ibat_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_IBAT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_IBAT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3071,15 +3607,21 @@ bool BQ25798Component::get_en_ibat_bool() {
   uint16_t raw = get_en_ibat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_IBAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_IBAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_ibat_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_IBAT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_IBAT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IBAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_IBAT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_ibat_raw(raw_value);
 };
 
@@ -3091,6 +3633,7 @@ uint16_t BQ25798Component::get_ibat_reg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3099,34 +3642,48 @@ void BQ25798Component::set_ibat_reg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IBAT_REG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IBAT_REG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_ibat_reg_enum_int() {
   uint16_t raw = get_ibat_reg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBAT_REG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBAT_REG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for IBAT_REG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ibat_reg_enum_string() {
   uint16_t raw = get_ibat_reg_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->IBAT_REG);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->IBAT_REG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for IBAT_REG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_ibat_reg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting IBAT_REG to %d", value);
+//  ESP_LOGD(TAG, "Setting IBAT_REG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IBAT_REG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for IBAT_REG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_ibat_reg_raw(raw_value);
 };
 
@@ -3138,6 +3695,7 @@ uint16_t BQ25798Component::get_en_iindpm_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3146,19 +3704,18 @@ void BQ25798Component::set_en_iindpm_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_IINDPM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_IINDPM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3166,15 +3723,21 @@ bool BQ25798Component::get_en_iindpm_bool() {
   uint16_t raw = get_en_iindpm_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_IINDPM);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_IINDPM");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_iindpm_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_IINDPM to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_IINDPM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IINDPM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_IINDPM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_iindpm_raw(raw_value);
 };
 
@@ -3186,6 +3749,7 @@ uint16_t BQ25798Component::get_en_extilim_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3194,19 +3758,18 @@ void BQ25798Component::set_en_extilim_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_EXTILIM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_EXTILIM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3214,15 +3777,21 @@ bool BQ25798Component::get_en_extilim_bool() {
   uint16_t raw = get_en_extilim_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_EXTILIM);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_EXTILIM");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_extilim_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_EXTILIM to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_EXTILIM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_EXTILIM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_EXTILIM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_extilim_raw(raw_value);
 };
 
@@ -3234,6 +3803,7 @@ uint16_t BQ25798Component::get_en_batoc_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3242,19 +3812,18 @@ void BQ25798Component::set_en_batoc_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_BATOC to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_BATOC to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG14_Charger_Control_5);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG14_Charger_Control_5 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG14_Charger_Control_5, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3262,15 +3831,21 @@ bool BQ25798Component::get_en_batoc_bool() {
   uint16_t raw = get_en_batoc_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_BATOC);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_BATOC");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_batoc_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_BATOC to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_BATOC to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_BATOC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_BATOC");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_batoc_raw(raw_value);
 };
 
@@ -3282,6 +3857,7 @@ uint16_t BQ25798Component::get_voc_pct_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
 }
 
@@ -3290,34 +3866,48 @@ void BQ25798Component::set_voc_pct_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VOC_PCT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VOC_PCT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_voc_pct_enum_int() {
   uint16_t raw = get_voc_pct_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_PCT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_PCT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VOC_PCT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_voc_pct_enum_string() {
   uint16_t raw = get_voc_pct_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_PCT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_PCT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VOC_PCT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_voc_pct_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VOC_PCT to %d", value);
+//  ESP_LOGD(TAG, "Setting VOC_PCT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_PCT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VOC_PCT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_voc_pct_raw(raw_value);
 };
 
@@ -3329,6 +3919,7 @@ uint16_t BQ25798Component::get_voc_dly_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3337,34 +3928,48 @@ void BQ25798Component::set_voc_dly_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VOC_DLY to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VOC_DLY to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_voc_dly_enum_int() {
   uint16_t raw = get_voc_dly_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_DLY);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VOC_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_voc_dly_enum_string() {
   uint16_t raw = get_voc_dly_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_DLY);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VOC_DLY");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_voc_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VOC_DLY to %d", value);
+//  ESP_LOGD(TAG, "Setting VOC_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_DLY);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VOC_DLY");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_voc_dly_raw(raw_value);
 };
 
@@ -3376,6 +3981,7 @@ uint16_t BQ25798Component::get_voc_rate_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3384,34 +3990,48 @@ void BQ25798Component::set_voc_rate_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VOC_RATE to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VOC_RATE to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_voc_rate_enum_int() {
   uint16_t raw = get_voc_rate_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_RATE);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VOC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VOC_RATE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_voc_rate_enum_string() {
   uint16_t raw = get_voc_rate_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_RATE);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VOC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VOC_RATE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_voc_rate_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting VOC_RATE to %d", value);
+//  ESP_LOGD(TAG, "Setting VOC_RATE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for VOC_RATE");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_voc_rate_raw(raw_value);
 };
 
@@ -3423,6 +4043,7 @@ uint16_t BQ25798Component::get_en_mppt_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3431,19 +4052,18 @@ void BQ25798Component::set_en_mppt_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting EN_MPPT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting EN_MPPT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG15_MPPT_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG15_MPPT_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG15_MPPT_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3451,15 +4071,21 @@ bool BQ25798Component::get_en_mppt_bool() {
   uint16_t raw = get_en_mppt_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->EN_MPPT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for EN_MPPT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_en_mppt_bool(bool value) {
-  ESP_LOGD(TAG, "Setting EN_MPPT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting EN_MPPT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_MPPT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for EN_MPPT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_en_mppt_raw(raw_value);
 };
 
@@ -3471,6 +4097,7 @@ uint16_t BQ25798Component::get_treg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3479,34 +4106,48 @@ void BQ25798Component::set_treg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TREG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TREG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_treg_enum_int() {
   uint16_t raw = get_treg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TREG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TREG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TREG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_treg_enum_string() {
   uint16_t raw = get_treg_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TREG);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TREG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TREG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_treg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TREG to %d", value);
+//  ESP_LOGD(TAG, "Setting TREG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TREG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TREG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_treg_raw(raw_value);
 };
 
@@ -3518,6 +4159,7 @@ uint16_t BQ25798Component::get_tshut_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3526,34 +4168,48 @@ void BQ25798Component::set_tshut_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TSHUT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TSHUT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_tshut_enum_int() {
   uint16_t raw = get_tshut_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TSHUT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TSHUT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TSHUT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_tshut_enum_string() {
   uint16_t raw = get_tshut_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TSHUT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TSHUT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TSHUT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_tshut_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TSHUT to %d", value);
+//  ESP_LOGD(TAG, "Setting TSHUT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TSHUT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TSHUT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_tshut_raw(raw_value);
 };
 
@@ -3565,6 +4221,7 @@ uint16_t BQ25798Component::get_vbus_pd_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3573,19 +4230,18 @@ void BQ25798Component::set_vbus_pd_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VBUS_PD_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VBUS_PD_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3593,15 +4249,21 @@ bool BQ25798Component::get_vbus_pd_en_bool() {
   uint16_t raw = get_vbus_pd_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBUS_PD_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vbus_pd_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VBUS_PD_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VBUS_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBUS_PD_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VBUS_PD_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vbus_pd_en_raw(raw_value);
 };
 
@@ -3613,6 +4275,7 @@ uint16_t BQ25798Component::get_vac1_pd_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3621,19 +4284,18 @@ void BQ25798Component::set_vac1_pd_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VAC1_PD_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VAC1_PD_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3641,15 +4303,21 @@ bool BQ25798Component::get_vac1_pd_en_bool() {
   uint16_t raw = get_vac1_pd_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC1_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC1_PD_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vac1_pd_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VAC1_PD_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VAC1_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC1_PD_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VAC1_PD_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vac1_pd_en_raw(raw_value);
 };
 
@@ -3661,6 +4329,7 @@ uint16_t BQ25798Component::get_vac2_pd_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3669,19 +4338,18 @@ void BQ25798Component::set_vac2_pd_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VAC2_PD_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VAC2_PD_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3689,15 +4357,21 @@ bool BQ25798Component::get_vac2_pd_en_bool() {
   uint16_t raw = get_vac2_pd_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC2_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC2_PD_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vac2_pd_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VAC2_PD_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VAC2_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC2_PD_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VAC2_PD_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vac2_pd_en_raw(raw_value);
 };
 
@@ -3709,6 +4383,7 @@ uint16_t BQ25798Component::get_bkup_acfet1_on_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -3717,19 +4392,18 @@ void BQ25798Component::set_bkup_acfet1_on_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting BKUP_ACFET1_ON to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting BKUP_ACFET1_ON to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG16_Temperature_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG16_Temperature_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG16_Temperature_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -3737,15 +4411,21 @@ bool BQ25798Component::get_bkup_acfet1_on_bool() {
   uint16_t raw = get_bkup_acfet1_on_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->BKUP_ACFET1_ON);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for BKUP_ACFET1_ON");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_bkup_acfet1_on_bool(bool value) {
-  ESP_LOGD(TAG, "Setting BKUP_ACFET1_ON to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting BKUP_ACFET1_ON to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->BKUP_ACFET1_ON);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for BKUP_ACFET1_ON");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_bkup_acfet1_on_raw(raw_value);
 };
 
@@ -3757,6 +4437,7 @@ uint16_t BQ25798Component::get_jeita_vset_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
 }
 
@@ -3765,34 +4446,48 @@ void BQ25798Component::set_jeita_vset_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting JEITA_VSET to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting JEITA_VSET to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_jeita_vset_enum_int() {
   uint16_t raw = get_jeita_vset_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_VSET);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_VSET);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for JEITA_VSET");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_jeita_vset_enum_string() {
   uint16_t raw = get_jeita_vset_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_VSET);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_VSET);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for JEITA_VSET");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_jeita_vset_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting JEITA_VSET to %d", value);
+//  ESP_LOGD(TAG, "Setting JEITA_VSET to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_VSET);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for JEITA_VSET");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_jeita_vset_raw(raw_value);
 };
 
@@ -3804,6 +4499,7 @@ uint16_t BQ25798Component::get_jeita_iseth_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3812,34 +4508,48 @@ void BQ25798Component::set_jeita_iseth_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting JEITA_ISETH to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting JEITA_ISETH to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_jeita_iseth_enum_int() {
   uint16_t raw = get_jeita_iseth_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_ISETH);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_ISETH);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for JEITA_ISETH");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_jeita_iseth_enum_string() {
   uint16_t raw = get_jeita_iseth_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_ISETH);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_ISETH);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for JEITA_ISETH");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_jeita_iseth_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting JEITA_ISETH to %d", value);
+//  ESP_LOGD(TAG, "Setting JEITA_ISETH to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETH);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for JEITA_ISETH");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_jeita_iseth_raw(raw_value);
 };
 
@@ -3851,6 +4561,7 @@ uint16_t BQ25798Component::get_jeita_isetc_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3859,34 +4570,48 @@ void BQ25798Component::set_jeita_isetc_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting JEITA_ISETC to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting JEITA_ISETC to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG17_NTC_Control_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG17_NTC_Control_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG17_NTC_Control_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_jeita_isetc_enum_int() {
   uint16_t raw = get_jeita_isetc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_ISETC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->JEITA_ISETC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for JEITA_ISETC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_jeita_isetc_enum_string() {
   uint16_t raw = get_jeita_isetc_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_ISETC);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->JEITA_ISETC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for JEITA_ISETC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_jeita_isetc_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting JEITA_ISETC to %d", value);
+//  ESP_LOGD(TAG, "Setting JEITA_ISETC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for JEITA_ISETC");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_jeita_isetc_raw(raw_value);
 };
 
@@ -3898,6 +4623,7 @@ uint16_t BQ25798Component::get_ts_cool_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3906,34 +4632,48 @@ void BQ25798Component::set_ts_cool_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TS_COOL to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TS_COOL to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_ts_cool_enum_int() {
   uint16_t raw = get_ts_cool_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COOL);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COOL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_COOL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_cool_enum_string() {
   uint16_t raw = get_ts_cool_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COOL);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COOL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_COOL");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_ts_cool_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TS_COOL to %d", value);
+//  ESP_LOGD(TAG, "Setting TS_COOL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_COOL);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TS_COOL");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_ts_cool_raw(raw_value);
 };
 
@@ -3945,6 +4685,7 @@ uint16_t BQ25798Component::get_ts_warm_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -3953,34 +4694,48 @@ void BQ25798Component::set_ts_warm_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TS_WARM to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TS_WARM to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_ts_warm_enum_int() {
   uint16_t raw = get_ts_warm_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_WARM);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_WARM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_WARM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_warm_enum_string() {
   uint16_t raw = get_ts_warm_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_WARM);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_WARM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_WARM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_ts_warm_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting TS_WARM to %d", value);
+//  ESP_LOGD(TAG, "Setting TS_WARM to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_WARM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for TS_WARM");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_ts_warm_raw(raw_value);
 };
 
@@ -3992,6 +4747,7 @@ uint16_t BQ25798Component::get_bhot_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(2);
 }
 
@@ -4000,34 +4756,48 @@ void BQ25798Component::set_bhot_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting BHOT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting BHOT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_bhot_enum_int() {
   uint16_t raw = get_bhot_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->BHOT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->BHOT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for BHOT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_bhot_enum_string() {
   uint16_t raw = get_bhot_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->BHOT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->BHOT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for BHOT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_bhot_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting BHOT to %d", value);
+//  ESP_LOGD(TAG, "Setting BHOT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BHOT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for BHOT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_bhot_raw(raw_value);
 };
 
@@ -4039,6 +4809,7 @@ uint16_t BQ25798Component::get_bcold_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4047,19 +4818,18 @@ void BQ25798Component::set_bcold_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting BCOLD to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting BCOLD to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -4067,7 +4837,7 @@ bool BQ25798Component::get_bcold_bool() {
   uint16_t raw = get_bcold_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->BCOLD);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for BCOLD");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4075,22 +4845,43 @@ bool BQ25798Component::get_bcold_bool() {
 
 int BQ25798Component::get_bcold_enum_int() {
   uint16_t raw = get_bcold_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->BCOLD);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->BCOLD);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for BCOLD");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_bcold_enum_string() {
   uint16_t raw = get_bcold_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->BCOLD);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->BCOLD);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for BCOLD");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_bcold_bool(bool value) {
-  ESP_LOGD(TAG, "Setting BCOLD to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting BCOLD to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->BCOLD);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for BCOLD");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_bcold_raw(raw_value);
 };
 
 void BQ25798Component::set_bcold_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting BCOLD to %d", value);
+//  ESP_LOGD(TAG, "Setting BCOLD to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BCOLD);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for BCOLD");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_bcold_raw(raw_value);
 };
 
@@ -4102,6 +4893,7 @@ uint16_t BQ25798Component::get_ts_ignore_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4110,19 +4902,18 @@ void BQ25798Component::set_ts_ignore_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TS_IGNORE to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TS_IGNORE to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG18_NTC_Control_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 0);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 0);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG18_NTC_Control_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG18_NTC_Control_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -4130,15 +4921,21 @@ bool BQ25798Component::get_ts_ignore_bool() {
   uint16_t raw = get_ts_ignore_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_IGNORE);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_IGNORE");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_ts_ignore_bool(bool value) {
-  ESP_LOGD(TAG, "Setting TS_IGNORE to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting TS_IGNORE to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TS_IGNORE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for TS_IGNORE");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_ts_ignore_raw(raw_value);
 };
 
@@ -4156,7 +4953,12 @@ uint16_t BQ25798Component::get_ico_ilim_raw() {
 
 int BQ25798Component::get_ico_ilim_int() {
   uint16_t raw = get_ico_ilim_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICO_ILIM);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICO_ILIM);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for ICO_ILIM");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // IINDPM_STAT - IINDPM status (forward mode) or IOTG status (OTG mode)
@@ -4167,6 +4969,7 @@ uint16_t BQ25798Component::get_iindpm_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4174,7 +4977,7 @@ bool BQ25798Component::get_iindpm_stat_bool() {
   uint16_t raw = get_iindpm_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IINDPM_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IINDPM_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4182,11 +4985,21 @@ bool BQ25798Component::get_iindpm_stat_bool() {
 
 int BQ25798Component::get_iindpm_stat_enum_int() {
   uint16_t raw = get_iindpm_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IINDPM_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IINDPM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for IINDPM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_iindpm_stat_enum_string() {
   uint16_t raw = get_iindpm_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->IINDPM_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->IINDPM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for IINDPM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
@@ -4197,6 +5010,7 @@ uint16_t BQ25798Component::get_vindpm_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4204,7 +5018,7 @@ bool BQ25798Component::get_vindpm_stat_bool() {
   uint16_t raw = get_vindpm_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VINDPM_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VINDPM_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4212,11 +5026,21 @@ bool BQ25798Component::get_vindpm_stat_bool() {
 
 int BQ25798Component::get_vindpm_stat_enum_int() {
   uint16_t raw = get_vindpm_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VINDPM_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VINDPM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VINDPM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vindpm_stat_enum_string() {
   uint16_t raw = get_vindpm_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VINDPM_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VINDPM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VINDPM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // WD_STAT - Watchdog timer status
@@ -4227,6 +5051,7 @@ uint16_t BQ25798Component::get_wd_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4234,7 +5059,7 @@ bool BQ25798Component::get_wd_stat_bool() {
   uint16_t raw = get_wd_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->WD_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for WD_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4242,11 +5067,21 @@ bool BQ25798Component::get_wd_stat_bool() {
 
 int BQ25798Component::get_wd_stat_enum_int() {
   uint16_t raw = get_wd_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WD_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->WD_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for WD_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_wd_stat_enum_string() {
   uint16_t raw = get_wd_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WD_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->WD_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for WD_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // PG_STAT - Power good status
@@ -4257,6 +5092,7 @@ uint16_t BQ25798Component::get_pg_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4264,7 +5100,7 @@ bool BQ25798Component::get_pg_stat_bool() {
   uint16_t raw = get_pg_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PG_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PG_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4272,11 +5108,21 @@ bool BQ25798Component::get_pg_stat_bool() {
 
 int BQ25798Component::get_pg_stat_enum_int() {
   uint16_t raw = get_pg_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PG_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for PG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_pg_stat_enum_string() {
   uint16_t raw = get_pg_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PG_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for PG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // AC2_PRESENT_STAT - VAC2 present status
@@ -4287,6 +5133,7 @@ uint16_t BQ25798Component::get_ac2_present_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4294,7 +5141,7 @@ bool BQ25798Component::get_ac2_present_stat_bool() {
   uint16_t raw = get_ac2_present_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for AC2_PRESENT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4302,11 +5149,21 @@ bool BQ25798Component::get_ac2_present_stat_bool() {
 
 int BQ25798Component::get_ac2_present_stat_enum_int() {
   uint16_t raw = get_ac2_present_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for AC2_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ac2_present_stat_enum_string() {
   uint16_t raw = get_ac2_present_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC2_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for AC2_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // AC1_PRESENT_STAT - VAC1 present status
@@ -4317,6 +5174,7 @@ uint16_t BQ25798Component::get_ac1_present_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4324,7 +5182,7 @@ bool BQ25798Component::get_ac1_present_stat_bool() {
   uint16_t raw = get_ac1_present_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for AC1_PRESENT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4332,11 +5190,21 @@ bool BQ25798Component::get_ac1_present_stat_bool() {
 
 int BQ25798Component::get_ac1_present_stat_enum_int() {
   uint16_t raw = get_ac1_present_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for AC1_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ac1_present_stat_enum_string() {
   uint16_t raw = get_ac1_present_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->AC1_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for AC1_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // VBUS_PRESENT_STAT - VBUS present status
@@ -4347,6 +5215,7 @@ uint16_t BQ25798Component::get_vbus_present_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1B_Charger_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1B_Charger_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4354,7 +5223,7 @@ bool BQ25798Component::get_vbus_present_stat_bool() {
   uint16_t raw = get_vbus_present_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_PRESENT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBUS_PRESENT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4362,11 +5231,21 @@ bool BQ25798Component::get_vbus_present_stat_bool() {
 
 int BQ25798Component::get_vbus_present_stat_enum_int() {
   uint16_t raw = get_vbus_present_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_PRESENT_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBUS_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbus_present_stat_enum_string() {
   uint16_t raw = get_vbus_present_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_PRESENT_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBUS_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // CHG_STAT - Charge Status bits
@@ -4377,16 +5256,27 @@ uint16_t BQ25798Component::get_chg_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1C_Charger_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
 }
 
 int BQ25798Component::get_chg_stat_enum_int() {
   uint16_t raw = get_chg_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for CHG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_chg_stat_enum_string() {
   uint16_t raw = get_chg_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for CHG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // VBUS_STAT - VBUS status bits
@@ -4397,16 +5287,27 @@ uint16_t BQ25798Component::get_vbus_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1C_Charger_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(4);
 }
 
 int BQ25798Component::get_vbus_stat_enum_int() {
   uint16_t raw = get_vbus_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBUS_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbus_stat_enum_string() {
   uint16_t raw = get_vbus_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBUS_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBUS_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // BC12_DONE_STAT - BC1.2 detection done status
@@ -4417,6 +5318,7 @@ uint16_t BQ25798Component::get_bc12_done_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1C_Charger_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1C_Charger_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4424,7 +5326,7 @@ bool BQ25798Component::get_bc12_done_stat_bool() {
   uint16_t raw = get_bc12_done_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->BC12_DONE_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for BC12_DONE_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4438,16 +5340,27 @@ uint16_t BQ25798Component::get_ico_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1D_Charger_Status_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(2);
 }
 
 int BQ25798Component::get_ico_stat_enum_int() {
   uint16_t raw = get_ico_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICO_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ICO_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ICO_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ico_stat_enum_string() {
   uint16_t raw = get_ico_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ICO_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ICO_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ICO_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TREG_STAT - IC thermal regulation status
@@ -4458,6 +5371,7 @@ uint16_t BQ25798Component::get_treg_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1D_Charger_Status_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4465,7 +5379,7 @@ bool BQ25798Component::get_treg_stat_bool() {
   uint16_t raw = get_treg_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TREG_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TREG_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4473,11 +5387,21 @@ bool BQ25798Component::get_treg_stat_bool() {
 
 int BQ25798Component::get_treg_stat_enum_int() {
   uint16_t raw = get_treg_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TREG_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TREG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TREG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_treg_stat_enum_string() {
   uint16_t raw = get_treg_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TREG_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TREG_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TREG_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // DPDM_STAT - D+/D- detection status
@@ -4488,6 +5412,7 @@ uint16_t BQ25798Component::get_dpdm_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1D_Charger_Status_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4495,7 +5420,7 @@ bool BQ25798Component::get_dpdm_stat_bool() {
   uint16_t raw = get_dpdm_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DPDM_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DPDM_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4503,11 +5428,21 @@ bool BQ25798Component::get_dpdm_stat_bool() {
 
 int BQ25798Component::get_dpdm_stat_enum_int() {
   uint16_t raw = get_dpdm_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPDM_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPDM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for DPDM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_dpdm_stat_enum_string() {
   uint16_t raw = get_dpdm_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DPDM_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DPDM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for DPDM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // VBAT_PRESENT_STAT - Battery present status
@@ -4518,6 +5453,7 @@ uint16_t BQ25798Component::get_vbat_present_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1D_Charger_Status_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1D_Charger_Status_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4525,7 +5461,7 @@ bool BQ25798Component::get_vbat_present_stat_bool() {
   uint16_t raw = get_vbat_present_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_PRESENT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBAT_PRESENT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4533,11 +5469,21 @@ bool BQ25798Component::get_vbat_present_stat_bool() {
 
 int BQ25798Component::get_vbat_present_stat_enum_int() {
   uint16_t raw = get_vbat_present_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_PRESENT_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBAT_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbat_present_stat_enum_string() {
   uint16_t raw = get_vbat_present_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBAT_PRESENT_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBAT_PRESENT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBAT_PRESENT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // ACRB2_STAT - The ACFET2-RBFET2 status
@@ -4548,6 +5494,7 @@ uint16_t BQ25798Component::get_acrb2_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4555,7 +5502,7 @@ bool BQ25798Component::get_acrb2_stat_bool() {
   uint16_t raw = get_acrb2_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ACRB2_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ACRB2_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4563,11 +5510,21 @@ bool BQ25798Component::get_acrb2_stat_bool() {
 
 int BQ25798Component::get_acrb2_stat_enum_int() {
   uint16_t raw = get_acrb2_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ACRB2_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ACRB2_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ACRB2_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_acrb2_stat_enum_string() {
   uint16_t raw = get_acrb2_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ACRB2_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ACRB2_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ACRB2_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // ACRB1_STAT - The ACFET1-RBFET1 status
@@ -4578,6 +5535,7 @@ uint16_t BQ25798Component::get_acrb1_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4585,7 +5543,7 @@ bool BQ25798Component::get_acrb1_stat_bool() {
   uint16_t raw = get_acrb1_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ACRB1_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ACRB1_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4593,11 +5551,21 @@ bool BQ25798Component::get_acrb1_stat_bool() {
 
 int BQ25798Component::get_acrb1_stat_enum_int() {
   uint16_t raw = get_acrb1_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ACRB1_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ACRB1_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ACRB1_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_acrb1_stat_enum_string() {
   uint16_t raw = get_acrb1_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ACRB1_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ACRB1_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ACRB1_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // ADC_DONE_STAT - ADC Conversion Status
@@ -4608,6 +5576,7 @@ uint16_t BQ25798Component::get_adc_done_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4615,7 +5584,7 @@ bool BQ25798Component::get_adc_done_stat_bool() {
   uint16_t raw = get_adc_done_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_DONE_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ADC_DONE_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4629,6 +5598,7 @@ uint16_t BQ25798Component::get_vsys_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4636,7 +5606,7 @@ bool BQ25798Component::get_vsys_stat_bool() {
   uint16_t raw = get_vsys_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VSYS_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4644,11 +5614,21 @@ bool BQ25798Component::get_vsys_stat_bool() {
 
 int BQ25798Component::get_vsys_stat_enum_int() {
   uint16_t raw = get_vsys_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYS_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYS_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VSYS_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vsys_stat_enum_string() {
   uint16_t raw = get_vsys_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VSYS_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VSYS_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VSYS_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // CHG_TMR_STAT - Fast charge timer status
@@ -4659,6 +5639,7 @@ uint16_t BQ25798Component::get_chg_tmr_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4666,7 +5647,7 @@ bool BQ25798Component::get_chg_tmr_stat_bool() {
   uint16_t raw = get_chg_tmr_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CHG_TMR_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for CHG_TMR_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4674,11 +5655,21 @@ bool BQ25798Component::get_chg_tmr_stat_bool() {
 
 int BQ25798Component::get_chg_tmr_stat_enum_int() {
   uint16_t raw = get_chg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_TMR_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->CHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for CHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_chg_tmr_stat_enum_string() {
   uint16_t raw = get_chg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_TMR_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->CHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for CHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TRICHG_TMR_STAT - Trickle charge timer status
@@ -4689,6 +5680,7 @@ uint16_t BQ25798Component::get_trichg_tmr_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4696,7 +5688,7 @@ bool BQ25798Component::get_trichg_tmr_stat_bool() {
   uint16_t raw = get_trichg_tmr_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TRICHG_TMR_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TRICHG_TMR_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4704,11 +5696,21 @@ bool BQ25798Component::get_trichg_tmr_stat_bool() {
 
 int BQ25798Component::get_trichg_tmr_stat_enum_int() {
   uint16_t raw = get_trichg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TRICHG_TMR_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TRICHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TRICHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_trichg_tmr_stat_enum_string() {
   uint16_t raw = get_trichg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TRICHG_TMR_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TRICHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TRICHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // PRECHG_TMR_STAT - Pre-charge timer status
@@ -4719,6 +5721,7 @@ uint16_t BQ25798Component::get_prechg_tmr_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1E_Charger_Status_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1E_Charger_Status_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4726,7 +5729,7 @@ bool BQ25798Component::get_prechg_tmr_stat_bool() {
   uint16_t raw = get_prechg_tmr_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for PRECHG_TMR_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4734,11 +5737,21 @@ bool BQ25798Component::get_prechg_tmr_stat_bool() {
 
 int BQ25798Component::get_prechg_tmr_stat_enum_int() {
   uint16_t raw = get_prechg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for PRECHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_prechg_tmr_stat_enum_string() {
   uint16_t raw = get_prechg_tmr_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PRECHG_TMR_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for PRECHG_TMR_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
@@ -4749,6 +5762,7 @@ uint16_t BQ25798Component::get_vbatotg_low_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1F_Charger_Status_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4756,7 +5770,7 @@ bool BQ25798Component::get_vbatotg_low_stat_bool() {
   uint16_t raw = get_vbatotg_low_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBATOTG_LOW_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBATOTG_LOW_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4764,11 +5778,21 @@ bool BQ25798Component::get_vbatotg_low_stat_bool() {
 
 int BQ25798Component::get_vbatotg_low_stat_enum_int() {
   uint16_t raw = get_vbatotg_low_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBATOTG_LOW_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBATOTG_LOW_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for VBATOTG_LOW_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_vbatotg_low_stat_enum_string() {
   uint16_t raw = get_vbatotg_low_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBATOTG_LOW_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->VBATOTG_LOW_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for VBATOTG_LOW_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TS_COLD_STAT - The TS temperature is in the cold range
@@ -4779,6 +5803,7 @@ uint16_t BQ25798Component::get_ts_cold_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1F_Charger_Status_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4786,7 +5811,7 @@ bool BQ25798Component::get_ts_cold_stat_bool() {
   uint16_t raw = get_ts_cold_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COLD_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_COLD_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4794,11 +5819,21 @@ bool BQ25798Component::get_ts_cold_stat_bool() {
 
 int BQ25798Component::get_ts_cold_stat_enum_int() {
   uint16_t raw = get_ts_cold_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COLD_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COLD_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_COLD_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_cold_stat_enum_string() {
   uint16_t raw = get_ts_cold_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COLD_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COLD_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_COLD_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TS_COOL_STAT - The TS temperature is in the cool range
@@ -4809,6 +5844,7 @@ uint16_t BQ25798Component::get_ts_cool_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1F_Charger_Status_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4816,7 +5852,7 @@ bool BQ25798Component::get_ts_cool_stat_bool() {
   uint16_t raw = get_ts_cool_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COOL_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_COOL_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4824,11 +5860,21 @@ bool BQ25798Component::get_ts_cool_stat_bool() {
 
 int BQ25798Component::get_ts_cool_stat_enum_int() {
   uint16_t raw = get_ts_cool_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COOL_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_COOL_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_COOL_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_cool_stat_enum_string() {
   uint16_t raw = get_ts_cool_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COOL_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_COOL_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_COOL_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TS_WARM_STAT - The TS temperature is in the warm range
@@ -4839,6 +5885,7 @@ uint16_t BQ25798Component::get_ts_warm_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1F_Charger_Status_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4846,7 +5893,7 @@ bool BQ25798Component::get_ts_warm_stat_bool() {
   uint16_t raw = get_ts_warm_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_WARM_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_WARM_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4854,11 +5901,21 @@ bool BQ25798Component::get_ts_warm_stat_bool() {
 
 int BQ25798Component::get_ts_warm_stat_enum_int() {
   uint16_t raw = get_ts_warm_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_WARM_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_WARM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_WARM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_warm_stat_enum_string() {
   uint16_t raw = get_ts_warm_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_WARM_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_WARM_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_WARM_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // TS_HOT_STAT - The TS temperature is in the hot range
@@ -4869,6 +5926,7 @@ uint16_t BQ25798Component::get_ts_hot_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG1F_Charger_Status_4);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG1F_Charger_Status_4 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4876,7 +5934,7 @@ bool BQ25798Component::get_ts_hot_stat_bool() {
   uint16_t raw = get_ts_hot_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_HOT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_HOT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4884,11 +5942,21 @@ bool BQ25798Component::get_ts_hot_stat_bool() {
 
 int BQ25798Component::get_ts_hot_stat_enum_int() {
   uint16_t raw = get_ts_hot_stat_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_HOT_STAT);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->TS_HOT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for TS_HOT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_ts_hot_stat_enum_string() {
   uint16_t raw = get_ts_hot_stat_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_HOT_STAT);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->TS_HOT_STAT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for TS_HOT_STAT");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // IBAT_REG_STAT - In battery discharging current regulation
@@ -4899,6 +5967,7 @@ uint16_t BQ25798Component::get_ibat_reg_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4906,7 +5975,7 @@ bool BQ25798Component::get_ibat_reg_stat_bool() {
   uint16_t raw = get_ibat_reg_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_REG_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IBAT_REG_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4920,6 +5989,7 @@ uint16_t BQ25798Component::get_vbus_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4927,7 +5997,7 @@ bool BQ25798Component::get_vbus_ovp_stat_bool() {
   uint16_t raw = get_vbus_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBUS_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4941,6 +6011,7 @@ uint16_t BQ25798Component::get_vbat_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4948,7 +6019,7 @@ bool BQ25798Component::get_vbat_ovp_stat_bool() {
   uint16_t raw = get_vbat_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBAT_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4962,6 +6033,7 @@ uint16_t BQ25798Component::get_ibus_ocp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4969,7 +6041,7 @@ bool BQ25798Component::get_ibus_ocp_stat_bool() {
   uint16_t raw = get_ibus_ocp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBUS_OCP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IBUS_OCP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -4983,6 +6055,7 @@ uint16_t BQ25798Component::get_ibat_ocp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -4990,7 +6063,7 @@ bool BQ25798Component::get_ibat_ocp_stat_bool() {
   uint16_t raw = get_ibat_ocp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_OCP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IBAT_OCP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5004,6 +6077,7 @@ uint16_t BQ25798Component::get_conv_ocp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5011,7 +6085,7 @@ bool BQ25798Component::get_conv_ocp_stat_bool() {
   uint16_t raw = get_conv_ocp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CONV_OCP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for CONV_OCP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5025,6 +6099,7 @@ uint16_t BQ25798Component::get_vac2_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5032,7 +6107,7 @@ bool BQ25798Component::get_vac2_ovp_stat_bool() {
   uint16_t raw = get_vac2_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC2_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC2_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5046,6 +6121,7 @@ uint16_t BQ25798Component::get_vac1_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG20_FAULT_Status_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG20_FAULT_Status_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5053,7 +6129,7 @@ bool BQ25798Component::get_vac1_ovp_stat_bool() {
   uint16_t raw = get_vac1_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC1_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC1_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5067,6 +6143,7 @@ uint16_t BQ25798Component::get_vsys_short_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG21_FAULT_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5074,7 +6151,7 @@ bool BQ25798Component::get_vsys_short_stat_bool() {
   uint16_t raw = get_vsys_short_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_SHORT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VSYS_SHORT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5088,6 +6165,7 @@ uint16_t BQ25798Component::get_vsys_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG21_FAULT_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5095,7 +6173,7 @@ bool BQ25798Component::get_vsys_ovp_stat_bool() {
   uint16_t raw = get_vsys_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VSYS_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5109,6 +6187,7 @@ uint16_t BQ25798Component::get_otg_ovp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG21_FAULT_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5116,7 +6195,7 @@ bool BQ25798Component::get_otg_ovp_stat_bool() {
   uint16_t raw = get_otg_ovp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_OVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for OTG_OVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5130,6 +6209,7 @@ uint16_t BQ25798Component::get_otg_uvp_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG21_FAULT_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5137,7 +6217,7 @@ bool BQ25798Component::get_otg_uvp_stat_bool() {
   uint16_t raw = get_otg_uvp_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_UVP_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for OTG_UVP_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5151,6 +6231,7 @@ uint16_t BQ25798Component::get_tshut_stat_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG21_FAULT_Status_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG21_FAULT_Status_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -5158,7 +6239,7 @@ bool BQ25798Component::get_tshut_stat_bool() {
   uint16_t raw = get_tshut_stat_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TSHUT_STAT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TSHUT_STAT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -5172,16 +6253,17 @@ uint16_t BQ25798Component::get_iindpm_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_iindpm_flag_flag() {
   uint16_t raw = get_iindpm_flag_raw();
-  ESP_LOGD(TAG, "Read IINDPM_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read IINDPM_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IINDPM_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for IINDPM_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5193,7 +6275,7 @@ bool BQ25798Component::get_iindpm_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_iindpm_flag_;
-  ESP_LOGD(TAG, "  IINDPM_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  IINDPM_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5205,16 +6287,17 @@ uint16_t BQ25798Component::get_vindpm_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vindpm_flag_flag() {
   uint16_t raw = get_vindpm_flag_raw();
-  ESP_LOGD(TAG, "Read VINDPM_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VINDPM_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VINDPM_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VINDPM_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5226,7 +6309,7 @@ bool BQ25798Component::get_vindpm_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vindpm_flag_;
-  ESP_LOGD(TAG, "  VINDPM_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VINDPM_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5238,16 +6321,17 @@ uint16_t BQ25798Component::get_wd_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_wd_flag_flag() {
   uint16_t raw = get_wd_flag_raw();
-  ESP_LOGD(TAG, "Read WD_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read WD_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->WD_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for WD_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5259,7 +6343,7 @@ bool BQ25798Component::get_wd_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_wd_flag_;
-  ESP_LOGD(TAG, "  WD_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  WD_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5271,16 +6355,17 @@ uint16_t BQ25798Component::get_poorsrc_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_poorsrc_flag_flag() {
   uint16_t raw = get_poorsrc_flag_raw();
-  ESP_LOGD(TAG, "Read POORSRC_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read POORSRC_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->POORSRC_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for POORSRC_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5292,7 +6377,7 @@ bool BQ25798Component::get_poorsrc_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_poorsrc_flag_;
-  ESP_LOGD(TAG, "  POORSRC_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  POORSRC_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5304,16 +6389,17 @@ uint16_t BQ25798Component::get_pg_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_pg_flag_flag() {
   uint16_t raw = get_pg_flag_raw();
-  ESP_LOGD(TAG, "Read PG_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read PG_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PG_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for PG_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5325,7 +6411,7 @@ bool BQ25798Component::get_pg_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_pg_flag_;
-  ESP_LOGD(TAG, "  PG_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  PG_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5337,16 +6423,17 @@ uint16_t BQ25798Component::get_ac2_present_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ac2_present_flag_flag() {
   uint16_t raw = get_ac2_present_flag_raw();
-  ESP_LOGD(TAG, "Read AC2_PRESENT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read AC2_PRESENT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC2_PRESENT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for AC2_PRESENT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5358,7 +6445,7 @@ bool BQ25798Component::get_ac2_present_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ac2_present_flag_;
-  ESP_LOGD(TAG, "  AC2_PRESENT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  AC2_PRESENT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5370,16 +6457,17 @@ uint16_t BQ25798Component::get_ac1_present_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ac1_present_flag_flag() {
   uint16_t raw = get_ac1_present_flag_raw();
-  ESP_LOGD(TAG, "Read AC1_PRESENT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read AC1_PRESENT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->AC1_PRESENT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for AC1_PRESENT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5391,7 +6479,7 @@ bool BQ25798Component::get_ac1_present_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ac1_present_flag_;
-  ESP_LOGD(TAG, "  AC1_PRESENT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  AC1_PRESENT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5403,16 +6491,17 @@ uint16_t BQ25798Component::get_vbus_present_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG22_Charger_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG22_Charger_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbus_present_flag_flag() {
   uint16_t raw = get_vbus_present_flag_raw();
-  ESP_LOGD(TAG, "Read VBUS_PRESENT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBUS_PRESENT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_PRESENT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBUS_PRESENT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5424,7 +6513,7 @@ bool BQ25798Component::get_vbus_present_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbus_present_flag_;
-  ESP_LOGD(TAG, "  VBUS_PRESENT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBUS_PRESENT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5436,16 +6525,17 @@ uint16_t BQ25798Component::get_chg_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_chg_flag_flag() {
   uint16_t raw = get_chg_flag_raw();
-  ESP_LOGD(TAG, "Read CHG_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read CHG_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CHG_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for CHG_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5457,7 +6547,7 @@ bool BQ25798Component::get_chg_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_chg_flag_;
-  ESP_LOGD(TAG, "  CHG_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  CHG_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5469,16 +6559,17 @@ uint16_t BQ25798Component::get_ico_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ico_flag_flag() {
   uint16_t raw = get_ico_flag_raw();
-  ESP_LOGD(TAG, "Read ICO_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read ICO_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ICO_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for ICO_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5490,7 +6581,7 @@ bool BQ25798Component::get_ico_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ico_flag_;
-  ESP_LOGD(TAG, "  ICO_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  ICO_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5502,16 +6593,17 @@ uint16_t BQ25798Component::get_vbus_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbus_flag_flag() {
   uint16_t raw = get_vbus_flag_raw();
-  ESP_LOGD(TAG, "Read VBUS_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBUS_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBUS_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5523,7 +6615,7 @@ bool BQ25798Component::get_vbus_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbus_flag_;
-  ESP_LOGD(TAG, "  VBUS_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBUS_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5535,16 +6627,17 @@ uint16_t BQ25798Component::get_treg_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_treg_flag_flag() {
   uint16_t raw = get_treg_flag_raw();
-  ESP_LOGD(TAG, "Read TREG_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TREG_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TREG_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TREG_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5556,7 +6649,7 @@ bool BQ25798Component::get_treg_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_treg_flag_;
-  ESP_LOGD(TAG, "  TREG_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TREG_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5568,16 +6661,17 @@ uint16_t BQ25798Component::get_vbat_present_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbat_present_flag_flag() {
   uint16_t raw = get_vbat_present_flag_raw();
-  ESP_LOGD(TAG, "Read VBAT_PRESENT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBAT_PRESENT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_PRESENT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBAT_PRESENT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5589,7 +6683,7 @@ bool BQ25798Component::get_vbat_present_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbat_present_flag_;
-  ESP_LOGD(TAG, "  VBAT_PRESENT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBAT_PRESENT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5601,16 +6695,17 @@ uint16_t BQ25798Component::get_bc1_2_done_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG23_Charger_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG23_Charger_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_bc1_2_done_flag_flag() {
   uint16_t raw = get_bc1_2_done_flag_raw();
-  ESP_LOGD(TAG, "Read BC1_2_DONE_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read BC1_2_DONE_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->BC1_2_DONE_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for BC1_2_DONE_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5622,7 +6717,7 @@ bool BQ25798Component::get_bc1_2_done_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_bc1_2_done_flag_;
-  ESP_LOGD(TAG, "  BC1_2_DONE_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  BC1_2_DONE_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5634,16 +6729,17 @@ uint16_t BQ25798Component::get_dpdm_done_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_dpdm_done_flag_flag() {
   uint16_t raw = get_dpdm_done_flag_raw();
-  ESP_LOGD(TAG, "Read DPDM_DONE_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read DPDM_DONE_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DPDM_DONE_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for DPDM_DONE_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5655,7 +6751,7 @@ bool BQ25798Component::get_dpdm_done_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_dpdm_done_flag_;
-  ESP_LOGD(TAG, "  DPDM_DONE_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  DPDM_DONE_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5667,16 +6763,17 @@ uint16_t BQ25798Component::get_adc_done_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_adc_done_flag_flag() {
   uint16_t raw = get_adc_done_flag_raw();
-  ESP_LOGD(TAG, "Read ADC_DONE_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read ADC_DONE_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_DONE_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for ADC_DONE_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5688,7 +6785,7 @@ bool BQ25798Component::get_adc_done_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_adc_done_flag_;
-  ESP_LOGD(TAG, "  ADC_DONE_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  ADC_DONE_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5700,16 +6797,17 @@ uint16_t BQ25798Component::get_vsys_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vsys_flag_flag() {
   uint16_t raw = get_vsys_flag_raw();
-  ESP_LOGD(TAG, "Read VSYS_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VSYS_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VSYS_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5721,7 +6819,7 @@ bool BQ25798Component::get_vsys_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vsys_flag_;
-  ESP_LOGD(TAG, "  VSYS_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VSYS_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5733,16 +6831,17 @@ uint16_t BQ25798Component::get_chg_tmr_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_chg_tmr_flag_flag() {
   uint16_t raw = get_chg_tmr_flag_raw();
-  ESP_LOGD(TAG, "Read CHG_TMR_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read CHG_TMR_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CHG_TMR_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for CHG_TMR_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5754,7 +6853,7 @@ bool BQ25798Component::get_chg_tmr_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_chg_tmr_flag_;
-  ESP_LOGD(TAG, "  CHG_TMR_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  CHG_TMR_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5766,16 +6865,17 @@ uint16_t BQ25798Component::get_trichg_tmr_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_trichg_tmr_flag_flag() {
   uint16_t raw = get_trichg_tmr_flag_raw();
-  ESP_LOGD(TAG, "Read TRICHG_TMR_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TRICHG_TMR_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TRICHG_TMR_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TRICHG_TMR_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5787,7 +6887,7 @@ bool BQ25798Component::get_trichg_tmr_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_trichg_tmr_flag_;
-  ESP_LOGD(TAG, "  TRICHG_TMR_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TRICHG_TMR_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5799,16 +6899,17 @@ uint16_t BQ25798Component::get_prechg_tmr_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_prechg_tmr_flag_flag() {
   uint16_t raw = get_prechg_tmr_flag_raw();
-  ESP_LOGD(TAG, "Read PRECHG_TMR_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read PRECHG_TMR_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->PRECHG_TMR_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for PRECHG_TMR_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5820,7 +6921,7 @@ bool BQ25798Component::get_prechg_tmr_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_prechg_tmr_flag_;
-  ESP_LOGD(TAG, "  PRECHG_TMR_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  PRECHG_TMR_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5832,16 +6933,17 @@ uint16_t BQ25798Component::get_topoff_tmr_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG24_Charger_Flag_2);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG24_Charger_Flag_2 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_topoff_tmr_flag_flag() {
   uint16_t raw = get_topoff_tmr_flag_raw();
-  ESP_LOGD(TAG, "Read TOPOFF_TMR_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TOPOFF_TMR_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TOPOFF_TMR_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TOPOFF_TMR_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5853,7 +6955,7 @@ bool BQ25798Component::get_topoff_tmr_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_topoff_tmr_flag_;
-  ESP_LOGD(TAG, "  TOPOFF_TMR_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TOPOFF_TMR_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5865,16 +6967,17 @@ uint16_t BQ25798Component::get_vbatotg_low_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG25_Charger_Flag_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbatotg_low_flag_flag() {
   uint16_t raw = get_vbatotg_low_flag_raw();
-  ESP_LOGD(TAG, "Read VBATOTG_LOW_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBATOTG_LOW_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBATOTG_LOW_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBATOTG_LOW_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5886,7 +6989,7 @@ bool BQ25798Component::get_vbatotg_low_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbatotg_low_flag_;
-  ESP_LOGD(TAG, "  VBATOTG_LOW_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBATOTG_LOW_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5898,16 +7001,17 @@ uint16_t BQ25798Component::get_ts_cold_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG25_Charger_Flag_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ts_cold_flag_flag() {
   uint16_t raw = get_ts_cold_flag_raw();
-  ESP_LOGD(TAG, "Read TS_COLD_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TS_COLD_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COLD_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TS_COLD_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5919,7 +7023,7 @@ bool BQ25798Component::get_ts_cold_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ts_cold_flag_;
-  ESP_LOGD(TAG, "  TS_COLD_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TS_COLD_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5931,16 +7035,17 @@ uint16_t BQ25798Component::get_ts_cool_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG25_Charger_Flag_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ts_cool_flag_flag() {
   uint16_t raw = get_ts_cool_flag_raw();
-  ESP_LOGD(TAG, "Read TS_COOL_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TS_COOL_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_COOL_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TS_COOL_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5952,7 +7057,7 @@ bool BQ25798Component::get_ts_cool_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ts_cool_flag_;
-  ESP_LOGD(TAG, "  TS_COOL_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TS_COOL_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5964,16 +7069,17 @@ uint16_t BQ25798Component::get_ts_warm_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG25_Charger_Flag_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ts_warm_flag_flag() {
   uint16_t raw = get_ts_warm_flag_raw();
-  ESP_LOGD(TAG, "Read TS_WARM_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TS_WARM_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_WARM_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TS_WARM_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -5985,7 +7091,7 @@ bool BQ25798Component::get_ts_warm_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ts_warm_flag_;
-  ESP_LOGD(TAG, "  TS_WARM_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TS_WARM_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -5997,16 +7103,17 @@ uint16_t BQ25798Component::get_ts_hot_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG25_Charger_Flag_3);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG25_Charger_Flag_3 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ts_hot_flag_flag() {
   uint16_t raw = get_ts_hot_flag_raw();
-  ESP_LOGD(TAG, "Read TS_HOT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TS_HOT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_HOT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TS_HOT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6018,7 +7125,7 @@ bool BQ25798Component::get_ts_hot_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ts_hot_flag_;
-  ESP_LOGD(TAG, "  TS_HOT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TS_HOT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6030,16 +7137,17 @@ uint16_t BQ25798Component::get_ibat_reg_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ibat_reg_flag_flag() {
   uint16_t raw = get_ibat_reg_flag_raw();
-  ESP_LOGD(TAG, "Read IBAT_REG_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read IBAT_REG_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_REG_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for IBAT_REG_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6051,7 +7159,7 @@ bool BQ25798Component::get_ibat_reg_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ibat_reg_flag_;
-  ESP_LOGD(TAG, "  IBAT_REG_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  IBAT_REG_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6063,16 +7171,17 @@ uint16_t BQ25798Component::get_vbus_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbus_ovp_flag_flag() {
   uint16_t raw = get_vbus_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read VBUS_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBUS_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBUS_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6084,7 +7193,7 @@ bool BQ25798Component::get_vbus_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbus_ovp_flag_;
-  ESP_LOGD(TAG, "  VBUS_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBUS_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6096,16 +7205,17 @@ uint16_t BQ25798Component::get_vbat_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vbat_ovp_flag_flag() {
   uint16_t raw = get_vbat_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read VBAT_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VBAT_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VBAT_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6117,7 +7227,7 @@ bool BQ25798Component::get_vbat_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vbat_ovp_flag_;
-  ESP_LOGD(TAG, "  VBAT_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VBAT_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6129,16 +7239,17 @@ uint16_t BQ25798Component::get_ibus_ocp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ibus_ocp_flag_flag() {
   uint16_t raw = get_ibus_ocp_flag_raw();
-  ESP_LOGD(TAG, "Read IBUS_OCP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read IBUS_OCP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBUS_OCP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for IBUS_OCP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6150,7 +7261,7 @@ bool BQ25798Component::get_ibus_ocp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ibus_ocp_flag_;
-  ESP_LOGD(TAG, "  IBUS_OCP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  IBUS_OCP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6162,16 +7273,17 @@ uint16_t BQ25798Component::get_ibat_ocp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_ibat_ocp_flag_flag() {
   uint16_t raw = get_ibat_ocp_flag_raw();
-  ESP_LOGD(TAG, "Read IBAT_OCP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read IBAT_OCP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_OCP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for IBAT_OCP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6183,7 +7295,7 @@ bool BQ25798Component::get_ibat_ocp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_ibat_ocp_flag_;
-  ESP_LOGD(TAG, "  IBAT_OCP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  IBAT_OCP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6195,16 +7307,17 @@ uint16_t BQ25798Component::get_conv_ocp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_conv_ocp_flag_flag() {
   uint16_t raw = get_conv_ocp_flag_raw();
-  ESP_LOGD(TAG, "Read CONV_OCP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read CONV_OCP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->CONV_OCP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for CONV_OCP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6216,7 +7329,7 @@ bool BQ25798Component::get_conv_ocp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_conv_ocp_flag_;
-  ESP_LOGD(TAG, "  CONV_OCP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  CONV_OCP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6228,16 +7341,17 @@ uint16_t BQ25798Component::get_vac2_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vac2_ovp_flag_flag() {
   uint16_t raw = get_vac2_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read VAC2_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VAC2_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC2_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VAC2_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6249,7 +7363,7 @@ bool BQ25798Component::get_vac2_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vac2_ovp_flag_;
-  ESP_LOGD(TAG, "  VAC2_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VAC2_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6261,16 +7375,17 @@ uint16_t BQ25798Component::get_vac1_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG26_FAULT_Flag_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG26_FAULT_Flag_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vac1_ovp_flag_flag() {
   uint16_t raw = get_vac1_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read VAC1_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VAC1_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC1_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VAC1_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6282,7 +7397,7 @@ bool BQ25798Component::get_vac1_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vac1_ovp_flag_;
-  ESP_LOGD(TAG, "  VAC1_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VAC1_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6294,16 +7409,17 @@ uint16_t BQ25798Component::get_vsys_short_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG27_FAULT_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vsys_short_flag_flag() {
   uint16_t raw = get_vsys_short_flag_raw();
-  ESP_LOGD(TAG, "Read VSYS_SHORT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VSYS_SHORT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_SHORT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VSYS_SHORT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6315,7 +7431,7 @@ bool BQ25798Component::get_vsys_short_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vsys_short_flag_;
-  ESP_LOGD(TAG, "  VSYS_SHORT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VSYS_SHORT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6327,16 +7443,17 @@ uint16_t BQ25798Component::get_vsys_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG27_FAULT_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_vsys_ovp_flag_flag() {
   uint16_t raw = get_vsys_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read VSYS_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read VSYS_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for VSYS_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6348,7 +7465,7 @@ bool BQ25798Component::get_vsys_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_vsys_ovp_flag_;
-  ESP_LOGD(TAG, "  VSYS_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  VSYS_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6360,16 +7477,17 @@ uint16_t BQ25798Component::get_otg_ovp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG27_FAULT_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_otg_ovp_flag_flag() {
   uint16_t raw = get_otg_ovp_flag_raw();
-  ESP_LOGD(TAG, "Read OTG_OVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read OTG_OVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_OVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for OTG_OVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6381,7 +7499,7 @@ bool BQ25798Component::get_otg_ovp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_otg_ovp_flag_;
-  ESP_LOGD(TAG, "  OTG_OVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  OTG_OVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6393,16 +7511,17 @@ uint16_t BQ25798Component::get_otg_uvp_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG27_FAULT_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_otg_uvp_flag_flag() {
   uint16_t raw = get_otg_uvp_flag_raw();
-  ESP_LOGD(TAG, "Read OTG_UVP_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read OTG_UVP_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->OTG_UVP_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for OTG_UVP_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6414,7 +7533,7 @@ bool BQ25798Component::get_otg_uvp_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_otg_uvp_flag_;
-  ESP_LOGD(TAG, "  OTG_UVP_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  OTG_UVP_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6426,16 +7545,17 @@ uint16_t BQ25798Component::get_tshut_flag_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG27_FAULT_Flag_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG27_FAULT_Flag_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
 bool BQ25798Component::get_tshut_flag_flag() {
   uint16_t raw = get_tshut_flag_raw();
-  ESP_LOGD(TAG, "Read TSHUT_FLAG flag: raw=0x%04X", raw);
+  // ESP_LOGD(TAG, "Read TSHUT_FLAG flag: raw=0x%04X", raw);
 
   bool val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TSHUT_FLAG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool/flag for TSHUT_FLAG");
     this->bq25798_noi2c_->clearError();
   }
 
@@ -6447,7 +7567,7 @@ bool BQ25798Component::get_tshut_flag_flag() {
 
   // Always return the value of the flag, never the current register value
   val = this->last_tshut_flag_;
-  ESP_LOGD(TAG, "  TSHUT_FLAG: returning %s", val ? "true" : "false");
+//  ESP_LOGD(TAG, "  TSHUT_FLAG: returning %s", val ? "true" : "false");
   return val;
 }
 
@@ -6459,6 +7579,7 @@ uint16_t BQ25798Component::get_adc_en_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6467,19 +7588,18 @@ void BQ25798Component::set_adc_en_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ADC_EN to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ADC_EN to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6487,15 +7607,21 @@ bool BQ25798Component::get_adc_en_bool() {
   uint16_t raw = get_adc_en_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_EN);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ADC_EN");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_adc_en_bool(bool value) {
-  ESP_LOGD(TAG, "Setting ADC_EN to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting ADC_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_EN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for ADC_EN");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_adc_en_raw(raw_value);
 };
 
@@ -6507,6 +7633,7 @@ uint16_t BQ25798Component::get_adc_rate_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6515,19 +7642,18 @@ void BQ25798Component::set_adc_rate_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ADC_RATE to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ADC_RATE to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6535,7 +7661,7 @@ bool BQ25798Component::get_adc_rate_bool() {
   uint16_t raw = get_adc_rate_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ADC_RATE");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -6543,22 +7669,43 @@ bool BQ25798Component::get_adc_rate_bool() {
 
 int BQ25798Component::get_adc_rate_enum_int() {
   uint16_t raw = get_adc_rate_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_RATE);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ADC_RATE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_adc_rate_enum_string() {
   uint16_t raw = get_adc_rate_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_RATE);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ADC_RATE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_adc_rate_bool(bool value) {
-  ESP_LOGD(TAG, "Setting ADC_RATE to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting ADC_RATE to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for ADC_RATE");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_adc_rate_raw(raw_value);
 };
 
 void BQ25798Component::set_adc_rate_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting ADC_RATE to %d", value);
+//  ESP_LOGD(TAG, "Setting ADC_RATE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_RATE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for ADC_RATE");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_adc_rate_raw(raw_value);
 };
 
@@ -6570,6 +7717,7 @@ uint16_t BQ25798Component::get_adc_sample_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(2);
 }
 
@@ -6578,34 +7726,48 @@ void BQ25798Component::set_adc_sample_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ADC_SAMPLE to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ADC_SAMPLE to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(2) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(2)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_adc_sample_enum_int() {
   uint16_t raw = get_adc_sample_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_SAMPLE);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_SAMPLE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ADC_SAMPLE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_adc_sample_enum_string() {
   uint16_t raw = get_adc_sample_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_SAMPLE);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_SAMPLE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ADC_SAMPLE");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_adc_sample_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting ADC_SAMPLE to %d", value);
+//  ESP_LOGD(TAG, "Setting ADC_SAMPLE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_SAMPLE);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for ADC_SAMPLE");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_adc_sample_raw(raw_value);
 };
 
@@ -6617,6 +7779,7 @@ uint16_t BQ25798Component::get_adc_avg_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6625,19 +7788,18 @@ void BQ25798Component::set_adc_avg_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ADC_AVG to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ADC_AVG to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6645,7 +7807,7 @@ bool BQ25798Component::get_adc_avg_bool() {
   uint16_t raw = get_adc_avg_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_AVG);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ADC_AVG");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
@@ -6653,22 +7815,43 @@ bool BQ25798Component::get_adc_avg_bool() {
 
 int BQ25798Component::get_adc_avg_enum_int() {
   uint16_t raw = get_adc_avg_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_AVG);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->ADC_AVG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for ADC_AVG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_adc_avg_enum_string() {
   uint16_t raw = get_adc_avg_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_AVG);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->ADC_AVG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for ADC_AVG");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_adc_avg_bool(bool value) {
-  ESP_LOGD(TAG, "Setting ADC_AVG to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting ADC_AVG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_AVG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for ADC_AVG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_adc_avg_raw(raw_value);
 };
 
 void BQ25798Component::set_adc_avg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting ADC_AVG to %d", value);
+//  ESP_LOGD(TAG, "Setting ADC_AVG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_AVG);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for ADC_AVG");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_adc_avg_raw(raw_value);
 };
 
@@ -6680,6 +7863,7 @@ uint16_t BQ25798Component::get_adc_avg_init_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6688,19 +7872,18 @@ void BQ25798Component::set_adc_avg_init_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting ADC_AVG_INIT to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting ADC_AVG_INIT to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2E_ADC_Control);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2E_ADC_Control (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2E_ADC_Control, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6708,15 +7891,21 @@ bool BQ25798Component::get_adc_avg_init_bool() {
   uint16_t raw = get_adc_avg_init_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->ADC_AVG_INIT);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for ADC_AVG_INIT");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_adc_avg_init_bool(bool value) {
-  ESP_LOGD(TAG, "Setting ADC_AVG_INIT to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting ADC_AVG_INIT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_AVG_INIT);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for ADC_AVG_INIT");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_adc_avg_init_raw(raw_value);
 };
 
@@ -6728,6 +7917,7 @@ uint16_t BQ25798Component::get_ibus_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6736,19 +7926,18 @@ void BQ25798Component::set_ibus_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IBUS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IBUS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6756,15 +7945,21 @@ bool BQ25798Component::get_ibus_adc_dis_bool() {
   uint16_t raw = get_ibus_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IBUS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_ibus_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting IBUS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting IBUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->IBUS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for IBUS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_ibus_adc_dis_raw(raw_value);
 };
 
@@ -6776,6 +7971,7 @@ uint16_t BQ25798Component::get_ibat_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6784,19 +7980,18 @@ void BQ25798Component::set_ibat_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting IBAT_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting IBAT_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6804,15 +7999,21 @@ bool BQ25798Component::get_ibat_adc_dis_bool() {
   uint16_t raw = get_ibat_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->IBAT_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for IBAT_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_ibat_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting IBAT_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting IBAT_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->IBAT_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for IBAT_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_ibat_adc_dis_raw(raw_value);
 };
 
@@ -6824,6 +8025,7 @@ uint16_t BQ25798Component::get_vbus_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6832,19 +8034,18 @@ void BQ25798Component::set_vbus_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VBUS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VBUS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6852,15 +8053,21 @@ bool BQ25798Component::get_vbus_adc_dis_bool() {
   uint16_t raw = get_vbus_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBUS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vbus_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VBUS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VBUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBUS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VBUS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vbus_adc_dis_raw(raw_value);
 };
 
@@ -6872,6 +8079,7 @@ uint16_t BQ25798Component::get_vbat_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6880,19 +8088,18 @@ void BQ25798Component::set_vbat_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VBAT_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VBAT_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6900,15 +8107,21 @@ bool BQ25798Component::get_vbat_adc_dis_bool() {
   uint16_t raw = get_vbat_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VBAT_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VBAT_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vbat_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VBAT_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VBAT_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBAT_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VBAT_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vbat_adc_dis_raw(raw_value);
 };
 
@@ -6920,6 +8133,7 @@ uint16_t BQ25798Component::get_vsys_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6928,19 +8142,18 @@ void BQ25798Component::set_vsys_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VSYS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VSYS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 3);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 3);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6948,15 +8161,21 @@ bool BQ25798Component::get_vsys_adc_dis_bool() {
   uint16_t raw = get_vsys_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VSYS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VSYS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vsys_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VSYS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VSYS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VSYS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VSYS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vsys_adc_dis_raw(raw_value);
 };
 
@@ -6968,6 +8187,7 @@ uint16_t BQ25798Component::get_ts_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(1);
 }
 
@@ -6976,19 +8196,18 @@ void BQ25798Component::set_ts_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -6996,15 +8215,21 @@ bool BQ25798Component::get_ts_adc_dis_bool() {
   uint16_t raw = get_ts_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_ts_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting TS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting TS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for TS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_ts_adc_dis_raw(raw_value);
 };
 
@@ -7016,6 +8241,7 @@ uint16_t BQ25798Component::get_tdie_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 1) & BITLENGTH_TO_MASK(1);
 }
 
@@ -7024,19 +8250,18 @@ void BQ25798Component::set_tdie_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting TDIE_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting TDIE_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG2F_ADC_Function_Disable_0);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 1);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 1);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG2F_ADC_Function_Disable_0 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG2F_ADC_Function_Disable_0, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -7044,15 +8269,21 @@ bool BQ25798Component::get_tdie_adc_dis_bool() {
   uint16_t raw = get_tdie_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->TDIE_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for TDIE_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_tdie_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting TDIE_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting TDIE_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TDIE_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for TDIE_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_tdie_adc_dis_raw(raw_value);
 };
 
@@ -7064,6 +8295,7 @@ uint16_t BQ25798Component::get_dplus_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 7) & BITLENGTH_TO_MASK(1);
 }
 
@@ -7072,19 +8304,18 @@ void BQ25798Component::set_dplus_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DPLUS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DPLUS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 7);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 7);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -7092,15 +8323,21 @@ bool BQ25798Component::get_dplus_adc_dis_bool() {
   uint16_t raw = get_dplus_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DPLUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DPLUS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dplus_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DPLUS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DPLUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DPLUS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DPLUS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dplus_adc_dis_raw(raw_value);
 };
 
@@ -7112,6 +8349,7 @@ uint16_t BQ25798Component::get_dminus_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 6) & BITLENGTH_TO_MASK(1);
 }
 
@@ -7120,19 +8358,18 @@ void BQ25798Component::set_dminus_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DMINUS_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DMINUS_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 6);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 6);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -7140,15 +8377,21 @@ bool BQ25798Component::get_dminus_adc_dis_bool() {
   uint16_t raw = get_dminus_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->DMINUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for DMINUS_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_dminus_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting DMINUS_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting DMINUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DMINUS_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for DMINUS_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_dminus_adc_dis_raw(raw_value);
 };
 
@@ -7160,6 +8403,7 @@ uint16_t BQ25798Component::get_vac2_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(1);
 }
 
@@ -7168,19 +8412,18 @@ void BQ25798Component::set_vac2_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VAC2_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VAC2_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -7188,15 +8431,21 @@ bool BQ25798Component::get_vac2_adc_dis_bool() {
   uint16_t raw = get_vac2_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC2_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC2_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vac2_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VAC2_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VAC2_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC2_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VAC2_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vac2_adc_dis_raw(raw_value);
 };
 
@@ -7208,6 +8457,7 @@ uint16_t BQ25798Component::get_vac1_adc_dis_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 4) & BITLENGTH_TO_MASK(1);
 }
 
@@ -7216,19 +8466,18 @@ void BQ25798Component::set_vac1_adc_dis_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting VAC1_ADC_DIS to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting VAC1_ADC_DIS to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG30_ADC_Function_Disable_1);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(1) << 4);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(1)) << 4);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG30_ADC_Function_Disable_1 (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG30_ADC_Function_Disable_1, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
@@ -7236,15 +8485,21 @@ bool BQ25798Component::get_vac1_adc_dis_bool() {
   uint16_t raw = get_vac1_adc_dis_raw();
   bool bool_val = this->bq25798_noi2c_->rawToBool(raw, this->bq25798_noi2c_->VAC1_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
-    this->status_set_warning();
+    this->status_set_warning("Error converting raw value to bool for VAC1_ADC_DIS");
     this->bq25798_noi2c_->clearError();
   }
   return bool_val;
 }
 
 void BQ25798Component::set_vac1_adc_dis_bool(bool value) {
-  ESP_LOGD(TAG, "Setting VAC1_ADC_DIS to %s", value ? "true" : "false");
+//  ESP_LOGD(TAG, "Setting VAC1_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC1_ADC_DIS);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting bool to raw value for VAC1_ADC_DIS");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
+
   this->set_vac1_adc_dis_raw(raw_value);
 };
 
@@ -7262,7 +8517,12 @@ uint16_t BQ25798Component::get_ibus_adc_raw() {
 
 int BQ25798Component::get_ibus_adc_int() {
   uint16_t raw = get_ibus_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBUS_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBUS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for IBUS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // IBAT_ADC - IBAT ADC reading
@@ -7279,7 +8539,12 @@ uint16_t BQ25798Component::get_ibat_adc_raw() {
 
 int BQ25798Component::get_ibat_adc_int() {
   uint16_t raw = get_ibat_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBAT_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->IBAT_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for IBAT_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // VBUS_ADC - VBUS ADC reading
@@ -7296,7 +8561,12 @@ uint16_t BQ25798Component::get_vbus_adc_raw() {
 
 int BQ25798Component::get_vbus_adc_int() {
   uint16_t raw = get_vbus_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBUS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VBUS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // VAC1_ADC - VAC1 ADC reading
@@ -7313,7 +8583,12 @@ uint16_t BQ25798Component::get_vac1_adc_raw() {
 
 int BQ25798Component::get_vac1_adc_int() {
   uint16_t raw = get_vac1_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC1_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC1_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VAC1_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // VAC2_ADC - VAC2 ADC reading
@@ -7330,7 +8605,12 @@ uint16_t BQ25798Component::get_vac2_adc_raw() {
 
 int BQ25798Component::get_vac2_adc_int() {
   uint16_t raw = get_vac2_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC2_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VAC2_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VAC2_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // VBAT_ADC - VBAT ADC reading
@@ -7347,7 +8627,12 @@ uint16_t BQ25798Component::get_vbat_adc_raw() {
 
 int BQ25798Component::get_vbat_adc_int() {
   uint16_t raw = get_vbat_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VBAT_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VBAT_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // VSYS_ADC - VSYS ADC reading
@@ -7364,7 +8649,12 @@ uint16_t BQ25798Component::get_vsys_adc_raw() {
 
 int BQ25798Component::get_vsys_adc_int() {
   uint16_t raw = get_vsys_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYS_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->VSYS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for VSYS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // TS_ADC - TS ADC reading
@@ -7381,7 +8671,12 @@ uint16_t BQ25798Component::get_ts_adc_raw() {
 
 float BQ25798Component::get_ts_adc_float() {
   uint16_t raw = get_ts_adc_raw();
-  return this->bq25798_noi2c_->rawToFloat(raw, this->bq25798_noi2c_->TS_ADC);
+  float float_val = this->bq25798_noi2c_->rawToFloat(raw, this->bq25798_noi2c_->TS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to float for TS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return float_val;
 }
 
 // TDIE_ADC - TDIE ADC reading
@@ -7398,7 +8693,12 @@ uint16_t BQ25798Component::get_tdie_adc_raw() {
 
 float BQ25798Component::get_tdie_adc_float() {
   uint16_t raw = get_tdie_adc_raw();
-  return this->bq25798_noi2c_->rawToFloat(raw, this->bq25798_noi2c_->TDIE_ADC);
+  float float_val = this->bq25798_noi2c_->rawToFloat(raw, this->bq25798_noi2c_->TDIE_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to float for TDIE_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return float_val;
 }
 
 // DPLUS_ADC - D+ ADC reading
@@ -7415,7 +8715,12 @@ uint16_t BQ25798Component::get_dplus_adc_raw() {
 
 int BQ25798Component::get_dplus_adc_int() {
   uint16_t raw = get_dplus_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPLUS_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPLUS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for DPLUS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // DMINUS_ADC - D- ADC reading
@@ -7432,7 +8737,12 @@ uint16_t BQ25798Component::get_dminus_adc_raw() {
 
 int BQ25798Component::get_dminus_adc_int() {
   uint16_t raw = get_dminus_adc_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DMINUS_ADC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DMINUS_ADC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to int for DMINUS_ADC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 
 // DPLUS_DAC - D+ Output Driver
@@ -7443,6 +8753,7 @@ uint16_t BQ25798Component::get_dplus_dac_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 5) & BITLENGTH_TO_MASK(3);
 }
 
@@ -7451,34 +8762,48 @@ void BQ25798Component::set_dplus_dac_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DPLUS_DAC to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DPLUS_DAC to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 5);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 5);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_dplus_dac_enum_int() {
   uint16_t raw = get_dplus_dac_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPLUS_DAC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DPLUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for DPLUS_DAC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_dplus_dac_enum_string() {
   uint16_t raw = get_dplus_dac_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DPLUS_DAC);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DPLUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for DPLUS_DAC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_dplus_dac_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting DPLUS_DAC to %d", value);
+//  ESP_LOGD(TAG, "Setting DPLUS_DAC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DPLUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for DPLUS_DAC");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_dplus_dac_raw(raw_value);
 };
 
@@ -7490,6 +8815,7 @@ uint16_t BQ25798Component::get_dminus_dac_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 2) & BITLENGTH_TO_MASK(3);
 }
 
@@ -7498,34 +8824,48 @@ void BQ25798Component::set_dminus_dac_raw(uint16_t raw_value) {
     return;
   }
 
-  ESP_LOGD(TAG, " Setting DMINUS_DAC to raw 0x%04X", raw_value);
-
+//  ESP_LOGD(TAG, " Setting DMINUS_DAC to raw 0x%04X", raw_value);
   uint8_t reg_addr = _regaddr_to_index.at(REG47_DPDM_Driver);
   uint8_t reg_value = _reg_values[ reg_addr ];
   reg_value &= ~(BITLENGTH_TO_MASK(3) << 2);
   reg_value |= ((raw_value & BITLENGTH_TO_MASK(3)) << 2);
   _reg_values[ reg_addr ] = reg_value;
 
-  ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
+//  ESP_LOGD(TAG, "  Writing register REG47_DPDM_Driver (0x%02X): 0x%02X", reg_addr, reg_value);
   if (!this->write_byte(REG47_DPDM_Driver, reg_value)) {
     ESP_LOGE(TAG, "Failed to write register 0x%02X", reg_addr);
     this->clear_registers();
-    this->mark_failed();
+//     this->mark_failed();
   }
 }
 
 int BQ25798Component::get_dminus_dac_enum_int() {
   uint16_t raw = get_dminus_dac_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DMINUS_DAC);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DMINUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for DMINUS_DAC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_dminus_dac_enum_string() {
   uint16_t raw = get_dminus_dac_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DMINUS_DAC);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DMINUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for DMINUS_DAC");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 void BQ25798Component::set_dminus_dac_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting DMINUS_DAC to %d", value);
+//  ESP_LOGD(TAG, "Setting DMINUS_DAC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DMINUS_DAC);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting enum int to raw value for DMINUS_DAC");
+    this->bq25798_noi2c_->clearError();
+    return;
+  }
   this->set_dminus_dac_raw(raw_value);
 };
 
@@ -7537,16 +8877,27 @@ uint16_t BQ25798Component::get_pn_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG48_Part_Information);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG48_Part_Information (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 3) & BITLENGTH_TO_MASK(3);
 }
 
 int BQ25798Component::get_pn_enum_int() {
   uint16_t raw = get_pn_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PN);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->PN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for PN");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_pn_enum_string() {
   uint16_t raw = get_pn_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PN);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->PN);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for PN");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 // DEV_REV - Device revision
@@ -7557,16 +8908,27 @@ uint16_t BQ25798Component::get_dev_rev_raw() {
 
   uint8_t reg_addr = _regaddr_to_index.at(REG48_Part_Information);
   uint8_t reg_value = _reg_values[ reg_addr ];
+//  ESP_LOGD(TAG, "Getting register REG48_Part_Information (0x%02X): 0x%02X", reg_addr, reg_value);
   return (reg_value >> 0) & BITLENGTH_TO_MASK(3);
 }
 
 int BQ25798Component::get_dev_rev_enum_int() {
   uint16_t raw = get_dev_rev_raw();
-  return this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DEV_REV);
+  int int_val = this->bq25798_noi2c_->rawToInt(raw, this->bq25798_noi2c_->DEV_REV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum int for DEV_REV");
+    this->bq25798_noi2c_->clearError();
+  }
+  return int_val;
 }
 const char* BQ25798Component::get_dev_rev_enum_string() {
   uint16_t raw = get_dev_rev_raw();
-  return this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DEV_REV);
+  const char* string_val = this->bq25798_noi2c_->rawToString(raw, this->bq25798_noi2c_->DEV_REV);
+  if (this->bq25798_noi2c_->lastError()) {
+    this->status_set_warning("Error converting raw value to enum string for DEV_REV");
+    this->bq25798_noi2c_->clearError();
+  }
+  return string_val;
 }
 
 
