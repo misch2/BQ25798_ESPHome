@@ -37,13 +37,14 @@ void BQ25798Component::setup() {
     return;
   }
 
-  ESP_LOGCONFIG(TAG, "Resetting the chip...");
-  this->set_reg_rst_bool(true);
-  while (this->get_reg_rst_bool()) {
-    this->update(); // read the registers again
-    delay(10); // wait for the chip to reset
-  }
-  ESP_LOGCONFIG(TAG, "Chip reset complete.");
+// Never reset the chip automatically in setup, as it may interfere with charging, OTG or other operations.
+//  ESP_LOGCONFIG(TAG, "Resetting the chip...");
+//  this->set_reg_rst_bool(true);
+//  while (this->get_reg_rst_bool()) {
+//    this->update(); // read the registers again
+//    delay(10); // wait for the chip to reset
+//  }
+//  ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
   ESP_LOGCONFIG(TAG, "BQ25798 initialized successfully at address 0x%02X", this->address_);
 }
