@@ -65,8 +65,6 @@ sensor:
       name: "VRECHG (Battery Recharge Threshold Offset (Below VREG))"
     votg:
       name: "VOTG (OTG mode regulation voltage)"
-    prechg_tmr:
-      name: "PRECHG_TMR (Pre-charge safety timer setting)"
     iotg:
       name: "IOTG (OTG current limit)"
     topoff_tmr:
@@ -81,12 +79,6 @@ sensor:
       name: "WATCHDOG (Watchdog timer settings)"
     sdrv_ctrl:
       name: "SDRV_CTRL (Enable external Ship FET control)"
-    sdrv_dly:
-      name: "SDRV_DLY (Delay for SDRV control)"
-    wkup_dly:
-      name: "WKUP_DLY (Wakeup (Ship FET) delay)"
-    pwm_freq:
-      name: "PWM_FREQ (PWM frequency setting)"
     ibat_reg:
       name: "IBAT_REG (Battery discharge current regulation in OTG mode)"
     voc_pct:
@@ -111,64 +103,16 @@ sensor:
       name: "TS_WARM (JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.)"
     bhot:
       name: "BHOT (OTG mode TS HOT temperature threshold)"
-    bcold:
-      name: "BCOLD (OTG mode TS COLD temperature threshold)"
     ico_ilim:
       name: "ICO_ILIM (Input Current Limit obtained from ICO or ILIM_HIZ pin setting)"
-    iindpm_stat:
-      name: "IINDPM_STAT (IINDPM status (forward mode) or IOTG status (OTG mode))"
-    vindpm_stat:
-      name: "VINDPM_STAT (VINDPM status (forward mode) or VOTG status (OTG mode))"
-    wd_stat:
-      name: "WD_STAT (Watchdog timer status)"
-    pg_stat:
-      name: "PG_STAT (Power good status)"
-    ac2_present_stat:
-      name: "AC2_PRESENT_STAT (VAC2 present status)"
-    ac1_present_stat:
-      name: "AC1_PRESENT_STAT (VAC1 present status)"
-    vbus_present_stat:
-      name: "VBUS_PRESENT_STAT (VBUS present status)"
     chg_stat:
       name: "CHG_STAT (Charge Status bits)"
     vbus_stat:
       name: "VBUS_STAT (VBUS status bits)"
     ico_stat:
       name: "ICO_STAT (Input Current Optimizer (ICO) status)"
-    treg_stat:
-      name: "TREG_STAT (IC thermal regulation status)"
-    dpdm_stat:
-      name: "DPDM_STAT (D+/D- detection status)"
-    vbat_present_stat:
-      name: "VBAT_PRESENT_STAT (Battery present status)"
-    acrb2_stat:
-      name: "ACRB2_STAT (The ACFET2-RBFET2 status)"
-    acrb1_stat:
-      name: "ACRB1_STAT (The ACFET1-RBFET1 status)"
-    vsys_stat:
-      name: "VSYS_STAT (VSYS Regulation Status)"
-    chg_tmr_stat:
-      name: "CHG_TMR_STAT (Fast charge timer status)"
-    trichg_tmr_stat:
-      name: "TRICHG_TMR_STAT (Trickle charge timer status)"
-    prechg_tmr_stat:
-      name: "PRECHG_TMR_STAT (Pre-charge timer status)"
-    vbatotg_low_stat:
-      name: "VBATOTG_LOW_STAT (The battery voltage is too low to enable OTG mode)"
-    ts_cold_stat:
-      name: "TS_COLD_STAT (The TS temperature is in the cold range)"
-    ts_cool_stat:
-      name: "TS_COOL_STAT (The TS temperature is in the cool range)"
-    ts_warm_stat:
-      name: "TS_WARM_STAT (The TS temperature is in the warm range)"
-    ts_hot_stat:
-      name: "TS_HOT_STAT (The TS temperature is in the hot range)"
-    adc_rate:
-      name: "ADC_RATE (ADC conversion rate)"
     adc_sample:
       name: "ADC_SAMPLE (ADC sample speed)"
-    adc_avg:
-      name: "ADC_AVG (ADC averaging)"
     ibus_adc:
       name: "IBUS_ADC (IBUS ADC reading)"
     ibat_adc:
