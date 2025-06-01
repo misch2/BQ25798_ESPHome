@@ -7,3 +7,7 @@ jinja2:
 	@echo "--------------------------------"
 	@echo "All jinja2 templates have been generated."
 	@echo "--------------------------------"
+
+esphome_demo: jinja2
+	esphome compile demo.yaml
+

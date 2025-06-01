@@ -1,5 +1,5 @@
 esphome:
-  name: test
+  name: demo
   on_boot:
     priority: -100
     then:
