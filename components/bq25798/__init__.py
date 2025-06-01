@@ -29,7 +29,7 @@ async def to_code(config):
     cg.add_library(
         name="BQ25798",
         repository="https://github.com/misch2/BQ25798_Library",
-        version=None,
+        version="1.4.8",
     )
 
     var = cg.new_Pvariable(config[CONF_ID])
