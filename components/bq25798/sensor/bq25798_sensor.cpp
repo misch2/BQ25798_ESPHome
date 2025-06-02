@@ -1566,7 +1566,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_iindpm_flag_->publish_state(NAN);
     } else {
-      this->sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag_enum_int());
+      this->sensor_iindpm_flag_->publish_state(this->parent_->get_iindpm_flag_flag());
     }
   }
   // VINDPM_FLAG - VINDPM / VOTG Flag
@@ -1574,7 +1574,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vindpm_flag_->publish_state(NAN);
     } else {
-      this->sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag_enum_int());
+      this->sensor_vindpm_flag_->publish_state(this->parent_->get_vindpm_flag_flag());
     }
   }
   // WD_FLAG - I2C watchdog timer flag
@@ -1582,7 +1582,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_wd_flag_->publish_state(NAN);
     } else {
-      this->sensor_wd_flag_->publish_state(this->parent_->get_wd_flag_enum_int());
+      this->sensor_wd_flag_->publish_state(this->parent_->get_wd_flag_flag());
     }
   }
   // POORSRC_FLAG - Poor source detection flag
@@ -1590,7 +1590,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_poorsrc_flag_->publish_state(NAN);
     } else {
-      this->sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag_enum_int());
+      this->sensor_poorsrc_flag_->publish_state(this->parent_->get_poorsrc_flag_flag());
     }
   }
   // PG_FLAG - Poor source detection flag
@@ -1598,7 +1598,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_pg_flag_->publish_state(NAN);
     } else {
-      this->sensor_pg_flag_->publish_state(this->parent_->get_pg_flag_enum_int());
+      this->sensor_pg_flag_->publish_state(this->parent_->get_pg_flag_flag());
     }
   }
   // AC2_PRESENT_FLAG - VAC2 present flag
@@ -1606,7 +1606,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ac2_present_flag_->publish_state(NAN);
     } else {
-      this->sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag_enum_int());
+      this->sensor_ac2_present_flag_->publish_state(this->parent_->get_ac2_present_flag_flag());
     }
   }
   // AC1_PRESENT_FLAG - VAC1 present flag
@@ -1614,7 +1614,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ac1_present_flag_->publish_state(NAN);
     } else {
-      this->sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag_enum_int());
+      this->sensor_ac1_present_flag_->publish_state(this->parent_->get_ac1_present_flag_flag());
     }
   }
   // VBUS_PRESENT_FLAG - VBUS present flag
@@ -1622,7 +1622,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_present_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag_enum_int());
+      this->sensor_vbus_present_flag_->publish_state(this->parent_->get_vbus_present_flag_flag());
     }
   }
   // CHG_FLAG - Charge status flag
@@ -1630,7 +1630,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_chg_flag_->publish_state(NAN);
     } else {
-      this->sensor_chg_flag_->publish_state(this->parent_->get_chg_flag_enum_int());
+      this->sensor_chg_flag_->publish_state(this->parent_->get_chg_flag_flag());
     }
   }
   // ICO_FLAG - ICO status flag
@@ -1638,7 +1638,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ico_flag_->publish_state(NAN);
     } else {
-      this->sensor_ico_flag_->publish_state(this->parent_->get_ico_flag_enum_int());
+      this->sensor_ico_flag_->publish_state(this->parent_->get_ico_flag_flag());
     }
   }
   // VBUS_FLAG - VBUS status flag
@@ -1646,7 +1646,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag_enum_int());
+      this->sensor_vbus_flag_->publish_state(this->parent_->get_vbus_flag_flag());
     }
   }
   // TREG_FLAG - IC thermal regulation flag
@@ -1654,7 +1654,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_treg_flag_->publish_state(NAN);
     } else {
-      this->sensor_treg_flag_->publish_state(this->parent_->get_treg_flag_enum_int());
+      this->sensor_treg_flag_->publish_state(this->parent_->get_treg_flag_flag());
     }
   }
   // VBAT_PRESENT_FLAG - VBAT present flag
@@ -1662,7 +1662,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbat_present_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag_enum_int());
+      this->sensor_vbat_present_flag_->publish_state(this->parent_->get_vbat_present_flag_flag());
     }
   }
   // BC1_2_DONE_FLAG - BC1.2 status Flag
@@ -1670,7 +1670,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_bc1_2_done_flag_->publish_state(NAN);
     } else {
-      this->sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag_enum_int());
+      this->sensor_bc1_2_done_flag_->publish_state(this->parent_->get_bc1_2_done_flag_flag());
     }
   }
   // DPDM_DONE_FLAG - D+/D- detection is done flag.
@@ -1678,7 +1678,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dpdm_done_flag_->publish_state(NAN);
     } else {
-      this->sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag_enum_int());
+      this->sensor_dpdm_done_flag_->publish_state(this->parent_->get_dpdm_done_flag_flag());
     }
   }
   // ADC_DONE_FLAG - ADC conversion flag (only in one-shot mode)
@@ -1686,7 +1686,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_done_flag_->publish_state(NAN);
     } else {
-      this->sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag_enum_int());
+      this->sensor_adc_done_flag_->publish_state(this->parent_->get_adc_done_flag_flag());
     }
   }
   // VSYS_FLAG - VSYSMIN regulation flag
@@ -1694,7 +1694,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_flag_->publish_state(NAN);
     } else {
-      this->sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag_enum_int());
+      this->sensor_vsys_flag_->publish_state(this->parent_->get_vsys_flag_flag());
     }
   }
   // CHG_TMR_FLAG - Fast charge timer flag
@@ -1702,7 +1702,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_chg_tmr_flag_->publish_state(NAN);
     } else {
-      this->sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag_enum_int());
+      this->sensor_chg_tmr_flag_->publish_state(this->parent_->get_chg_tmr_flag_flag());
     }
   }
   // TRICHG_TMR_FLAG - Trickle charge timer flag
@@ -1710,7 +1710,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_trichg_tmr_flag_->publish_state(NAN);
     } else {
-      this->sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag_enum_int());
+      this->sensor_trichg_tmr_flag_->publish_state(this->parent_->get_trichg_tmr_flag_flag());
     }
   }
   // PRECHG_TMR_FLAG - Pre-charge timer flag
@@ -1718,7 +1718,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_prechg_tmr_flag_->publish_state(NAN);
     } else {
-      this->sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag_enum_int());
+      this->sensor_prechg_tmr_flag_->publish_state(this->parent_->get_prechg_tmr_flag_flag());
     }
   }
   // TOPOFF_TMR_FLAG - Top off timer flag
@@ -1726,7 +1726,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_topoff_tmr_flag_->publish_state(NAN);
     } else {
-      this->sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag_enum_int());
+      this->sensor_topoff_tmr_flag_->publish_state(this->parent_->get_topoff_tmr_flag_flag());
     }
   }
   // VBATOTG_LOW_FLAG - VBAT too low to enable OTG flag
@@ -1734,7 +1734,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbatotg_low_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag_enum_int());
+      this->sensor_vbatotg_low_flag_->publish_state(this->parent_->get_vbatotg_low_flag_flag());
     }
   }
   // TS_COLD_FLAG - TS cold temperature flag
@@ -1742,7 +1742,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_cold_flag_->publish_state(NAN);
     } else {
-      this->sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag_enum_int());
+      this->sensor_ts_cold_flag_->publish_state(this->parent_->get_ts_cold_flag_flag());
     }
   }
   // TS_COOL_FLAG - TS cool temperature flag
@@ -1750,7 +1750,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_cool_flag_->publish_state(NAN);
     } else {
-      this->sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag_enum_int());
+      this->sensor_ts_cool_flag_->publish_state(this->parent_->get_ts_cool_flag_flag());
     }
   }
   // TS_WARM_FLAG - TS warm temperature flag
@@ -1758,7 +1758,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_warm_flag_->publish_state(NAN);
     } else {
-      this->sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag_enum_int());
+      this->sensor_ts_warm_flag_->publish_state(this->parent_->get_ts_warm_flag_flag());
     }
   }
   // TS_HOT_FLAG - TS hot temperature flag
@@ -1766,7 +1766,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_hot_flag_->publish_state(NAN);
     } else {
-      this->sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag_enum_int());
+      this->sensor_ts_hot_flag_->publish_state(this->parent_->get_ts_hot_flag_flag());
     }
   }
   // IBAT_REG_FLAG - IBAT regulation flag
@@ -1774,7 +1774,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibat_reg_flag_->publish_state(NAN);
     } else {
-      this->sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag_enum_int());
+      this->sensor_ibat_reg_flag_->publish_state(this->parent_->get_ibat_reg_flag_flag());
     }
   }
   // VBUS_OVP_FLAG - VBUS over-voltage flag
@@ -1782,7 +1782,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag_enum_int());
+      this->sensor_vbus_ovp_flag_->publish_state(this->parent_->get_vbus_ovp_flag_flag());
     }
   }
   // VBAT_OVP_FLAG - VBAT over-voltage flag
@@ -1790,7 +1790,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbat_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag_enum_int());
+      this->sensor_vbat_ovp_flag_->publish_state(this->parent_->get_vbat_ovp_flag_flag());
     }
   }
   // IBUS_OCP_FLAG - IBUS over-current flag
@@ -1798,7 +1798,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibus_ocp_flag_->publish_state(NAN);
     } else {
-      this->sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag_enum_int());
+      this->sensor_ibus_ocp_flag_->publish_state(this->parent_->get_ibus_ocp_flag_flag());
     }
   }
   // IBAT_OCP_FLAG - IBAT over-current flag
@@ -1806,7 +1806,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibat_ocp_flag_->publish_state(NAN);
     } else {
-      this->sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag_enum_int());
+      this->sensor_ibat_ocp_flag_->publish_state(this->parent_->get_ibat_ocp_flag_flag());
     }
   }
   // CONV_OCP_FLAG - Converter over-current flag
@@ -1814,7 +1814,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_conv_ocp_flag_->publish_state(NAN);
     } else {
-      this->sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag_enum_int());
+      this->sensor_conv_ocp_flag_->publish_state(this->parent_->get_conv_ocp_flag_flag());
     }
   }
   // VAC2_OVP_FLAG - VAC2 over-voltage flag
@@ -1822,7 +1822,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac2_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag_enum_int());
+      this->sensor_vac2_ovp_flag_->publish_state(this->parent_->get_vac2_ovp_flag_flag());
     }
   }
   // VAC1_OVP_FLAG - VAC1 over-voltage flag
@@ -1830,7 +1830,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac1_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag_enum_int());
+      this->sensor_vac1_ovp_flag_->publish_state(this->parent_->get_vac1_ovp_flag_flag());
     }
   }
   // VSYS_SHORT_FLAG - VSYS short circuit flag
@@ -1838,7 +1838,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_short_flag_->publish_state(NAN);
     } else {
-      this->sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag_enum_int());
+      this->sensor_vsys_short_flag_->publish_state(this->parent_->get_vsys_short_flag_flag());
     }
   }
   // VSYS_OVP_FLAG - VSYS over-voltage flag
@@ -1846,7 +1846,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag_enum_int());
+      this->sensor_vsys_ovp_flag_->publish_state(this->parent_->get_vsys_ovp_flag_flag());
     }
   }
   // OTG_OVP_FLAG - OTG over-voltage flag
@@ -1854,7 +1854,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_otg_ovp_flag_->publish_state(NAN);
     } else {
-      this->sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag_enum_int());
+      this->sensor_otg_ovp_flag_->publish_state(this->parent_->get_otg_ovp_flag_flag());
     }
   }
   // OTG_UVP_FLAG - OTG under-voltage flag
@@ -1862,7 +1862,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_otg_uvp_flag_->publish_state(NAN);
     } else {
-      this->sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag_enum_int());
+      this->sensor_otg_uvp_flag_->publish_state(this->parent_->get_otg_uvp_flag_flag());
     }
   }
   // TSHUT_FLAG - IC thermal shutdown flag
@@ -1870,7 +1870,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_tshut_flag_->publish_state(NAN);
     } else {
-      this->sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag_enum_int());
+      this->sensor_tshut_flag_->publish_state(this->parent_->get_tshut_flag_flag());
     }
   }
   // ADC_EN - ADC enable

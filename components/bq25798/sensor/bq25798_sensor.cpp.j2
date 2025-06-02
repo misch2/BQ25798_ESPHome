@@ -42,7 +42,9 @@ void BQ25798Sensor::update() {
       this->sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_float());
 {%         elif def._is_bool %}
       this->sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool());
-{%         else %}
+{%         elif def._is_flag %}
+      this->sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_flag());
+{%         elif def._is_enum %}
       this->sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_enum_int());
 {%         endif %}
     }
