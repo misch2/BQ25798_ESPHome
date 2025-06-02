@@ -119,157 +119,126 @@ CONFIG_SCHEMA = (
                 BQ25798VbatLowvSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_CELL): select.select_schema(
                 BQ25798CellSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TRECHG): select.select_schema(
                 BQ25798TrechgSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_PRECHG_TMR): select.select_schema(
                 BQ25798PrechgTmrSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TOPOFF_TMR): select.select_schema(
                 BQ25798TopoffTmrSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_CHG_TMR): select.select_schema(
                 BQ25798ChgTmrSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_VBUS_BACKUP): select.select_schema(
                 BQ25798VbusBackupSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_VAC_OVP): select.select_schema(
                 BQ25798VacOvpSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_WATCHDOG): select.select_schema(
                 BQ25798WatchdogSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_SDRV_CTRL): select.select_schema(
                 BQ25798SdrvCtrlSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_SDRV_DLY): select.select_schema(
                 BQ25798SdrvDlySelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_WKUP_DLY): select.select_schema(
                 BQ25798WkupDlySelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_PWM_FREQ): select.select_schema(
                 BQ25798PwmFreqSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_IBAT_REG): select.select_schema(
                 BQ25798IbatRegSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_VOC_PCT): select.select_schema(
                 BQ25798VocPctSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_VOC_DLY): select.select_schema(
                 BQ25798VocDlySelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_VOC_RATE): select.select_schema(
                 BQ25798VocRateSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TREG): select.select_schema(
                 BQ25798TregSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TSHUT): select.select_schema(
                 BQ25798TshutSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_JEITA_VSET): select.select_schema(
                 BQ25798JeitaVsetSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_JEITA_ISETH): select.select_schema(
                 BQ25798JeitaIsethSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_JEITA_ISETC): select.select_schema(
                 BQ25798JeitaIsetcSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TS_COOL): select.select_schema(
                 BQ25798TsCoolSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_TS_WARM): select.select_schema(
                 BQ25798TsWarmSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_BHOT): select.select_schema(
                 BQ25798BhotSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_BCOLD): select.select_schema(
                 BQ25798BcoldSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_ADC_RATE): select.select_schema(
                 BQ25798AdcRateSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_ADC_SAMPLE): select.select_schema(
                 BQ25798AdcSampleSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_ADC_AVG): select.select_schema(
                 BQ25798AdcAvgSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_DPLUS_DAC): select.select_schema(
                 BQ25798DplusDacSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
             cv.Optional(CONF_BQ25798_DMINUS_DAC): select.select_schema(
                 BQ25798DminusDacSelect,
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
-            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
     })
     .extend(cv.polling_component_schema("1s"))
 )
