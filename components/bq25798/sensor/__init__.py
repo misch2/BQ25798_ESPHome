@@ -30,6 +30,8 @@ CONF_BQ25798_VINDPM = "vindpm"
 CONF_BQ25798_IINDPM = "iindpm"
 CONF_BQ25798_VBAT_LOWV = "vbat_lowv"
 CONF_BQ25798_IPRECHG = "iprechg"
+CONF_BQ25798_REG_RST = "reg_rst"
+CONF_BQ25798_STOP_WD_CHG = "stop_wd_chg"
 CONF_BQ25798_ITERM = "iterm"
 CONF_BQ25798_CELL = "cell"
 CONF_BQ25798_TRECHG = "trechg"
@@ -37,28 +39,138 @@ CONF_BQ25798_VRECHG = "vrechg"
 CONF_BQ25798_VOTG = "votg"
 CONF_BQ25798_IOTG = "iotg"
 CONF_BQ25798_TOPOFF_TMR = "topoff_tmr"
+CONF_BQ25798_EN_TRICHG_TMR = "en_trichg_tmr"
+CONF_BQ25798_EN_PRECHG_TMR = "en_prechg_tmr"
+CONF_BQ25798_EN_CHG_TMR = "en_chg_tmr"
 CONF_BQ25798_CHG_TMR = "chg_tmr"
+CONF_BQ25798_TMR2X_EN = "tmr2x_en"
+CONF_BQ25798_EN_AUTO_IBATDIS = "en_auto_ibatdis"
+CONF_BQ25798_FORCE_IBATDIS = "force_ibatdis"
+CONF_BQ25798_EN_CHG = "en_chg"
+CONF_BQ25798_EN_ICO = "en_ico"
+CONF_BQ25798_FORCE_ICO = "force_ico"
+CONF_BQ25798_EN_HIZ = "en_hiz"
+CONF_BQ25798_EN_TERM = "en_term"
+CONF_BQ25798_EN_BACKUP = "en_backup"
 CONF_BQ25798_VBUS_BACKUP = "vbus_backup"
 CONF_BQ25798_VAC_OVP = "vac_ovp"
+CONF_BQ25798_WD_RST = "wd_rst"
 CONF_BQ25798_WATCHDOG = "watchdog"
+CONF_BQ25798_FORCE_INDET = "force_indet"
+CONF_BQ25798_AUTO_INDET_EN = "auto_indet_en"
+CONF_BQ25798_EN_12V = "en_12v"
+CONF_BQ25798_EN_9V = "en_9v"
+CONF_BQ25798_HVDCP_EN = "hvdcp_en"
 CONF_BQ25798_SDRV_CTRL = "sdrv_ctrl"
+CONF_BQ25798_DIS_ACDRV = "dis_acdrv"
+CONF_BQ25798_EN_OTG = "en_otg"
+CONF_BQ25798_PFM_OTG_DIS = "pfm_otg_dis"
+CONF_BQ25798_PFM_FWD_DIS = "pfm_fwd_dis"
+CONF_BQ25798_DIS_LDO = "dis_ldo"
+CONF_BQ25798_DIS_OTG_OOA = "dis_otg_ooa"
+CONF_BQ25798_DIS_FWD_OOA = "dis_fwd_ooa"
+CONF_BQ25798_EN_ACDRV2 = "en_acdrv2"
+CONF_BQ25798_EN_ACDRV1 = "en_acdrv1"
+CONF_BQ25798_DIS_STAT = "dis_stat"
+CONF_BQ25798_DIS_VSYS_SHORT = "dis_vsys_short"
+CONF_BQ25798_DIS_VOTG_UVP = "dis_votg_uvp"
+CONF_BQ25798_FORCE_VINDPM_DET = "force_vindpm_det"
+CONF_BQ25798_EN_IBUS_OCP = "en_ibus_ocp"
+CONF_BQ25798_SFET_PRESENT = "sfet_present"
+CONF_BQ25798_EN_IBAT = "en_ibat"
 CONF_BQ25798_IBAT_REG = "ibat_reg"
+CONF_BQ25798_EN_IINDPM = "en_iindpm"
+CONF_BQ25798_EN_EXTILIM = "en_extilim"
+CONF_BQ25798_EN_BATOC = "en_batoc"
 CONF_BQ25798_VOC_PCT = "voc_pct"
 CONF_BQ25798_VOC_DLY = "voc_dly"
 CONF_BQ25798_VOC_RATE = "voc_rate"
+CONF_BQ25798_EN_MPPT = "en_mppt"
 CONF_BQ25798_TREG = "treg"
 CONF_BQ25798_TSHUT = "tshut"
+CONF_BQ25798_VBUS_PD_EN = "vbus_pd_en"
+CONF_BQ25798_VAC1_PD_EN = "vac1_pd_en"
+CONF_BQ25798_VAC2_PD_EN = "vac2_pd_en"
+CONF_BQ25798_BKUP_ACFET1_ON = "bkup_acfet1_on"
 CONF_BQ25798_JEITA_VSET = "jeita_vset"
 CONF_BQ25798_JEITA_ISETH = "jeita_iseth"
 CONF_BQ25798_JEITA_ISETC = "jeita_isetc"
 CONF_BQ25798_TS_COOL = "ts_cool"
 CONF_BQ25798_TS_WARM = "ts_warm"
 CONF_BQ25798_BHOT = "bhot"
+CONF_BQ25798_TS_IGNORE = "ts_ignore"
 CONF_BQ25798_ICO_ILIM = "ico_ilim"
 CONF_BQ25798_CHG_STAT = "chg_stat"
 CONF_BQ25798_VBUS_STAT = "vbus_stat"
+CONF_BQ25798_BC12_DONE_STAT = "bc12_done_stat"
 CONF_BQ25798_ICO_STAT = "ico_stat"
+CONF_BQ25798_ADC_DONE_STAT = "adc_done_stat"
+CONF_BQ25798_IBAT_REG_STAT = "ibat_reg_stat"
+CONF_BQ25798_VBUS_OVP_STAT = "vbus_ovp_stat"
+CONF_BQ25798_VBAT_OVP_STAT = "vbat_ovp_stat"
+CONF_BQ25798_IBUS_OCP_STAT = "ibus_ocp_stat"
+CONF_BQ25798_IBAT_OCP_STAT = "ibat_ocp_stat"
+CONF_BQ25798_CONV_OCP_STAT = "conv_ocp_stat"
+CONF_BQ25798_VAC2_OVP_STAT = "vac2_ovp_stat"
+CONF_BQ25798_VAC1_OVP_STAT = "vac1_ovp_stat"
+CONF_BQ25798_VSYS_SHORT_STAT = "vsys_short_stat"
+CONF_BQ25798_VSYS_OVP_STAT = "vsys_ovp_stat"
+CONF_BQ25798_OTG_OVP_STAT = "otg_ovp_stat"
+CONF_BQ25798_OTG_UVP_STAT = "otg_uvp_stat"
+CONF_BQ25798_TSHUT_STAT = "tshut_stat"
+CONF_BQ25798_IINDPM_FLAG = "iindpm_flag"
+CONF_BQ25798_VINDPM_FLAG = "vindpm_flag"
+CONF_BQ25798_WD_FLAG = "wd_flag"
+CONF_BQ25798_POORSRC_FLAG = "poorsrc_flag"
+CONF_BQ25798_PG_FLAG = "pg_flag"
+CONF_BQ25798_AC2_PRESENT_FLAG = "ac2_present_flag"
+CONF_BQ25798_AC1_PRESENT_FLAG = "ac1_present_flag"
+CONF_BQ25798_VBUS_PRESENT_FLAG = "vbus_present_flag"
+CONF_BQ25798_CHG_FLAG = "chg_flag"
+CONF_BQ25798_ICO_FLAG = "ico_flag"
+CONF_BQ25798_VBUS_FLAG = "vbus_flag"
+CONF_BQ25798_TREG_FLAG = "treg_flag"
+CONF_BQ25798_VBAT_PRESENT_FLAG = "vbat_present_flag"
+CONF_BQ25798_BC1_2_DONE_FLAG = "bc1_2_done_flag"
+CONF_BQ25798_DPDM_DONE_FLAG = "dpdm_done_flag"
+CONF_BQ25798_ADC_DONE_FLAG = "adc_done_flag"
+CONF_BQ25798_VSYS_FLAG = "vsys_flag"
+CONF_BQ25798_CHG_TMR_FLAG = "chg_tmr_flag"
+CONF_BQ25798_TRICHG_TMR_FLAG = "trichg_tmr_flag"
+CONF_BQ25798_PRECHG_TMR_FLAG = "prechg_tmr_flag"
+CONF_BQ25798_TOPOFF_TMR_FLAG = "topoff_tmr_flag"
+CONF_BQ25798_VBATOTG_LOW_FLAG = "vbatotg_low_flag"
+CONF_BQ25798_TS_COLD_FLAG = "ts_cold_flag"
+CONF_BQ25798_TS_COOL_FLAG = "ts_cool_flag"
+CONF_BQ25798_TS_WARM_FLAG = "ts_warm_flag"
+CONF_BQ25798_TS_HOT_FLAG = "ts_hot_flag"
+CONF_BQ25798_IBAT_REG_FLAG = "ibat_reg_flag"
+CONF_BQ25798_VBUS_OVP_FLAG = "vbus_ovp_flag"
+CONF_BQ25798_VBAT_OVP_FLAG = "vbat_ovp_flag"
+CONF_BQ25798_IBUS_OCP_FLAG = "ibus_ocp_flag"
+CONF_BQ25798_IBAT_OCP_FLAG = "ibat_ocp_flag"
+CONF_BQ25798_CONV_OCP_FLAG = "conv_ocp_flag"
+CONF_BQ25798_VAC2_OVP_FLAG = "vac2_ovp_flag"
+CONF_BQ25798_VAC1_OVP_FLAG = "vac1_ovp_flag"
+CONF_BQ25798_VSYS_SHORT_FLAG = "vsys_short_flag"
+CONF_BQ25798_VSYS_OVP_FLAG = "vsys_ovp_flag"
+CONF_BQ25798_OTG_OVP_FLAG = "otg_ovp_flag"
+CONF_BQ25798_OTG_UVP_FLAG = "otg_uvp_flag"
+CONF_BQ25798_TSHUT_FLAG = "tshut_flag"
+CONF_BQ25798_ADC_EN = "adc_en"
 CONF_BQ25798_ADC_SAMPLE = "adc_sample"
+CONF_BQ25798_ADC_AVG_INIT = "adc_avg_init"
+CONF_BQ25798_IBUS_ADC_DIS = "ibus_adc_dis"
+CONF_BQ25798_IBAT_ADC_DIS = "ibat_adc_dis"
+CONF_BQ25798_VBUS_ADC_DIS = "vbus_adc_dis"
+CONF_BQ25798_VBAT_ADC_DIS = "vbat_adc_dis"
+CONF_BQ25798_VSYS_ADC_DIS = "vsys_adc_dis"
+CONF_BQ25798_TS_ADC_DIS = "ts_adc_dis"
+CONF_BQ25798_TDIE_ADC_DIS = "tdie_adc_dis"
+CONF_BQ25798_DPLUS_ADC_DIS = "dplus_adc_dis"
+CONF_BQ25798_DMINUS_ADC_DIS = "dminus_adc_dis"
+CONF_BQ25798_VAC2_ADC_DIS = "vac2_adc_dis"
+CONF_BQ25798_VAC1_ADC_DIS = "vac1_adc_dis"
 CONF_BQ25798_IBUS_ADC = "ibus_adc"
 CONF_BQ25798_IBAT_ADC = "ibat_adc"
 CONF_BQ25798_VBUS_ADC = "vbus_adc"
@@ -451,6 +563,12 @@ CONFIG_SCHEMA = (
                 accuracy_decimals=0,
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_REG_RST): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_STOP_WD_CHG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_ITERM): sensor.sensor_schema(
                 unit_of_measurement=UNIT_MILLIAMP,
                 device_class=DEVICE_CLASS_CURRENT,
@@ -484,7 +602,43 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_TOPOFF_TMR): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_EN_TRICHG_TMR): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_PRECHG_TMR): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_CHG_TMR): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_CHG_TMR): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TMR2X_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_AUTO_IBATDIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_IBATDIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_CHG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_ICO): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_ICO): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_HIZ): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_TERM): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_BACKUP): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VBUS_BACKUP): sensor.sensor_schema(
@@ -493,13 +647,88 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_VAC_OVP): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_WD_RST): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_WATCHDOG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_INDET): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_AUTO_INDET_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_12V): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_9V): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_HVDCP_EN): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_SDRV_CTRL): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_DIS_ACDRV): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_OTG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_PFM_OTG_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_PFM_FWD_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_LDO): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_OTG_OOA): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_FWD_OOA): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_ACDRV2): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_ACDRV1): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_VSYS_SHORT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DIS_VOTG_UVP): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_FORCE_VINDPM_DET): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_IBUS_OCP): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_SFET_PRESENT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_IBAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_IBAT_REG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_IINDPM): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_EXTILIM): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_EN_BATOC): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_VOC_PCT): sensor.sensor_schema(
@@ -511,10 +740,25 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_VOC_RATE): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_EN_MPPT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_TREG): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_TSHUT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_PD_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_PD_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_PD_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_BKUP_ACFET1_ON): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_JEITA_VSET): sensor.sensor_schema(
@@ -535,6 +779,9 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_BHOT): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_TS_IGNORE): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_ICO_ILIM): sensor.sensor_schema(
                 unit_of_measurement=UNIT_MILLIAMP,
                 device_class=DEVICE_CLASS_CURRENT,
@@ -547,10 +794,211 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_BQ25798_VBUS_STAT): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_BC12_DONE_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_ICO_STAT): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
+            cv.Optional(CONF_BQ25798_ADC_DONE_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_REG_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_OCP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_OCP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_CONV_OCP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_SHORT_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_OTG_OVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_OTG_UVP_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TSHUT_STAT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IINDPM_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VINDPM_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_WD_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_POORSRC_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_PG_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_AC2_PRESENT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_AC1_PRESENT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_PRESENT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_CHG_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ICO_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TREG_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_PRESENT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_BC1_2_DONE_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DPDM_DONE_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ADC_DONE_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_CHG_TMR_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TRICHG_TMR_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_PRECHG_TMR_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TOPOFF_TMR_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBATOTG_LOW_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TS_COLD_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TS_COOL_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TS_WARM_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TS_HOT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_REG_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_OCP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_OCP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_CONV_OCP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_SHORT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_OTG_OVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_OTG_UVP_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TSHUT_FLAG): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ADC_EN): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
             cv.Optional(CONF_BQ25798_ADC_SAMPLE): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_ADC_AVG_INIT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBUS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_IBAT_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBUS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VBAT_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VSYS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_TDIE_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DPLUS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_DMINUS_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC2_ADC_DIS): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional(CONF_BQ25798_VAC1_ADC_DIS): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
             ),
             cv.Optional(CONF_BQ25798_IBUS_ADC): sensor.sensor_schema(
@@ -661,6 +1109,12 @@ async def to_code(config):
     if iprechg := config.get(CONF_BQ25798_IPRECHG):
         sens = await sensor.new_sensor(iprechg)
         cg.add(var.assign_sensor_iprechg(sens))
+    if reg_rst := config.get(CONF_BQ25798_REG_RST):
+        sens = await sensor.new_sensor(reg_rst)
+        cg.add(var.assign_sensor_reg_rst(sens))
+    if stop_wd_chg := config.get(CONF_BQ25798_STOP_WD_CHG):
+        sens = await sensor.new_sensor(stop_wd_chg)
+        cg.add(var.assign_sensor_stop_wd_chg(sens))
     if iterm := config.get(CONF_BQ25798_ITERM):
         sens = await sensor.new_sensor(iterm)
         cg.add(var.assign_sensor_iterm(sens))
@@ -682,24 +1136,135 @@ async def to_code(config):
     if topoff_tmr := config.get(CONF_BQ25798_TOPOFF_TMR):
         sens = await sensor.new_sensor(topoff_tmr)
         cg.add(var.assign_sensor_topoff_tmr(sens))
+    if en_trichg_tmr := config.get(CONF_BQ25798_EN_TRICHG_TMR):
+        sens = await sensor.new_sensor(en_trichg_tmr)
+        cg.add(var.assign_sensor_en_trichg_tmr(sens))
+    if en_prechg_tmr := config.get(CONF_BQ25798_EN_PRECHG_TMR):
+        sens = await sensor.new_sensor(en_prechg_tmr)
+        cg.add(var.assign_sensor_en_prechg_tmr(sens))
+    if en_chg_tmr := config.get(CONF_BQ25798_EN_CHG_TMR):
+        sens = await sensor.new_sensor(en_chg_tmr)
+        cg.add(var.assign_sensor_en_chg_tmr(sens))
     if chg_tmr := config.get(CONF_BQ25798_CHG_TMR):
         sens = await sensor.new_sensor(chg_tmr)
         cg.add(var.assign_sensor_chg_tmr(sens))
+    if tmr2x_en := config.get(CONF_BQ25798_TMR2X_EN):
+        sens = await sensor.new_sensor(tmr2x_en)
+        cg.add(var.assign_sensor_tmr2x_en(sens))
+    if en_auto_ibatdis := config.get(CONF_BQ25798_EN_AUTO_IBATDIS):
+        sens = await sensor.new_sensor(en_auto_ibatdis)
+        cg.add(var.assign_sensor_en_auto_ibatdis(sens))
+    if force_ibatdis := config.get(CONF_BQ25798_FORCE_IBATDIS):
+        sens = await sensor.new_sensor(force_ibatdis)
+        cg.add(var.assign_sensor_force_ibatdis(sens))
+    if en_chg := config.get(CONF_BQ25798_EN_CHG):
+        sens = await sensor.new_sensor(en_chg)
+        cg.add(var.assign_sensor_en_chg(sens))
+    if en_ico := config.get(CONF_BQ25798_EN_ICO):
+        sens = await sensor.new_sensor(en_ico)
+        cg.add(var.assign_sensor_en_ico(sens))
+    if force_ico := config.get(CONF_BQ25798_FORCE_ICO):
+        sens = await sensor.new_sensor(force_ico)
+        cg.add(var.assign_sensor_force_ico(sens))
+    if en_hiz := config.get(CONF_BQ25798_EN_HIZ):
+        sens = await sensor.new_sensor(en_hiz)
+        cg.add(var.assign_sensor_en_hiz(sens))
+    if en_term := config.get(CONF_BQ25798_EN_TERM):
+        sens = await sensor.new_sensor(en_term)
+        cg.add(var.assign_sensor_en_term(sens))
+    if en_backup := config.get(CONF_BQ25798_EN_BACKUP):
+        sens = await sensor.new_sensor(en_backup)
+        cg.add(var.assign_sensor_en_backup(sens))
     if vbus_backup := config.get(CONF_BQ25798_VBUS_BACKUP):
         sens = await sensor.new_sensor(vbus_backup)
         cg.add(var.assign_sensor_vbus_backup(sens))
     if vac_ovp := config.get(CONF_BQ25798_VAC_OVP):
         sens = await sensor.new_sensor(vac_ovp)
         cg.add(var.assign_sensor_vac_ovp(sens))
+    if wd_rst := config.get(CONF_BQ25798_WD_RST):
+        sens = await sensor.new_sensor(wd_rst)
+        cg.add(var.assign_sensor_wd_rst(sens))
     if watchdog := config.get(CONF_BQ25798_WATCHDOG):
         sens = await sensor.new_sensor(watchdog)
         cg.add(var.assign_sensor_watchdog(sens))
+    if force_indet := config.get(CONF_BQ25798_FORCE_INDET):
+        sens = await sensor.new_sensor(force_indet)
+        cg.add(var.assign_sensor_force_indet(sens))
+    if auto_indet_en := config.get(CONF_BQ25798_AUTO_INDET_EN):
+        sens = await sensor.new_sensor(auto_indet_en)
+        cg.add(var.assign_sensor_auto_indet_en(sens))
+    if en_12v := config.get(CONF_BQ25798_EN_12V):
+        sens = await sensor.new_sensor(en_12v)
+        cg.add(var.assign_sensor_en_12v(sens))
+    if en_9v := config.get(CONF_BQ25798_EN_9V):
+        sens = await sensor.new_sensor(en_9v)
+        cg.add(var.assign_sensor_en_9v(sens))
+    if hvdcp_en := config.get(CONF_BQ25798_HVDCP_EN):
+        sens = await sensor.new_sensor(hvdcp_en)
+        cg.add(var.assign_sensor_hvdcp_en(sens))
     if sdrv_ctrl := config.get(CONF_BQ25798_SDRV_CTRL):
         sens = await sensor.new_sensor(sdrv_ctrl)
         cg.add(var.assign_sensor_sdrv_ctrl(sens))
+    if dis_acdrv := config.get(CONF_BQ25798_DIS_ACDRV):
+        sens = await sensor.new_sensor(dis_acdrv)
+        cg.add(var.assign_sensor_dis_acdrv(sens))
+    if en_otg := config.get(CONF_BQ25798_EN_OTG):
+        sens = await sensor.new_sensor(en_otg)
+        cg.add(var.assign_sensor_en_otg(sens))
+    if pfm_otg_dis := config.get(CONF_BQ25798_PFM_OTG_DIS):
+        sens = await sensor.new_sensor(pfm_otg_dis)
+        cg.add(var.assign_sensor_pfm_otg_dis(sens))
+    if pfm_fwd_dis := config.get(CONF_BQ25798_PFM_FWD_DIS):
+        sens = await sensor.new_sensor(pfm_fwd_dis)
+        cg.add(var.assign_sensor_pfm_fwd_dis(sens))
+    if dis_ldo := config.get(CONF_BQ25798_DIS_LDO):
+        sens = await sensor.new_sensor(dis_ldo)
+        cg.add(var.assign_sensor_dis_ldo(sens))
+    if dis_otg_ooa := config.get(CONF_BQ25798_DIS_OTG_OOA):
+        sens = await sensor.new_sensor(dis_otg_ooa)
+        cg.add(var.assign_sensor_dis_otg_ooa(sens))
+    if dis_fwd_ooa := config.get(CONF_BQ25798_DIS_FWD_OOA):
+        sens = await sensor.new_sensor(dis_fwd_ooa)
+        cg.add(var.assign_sensor_dis_fwd_ooa(sens))
+    if en_acdrv2 := config.get(CONF_BQ25798_EN_ACDRV2):
+        sens = await sensor.new_sensor(en_acdrv2)
+        cg.add(var.assign_sensor_en_acdrv2(sens))
+    if en_acdrv1 := config.get(CONF_BQ25798_EN_ACDRV1):
+        sens = await sensor.new_sensor(en_acdrv1)
+        cg.add(var.assign_sensor_en_acdrv1(sens))
+    if dis_stat := config.get(CONF_BQ25798_DIS_STAT):
+        sens = await sensor.new_sensor(dis_stat)
+        cg.add(var.assign_sensor_dis_stat(sens))
+    if dis_vsys_short := config.get(CONF_BQ25798_DIS_VSYS_SHORT):
+        sens = await sensor.new_sensor(dis_vsys_short)
+        cg.add(var.assign_sensor_dis_vsys_short(sens))
+    if dis_votg_uvp := config.get(CONF_BQ25798_DIS_VOTG_UVP):
+        sens = await sensor.new_sensor(dis_votg_uvp)
+        cg.add(var.assign_sensor_dis_votg_uvp(sens))
+    if force_vindpm_det := config.get(CONF_BQ25798_FORCE_VINDPM_DET):
+        sens = await sensor.new_sensor(force_vindpm_det)
+        cg.add(var.assign_sensor_force_vindpm_det(sens))
+    if en_ibus_ocp := config.get(CONF_BQ25798_EN_IBUS_OCP):
+        sens = await sensor.new_sensor(en_ibus_ocp)
+        cg.add(var.assign_sensor_en_ibus_ocp(sens))
+    if sfet_present := config.get(CONF_BQ25798_SFET_PRESENT):
+        sens = await sensor.new_sensor(sfet_present)
+        cg.add(var.assign_sensor_sfet_present(sens))
+    if en_ibat := config.get(CONF_BQ25798_EN_IBAT):
+        sens = await sensor.new_sensor(en_ibat)
+        cg.add(var.assign_sensor_en_ibat(sens))
     if ibat_reg := config.get(CONF_BQ25798_IBAT_REG):
         sens = await sensor.new_sensor(ibat_reg)
         cg.add(var.assign_sensor_ibat_reg(sens))
+    if en_iindpm := config.get(CONF_BQ25798_EN_IINDPM):
+        sens = await sensor.new_sensor(en_iindpm)
+        cg.add(var.assign_sensor_en_iindpm(sens))
+    if en_extilim := config.get(CONF_BQ25798_EN_EXTILIM):
+        sens = await sensor.new_sensor(en_extilim)
+        cg.add(var.assign_sensor_en_extilim(sens))
+    if en_batoc := config.get(CONF_BQ25798_EN_BATOC):
+        sens = await sensor.new_sensor(en_batoc)
+        cg.add(var.assign_sensor_en_batoc(sens))
     if voc_pct := config.get(CONF_BQ25798_VOC_PCT):
         sens = await sensor.new_sensor(voc_pct)
         cg.add(var.assign_sensor_voc_pct(sens))
@@ -709,12 +1274,27 @@ async def to_code(config):
     if voc_rate := config.get(CONF_BQ25798_VOC_RATE):
         sens = await sensor.new_sensor(voc_rate)
         cg.add(var.assign_sensor_voc_rate(sens))
+    if en_mppt := config.get(CONF_BQ25798_EN_MPPT):
+        sens = await sensor.new_sensor(en_mppt)
+        cg.add(var.assign_sensor_en_mppt(sens))
     if treg := config.get(CONF_BQ25798_TREG):
         sens = await sensor.new_sensor(treg)
         cg.add(var.assign_sensor_treg(sens))
     if tshut := config.get(CONF_BQ25798_TSHUT):
         sens = await sensor.new_sensor(tshut)
         cg.add(var.assign_sensor_tshut(sens))
+    if vbus_pd_en := config.get(CONF_BQ25798_VBUS_PD_EN):
+        sens = await sensor.new_sensor(vbus_pd_en)
+        cg.add(var.assign_sensor_vbus_pd_en(sens))
+    if vac1_pd_en := config.get(CONF_BQ25798_VAC1_PD_EN):
+        sens = await sensor.new_sensor(vac1_pd_en)
+        cg.add(var.assign_sensor_vac1_pd_en(sens))
+    if vac2_pd_en := config.get(CONF_BQ25798_VAC2_PD_EN):
+        sens = await sensor.new_sensor(vac2_pd_en)
+        cg.add(var.assign_sensor_vac2_pd_en(sens))
+    if bkup_acfet1_on := config.get(CONF_BQ25798_BKUP_ACFET1_ON):
+        sens = await sensor.new_sensor(bkup_acfet1_on)
+        cg.add(var.assign_sensor_bkup_acfet1_on(sens))
     if jeita_vset := config.get(CONF_BQ25798_JEITA_VSET):
         sens = await sensor.new_sensor(jeita_vset)
         cg.add(var.assign_sensor_jeita_vset(sens))
@@ -733,6 +1313,9 @@ async def to_code(config):
     if bhot := config.get(CONF_BQ25798_BHOT):
         sens = await sensor.new_sensor(bhot)
         cg.add(var.assign_sensor_bhot(sens))
+    if ts_ignore := config.get(CONF_BQ25798_TS_IGNORE):
+        sens = await sensor.new_sensor(ts_ignore)
+        cg.add(var.assign_sensor_ts_ignore(sens))
     if ico_ilim := config.get(CONF_BQ25798_ICO_ILIM):
         sens = await sensor.new_sensor(ico_ilim)
         cg.add(var.assign_sensor_ico_ilim(sens))
@@ -742,12 +1325,213 @@ async def to_code(config):
     if vbus_stat := config.get(CONF_BQ25798_VBUS_STAT):
         sens = await sensor.new_sensor(vbus_stat)
         cg.add(var.assign_sensor_vbus_stat(sens))
+    if bc12_done_stat := config.get(CONF_BQ25798_BC12_DONE_STAT):
+        sens = await sensor.new_sensor(bc12_done_stat)
+        cg.add(var.assign_sensor_bc12_done_stat(sens))
     if ico_stat := config.get(CONF_BQ25798_ICO_STAT):
         sens = await sensor.new_sensor(ico_stat)
         cg.add(var.assign_sensor_ico_stat(sens))
+    if adc_done_stat := config.get(CONF_BQ25798_ADC_DONE_STAT):
+        sens = await sensor.new_sensor(adc_done_stat)
+        cg.add(var.assign_sensor_adc_done_stat(sens))
+    if ibat_reg_stat := config.get(CONF_BQ25798_IBAT_REG_STAT):
+        sens = await sensor.new_sensor(ibat_reg_stat)
+        cg.add(var.assign_sensor_ibat_reg_stat(sens))
+    if vbus_ovp_stat := config.get(CONF_BQ25798_VBUS_OVP_STAT):
+        sens = await sensor.new_sensor(vbus_ovp_stat)
+        cg.add(var.assign_sensor_vbus_ovp_stat(sens))
+    if vbat_ovp_stat := config.get(CONF_BQ25798_VBAT_OVP_STAT):
+        sens = await sensor.new_sensor(vbat_ovp_stat)
+        cg.add(var.assign_sensor_vbat_ovp_stat(sens))
+    if ibus_ocp_stat := config.get(CONF_BQ25798_IBUS_OCP_STAT):
+        sens = await sensor.new_sensor(ibus_ocp_stat)
+        cg.add(var.assign_sensor_ibus_ocp_stat(sens))
+    if ibat_ocp_stat := config.get(CONF_BQ25798_IBAT_OCP_STAT):
+        sens = await sensor.new_sensor(ibat_ocp_stat)
+        cg.add(var.assign_sensor_ibat_ocp_stat(sens))
+    if conv_ocp_stat := config.get(CONF_BQ25798_CONV_OCP_STAT):
+        sens = await sensor.new_sensor(conv_ocp_stat)
+        cg.add(var.assign_sensor_conv_ocp_stat(sens))
+    if vac2_ovp_stat := config.get(CONF_BQ25798_VAC2_OVP_STAT):
+        sens = await sensor.new_sensor(vac2_ovp_stat)
+        cg.add(var.assign_sensor_vac2_ovp_stat(sens))
+    if vac1_ovp_stat := config.get(CONF_BQ25798_VAC1_OVP_STAT):
+        sens = await sensor.new_sensor(vac1_ovp_stat)
+        cg.add(var.assign_sensor_vac1_ovp_stat(sens))
+    if vsys_short_stat := config.get(CONF_BQ25798_VSYS_SHORT_STAT):
+        sens = await sensor.new_sensor(vsys_short_stat)
+        cg.add(var.assign_sensor_vsys_short_stat(sens))
+    if vsys_ovp_stat := config.get(CONF_BQ25798_VSYS_OVP_STAT):
+        sens = await sensor.new_sensor(vsys_ovp_stat)
+        cg.add(var.assign_sensor_vsys_ovp_stat(sens))
+    if otg_ovp_stat := config.get(CONF_BQ25798_OTG_OVP_STAT):
+        sens = await sensor.new_sensor(otg_ovp_stat)
+        cg.add(var.assign_sensor_otg_ovp_stat(sens))
+    if otg_uvp_stat := config.get(CONF_BQ25798_OTG_UVP_STAT):
+        sens = await sensor.new_sensor(otg_uvp_stat)
+        cg.add(var.assign_sensor_otg_uvp_stat(sens))
+    if tshut_stat := config.get(CONF_BQ25798_TSHUT_STAT):
+        sens = await sensor.new_sensor(tshut_stat)
+        cg.add(var.assign_sensor_tshut_stat(sens))
+    if iindpm_flag := config.get(CONF_BQ25798_IINDPM_FLAG):
+        sens = await sensor.new_sensor(iindpm_flag)
+        cg.add(var.assign_sensor_iindpm_flag(sens))
+    if vindpm_flag := config.get(CONF_BQ25798_VINDPM_FLAG):
+        sens = await sensor.new_sensor(vindpm_flag)
+        cg.add(var.assign_sensor_vindpm_flag(sens))
+    if wd_flag := config.get(CONF_BQ25798_WD_FLAG):
+        sens = await sensor.new_sensor(wd_flag)
+        cg.add(var.assign_sensor_wd_flag(sens))
+    if poorsrc_flag := config.get(CONF_BQ25798_POORSRC_FLAG):
+        sens = await sensor.new_sensor(poorsrc_flag)
+        cg.add(var.assign_sensor_poorsrc_flag(sens))
+    if pg_flag := config.get(CONF_BQ25798_PG_FLAG):
+        sens = await sensor.new_sensor(pg_flag)
+        cg.add(var.assign_sensor_pg_flag(sens))
+    if ac2_present_flag := config.get(CONF_BQ25798_AC2_PRESENT_FLAG):
+        sens = await sensor.new_sensor(ac2_present_flag)
+        cg.add(var.assign_sensor_ac2_present_flag(sens))
+    if ac1_present_flag := config.get(CONF_BQ25798_AC1_PRESENT_FLAG):
+        sens = await sensor.new_sensor(ac1_present_flag)
+        cg.add(var.assign_sensor_ac1_present_flag(sens))
+    if vbus_present_flag := config.get(CONF_BQ25798_VBUS_PRESENT_FLAG):
+        sens = await sensor.new_sensor(vbus_present_flag)
+        cg.add(var.assign_sensor_vbus_present_flag(sens))
+    if chg_flag := config.get(CONF_BQ25798_CHG_FLAG):
+        sens = await sensor.new_sensor(chg_flag)
+        cg.add(var.assign_sensor_chg_flag(sens))
+    if ico_flag := config.get(CONF_BQ25798_ICO_FLAG):
+        sens = await sensor.new_sensor(ico_flag)
+        cg.add(var.assign_sensor_ico_flag(sens))
+    if vbus_flag := config.get(CONF_BQ25798_VBUS_FLAG):
+        sens = await sensor.new_sensor(vbus_flag)
+        cg.add(var.assign_sensor_vbus_flag(sens))
+    if treg_flag := config.get(CONF_BQ25798_TREG_FLAG):
+        sens = await sensor.new_sensor(treg_flag)
+        cg.add(var.assign_sensor_treg_flag(sens))
+    if vbat_present_flag := config.get(CONF_BQ25798_VBAT_PRESENT_FLAG):
+        sens = await sensor.new_sensor(vbat_present_flag)
+        cg.add(var.assign_sensor_vbat_present_flag(sens))
+    if bc1_2_done_flag := config.get(CONF_BQ25798_BC1_2_DONE_FLAG):
+        sens = await sensor.new_sensor(bc1_2_done_flag)
+        cg.add(var.assign_sensor_bc1_2_done_flag(sens))
+    if dpdm_done_flag := config.get(CONF_BQ25798_DPDM_DONE_FLAG):
+        sens = await sensor.new_sensor(dpdm_done_flag)
+        cg.add(var.assign_sensor_dpdm_done_flag(sens))
+    if adc_done_flag := config.get(CONF_BQ25798_ADC_DONE_FLAG):
+        sens = await sensor.new_sensor(adc_done_flag)
+        cg.add(var.assign_sensor_adc_done_flag(sens))
+    if vsys_flag := config.get(CONF_BQ25798_VSYS_FLAG):
+        sens = await sensor.new_sensor(vsys_flag)
+        cg.add(var.assign_sensor_vsys_flag(sens))
+    if chg_tmr_flag := config.get(CONF_BQ25798_CHG_TMR_FLAG):
+        sens = await sensor.new_sensor(chg_tmr_flag)
+        cg.add(var.assign_sensor_chg_tmr_flag(sens))
+    if trichg_tmr_flag := config.get(CONF_BQ25798_TRICHG_TMR_FLAG):
+        sens = await sensor.new_sensor(trichg_tmr_flag)
+        cg.add(var.assign_sensor_trichg_tmr_flag(sens))
+    if prechg_tmr_flag := config.get(CONF_BQ25798_PRECHG_TMR_FLAG):
+        sens = await sensor.new_sensor(prechg_tmr_flag)
+        cg.add(var.assign_sensor_prechg_tmr_flag(sens))
+    if topoff_tmr_flag := config.get(CONF_BQ25798_TOPOFF_TMR_FLAG):
+        sens = await sensor.new_sensor(topoff_tmr_flag)
+        cg.add(var.assign_sensor_topoff_tmr_flag(sens))
+    if vbatotg_low_flag := config.get(CONF_BQ25798_VBATOTG_LOW_FLAG):
+        sens = await sensor.new_sensor(vbatotg_low_flag)
+        cg.add(var.assign_sensor_vbatotg_low_flag(sens))
+    if ts_cold_flag := config.get(CONF_BQ25798_TS_COLD_FLAG):
+        sens = await sensor.new_sensor(ts_cold_flag)
+        cg.add(var.assign_sensor_ts_cold_flag(sens))
+    if ts_cool_flag := config.get(CONF_BQ25798_TS_COOL_FLAG):
+        sens = await sensor.new_sensor(ts_cool_flag)
+        cg.add(var.assign_sensor_ts_cool_flag(sens))
+    if ts_warm_flag := config.get(CONF_BQ25798_TS_WARM_FLAG):
+        sens = await sensor.new_sensor(ts_warm_flag)
+        cg.add(var.assign_sensor_ts_warm_flag(sens))
+    if ts_hot_flag := config.get(CONF_BQ25798_TS_HOT_FLAG):
+        sens = await sensor.new_sensor(ts_hot_flag)
+        cg.add(var.assign_sensor_ts_hot_flag(sens))
+    if ibat_reg_flag := config.get(CONF_BQ25798_IBAT_REG_FLAG):
+        sens = await sensor.new_sensor(ibat_reg_flag)
+        cg.add(var.assign_sensor_ibat_reg_flag(sens))
+    if vbus_ovp_flag := config.get(CONF_BQ25798_VBUS_OVP_FLAG):
+        sens = await sensor.new_sensor(vbus_ovp_flag)
+        cg.add(var.assign_sensor_vbus_ovp_flag(sens))
+    if vbat_ovp_flag := config.get(CONF_BQ25798_VBAT_OVP_FLAG):
+        sens = await sensor.new_sensor(vbat_ovp_flag)
+        cg.add(var.assign_sensor_vbat_ovp_flag(sens))
+    if ibus_ocp_flag := config.get(CONF_BQ25798_IBUS_OCP_FLAG):
+        sens = await sensor.new_sensor(ibus_ocp_flag)
+        cg.add(var.assign_sensor_ibus_ocp_flag(sens))
+    if ibat_ocp_flag := config.get(CONF_BQ25798_IBAT_OCP_FLAG):
+        sens = await sensor.new_sensor(ibat_ocp_flag)
+        cg.add(var.assign_sensor_ibat_ocp_flag(sens))
+    if conv_ocp_flag := config.get(CONF_BQ25798_CONV_OCP_FLAG):
+        sens = await sensor.new_sensor(conv_ocp_flag)
+        cg.add(var.assign_sensor_conv_ocp_flag(sens))
+    if vac2_ovp_flag := config.get(CONF_BQ25798_VAC2_OVP_FLAG):
+        sens = await sensor.new_sensor(vac2_ovp_flag)
+        cg.add(var.assign_sensor_vac2_ovp_flag(sens))
+    if vac1_ovp_flag := config.get(CONF_BQ25798_VAC1_OVP_FLAG):
+        sens = await sensor.new_sensor(vac1_ovp_flag)
+        cg.add(var.assign_sensor_vac1_ovp_flag(sens))
+    if vsys_short_flag := config.get(CONF_BQ25798_VSYS_SHORT_FLAG):
+        sens = await sensor.new_sensor(vsys_short_flag)
+        cg.add(var.assign_sensor_vsys_short_flag(sens))
+    if vsys_ovp_flag := config.get(CONF_BQ25798_VSYS_OVP_FLAG):
+        sens = await sensor.new_sensor(vsys_ovp_flag)
+        cg.add(var.assign_sensor_vsys_ovp_flag(sens))
+    if otg_ovp_flag := config.get(CONF_BQ25798_OTG_OVP_FLAG):
+        sens = await sensor.new_sensor(otg_ovp_flag)
+        cg.add(var.assign_sensor_otg_ovp_flag(sens))
+    if otg_uvp_flag := config.get(CONF_BQ25798_OTG_UVP_FLAG):
+        sens = await sensor.new_sensor(otg_uvp_flag)
+        cg.add(var.assign_sensor_otg_uvp_flag(sens))
+    if tshut_flag := config.get(CONF_BQ25798_TSHUT_FLAG):
+        sens = await sensor.new_sensor(tshut_flag)
+        cg.add(var.assign_sensor_tshut_flag(sens))
+    if adc_en := config.get(CONF_BQ25798_ADC_EN):
+        sens = await sensor.new_sensor(adc_en)
+        cg.add(var.assign_sensor_adc_en(sens))
     if adc_sample := config.get(CONF_BQ25798_ADC_SAMPLE):
         sens = await sensor.new_sensor(adc_sample)
         cg.add(var.assign_sensor_adc_sample(sens))
+    if adc_avg_init := config.get(CONF_BQ25798_ADC_AVG_INIT):
+        sens = await sensor.new_sensor(adc_avg_init)
+        cg.add(var.assign_sensor_adc_avg_init(sens))
+    if ibus_adc_dis := config.get(CONF_BQ25798_IBUS_ADC_DIS):
+        sens = await sensor.new_sensor(ibus_adc_dis)
+        cg.add(var.assign_sensor_ibus_adc_dis(sens))
+    if ibat_adc_dis := config.get(CONF_BQ25798_IBAT_ADC_DIS):
+        sens = await sensor.new_sensor(ibat_adc_dis)
+        cg.add(var.assign_sensor_ibat_adc_dis(sens))
+    if vbus_adc_dis := config.get(CONF_BQ25798_VBUS_ADC_DIS):
+        sens = await sensor.new_sensor(vbus_adc_dis)
+        cg.add(var.assign_sensor_vbus_adc_dis(sens))
+    if vbat_adc_dis := config.get(CONF_BQ25798_VBAT_ADC_DIS):
+        sens = await sensor.new_sensor(vbat_adc_dis)
+        cg.add(var.assign_sensor_vbat_adc_dis(sens))
+    if vsys_adc_dis := config.get(CONF_BQ25798_VSYS_ADC_DIS):
+        sens = await sensor.new_sensor(vsys_adc_dis)
+        cg.add(var.assign_sensor_vsys_adc_dis(sens))
+    if ts_adc_dis := config.get(CONF_BQ25798_TS_ADC_DIS):
+        sens = await sensor.new_sensor(ts_adc_dis)
+        cg.add(var.assign_sensor_ts_adc_dis(sens))
+    if tdie_adc_dis := config.get(CONF_BQ25798_TDIE_ADC_DIS):
+        sens = await sensor.new_sensor(tdie_adc_dis)
+        cg.add(var.assign_sensor_tdie_adc_dis(sens))
+    if dplus_adc_dis := config.get(CONF_BQ25798_DPLUS_ADC_DIS):
+        sens = await sensor.new_sensor(dplus_adc_dis)
+        cg.add(var.assign_sensor_dplus_adc_dis(sens))
+    if dminus_adc_dis := config.get(CONF_BQ25798_DMINUS_ADC_DIS):
+        sens = await sensor.new_sensor(dminus_adc_dis)
+        cg.add(var.assign_sensor_dminus_adc_dis(sens))
+    if vac2_adc_dis := config.get(CONF_BQ25798_VAC2_ADC_DIS):
+        sens = await sensor.new_sensor(vac2_adc_dis)
+        cg.add(var.assign_sensor_vac2_adc_dis(sens))
+    if vac1_adc_dis := config.get(CONF_BQ25798_VAC1_ADC_DIS):
+        sens = await sensor.new_sensor(vac1_adc_dis)
+        cg.add(var.assign_sensor_vac1_adc_dis(sens))
     if ibus_adc := config.get(CONF_BQ25798_IBUS_ADC):
         sens = await sensor.new_sensor(ibus_adc)
         cg.add(var.assign_sensor_ibus_adc(sens))

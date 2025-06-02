@@ -43,6 +43,7 @@ CONFIG_SCHEMA = (
                 {{ className }},
                 entity_category=ENTITY_CATEGORY_CONFIG,
             ),
+            // FIXME cv.Optional(CONF_MODE, default="mono"): cv.one_of(["a", "b", "c"]),
 {%     endif %}
 {% endfor %}
     })
