@@ -57,6 +57,9 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_votg_ != nullptr) {
     LOG_SENSOR("  ", "VOTG", this->sensor_votg_);
   }
+  if (this->sensor_prechg_tmr_ != nullptr) {
+    LOG_SENSOR("  ", "PRECHG_TMR", this->sensor_prechg_tmr_);
+  }
   if (this->sensor_iotg_ != nullptr) {
     LOG_SENSOR("  ", "IOTG", this->sensor_iotg_);
   }
@@ -132,6 +135,9 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_sdrv_ctrl_ != nullptr) {
     LOG_SENSOR("  ", "SDRV_CTRL", this->sensor_sdrv_ctrl_);
   }
+  if (this->sensor_sdrv_dly_ != nullptr) {
+    LOG_SENSOR("  ", "SDRV_DLY", this->sensor_sdrv_dly_);
+  }
   if (this->sensor_dis_acdrv_ != nullptr) {
     LOG_SENSOR("  ", "DIS_ACDRV", this->sensor_dis_acdrv_);
   }
@@ -143,6 +149,9 @@ void BQ25798Sensor::dump_config() {
   }
   if (this->sensor_pfm_fwd_dis_ != nullptr) {
     LOG_SENSOR("  ", "PFM_FWD_DIS", this->sensor_pfm_fwd_dis_);
+  }
+  if (this->sensor_wkup_dly_ != nullptr) {
+    LOG_SENSOR("  ", "WKUP_DLY", this->sensor_wkup_dly_);
   }
   if (this->sensor_dis_ldo_ != nullptr) {
     LOG_SENSOR("  ", "DIS_LDO", this->sensor_dis_ldo_);
@@ -158,6 +167,9 @@ void BQ25798Sensor::dump_config() {
   }
   if (this->sensor_en_acdrv1_ != nullptr) {
     LOG_SENSOR("  ", "EN_ACDRV1", this->sensor_en_acdrv1_);
+  }
+  if (this->sensor_pwm_freq_ != nullptr) {
+    LOG_SENSOR("  ", "PWM_FREQ", this->sensor_pwm_freq_);
   }
   if (this->sensor_dis_stat_ != nullptr) {
     LOG_SENSOR("  ", "DIS_STAT", this->sensor_dis_stat_);
@@ -240,11 +252,35 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_bhot_ != nullptr) {
     LOG_SENSOR("  ", "BHOT", this->sensor_bhot_);
   }
+  if (this->sensor_bcold_ != nullptr) {
+    LOG_SENSOR("  ", "BCOLD", this->sensor_bcold_);
+  }
   if (this->sensor_ts_ignore_ != nullptr) {
     LOG_SENSOR("  ", "TS_IGNORE", this->sensor_ts_ignore_);
   }
   if (this->sensor_ico_ilim_ != nullptr) {
     LOG_SENSOR("  ", "ICO_ILIM", this->sensor_ico_ilim_);
+  }
+  if (this->sensor_iindpm_stat_ != nullptr) {
+    LOG_SENSOR("  ", "IINDPM_STAT", this->sensor_iindpm_stat_);
+  }
+  if (this->sensor_vindpm_stat_ != nullptr) {
+    LOG_SENSOR("  ", "VINDPM_STAT", this->sensor_vindpm_stat_);
+  }
+  if (this->sensor_wd_stat_ != nullptr) {
+    LOG_SENSOR("  ", "WD_STAT", this->sensor_wd_stat_);
+  }
+  if (this->sensor_pg_stat_ != nullptr) {
+    LOG_SENSOR("  ", "PG_STAT", this->sensor_pg_stat_);
+  }
+  if (this->sensor_ac2_present_stat_ != nullptr) {
+    LOG_SENSOR("  ", "AC2_PRESENT_STAT", this->sensor_ac2_present_stat_);
+  }
+  if (this->sensor_ac1_present_stat_ != nullptr) {
+    LOG_SENSOR("  ", "AC1_PRESENT_STAT", this->sensor_ac1_present_stat_);
+  }
+  if (this->sensor_vbus_present_stat_ != nullptr) {
+    LOG_SENSOR("  ", "VBUS_PRESENT_STAT", this->sensor_vbus_present_stat_);
   }
   if (this->sensor_chg_stat_ != nullptr) {
     LOG_SENSOR("  ", "CHG_STAT", this->sensor_chg_stat_);
@@ -258,8 +294,50 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_ico_stat_ != nullptr) {
     LOG_SENSOR("  ", "ICO_STAT", this->sensor_ico_stat_);
   }
+  if (this->sensor_treg_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TREG_STAT", this->sensor_treg_stat_);
+  }
+  if (this->sensor_dpdm_stat_ != nullptr) {
+    LOG_SENSOR("  ", "DPDM_STAT", this->sensor_dpdm_stat_);
+  }
+  if (this->sensor_vbat_present_stat_ != nullptr) {
+    LOG_SENSOR("  ", "VBAT_PRESENT_STAT", this->sensor_vbat_present_stat_);
+  }
+  if (this->sensor_acrb2_stat_ != nullptr) {
+    LOG_SENSOR("  ", "ACRB2_STAT", this->sensor_acrb2_stat_);
+  }
+  if (this->sensor_acrb1_stat_ != nullptr) {
+    LOG_SENSOR("  ", "ACRB1_STAT", this->sensor_acrb1_stat_);
+  }
   if (this->sensor_adc_done_stat_ != nullptr) {
     LOG_SENSOR("  ", "ADC_DONE_STAT", this->sensor_adc_done_stat_);
+  }
+  if (this->sensor_vsys_stat_ != nullptr) {
+    LOG_SENSOR("  ", "VSYS_STAT", this->sensor_vsys_stat_);
+  }
+  if (this->sensor_chg_tmr_stat_ != nullptr) {
+    LOG_SENSOR("  ", "CHG_TMR_STAT", this->sensor_chg_tmr_stat_);
+  }
+  if (this->sensor_trichg_tmr_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TRICHG_TMR_STAT", this->sensor_trichg_tmr_stat_);
+  }
+  if (this->sensor_prechg_tmr_stat_ != nullptr) {
+    LOG_SENSOR("  ", "PRECHG_TMR_STAT", this->sensor_prechg_tmr_stat_);
+  }
+  if (this->sensor_vbatotg_low_stat_ != nullptr) {
+    LOG_SENSOR("  ", "VBATOTG_LOW_STAT", this->sensor_vbatotg_low_stat_);
+  }
+  if (this->sensor_ts_cold_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TS_COLD_STAT", this->sensor_ts_cold_stat_);
+  }
+  if (this->sensor_ts_cool_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TS_COOL_STAT", this->sensor_ts_cool_stat_);
+  }
+  if (this->sensor_ts_warm_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TS_WARM_STAT", this->sensor_ts_warm_stat_);
+  }
+  if (this->sensor_ts_hot_stat_ != nullptr) {
+    LOG_SENSOR("  ", "TS_HOT_STAT", this->sensor_ts_hot_stat_);
   }
   if (this->sensor_ibat_reg_stat_ != nullptr) {
     LOG_SENSOR("  ", "IBAT_REG_STAT", this->sensor_ibat_reg_stat_);
@@ -420,8 +498,14 @@ void BQ25798Sensor::dump_config() {
   if (this->sensor_adc_en_ != nullptr) {
     LOG_SENSOR("  ", "ADC_EN", this->sensor_adc_en_);
   }
+  if (this->sensor_adc_rate_ != nullptr) {
+    LOG_SENSOR("  ", "ADC_RATE", this->sensor_adc_rate_);
+  }
   if (this->sensor_adc_sample_ != nullptr) {
     LOG_SENSOR("  ", "ADC_SAMPLE", this->sensor_adc_sample_);
+  }
+  if (this->sensor_adc_avg_ != nullptr) {
+    LOG_SENSOR("  ", "ADC_AVG", this->sensor_adc_avg_);
   }
   if (this->sensor_adc_avg_init_ != nullptr) {
     LOG_SENSOR("  ", "ADC_AVG_INIT", this->sensor_adc_avg_init_);
@@ -622,6 +706,13 @@ void BQ25798Sensor::update() {
     }
   }
   // PRECHG_TMR - Pre-charge safety timer setting
+  if (this->sensor_prechg_tmr_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_prechg_tmr_->publish_state(NAN);
+    } else {
+      this->sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_enum_int());
+    }
+  }
   // IOTG - OTG current limit
   if (this->sensor_iotg_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -823,6 +914,13 @@ void BQ25798Sensor::update() {
     }
   }
   // SDRV_DLY - Delay for SDRV control
+  if (this->sensor_sdrv_dly_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_sdrv_dly_->publish_state(NAN);
+    } else {
+      this->sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_enum_int());
+    }
+  }
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
   if (this->sensor_dis_acdrv_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -856,6 +954,13 @@ void BQ25798Sensor::update() {
     }
   }
   // WKUP_DLY - Wakeup (Ship FET) delay
+  if (this->sensor_wkup_dly_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_wkup_dly_->publish_state(NAN);
+    } else {
+      this->sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_enum_int());
+    }
+  }
   // DIS_LDO - Disable BATFET LDO mode in precharge state
   if (this->sensor_dis_ldo_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -897,6 +1002,13 @@ void BQ25798Sensor::update() {
     }
   }
   // PWM_FREQ - PWM frequency setting
+  if (this->sensor_pwm_freq_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_pwm_freq_->publish_state(NAN);
+    } else {
+      this->sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_enum_int());
+    }
+  }
   // DIS_STAT - Disable STAT pin output
   if (this->sensor_dis_stat_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1114,6 +1226,13 @@ void BQ25798Sensor::update() {
     }
   }
   // BCOLD - OTG mode TS COLD temperature threshold
+  if (this->sensor_bcold_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_bcold_->publish_state(NAN);
+    } else {
+      this->sensor_bcold_->publish_state(this->parent_->get_bcold_enum_int());
+    }
+  }
   // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
   if (this->sensor_ts_ignore_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1131,12 +1250,61 @@ void BQ25798Sensor::update() {
     }
   }
   // IINDPM_STAT - IINDPM status (forward mode) or IOTG status (OTG mode)
+  if (this->sensor_iindpm_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_iindpm_stat_->publish_state(NAN);
+    } else {
+      this->sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_enum_int());
+    }
+  }
   // VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
+  if (this->sensor_vindpm_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_vindpm_stat_->publish_state(NAN);
+    } else {
+      this->sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_enum_int());
+    }
+  }
   // WD_STAT - Watchdog timer status
+  if (this->sensor_wd_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_wd_stat_->publish_state(NAN);
+    } else {
+      this->sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_enum_int());
+    }
+  }
   // PG_STAT - Power good status
+  if (this->sensor_pg_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_pg_stat_->publish_state(NAN);
+    } else {
+      this->sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_enum_int());
+    }
+  }
   // AC2_PRESENT_STAT - VAC2 present status
+  if (this->sensor_ac2_present_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ac2_present_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_enum_int());
+    }
+  }
   // AC1_PRESENT_STAT - VAC1 present status
+  if (this->sensor_ac1_present_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ac1_present_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_enum_int());
+    }
+  }
   // VBUS_PRESENT_STAT - VBUS present status
+  if (this->sensor_vbus_present_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_vbus_present_stat_->publish_state(NAN);
+    } else {
+      this->sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_enum_int());
+    }
+  }
   // CHG_STAT - Charge Status bits
   if (this->sensor_chg_stat_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1170,10 +1338,45 @@ void BQ25798Sensor::update() {
     }
   }
   // TREG_STAT - IC thermal regulation status
+  if (this->sensor_treg_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_treg_stat_->publish_state(NAN);
+    } else {
+      this->sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_enum_int());
+    }
+  }
   // DPDM_STAT - D+/D- detection status
+  if (this->sensor_dpdm_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_dpdm_stat_->publish_state(NAN);
+    } else {
+      this->sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_enum_int());
+    }
+  }
   // VBAT_PRESENT_STAT - Battery present status
+  if (this->sensor_vbat_present_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_vbat_present_stat_->publish_state(NAN);
+    } else {
+      this->sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_enum_int());
+    }
+  }
   // ACRB2_STAT - The ACFET2-RBFET2 status
+  if (this->sensor_acrb2_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_acrb2_stat_->publish_state(NAN);
+    } else {
+      this->sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_enum_int());
+    }
+  }
   // ACRB1_STAT - The ACFET1-RBFET1 status
+  if (this->sensor_acrb1_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_acrb1_stat_->publish_state(NAN);
+    } else {
+      this->sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_enum_int());
+    }
+  }
   // ADC_DONE_STAT - ADC Conversion Status
   if (this->sensor_adc_done_stat_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1183,14 +1386,77 @@ void BQ25798Sensor::update() {
     }
   }
   // VSYS_STAT - VSYS Regulation Status
+  if (this->sensor_vsys_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_vsys_stat_->publish_state(NAN);
+    } else {
+      this->sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_enum_int());
+    }
+  }
   // CHG_TMR_STAT - Fast charge timer status
+  if (this->sensor_chg_tmr_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_chg_tmr_stat_->publish_state(NAN);
+    } else {
+      this->sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_enum_int());
+    }
+  }
   // TRICHG_TMR_STAT - Trickle charge timer status
+  if (this->sensor_trichg_tmr_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_trichg_tmr_stat_->publish_state(NAN);
+    } else {
+      this->sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_enum_int());
+    }
+  }
   // PRECHG_TMR_STAT - Pre-charge timer status
+  if (this->sensor_prechg_tmr_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_prechg_tmr_stat_->publish_state(NAN);
+    } else {
+      this->sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_int());
+    }
+  }
   // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
+  if (this->sensor_vbatotg_low_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_vbatotg_low_stat_->publish_state(NAN);
+    } else {
+      this->sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_int());
+    }
+  }
   // TS_COLD_STAT - The TS temperature is in the cold range
+  if (this->sensor_ts_cold_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ts_cold_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_enum_int());
+    }
+  }
   // TS_COOL_STAT - The TS temperature is in the cool range
+  if (this->sensor_ts_cool_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ts_cool_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_enum_int());
+    }
+  }
   // TS_WARM_STAT - The TS temperature is in the warm range
+  if (this->sensor_ts_warm_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ts_warm_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_enum_int());
+    }
+  }
   // TS_HOT_STAT - The TS temperature is in the hot range
+  if (this->sensor_ts_hot_stat_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_ts_hot_stat_->publish_state(NAN);
+    } else {
+      this->sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_int());
+    }
+  }
   // IBAT_REG_STAT - In battery discharging current regulation
   if (this->sensor_ibat_reg_stat_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1616,6 +1882,13 @@ void BQ25798Sensor::update() {
     }
   }
   // ADC_RATE - ADC conversion rate
+  if (this->sensor_adc_rate_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_adc_rate_->publish_state(NAN);
+    } else {
+      this->sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_enum_int());
+    }
+  }
   // ADC_SAMPLE - ADC sample speed
   if (this->sensor_adc_sample_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1625,6 +1898,13 @@ void BQ25798Sensor::update() {
     }
   }
   // ADC_AVG - ADC averaging
+  if (this->sensor_adc_avg_ != nullptr) {
+    if (this->parent_->is_failed()) {
+      this->sensor_adc_avg_->publish_state(NAN);
+    } else {
+      this->sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_enum_int());
+    }
+  }
   // ADC_AVG_INIT - ADC average initialization
   if (this->sensor_adc_avg_init_ != nullptr) {
     if (this->parent_->is_failed()) {
@@ -1885,6 +2165,9 @@ void BQ25798Sensor::assign_sensor_vrechg(sensor::Sensor *sensor) {
 void BQ25798Sensor::assign_sensor_votg(sensor::Sensor *sensor) {
   this->sensor_votg_ = sensor;
 }
+void BQ25798Sensor::assign_sensor_prechg_tmr(sensor::Sensor *sensor) {
+  this->sensor_prechg_tmr_ = sensor;
+}
 void BQ25798Sensor::assign_sensor_iotg(sensor::Sensor *sensor) {
   this->sensor_iotg_ = sensor;
 }
@@ -1960,6 +2243,9 @@ void BQ25798Sensor::assign_sensor_hvdcp_en(sensor::Sensor *sensor) {
 void BQ25798Sensor::assign_sensor_sdrv_ctrl(sensor::Sensor *sensor) {
   this->sensor_sdrv_ctrl_ = sensor;
 }
+void BQ25798Sensor::assign_sensor_sdrv_dly(sensor::Sensor *sensor) {
+  this->sensor_sdrv_dly_ = sensor;
+}
 void BQ25798Sensor::assign_sensor_dis_acdrv(sensor::Sensor *sensor) {
   this->sensor_dis_acdrv_ = sensor;
 }
@@ -1971,6 +2257,9 @@ void BQ25798Sensor::assign_sensor_pfm_otg_dis(sensor::Sensor *sensor) {
 }
 void BQ25798Sensor::assign_sensor_pfm_fwd_dis(sensor::Sensor *sensor) {
   this->sensor_pfm_fwd_dis_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_wkup_dly(sensor::Sensor *sensor) {
+  this->sensor_wkup_dly_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_dis_ldo(sensor::Sensor *sensor) {
   this->sensor_dis_ldo_ = sensor;
@@ -1986,6 +2275,9 @@ void BQ25798Sensor::assign_sensor_en_acdrv2(sensor::Sensor *sensor) {
 }
 void BQ25798Sensor::assign_sensor_en_acdrv1(sensor::Sensor *sensor) {
   this->sensor_en_acdrv1_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_pwm_freq(sensor::Sensor *sensor) {
+  this->sensor_pwm_freq_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_dis_stat(sensor::Sensor *sensor) {
   this->sensor_dis_stat_ = sensor;
@@ -2068,11 +2360,35 @@ void BQ25798Sensor::assign_sensor_ts_warm(sensor::Sensor *sensor) {
 void BQ25798Sensor::assign_sensor_bhot(sensor::Sensor *sensor) {
   this->sensor_bhot_ = sensor;
 }
+void BQ25798Sensor::assign_sensor_bcold(sensor::Sensor *sensor) {
+  this->sensor_bcold_ = sensor;
+}
 void BQ25798Sensor::assign_sensor_ts_ignore(sensor::Sensor *sensor) {
   this->sensor_ts_ignore_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_ico_ilim(sensor::Sensor *sensor) {
   this->sensor_ico_ilim_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_iindpm_stat(sensor::Sensor *sensor) {
+  this->sensor_iindpm_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_vindpm_stat(sensor::Sensor *sensor) {
+  this->sensor_vindpm_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_wd_stat(sensor::Sensor *sensor) {
+  this->sensor_wd_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_pg_stat(sensor::Sensor *sensor) {
+  this->sensor_pg_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ac2_present_stat(sensor::Sensor *sensor) {
+  this->sensor_ac2_present_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ac1_present_stat(sensor::Sensor *sensor) {
+  this->sensor_ac1_present_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_vbus_present_stat(sensor::Sensor *sensor) {
+  this->sensor_vbus_present_stat_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_chg_stat(sensor::Sensor *sensor) {
   this->sensor_chg_stat_ = sensor;
@@ -2086,8 +2402,50 @@ void BQ25798Sensor::assign_sensor_bc12_done_stat(sensor::Sensor *sensor) {
 void BQ25798Sensor::assign_sensor_ico_stat(sensor::Sensor *sensor) {
   this->sensor_ico_stat_ = sensor;
 }
+void BQ25798Sensor::assign_sensor_treg_stat(sensor::Sensor *sensor) {
+  this->sensor_treg_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_dpdm_stat(sensor::Sensor *sensor) {
+  this->sensor_dpdm_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_vbat_present_stat(sensor::Sensor *sensor) {
+  this->sensor_vbat_present_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_acrb2_stat(sensor::Sensor *sensor) {
+  this->sensor_acrb2_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_acrb1_stat(sensor::Sensor *sensor) {
+  this->sensor_acrb1_stat_ = sensor;
+}
 void BQ25798Sensor::assign_sensor_adc_done_stat(sensor::Sensor *sensor) {
   this->sensor_adc_done_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_vsys_stat(sensor::Sensor *sensor) {
+  this->sensor_vsys_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_chg_tmr_stat(sensor::Sensor *sensor) {
+  this->sensor_chg_tmr_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_trichg_tmr_stat(sensor::Sensor *sensor) {
+  this->sensor_trichg_tmr_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_prechg_tmr_stat(sensor::Sensor *sensor) {
+  this->sensor_prechg_tmr_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_vbatotg_low_stat(sensor::Sensor *sensor) {
+  this->sensor_vbatotg_low_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ts_cold_stat(sensor::Sensor *sensor) {
+  this->sensor_ts_cold_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ts_cool_stat(sensor::Sensor *sensor) {
+  this->sensor_ts_cool_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ts_warm_stat(sensor::Sensor *sensor) {
+  this->sensor_ts_warm_stat_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_ts_hot_stat(sensor::Sensor *sensor) {
+  this->sensor_ts_hot_stat_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_ibat_reg_stat(sensor::Sensor *sensor) {
   this->sensor_ibat_reg_stat_ = sensor;
@@ -2248,8 +2606,14 @@ void BQ25798Sensor::assign_sensor_tshut_flag(sensor::Sensor *sensor) {
 void BQ25798Sensor::assign_sensor_adc_en(sensor::Sensor *sensor) {
   this->sensor_adc_en_ = sensor;
 }
+void BQ25798Sensor::assign_sensor_adc_rate(sensor::Sensor *sensor) {
+  this->sensor_adc_rate_ = sensor;
+}
 void BQ25798Sensor::assign_sensor_adc_sample(sensor::Sensor *sensor) {
   this->sensor_adc_sample_ = sensor;
+}
+void BQ25798Sensor::assign_sensor_adc_avg(sensor::Sensor *sensor) {
+  this->sensor_adc_avg_ = sensor;
 }
 void BQ25798Sensor::assign_sensor_adc_avg_init(sensor::Sensor *sensor) {
   this->sensor_adc_avg_init_ = sensor;
