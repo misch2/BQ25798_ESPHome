@@ -654,7 +654,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_reg_rst_->publish_state(NAN);
     } else {
-      this->sensor_reg_rst_->publish_state(this->parent_->get_reg_rst_enum_int());
+      this->sensor_reg_rst_->publish_state(this->parent_->get_reg_rst_bool());
     }
   }
   // STOP_WD_CHG - Defines whether a watchdog timer expiration will disable charging
@@ -662,7 +662,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_stop_wd_chg_->publish_state(NAN);
     } else {
-      this->sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg_enum_int());
+      this->sensor_stop_wd_chg_->publish_state(this->parent_->get_stop_wd_chg_bool());
     }
   }
   // ITERM - Termination Current Limit
@@ -710,7 +710,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_prechg_tmr_->publish_state(NAN);
     } else {
-      this->sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_enum_int());
+      this->sensor_prechg_tmr_->publish_state(this->parent_->get_prechg_tmr_bool());
     }
   }
   // IOTG - OTG current limit
@@ -734,7 +734,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_trichg_tmr_->publish_state(NAN);
     } else {
-      this->sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr_enum_int());
+      this->sensor_en_trichg_tmr_->publish_state(this->parent_->get_en_trichg_tmr_bool());
     }
   }
   // EN_PRECHG_TMR - Precharge timer enable
@@ -742,7 +742,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_prechg_tmr_->publish_state(NAN);
     } else {
-      this->sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr_enum_int());
+      this->sensor_en_prechg_tmr_->publish_state(this->parent_->get_en_prechg_tmr_bool());
     }
   }
   // EN_CHG_TMR - Fast charge timer enable
@@ -750,7 +750,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_chg_tmr_->publish_state(NAN);
     } else {
-      this->sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr_enum_int());
+      this->sensor_en_chg_tmr_->publish_state(this->parent_->get_en_chg_tmr_bool());
     }
   }
   // CHG_TMR - Fast charge timer setting
@@ -766,7 +766,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_tmr2x_en_->publish_state(NAN);
     } else {
-      this->sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en_enum_int());
+      this->sensor_tmr2x_en_->publish_state(this->parent_->get_tmr2x_en_bool());
     }
   }
   // EN_AUTO_IBATDIS - Enable the auto battery discharging during the battery OVP fault
@@ -774,7 +774,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_auto_ibatdis_->publish_state(NAN);
     } else {
-      this->sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis_enum_int());
+      this->sensor_en_auto_ibatdis_->publish_state(this->parent_->get_en_auto_ibatdis_bool());
     }
   }
   // FORCE_IBATDIS - Force the battery discharging current
@@ -782,7 +782,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_force_ibatdis_->publish_state(NAN);
     } else {
-      this->sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis_enum_int());
+      this->sensor_force_ibatdis_->publish_state(this->parent_->get_force_ibatdis_bool());
     }
   }
   // EN_CHG - Enable the charger
@@ -790,7 +790,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_chg_->publish_state(NAN);
     } else {
-      this->sensor_en_chg_->publish_state(this->parent_->get_en_chg_enum_int());
+      this->sensor_en_chg_->publish_state(this->parent_->get_en_chg_bool());
     }
   }
   // EN_ICO - Enable the ICO (Input Current Optimizer)
@@ -798,7 +798,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_ico_->publish_state(NAN);
     } else {
-      this->sensor_en_ico_->publish_state(this->parent_->get_en_ico_enum_int());
+      this->sensor_en_ico_->publish_state(this->parent_->get_en_ico_bool());
     }
   }
   // FORCE_ICO - Force the ICO (Input Current Optimizer)
@@ -806,7 +806,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_force_ico_->publish_state(NAN);
     } else {
-      this->sensor_force_ico_->publish_state(this->parent_->get_force_ico_enum_int());
+      this->sensor_force_ico_->publish_state(this->parent_->get_force_ico_bool());
     }
   }
   // EN_HIZ - Enable the high impedance mode
@@ -814,7 +814,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_hiz_->publish_state(NAN);
     } else {
-      this->sensor_en_hiz_->publish_state(this->parent_->get_en_hiz_enum_int());
+      this->sensor_en_hiz_->publish_state(this->parent_->get_en_hiz_bool());
     }
   }
   // EN_TERM - Enable the termination
@@ -822,7 +822,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_term_->publish_state(NAN);
     } else {
-      this->sensor_en_term_->publish_state(this->parent_->get_en_term_enum_int());
+      this->sensor_en_term_->publish_state(this->parent_->get_en_term_bool());
     }
   }
   // EN_BACKUP - Enable the backup (auto OTG) mode
@@ -830,7 +830,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_backup_->publish_state(NAN);
     } else {
-      this->sensor_en_backup_->publish_state(this->parent_->get_en_backup_enum_int());
+      this->sensor_en_backup_->publish_state(this->parent_->get_en_backup_bool());
     }
   }
   // VBUS_BACKUP - The thresholds to trigger the backup mode, defined as a ratio of VINDPM
@@ -854,7 +854,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_wd_rst_->publish_state(NAN);
     } else {
-      this->sensor_wd_rst_->publish_state(this->parent_->get_wd_rst_enum_int());
+      this->sensor_wd_rst_->publish_state(this->parent_->get_wd_rst_bool());
     }
   }
   // WATCHDOG - Watchdog timer settings
@@ -870,7 +870,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_force_indet_->publish_state(NAN);
     } else {
-      this->sensor_force_indet_->publish_state(this->parent_->get_force_indet_enum_int());
+      this->sensor_force_indet_->publish_state(this->parent_->get_force_indet_bool());
     }
   }
   // AUTO_INDET_EN - Enable automatic D+/D- detection
@@ -878,7 +878,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_auto_indet_en_->publish_state(NAN);
     } else {
-      this->sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en_enum_int());
+      this->sensor_auto_indet_en_->publish_state(this->parent_->get_auto_indet_en_bool());
     }
   }
   // EN_12V - Enable 12V output in HVDCP
@@ -886,7 +886,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_12v_->publish_state(NAN);
     } else {
-      this->sensor_en_12v_->publish_state(this->parent_->get_en_12v_enum_int());
+      this->sensor_en_12v_->publish_state(this->parent_->get_en_12v_bool());
     }
   }
   // EN_9V - Enable 9V output in HVDCP
@@ -894,7 +894,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_9v_->publish_state(NAN);
     } else {
-      this->sensor_en_9v_->publish_state(this->parent_->get_en_9v_enum_int());
+      this->sensor_en_9v_->publish_state(this->parent_->get_en_9v_bool());
     }
   }
   // HVDCP_EN - Enable HVDCP (High Voltage Device Charging Protocol)
@@ -902,7 +902,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_hvdcp_en_->publish_state(NAN);
     } else {
-      this->sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en_enum_int());
+      this->sensor_hvdcp_en_->publish_state(this->parent_->get_hvdcp_en_bool());
     }
   }
   // SDRV_CTRL - Enable external Ship FET control
@@ -918,7 +918,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_sdrv_dly_->publish_state(NAN);
     } else {
-      this->sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_enum_int());
+      this->sensor_sdrv_dly_->publish_state(this->parent_->get_sdrv_dly_bool());
     }
   }
   // DIS_ACDRV - Disable both AC1 and AC2 drivers
@@ -926,7 +926,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_acdrv_->publish_state(NAN);
     } else {
-      this->sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv_enum_int());
+      this->sensor_dis_acdrv_->publish_state(this->parent_->get_dis_acdrv_bool());
     }
   }
   // EN_OTG - Enable OTG mode
@@ -934,7 +934,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_otg_->publish_state(NAN);
     } else {
-      this->sensor_en_otg_->publish_state(this->parent_->get_en_otg_enum_int());
+      this->sensor_en_otg_->publish_state(this->parent_->get_en_otg_bool());
     }
   }
   // PFM_OTG_DIS - Disable PFM in OTG mode
@@ -942,7 +942,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_pfm_otg_dis_->publish_state(NAN);
     } else {
-      this->sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis_enum_int());
+      this->sensor_pfm_otg_dis_->publish_state(this->parent_->get_pfm_otg_dis_bool());
     }
   }
   // PFM_FWD_DIS - Disable PFM in forward mode
@@ -950,7 +950,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_pfm_fwd_dis_->publish_state(NAN);
     } else {
-      this->sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis_enum_int());
+      this->sensor_pfm_fwd_dis_->publish_state(this->parent_->get_pfm_fwd_dis_bool());
     }
   }
   // WKUP_DLY - Wakeup (Ship FET) delay
@@ -958,7 +958,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_wkup_dly_->publish_state(NAN);
     } else {
-      this->sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_enum_int());
+      this->sensor_wkup_dly_->publish_state(this->parent_->get_wkup_dly_bool());
     }
   }
   // DIS_LDO - Disable BATFET LDO mode in precharge state
@@ -966,7 +966,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_ldo_->publish_state(NAN);
     } else {
-      this->sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo_enum_int());
+      this->sensor_dis_ldo_->publish_state(this->parent_->get_dis_ldo_bool());
     }
   }
   // DIS_OTG_OOA - Disable OOA in OTG mode
@@ -974,7 +974,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_otg_ooa_->publish_state(NAN);
     } else {
-      this->sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa_enum_int());
+      this->sensor_dis_otg_ooa_->publish_state(this->parent_->get_dis_otg_ooa_bool());
     }
   }
   // DIS_FWD_OOA - Disable OOA in forward mode
@@ -982,7 +982,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_fwd_ooa_->publish_state(NAN);
     } else {
-      this->sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa_enum_int());
+      this->sensor_dis_fwd_ooa_->publish_state(this->parent_->get_dis_fwd_ooa_bool());
     }
   }
   // EN_ACDRV2 - Enable AC2 gate driver control
@@ -990,7 +990,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_acdrv2_->publish_state(NAN);
     } else {
-      this->sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2_enum_int());
+      this->sensor_en_acdrv2_->publish_state(this->parent_->get_en_acdrv2_bool());
     }
   }
   // EN_ACDRV1 - Enable AC1 gate driver control
@@ -998,7 +998,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_acdrv1_->publish_state(NAN);
     } else {
-      this->sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1_enum_int());
+      this->sensor_en_acdrv1_->publish_state(this->parent_->get_en_acdrv1_bool());
     }
   }
   // PWM_FREQ - PWM frequency setting
@@ -1006,7 +1006,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_pwm_freq_->publish_state(NAN);
     } else {
-      this->sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_enum_int());
+      this->sensor_pwm_freq_->publish_state(this->parent_->get_pwm_freq_bool());
     }
   }
   // DIS_STAT - Disable STAT pin output
@@ -1014,7 +1014,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_stat_->publish_state(NAN);
     } else {
-      this->sensor_dis_stat_->publish_state(this->parent_->get_dis_stat_enum_int());
+      this->sensor_dis_stat_->publish_state(this->parent_->get_dis_stat_bool());
     }
   }
   // DIS_VSYS_SHORT - Disable VSYS short hiccup protection
@@ -1022,7 +1022,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_vsys_short_->publish_state(NAN);
     } else {
-      this->sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short_enum_int());
+      this->sensor_dis_vsys_short_->publish_state(this->parent_->get_dis_vsys_short_bool());
     }
   }
   // DIS_VOTG_UVP - Disable VOTG under voltage hiccup protection
@@ -1030,7 +1030,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dis_votg_uvp_->publish_state(NAN);
     } else {
-      this->sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp_enum_int());
+      this->sensor_dis_votg_uvp_->publish_state(this->parent_->get_dis_votg_uvp_bool());
     }
   }
   // FORCE_VINDPM_DET - Force VINDPM detection (settable only when VBAT>VSYSMIN)
@@ -1038,7 +1038,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_force_vindpm_det_->publish_state(NAN);
     } else {
-      this->sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det_enum_int());
+      this->sensor_force_vindpm_det_->publish_state(this->parent_->get_force_vindpm_det_bool());
     }
   }
   // EN_IBUS_OCP - Enable input over current protection in forward mode
@@ -1046,7 +1046,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_ibus_ocp_->publish_state(NAN);
     } else {
-      this->sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp_enum_int());
+      this->sensor_en_ibus_ocp_->publish_state(this->parent_->get_en_ibus_ocp_bool());
     }
   }
   // SFET_PRESENT - Ship FET present
@@ -1054,7 +1054,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_sfet_present_->publish_state(NAN);
     } else {
-      this->sensor_sfet_present_->publish_state(this->parent_->get_sfet_present_enum_int());
+      this->sensor_sfet_present_->publish_state(this->parent_->get_sfet_present_bool());
     }
   }
   // EN_IBAT - Enable battery discharge current sensing
@@ -1062,7 +1062,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_ibat_->publish_state(NAN);
     } else {
-      this->sensor_en_ibat_->publish_state(this->parent_->get_en_ibat_enum_int());
+      this->sensor_en_ibat_->publish_state(this->parent_->get_en_ibat_bool());
     }
   }
   // IBAT_REG - Battery discharge current regulation in OTG mode
@@ -1078,7 +1078,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_iindpm_->publish_state(NAN);
     } else {
-      this->sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm_enum_int());
+      this->sensor_en_iindpm_->publish_state(this->parent_->get_en_iindpm_bool());
     }
   }
   // EN_EXTILIM - Enable external ILIM_HIZ pin current regulation
@@ -1086,7 +1086,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_extilim_->publish_state(NAN);
     } else {
-      this->sensor_en_extilim_->publish_state(this->parent_->get_en_extilim_enum_int());
+      this->sensor_en_extilim_->publish_state(this->parent_->get_en_extilim_bool());
     }
   }
   // EN_BATOC - Enable battery discharging over current protection
@@ -1094,7 +1094,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_batoc_->publish_state(NAN);
     } else {
-      this->sensor_en_batoc_->publish_state(this->parent_->get_en_batoc_enum_int());
+      this->sensor_en_batoc_->publish_state(this->parent_->get_en_batoc_bool());
     }
   }
   // VOC_PCT - Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done
@@ -1126,7 +1126,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_en_mppt_->publish_state(NAN);
     } else {
-      this->sensor_en_mppt_->publish_state(this->parent_->get_en_mppt_enum_int());
+      this->sensor_en_mppt_->publish_state(this->parent_->get_en_mppt_bool());
     }
   }
   // TREG - Thermal regulation thresholds
@@ -1150,7 +1150,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_pd_en_->publish_state(NAN);
     } else {
-      this->sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en_enum_int());
+      this->sensor_vbus_pd_en_->publish_state(this->parent_->get_vbus_pd_en_bool());
     }
   }
   // VAC1_PD_EN - Enable VAC1 pull down resistor
@@ -1158,7 +1158,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac1_pd_en_->publish_state(NAN);
     } else {
-      this->sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en_enum_int());
+      this->sensor_vac1_pd_en_->publish_state(this->parent_->get_vac1_pd_en_bool());
     }
   }
   // VAC2_PD_EN - Enable VAC2 pull down resistor
@@ -1166,7 +1166,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac2_pd_en_->publish_state(NAN);
     } else {
-      this->sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en_enum_int());
+      this->sensor_vac2_pd_en_->publish_state(this->parent_->get_vac2_pd_en_bool());
     }
   }
   // BKUP_ACFET1_ON - Enable ACFET1 in backup mode (exit backup mode)
@@ -1174,7 +1174,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_bkup_acfet1_on_->publish_state(NAN);
     } else {
-      this->sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_enum_int());
+      this->sensor_bkup_acfet1_on_->publish_state(this->parent_->get_bkup_acfet1_on_bool());
     }
   }
   // JEITA_VSET - JEITA high temperature range (TWARN - THOT) charge voltage setting
@@ -1230,7 +1230,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_bcold_->publish_state(NAN);
     } else {
-      this->sensor_bcold_->publish_state(this->parent_->get_bcold_enum_int());
+      this->sensor_bcold_->publish_state(this->parent_->get_bcold_bool());
     }
   }
   // TS_IGNORE - Ignore TS detection (the charger considers the TS is always good)
@@ -1238,7 +1238,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_ignore_->publish_state(NAN);
     } else {
-      this->sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore_enum_int());
+      this->sensor_ts_ignore_->publish_state(this->parent_->get_ts_ignore_bool());
     }
   }
   // ICO_ILIM - Input Current Limit obtained from ICO or ILIM_HIZ pin setting
@@ -1254,7 +1254,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_iindpm_stat_->publish_state(NAN);
     } else {
-      this->sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_enum_int());
+      this->sensor_iindpm_stat_->publish_state(this->parent_->get_iindpm_stat_bool());
     }
   }
   // VINDPM_STAT - VINDPM status (forward mode) or VOTG status (OTG mode)
@@ -1262,7 +1262,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vindpm_stat_->publish_state(NAN);
     } else {
-      this->sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_enum_int());
+      this->sensor_vindpm_stat_->publish_state(this->parent_->get_vindpm_stat_bool());
     }
   }
   // WD_STAT - Watchdog timer status
@@ -1270,7 +1270,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_wd_stat_->publish_state(NAN);
     } else {
-      this->sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_enum_int());
+      this->sensor_wd_stat_->publish_state(this->parent_->get_wd_stat_bool());
     }
   }
   // PG_STAT - Power good status
@@ -1278,7 +1278,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_pg_stat_->publish_state(NAN);
     } else {
-      this->sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_enum_int());
+      this->sensor_pg_stat_->publish_state(this->parent_->get_pg_stat_bool());
     }
   }
   // AC2_PRESENT_STAT - VAC2 present status
@@ -1286,7 +1286,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ac2_present_stat_->publish_state(NAN);
     } else {
-      this->sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_enum_int());
+      this->sensor_ac2_present_stat_->publish_state(this->parent_->get_ac2_present_stat_bool());
     }
   }
   // AC1_PRESENT_STAT - VAC1 present status
@@ -1294,7 +1294,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ac1_present_stat_->publish_state(NAN);
     } else {
-      this->sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_enum_int());
+      this->sensor_ac1_present_stat_->publish_state(this->parent_->get_ac1_present_stat_bool());
     }
   }
   // VBUS_PRESENT_STAT - VBUS present status
@@ -1302,7 +1302,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_present_stat_->publish_state(NAN);
     } else {
-      this->sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_enum_int());
+      this->sensor_vbus_present_stat_->publish_state(this->parent_->get_vbus_present_stat_bool());
     }
   }
   // CHG_STAT - Charge Status bits
@@ -1326,7 +1326,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_bc12_done_stat_->publish_state(NAN);
     } else {
-      this->sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat_enum_int());
+      this->sensor_bc12_done_stat_->publish_state(this->parent_->get_bc12_done_stat_bool());
     }
   }
   // ICO_STAT - Input Current Optimizer (ICO) status
@@ -1342,7 +1342,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_treg_stat_->publish_state(NAN);
     } else {
-      this->sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_enum_int());
+      this->sensor_treg_stat_->publish_state(this->parent_->get_treg_stat_bool());
     }
   }
   // DPDM_STAT - D+/D- detection status
@@ -1350,7 +1350,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dpdm_stat_->publish_state(NAN);
     } else {
-      this->sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_enum_int());
+      this->sensor_dpdm_stat_->publish_state(this->parent_->get_dpdm_stat_bool());
     }
   }
   // VBAT_PRESENT_STAT - Battery present status
@@ -1358,7 +1358,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbat_present_stat_->publish_state(NAN);
     } else {
-      this->sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_enum_int());
+      this->sensor_vbat_present_stat_->publish_state(this->parent_->get_vbat_present_stat_bool());
     }
   }
   // ACRB2_STAT - The ACFET2-RBFET2 status
@@ -1366,7 +1366,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_acrb2_stat_->publish_state(NAN);
     } else {
-      this->sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_enum_int());
+      this->sensor_acrb2_stat_->publish_state(this->parent_->get_acrb2_stat_bool());
     }
   }
   // ACRB1_STAT - The ACFET1-RBFET1 status
@@ -1374,7 +1374,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_acrb1_stat_->publish_state(NAN);
     } else {
-      this->sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_enum_int());
+      this->sensor_acrb1_stat_->publish_state(this->parent_->get_acrb1_stat_bool());
     }
   }
   // ADC_DONE_STAT - ADC Conversion Status
@@ -1382,7 +1382,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_done_stat_->publish_state(NAN);
     } else {
-      this->sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat_enum_int());
+      this->sensor_adc_done_stat_->publish_state(this->parent_->get_adc_done_stat_bool());
     }
   }
   // VSYS_STAT - VSYS Regulation Status
@@ -1390,7 +1390,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_stat_->publish_state(NAN);
     } else {
-      this->sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_enum_int());
+      this->sensor_vsys_stat_->publish_state(this->parent_->get_vsys_stat_bool());
     }
   }
   // CHG_TMR_STAT - Fast charge timer status
@@ -1398,7 +1398,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_chg_tmr_stat_->publish_state(NAN);
     } else {
-      this->sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_enum_int());
+      this->sensor_chg_tmr_stat_->publish_state(this->parent_->get_chg_tmr_stat_bool());
     }
   }
   // TRICHG_TMR_STAT - Trickle charge timer status
@@ -1406,7 +1406,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_trichg_tmr_stat_->publish_state(NAN);
     } else {
-      this->sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_enum_int());
+      this->sensor_trichg_tmr_stat_->publish_state(this->parent_->get_trichg_tmr_stat_bool());
     }
   }
   // PRECHG_TMR_STAT - Pre-charge timer status
@@ -1414,7 +1414,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_prechg_tmr_stat_->publish_state(NAN);
     } else {
-      this->sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_enum_int());
+      this->sensor_prechg_tmr_stat_->publish_state(this->parent_->get_prechg_tmr_stat_bool());
     }
   }
   // VBATOTG_LOW_STAT - The battery voltage is too low to enable OTG mode
@@ -1422,7 +1422,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbatotg_low_stat_->publish_state(NAN);
     } else {
-      this->sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_enum_int());
+      this->sensor_vbatotg_low_stat_->publish_state(this->parent_->get_vbatotg_low_stat_bool());
     }
   }
   // TS_COLD_STAT - The TS temperature is in the cold range
@@ -1430,7 +1430,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_cold_stat_->publish_state(NAN);
     } else {
-      this->sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_enum_int());
+      this->sensor_ts_cold_stat_->publish_state(this->parent_->get_ts_cold_stat_bool());
     }
   }
   // TS_COOL_STAT - The TS temperature is in the cool range
@@ -1438,7 +1438,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_cool_stat_->publish_state(NAN);
     } else {
-      this->sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_enum_int());
+      this->sensor_ts_cool_stat_->publish_state(this->parent_->get_ts_cool_stat_bool());
     }
   }
   // TS_WARM_STAT - The TS temperature is in the warm range
@@ -1446,7 +1446,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_warm_stat_->publish_state(NAN);
     } else {
-      this->sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_enum_int());
+      this->sensor_ts_warm_stat_->publish_state(this->parent_->get_ts_warm_stat_bool());
     }
   }
   // TS_HOT_STAT - The TS temperature is in the hot range
@@ -1454,7 +1454,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_hot_stat_->publish_state(NAN);
     } else {
-      this->sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_enum_int());
+      this->sensor_ts_hot_stat_->publish_state(this->parent_->get_ts_hot_stat_bool());
     }
   }
   // IBAT_REG_STAT - In battery discharging current regulation
@@ -1462,7 +1462,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibat_reg_stat_->publish_state(NAN);
     } else {
-      this->sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat_enum_int());
+      this->sensor_ibat_reg_stat_->publish_state(this->parent_->get_ibat_reg_stat_bool());
     }
   }
   // VBUS_OVP_STAT - VBUS over-voltage status
@@ -1470,7 +1470,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat_enum_int());
+      this->sensor_vbus_ovp_stat_->publish_state(this->parent_->get_vbus_ovp_stat_bool());
     }
   }
   // VBAT_OVP_STAT - VBAT over-voltage status
@@ -1478,7 +1478,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbat_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat_enum_int());
+      this->sensor_vbat_ovp_stat_->publish_state(this->parent_->get_vbat_ovp_stat_bool());
     }
   }
   // IBUS_OCP_STAT - IBUS over-current status
@@ -1486,7 +1486,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibus_ocp_stat_->publish_state(NAN);
     } else {
-      this->sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat_enum_int());
+      this->sensor_ibus_ocp_stat_->publish_state(this->parent_->get_ibus_ocp_stat_bool());
     }
   }
   // IBAT_OCP_STAT - IBAT over-current status
@@ -1494,7 +1494,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibat_ocp_stat_->publish_state(NAN);
     } else {
-      this->sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat_enum_int());
+      this->sensor_ibat_ocp_stat_->publish_state(this->parent_->get_ibat_ocp_stat_bool());
     }
   }
   // CONV_OCP_STAT - Converter over-current status
@@ -1502,7 +1502,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_conv_ocp_stat_->publish_state(NAN);
     } else {
-      this->sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat_enum_int());
+      this->sensor_conv_ocp_stat_->publish_state(this->parent_->get_conv_ocp_stat_bool());
     }
   }
   // VAC2_OVP_STAT - VAC2 over-voltage status
@@ -1510,7 +1510,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac2_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat_enum_int());
+      this->sensor_vac2_ovp_stat_->publish_state(this->parent_->get_vac2_ovp_stat_bool());
     }
   }
   // VAC1_OVP_STAT - VAC1 over-voltage status
@@ -1518,7 +1518,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac1_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat_enum_int());
+      this->sensor_vac1_ovp_stat_->publish_state(this->parent_->get_vac1_ovp_stat_bool());
     }
   }
   // VSYS_SHORT_STAT - VSYS short circuit status
@@ -1526,7 +1526,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_short_stat_->publish_state(NAN);
     } else {
-      this->sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat_enum_int());
+      this->sensor_vsys_short_stat_->publish_state(this->parent_->get_vsys_short_stat_bool());
     }
   }
   // VSYS_OVP_STAT - VSYS over-voltage status
@@ -1534,7 +1534,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat_enum_int());
+      this->sensor_vsys_ovp_stat_->publish_state(this->parent_->get_vsys_ovp_stat_bool());
     }
   }
   // OTG_OVP_STAT - OTG over-voltage status
@@ -1542,7 +1542,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_otg_ovp_stat_->publish_state(NAN);
     } else {
-      this->sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat_enum_int());
+      this->sensor_otg_ovp_stat_->publish_state(this->parent_->get_otg_ovp_stat_bool());
     }
   }
   // OTG_UVP_STAT - OTG under-voltage status
@@ -1550,7 +1550,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_otg_uvp_stat_->publish_state(NAN);
     } else {
-      this->sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat_enum_int());
+      this->sensor_otg_uvp_stat_->publish_state(this->parent_->get_otg_uvp_stat_bool());
     }
   }
   // TSHUT_STAT - IC thermal shutdown status
@@ -1558,7 +1558,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_tshut_stat_->publish_state(NAN);
     } else {
-      this->sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_enum_int());
+      this->sensor_tshut_stat_->publish_state(this->parent_->get_tshut_stat_bool());
     }
   }
   // IINDPM_FLAG - IINDPM / IOTG flag
@@ -1878,7 +1878,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_en_->publish_state(NAN);
     } else {
-      this->sensor_adc_en_->publish_state(this->parent_->get_adc_en_enum_int());
+      this->sensor_adc_en_->publish_state(this->parent_->get_adc_en_bool());
     }
   }
   // ADC_RATE - ADC conversion rate
@@ -1886,7 +1886,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_rate_->publish_state(NAN);
     } else {
-      this->sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_enum_int());
+      this->sensor_adc_rate_->publish_state(this->parent_->get_adc_rate_bool());
     }
   }
   // ADC_SAMPLE - ADC sample speed
@@ -1902,7 +1902,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_avg_->publish_state(NAN);
     } else {
-      this->sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_enum_int());
+      this->sensor_adc_avg_->publish_state(this->parent_->get_adc_avg_bool());
     }
   }
   // ADC_AVG_INIT - ADC average initialization
@@ -1910,7 +1910,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_adc_avg_init_->publish_state(NAN);
     } else {
-      this->sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init_enum_int());
+      this->sensor_adc_avg_init_->publish_state(this->parent_->get_adc_avg_init_bool());
     }
   }
   // IBUS_ADC_DIS - IBUS ADC disable
@@ -1918,7 +1918,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibus_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis_enum_int());
+      this->sensor_ibus_adc_dis_->publish_state(this->parent_->get_ibus_adc_dis_bool());
     }
   }
   // IBAT_ADC_DIS - IBAT ADC disable
@@ -1926,7 +1926,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ibat_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis_enum_int());
+      this->sensor_ibat_adc_dis_->publish_state(this->parent_->get_ibat_adc_dis_bool());
     }
   }
   // VBUS_ADC_DIS - VBUS ADC disable
@@ -1934,7 +1934,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbus_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis_enum_int());
+      this->sensor_vbus_adc_dis_->publish_state(this->parent_->get_vbus_adc_dis_bool());
     }
   }
   // VBAT_ADC_DIS - VBAT ADC disable
@@ -1942,7 +1942,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vbat_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis_enum_int());
+      this->sensor_vbat_adc_dis_->publish_state(this->parent_->get_vbat_adc_dis_bool());
     }
   }
   // VSYS_ADC_DIS - VSYS ADC disable
@@ -1950,7 +1950,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vsys_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis_enum_int());
+      this->sensor_vsys_adc_dis_->publish_state(this->parent_->get_vsys_adc_dis_bool());
     }
   }
   // TS_ADC_DIS - TS ADC disable
@@ -1958,7 +1958,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_ts_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis_enum_int());
+      this->sensor_ts_adc_dis_->publish_state(this->parent_->get_ts_adc_dis_bool());
     }
   }
   // TDIE_ADC_DIS - TDIE ADC disable
@@ -1966,7 +1966,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_tdie_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis_enum_int());
+      this->sensor_tdie_adc_dis_->publish_state(this->parent_->get_tdie_adc_dis_bool());
     }
   }
   // DPLUS_ADC_DIS - D+ ADC disable
@@ -1974,7 +1974,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dplus_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis_enum_int());
+      this->sensor_dplus_adc_dis_->publish_state(this->parent_->get_dplus_adc_dis_bool());
     }
   }
   // DMINUS_ADC_DIS - D- ADC disable
@@ -1982,7 +1982,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_dminus_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis_enum_int());
+      this->sensor_dminus_adc_dis_->publish_state(this->parent_->get_dminus_adc_dis_bool());
     }
   }
   // VAC2_ADC_DIS - VAC2 ADC disable
@@ -1990,7 +1990,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac2_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis_enum_int());
+      this->sensor_vac2_adc_dis_->publish_state(this->parent_->get_vac2_adc_dis_bool());
     }
   }
   // VAC1_ADC_DIS - VAC1 ADC disable
@@ -1998,7 +1998,7 @@ void BQ25798Sensor::update() {
     if (this->parent_->is_failed()) {
       this->sensor_vac1_adc_dis_->publish_state(NAN);
     } else {
-      this->sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis_enum_int());
+      this->sensor_vac1_adc_dis_->publish_state(this->parent_->get_vac1_adc_dis_bool());
     }
   }
   // IBUS_ADC - IBUS ADC reading
