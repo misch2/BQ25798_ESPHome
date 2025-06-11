@@ -31,10 +31,14 @@ void BQ25798BinarySensor::update() {
       this->binary_sensor_{{ def._snake_case_name }}_->publish_state(false);
     } else {
 {%         if def._is_flag %}
-      this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_flag());
+      bool new_state = this->parent_->get_{{ def._snake_case_name }}_flag();
 {%         else %}
-      this->binary_sensor_{{ def._snake_case_name }}_->publish_state(this->parent_->get_{{ def._snake_case_name }}_bool());
+      bool new_state = this->parent_->get_{{ def._snake_case_name }}_bool();
 {%         endif %}
+      if (new_state != this->binary_sensor_{{ def._snake_case_name }}_->state) {
+        ESP_LOGI(TAG, "Updating binary sensor '{{ def.name }}' to %s", new_state ? "ON" : "OFF");
+      }
+      this->binary_sensor_{{ def._snake_case_name }}_->publish_state(new_state);
     }
   }
 {%     endif %}

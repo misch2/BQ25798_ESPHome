@@ -228,8 +228,9 @@ void BQ25798Component::update() {
     }
   }
 
+  // No, watchdog reset can easily be implemented in the ESPHome yaml loop
   // Refresh watchdog timer
-  this->set_wd_rst_bool(true);
+  // this->set_wd_rst_bool(true);
 }
 
 // To visibly indicate that the component is not ready to use, we clear all registers
