@@ -10,6 +10,724 @@ namespace bq25798 {
 
 static const char* TAG = "bq25798.component";
 
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VBAT_LOWV_PCT_15" },
+  { 1, "VBAT_LOWV_PCT_62" },
+  { 2, "VBAT_LOWV_PCT_67" },
+  { 3, "VBAT_LOWV_PCT_71" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VBAT_LOWV_PCT_15", 0 },
+  { "VBAT_LOWV_PCT_62", 1 },
+  { "VBAT_LOWV_PCT_67", 2 },
+  { "VBAT_LOWV_PCT_71", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "CELL_1S" },
+  { 1, "CELL_2S" },
+  { 2, "CELL_3S" },
+  { 3, "CELL_4S" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "CELL_1S", 0 },
+  { "CELL_2S", 1 },
+  { "CELL_3S", 2 },
+  { "CELL_4S", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TRECHG_64MS" },
+  { 1, "TRECHG_256MS" },
+  { 2, "TRECHG_1024MS" },
+  { 3, "TRECHG_2048MS" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TRECHG_64MS", 0 },
+  { "TRECHG_256MS", 1 },
+  { "TRECHG_1024MS", 2 },
+  { "TRECHG_2048MS", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PRECHG_TMR_2HRS" },
+  { 1, "PRECHG_TMR_30MIN" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PRECHG_TMR_2HRS", 0 },
+  { "PRECHG_TMR_30MIN", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TOPOFF_TMR_DISABLED" },
+  { 1, "TOPOFF_TMR_15MIN" },
+  { 2, "TOPOFF_TMR_30MIN" },
+  { 3, "TOPOFF_TMR_45MIN" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TOPOFF_TMR_DISABLED", 0 },
+  { "TOPOFF_TMR_15MIN", 1 },
+  { "TOPOFF_TMR_30MIN", 2 },
+  { "TOPOFF_TMR_45MIN", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "CHG_TMR_5HRS" },
+  { 1, "CHG_TMR_8HRS" },
+  { 2, "CHG_TMR_12HRS" },
+  { 3, "CHG_TMR_24HRS" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "CHG_TMR_5HRS", 0 },
+  { "CHG_TMR_8HRS", 1 },
+  { "CHG_TMR_12HRS", 2 },
+  { "CHG_TMR_24HRS", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PCT_VBUS_BACKUP_40" },
+  { 1, "PCT_VBUS_BACKUP_60" },
+  { 2, "PCT_VBUS_BACKUP_80" },
+  { 3, "PCT_VBUS_BACKUP_100" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PCT_VBUS_BACKUP_40", 0 },
+  { "PCT_VBUS_BACKUP_60", 1 },
+  { "PCT_VBUS_BACKUP_80", 2 },
+  { "PCT_VBUS_BACKUP_100", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VAC_OVP_26V" },
+  { 1, "VAC_OVP_22V" },
+  { 2, "VAC_OVP_12V" },
+  { 3, "VAC_OVP_7V" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VAC_OVP_26V", 0 },
+  { "VAC_OVP_22V", 1 },
+  { "VAC_OVP_12V", 2 },
+  { "VAC_OVP_7V", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "WATCHDOG_DISABLE" },
+  { 1, "WATCHDOG_05S" },
+  { 2, "WATCHDOG_1S" },
+  { 3, "WATCHDOG_2S" },
+  { 4, "WATCHDOG_20S" },
+  { 5, "WATCHDOG_40S" },
+  { 6, "WATCHDOG_80S" },
+  { 7, "WATCHDOG_160S" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "WATCHDOG_DISABLE", 0 },
+  { "WATCHDOG_05S", 1 },
+  { "WATCHDOG_1S", 2 },
+  { "WATCHDOG_2S", 3 },
+  { "WATCHDOG_20S", 4 },
+  { "WATCHDOG_40S", 5 },
+  { "WATCHDOG_80S", 6 },
+  { "WATCHDOG_160S", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "SDRV_CTRL_IDLE" },
+  { 1, "SDRV_CTRL_SHUTDOWN" },
+  { 2, "SDRV_CTRL_SHIP" },
+  { 3, "SDRV_CTRL_SYS_PWR_RST" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "SDRV_CTRL_IDLE", 0 },
+  { "SDRV_CTRL_SHUTDOWN", 1 },
+  { "SDRV_CTRL_SHIP", 2 },
+  { "SDRV_CTRL_SYS_PWR_RST", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "SDRV_DLY_10S" },
+  { 1, "SDRV_DLY_0S" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "SDRV_DLY_10S", 0 },
+  { "SDRV_DLY_0S", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "WKUP_DLY_1S" },
+  { 1, "WKUP_DLY_15MS" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "WKUP_DLY_1S", 0 },
+  { "WKUP_DLY_15MS", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PWM_FREQ_1_5MHZ" },
+  { 1, "PWM_FREQ_750KHZ" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PWM_FREQ_1_5MHZ", 0 },
+  { "PWM_FREQ_750KHZ", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "IBAT_REG_3A" },
+  { 1, "IBAT_REG_4A" },
+  { 2, "IBAT_REG_5A" },
+  { 3, "IBAT_REG_DISABLE" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "IBAT_REG_3A", 0 },
+  { "IBAT_REG_4A", 1 },
+  { "IBAT_REG_5A", 2 },
+  { "IBAT_REG_DISABLE", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VOC_PCT_0_5625" },
+  { 1, "VOC_PCT_0_625" },
+  { 2, "VOC_PCT_0_6875" },
+  { 3, "VOC_PCT_0_75" },
+  { 4, "VOC_PCT_0_8125" },
+  { 5, "VOC_PCT_0_875" },
+  { 6, "VOC_PCT_0_9375" },
+  { 7, "VOC_PCT_1" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VOC_PCT_0_5625", 0 },
+  { "VOC_PCT_0_625", 1 },
+  { "VOC_PCT_0_6875", 2 },
+  { "VOC_PCT_0_75", 3 },
+  { "VOC_PCT_0_8125", 4 },
+  { "VOC_PCT_0_875", 5 },
+  { "VOC_PCT_0_9375", 6 },
+  { "VOC_PCT_1", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VOC_DLY_50MS" },
+  { 1, "VOC_DLY_300MS" },
+  { 2, "VOC_DLY_2S" },
+  { 3, "VOC_DLY_5S" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VOC_DLY_50MS", 0 },
+  { "VOC_DLY_300MS", 1 },
+  { "VOC_DLY_2S", 2 },
+  { "VOC_DLY_5S", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VOC_RATE_30S" },
+  { 1, "VOC_RATE_2MIN" },
+  { 2, "VOC_RATE_10MIN" },
+  { 3, "VOC_RATE_30MIN" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VOC_RATE_30S", 0 },
+  { "VOC_RATE_2MIN", 1 },
+  { "VOC_RATE_10MIN", 2 },
+  { "VOC_RATE_30MIN", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TREG_60" },
+  { 1, "TREG_80" },
+  { 2, "TREG_100" },
+  { 3, "TREG_120" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TREG_60", 0 },
+  { "TREG_80", 1 },
+  { "TREG_100", 2 },
+  { "TREG_120", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TSHUT_150" },
+  { 1, "TSHUT_130" },
+  { 2, "TSHUT_120" },
+  { 3, "TSHUT_85" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TSHUT_150", 0 },
+  { "TSHUT_130", 1 },
+  { "TSHUT_120", 2 },
+  { "TSHUT_85", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "JEITA_VSET_CHARGE_SUSPEND" },
+  { 1, "JEITA_VSET_SET_VREG_TO_VREG_800MV" },
+  { 2, "JEITA_VSET_SET_VREG_TO_VREG_600MV" },
+  { 3, "JEITA_VSET_SET_VREG_TO_VREG_400MV" },
+  { 4, "JEITA_VSET_SET_VREG_TO_VREG_300MV" },
+  { 5, "JEITA_VSET_SET_VREG_TO_VREG_200MV" },
+  { 6, "JEITA_VSET_SET_VREG_TO_VREG_100MV" },
+  { 7, "JEITA_VSET_VREG_UNCHANGED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "JEITA_VSET_CHARGE_SUSPEND", 0 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_800MV", 1 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_600MV", 2 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_400MV", 3 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_300MV", 4 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_200MV", 5 },
+  { "JEITA_VSET_SET_VREG_TO_VREG_100MV", 6 },
+  { "JEITA_VSET_VREG_UNCHANGED", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "JEITA_ISETH_CHARGE_SUSPEND" },
+  { 1, "JEITA_ISETH_SET_ICHG_TO_20" },
+  { 2, "JEITA_ISETH_SET_ICHG_TO_40" },
+  { 3, "JEITA_ISETH_ICHG_UNCHANGED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "JEITA_ISETH_CHARGE_SUSPEND", 0 },
+  { "JEITA_ISETH_SET_ICHG_TO_20", 1 },
+  { "JEITA_ISETH_SET_ICHG_TO_40", 2 },
+  { "JEITA_ISETH_ICHG_UNCHANGED", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "JEITA_ISETC_CHARGE_SUSPEND" },
+  { 1, "JEITA_ISETC_SET_ICHG_TO_20" },
+  { 2, "JEITA_ISETC_SET_ICHG_TO_40" },
+  { 3, "JEITA_ISETC_ICHG_UNCHANGED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "JEITA_ISETC_CHARGE_SUSPEND", 0 },
+  { "JEITA_ISETC_SET_ICHG_TO_20", 1 },
+  { "JEITA_ISETC_SET_ICHG_TO_40", 2 },
+  { "JEITA_ISETC_ICHG_UNCHANGED", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_COOL_5" },
+  { 1, "TS_COOL_10" },
+  { 2, "TS_COOL_15" },
+  { 3, "TS_COOL_20" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_COOL_5", 0 },
+  { "TS_COOL_10", 1 },
+  { "TS_COOL_15", 2 },
+  { "TS_COOL_20", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_WARM_40" },
+  { 1, "TS_WARM_45" },
+  { 2, "TS_WARM_50" },
+  { 3, "TS_WARM_55" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_WARM_40", 0 },
+  { "TS_WARM_45", 1 },
+  { "TS_WARM_50", 2 },
+  { "TS_WARM_55", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_BHOT_55" },
+  { 1, "TS_BHOT_60" },
+  { 2, "TS_BHOT_65" },
+  { 3, "TS_BHOT_DISABLE" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_BHOT_55", 0 },
+  { "TS_BHOT_60", 1 },
+  { "TS_BHOT_65", 2 },
+  { "TS_BHOT_DISABLE", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_BCOLD_MINUS_10" },
+  { 1, "TS_BCOLD_MINUS_20" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_BCOLD_MINUS_10", 0 },
+  { "TS_BCOLD_MINUS_20", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "IINDPM_STAT_NORMAL" },
+  { 1, "IINDPM_STAT_REGULATION" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "IINDPM_STAT_NORMAL", 0 },
+  { "IINDPM_STAT_REGULATION", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VINDPM_STAT_NORMAL" },
+  { 1, "VINDPM_STAT_REGULATION" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VINDPM_STAT_NORMAL", 0 },
+  { "VINDPM_STAT_REGULATION", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "WD_STAT_NORMAL" },
+  { 1, "WD_STAT_EXPIRED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "WD_STAT_NORMAL", 0 },
+  { "WD_STAT_EXPIRED", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PG_STAT_BAD" },
+  { 1, "PG_STAT_GOOD" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PG_STAT_BAD", 0 },
+  { "PG_STAT_GOOD", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "AC2_PRESENT_STAT_NOT_PRESENT" },
+  { 1, "AC2_PRESENT_STAT_PRESENT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "AC2_PRESENT_STAT_NOT_PRESENT", 0 },
+  { "AC2_PRESENT_STAT_PRESENT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "AC1_PRESENT_STAT_NOT_PRESENT" },
+  { 1, "AC1_PRESENT_STAT_PRESENT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "AC1_PRESENT_STAT_NOT_PRESENT", 0 },
+  { "AC1_PRESENT_STAT_PRESENT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VBUS_PRESENT_STAT_NOT_PRESENT" },
+  { 1, "VBUS_PRESENT_STAT_PRESENT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VBUS_PRESENT_STAT_NOT_PRESENT", 0 },
+  { "VBUS_PRESENT_STAT_PRESENT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "CHG_STAT_NOT_CHARGING" },
+  { 1, "CHG_STAT_TRICKLECHARGE" },
+  { 2, "CHG_STAT_PRECHARGE" },
+  { 3, "CHG_STAT_FASTCHARGE_CC" },
+  { 4, "CHG_STAT_FASTCHARGE_CV" },
+  { 5, "CHG_STAT_RESERVED_5" },
+  { 6, "CHG_STAT_TOPOFF" },
+  { 7, "CHG_STAT_TERMINATED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "CHG_STAT_NOT_CHARGING", 0 },
+  { "CHG_STAT_TRICKLECHARGE", 1 },
+  { "CHG_STAT_PRECHARGE", 2 },
+  { "CHG_STAT_FASTCHARGE_CC", 3 },
+  { "CHG_STAT_FASTCHARGE_CV", 4 },
+  { "CHG_STAT_RESERVED_5", 5 },
+  { "CHG_STAT_TOPOFF", 6 },
+  { "CHG_STAT_TERMINATED", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VBUS_STAT_NO_INPUT" },
+  { 1, "VBUS_STAT_USB_SDP" },
+  { 2, "VBUS_STAT_USB_CDP" },
+  { 3, "VBUS_STAT_USB_DCP" },
+  { 4, "VBUS_STAT_ADJUSTABLE_HVDCP" },
+  { 5, "VBUS_STAT_UNKNOWN_ADAPTOR" },
+  { 6, "VBUS_STAT_NON_STANDARD_ADAPTER" },
+  { 7, "VBUS_STAT_OTG_MODE" },
+  { 8, "VBUS_STAT_NOT_QUALIFIED_ADAPTOR" },
+  { 9, "VBUS_STAT_RESERVED_9" },
+  { 10, "VBUS_STAT_RESERVED_A" },
+  { 11, "VBUS_STAT_DEVICE_POWERED_FROM_VBUS" },
+  { 12, "VBUS_STAT_BACKUP_MODE" },
+  { 13, "VBUS_STAT_RESERVED_D" },
+  { 14, "VBUS_STAT_RESERVED_E" },
+  { 15, "VBUS_STAT_RESERVED_F" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VBUS_STAT_NO_INPUT", 0 },
+  { "VBUS_STAT_USB_SDP", 1 },
+  { "VBUS_STAT_USB_CDP", 2 },
+  { "VBUS_STAT_USB_DCP", 3 },
+  { "VBUS_STAT_ADJUSTABLE_HVDCP", 4 },
+  { "VBUS_STAT_UNKNOWN_ADAPTOR", 5 },
+  { "VBUS_STAT_NON_STANDARD_ADAPTER", 6 },
+  { "VBUS_STAT_OTG_MODE", 7 },
+  { "VBUS_STAT_NOT_QUALIFIED_ADAPTOR", 8 },
+  { "VBUS_STAT_RESERVED_9", 9 },
+  { "VBUS_STAT_RESERVED_A", 10 },
+  { "VBUS_STAT_DEVICE_POWERED_FROM_VBUS", 11 },
+  { "VBUS_STAT_BACKUP_MODE", 12 },
+  { "VBUS_STAT_RESERVED_D", 13 },
+  { "VBUS_STAT_RESERVED_E", 14 },
+  { "VBUS_STAT_RESERVED_F", 15 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ICO_STAT_DISABLED" },
+  { 1, "ICO_STAT_IN_PROGRESS" },
+  { 2, "ICO_STAT_MAX_CURRENT_DETECTED" },
+  { 3, "ICO_STAT_RESERVED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ICO_STAT_DISABLED", 0 },
+  { "ICO_STAT_IN_PROGRESS", 1 },
+  { "ICO_STAT_MAX_CURRENT_DETECTED", 2 },
+  { "ICO_STAT_RESERVED", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TREG_STAT_NORMAL" },
+  { 1, "TREG_STAT_THERMAL_REGULATION" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TREG_STAT_NORMAL", 0 },
+  { "TREG_STAT_THERMAL_REGULATION", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "DPDM_STAT_NOT_STARTED" },
+  { 1, "DPDM_STAT_IN_PROGRESS" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "DPDM_STAT_NOT_STARTED", 0 },
+  { "DPDM_STAT_IN_PROGRESS", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VBAT_PRESENT_STAT_NOT_PRESENT" },
+  { 1, "VBAT_PRESENT_STAT_PRESENT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VBAT_PRESENT_STAT_NOT_PRESENT", 0 },
+  { "VBAT_PRESENT_STAT_PRESENT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ACRB2_STAT_OFF" },
+  { 1, "ACRB2_STAT_ON" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ACRB2_STAT_OFF", 0 },
+  { "ACRB2_STAT_ON", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ACRB1_STAT_OFF" },
+  { 1, "ACRB1_STAT_ON" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ACRB1_STAT_OFF", 0 },
+  { "ACRB1_STAT_ON", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VSYS_STAT_NOT_IN_VSYSMIN_REGULATION" },
+  { 1, "VSYS_STAT_IN_VSYSMIN_REGULATION" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VSYS_STAT_NOT_IN_VSYSMIN_REGULATION", 0 },
+  { "VSYS_STAT_IN_VSYSMIN_REGULATION", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "CHG_TMR_STAT_NORMAL" },
+  { 1, "CHG_TMR_STAT_SAFETY_TIMER_EXPIRED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "CHG_TMR_STAT_NORMAL", 0 },
+  { "CHG_TMR_STAT_SAFETY_TIMER_EXPIRED", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TRICHG_TMR_STAT_NORMAL" },
+  { 1, "TRICHG_TMR_STAT_SAFETY_TIMER_EXPIRED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TRICHG_TMR_STAT_NORMAL", 0 },
+  { "TRICHG_TMR_STAT_SAFETY_TIMER_EXPIRED", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PRECHG_TMR_STAT_NORMAL" },
+  { 1, "PRECHG_TMR_STAT_SAFETY_TIMER_EXPIRED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PRECHG_TMR_STAT_NORMAL", 0 },
+  { "PRECHG_TMR_STAT_SAFETY_TIMER_EXPIRED", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "VBATOTG_LOW_STAT_VBATOTG_OK" },
+  { 1, "VBATOTG_LOW_STAT_VBATOTG_LOW" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "VBATOTG_LOW_STAT_VBATOTG_OK", 0 },
+  { "VBATOTG_LOW_STAT_VBATOTG_LOW", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_COLD_STAT_NOT_COLD" },
+  { 1, "TS_COLD_STAT_COLD" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_COLD_STAT_NOT_COLD", 0 },
+  { "TS_COLD_STAT_COLD", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_COOL_STAT_NOT_COOL" },
+  { 1, "TS_COOL_STAT_COOL" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_COOL_STAT_NOT_COOL", 0 },
+  { "TS_COOL_STAT_COOL", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_WARM_STAT_NOT_WARM" },
+  { 1, "TS_WARM_STAT_WARM" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_WARM_STAT_NOT_WARM", 0 },
+  { "TS_WARM_STAT_WARM", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "TS_HOT_STAT_NOT_HOT" },
+  { 1, "TS_HOT_STAT_HOT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "TS_HOT_STAT_NOT_HOT", 0 },
+  { "TS_HOT_STAT_HOT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ADC_RATE_CONTINUOUS" },
+  { 1, "ADC_RATE_ONESHOT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ADC_RATE_CONTINUOUS", 0 },
+  { "ADC_RATE_ONESHOT", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ADC_SAMPLE_15BIT" },
+  { 1, "ADC_SAMPLE_14BIT" },
+  { 2, "ADC_SAMPLE_13BIT" },
+  { 3, "ADC_SAMPLE_12BIT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ADC_SAMPLE_15BIT", 0 },
+  { "ADC_SAMPLE_14BIT", 1 },
+  { "ADC_SAMPLE_13BIT", 2 },
+  { "ADC_SAMPLE_12BIT", 3 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "ADC_AVG_NO_AVERAGING" },
+  { 1, "ADC_AVG_RUNNING_AVERAGE" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "ADC_AVG_NO_AVERAGING", 0 },
+  { "ADC_AVG_RUNNING_AVERAGE", 1 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "DPLUS_DAC_HIZ" },
+  { 1, "DPLUS_DAC_VOUT_0" },
+  { 2, "DPLUS_DAC_VOUT_0_6" },
+  { 3, "DPLUS_DAC_VOUT_1_2" },
+  { 4, "DPLUS_DAC_VOUT_2_0" },
+  { 5, "DPLUS_DAC_VOUT_2_7" },
+  { 6, "DPLUS_DAC_VOUT_3_3" },
+  { 7, "DPLUS_DAC_DPLUS_DMINUS_SHORT" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "DPLUS_DAC_HIZ", 0 },
+  { "DPLUS_DAC_VOUT_0", 1 },
+  { "DPLUS_DAC_VOUT_0_6", 2 },
+  { "DPLUS_DAC_VOUT_1_2", 3 },
+  { "DPLUS_DAC_VOUT_2_0", 4 },
+  { "DPLUS_DAC_VOUT_2_7", 5 },
+  { "DPLUS_DAC_VOUT_3_3", 6 },
+  { "DPLUS_DAC_DPLUS_DMINUS_SHORT", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "DMINUS_DAC_HIZ" },
+  { 1, "DMINUS_DAC_VOUT_0" },
+  { 2, "DMINUS_DAC_VOUT_0_6" },
+  { 3, "DMINUS_DAC_VOUT_1_2" },
+  { 4, "DMINUS_DAC_VOUT_2_0" },
+  { 5, "DMINUS_DAC_VOUT_2_7" },
+  { 6, "DMINUS_DAC_VOUT_3_3" },
+  { 7, "DMINUS_DAC_RESERVED" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "DMINUS_DAC_HIZ", 0 },
+  { "DMINUS_DAC_VOUT_0", 1 },
+  { "DMINUS_DAC_VOUT_0_6", 2 },
+  { "DMINUS_DAC_VOUT_1_2", 3 },
+  { "DMINUS_DAC_VOUT_2_0", 4 },
+  { "DMINUS_DAC_VOUT_2_7", 5 },
+  { "DMINUS_DAC_VOUT_3_3", 6 },
+  { "DMINUS_DAC_RESERVED", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "PN_RESERVED_0" },
+  { 1, "PN_RESERVED_1" },
+  { 2, "PN_RESERVED_2" },
+  { 3, "PN_BQ25798" },
+  { 4, "PN_RESERVED_4" },
+  { 5, "PN_RESERVED_5" },
+  { 6, "PN_RESERVED_6" },
+  { 7, "PN_RESERVED_7" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "PN_RESERVED_0", 0 },
+  { "PN_RESERVED_1", 1 },
+  { "PN_RESERVED_2", 2 },
+  { "PN_BQ25798", 3 },
+  { "PN_RESERVED_4", 4 },
+  { "PN_RESERVED_5", 5 },
+  { "PN_RESERVED_6", 6 },
+  { "PN_RESERVED_7", 7 },
+};
+static const std::map<uint8_t, std::string> _INT_TO_ENUM {
+  { 0, "DEV_REV_RESERVED_0" },
+  { 1, "DEV_REV_BQ25798" },
+  { 2, "DEV_REV_RESERVED_2" },
+  { 3, "DEV_REV_RESERVED_3" },
+  { 4, "DEV_REV_RESERVED_4" },
+  { 5, "DEV_REV_RESERVED_5" },
+  { 6, "DEV_REV_RESERVED_6" },
+  { 7, "DEV_REV_RESERVED_7" },
+};
+
+static const std::map<std::string, uint8_t> _ENUM_TO_INT {
+  { "DEV_REV_RESERVED_0", 0 },
+  { "DEV_REV_BQ25798", 1 },
+  { "DEV_REV_RESERVED_2", 2 },
+  { "DEV_REV_RESERVED_3", 3 },
+  { "DEV_REV_RESERVED_4", 4 },
+  { "DEV_REV_RESERVED_5", 5 },
+  { "DEV_REV_RESERVED_6", 6 },
+  { "DEV_REV_RESERVED_7", 7 },
+};
+
 void BQ25798Component::setup() {
   ESP_LOGCONFIG(TAG, "Setting up BQ25798...");
 
@@ -569,7 +1287,7 @@ const char* BQ25798Component::get_vbat_lowv_enum_string() {
 }
 
 void BQ25798Component::set_vbat_lowv_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VBAT_LOWV to %d", value);
+  ESP_LOGD(TAG, "Setting enum VBAT_LOWV to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBAT_LOWV);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VBAT_LOWV");
@@ -847,7 +1565,7 @@ const char* BQ25798Component::get_cell_enum_string() {
 }
 
 void BQ25798Component::set_cell_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum CELL to %d", value);
+  ESP_LOGD(TAG, "Setting enum CELL to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CELL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for CELL");
@@ -909,7 +1627,7 @@ const char* BQ25798Component::get_trechg_enum_string() {
 }
 
 void BQ25798Component::set_trechg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TRECHG to %d", value);
+  ESP_LOGD(TAG, "Setting enum TRECHG to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TRECHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TRECHG");
@@ -1103,7 +1821,7 @@ void BQ25798Component::set_prechg_tmr_bool(bool value) {
 };
 
 void BQ25798Component::set_prechg_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum PRECHG_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum PRECHG_TMR to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for PRECHG_TMR");
@@ -1219,7 +1937,7 @@ const char* BQ25798Component::get_topoff_tmr_enum_string() {
 }
 
 void BQ25798Component::set_topoff_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TOPOFF_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum TOPOFF_TMR to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TOPOFF_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TOPOFF_TMR");
@@ -1443,7 +2161,7 @@ const char* BQ25798Component::get_chg_tmr_enum_string() {
 }
 
 void BQ25798Component::set_chg_tmr_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum CHG_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum CHG_TMR to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for CHG_TMR");
@@ -1991,7 +2709,7 @@ const char* BQ25798Component::get_vbus_backup_enum_string() {
 }
 
 void BQ25798Component::set_vbus_backup_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VBUS_BACKUP to %d", value);
+  ESP_LOGD(TAG, "Setting enum VBUS_BACKUP to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBUS_BACKUP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VBUS_BACKUP");
@@ -2053,7 +2771,7 @@ const char* BQ25798Component::get_vac_ovp_enum_string() {
 }
 
 void BQ25798Component::set_vac_ovp_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VAC_OVP to %d", value);
+  ESP_LOGD(TAG, "Setting enum VAC_OVP to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VAC_OVP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VAC_OVP");
@@ -2169,7 +2887,7 @@ const char* BQ25798Component::get_watchdog_enum_string() {
 }
 
 void BQ25798Component::set_watchdog_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum WATCHDOG to %d", value);
+  ESP_LOGD(TAG, "Setting enum WATCHDOG to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WATCHDOG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for WATCHDOG");
@@ -2501,7 +3219,7 @@ const char* BQ25798Component::get_sdrv_ctrl_enum_string() {
 }
 
 void BQ25798Component::set_sdrv_ctrl_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum SDRV_CTRL to %d", value);
+  ESP_LOGD(TAG, "Setting enum SDRV_CTRL to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_CTRL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for SDRV_CTRL");
@@ -2585,7 +3303,7 @@ void BQ25798Component::set_sdrv_dly_bool(bool value) {
 };
 
 void BQ25798Component::set_sdrv_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum SDRV_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum SDRV_DLY to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for SDRV_DLY");
@@ -2885,7 +3603,7 @@ void BQ25798Component::set_wkup_dly_bool(bool value) {
 };
 
 void BQ25798Component::set_wkup_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum WKUP_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum WKUP_DLY to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WKUP_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for WKUP_DLY");
@@ -3239,7 +3957,7 @@ void BQ25798Component::set_pwm_freq_bool(bool value) {
 };
 
 void BQ25798Component::set_pwm_freq_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum PWM_FREQ to %d", value);
+  ESP_LOGD(TAG, "Setting enum PWM_FREQ to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PWM_FREQ);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for PWM_FREQ");
@@ -3679,7 +4397,7 @@ const char* BQ25798Component::get_ibat_reg_enum_string() {
 }
 
 void BQ25798Component::set_ibat_reg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum IBAT_REG to %d", value);
+  ESP_LOGD(TAG, "Setting enum IBAT_REG to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IBAT_REG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for IBAT_REG");
@@ -3903,7 +4621,7 @@ const char* BQ25798Component::get_voc_pct_enum_string() {
 }
 
 void BQ25798Component::set_voc_pct_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VOC_PCT to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_PCT to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_PCT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_PCT");
@@ -3965,7 +4683,7 @@ const char* BQ25798Component::get_voc_dly_enum_string() {
 }
 
 void BQ25798Component::set_voc_dly_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VOC_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_DLY to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_DLY");
@@ -4027,7 +4745,7 @@ const char* BQ25798Component::get_voc_rate_enum_string() {
 }
 
 void BQ25798Component::set_voc_rate_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum VOC_RATE to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_RATE to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_RATE");
@@ -4143,7 +4861,7 @@ const char* BQ25798Component::get_treg_enum_string() {
 }
 
 void BQ25798Component::set_treg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TREG to %d", value);
+  ESP_LOGD(TAG, "Setting enum TREG to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TREG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TREG");
@@ -4205,7 +4923,7 @@ const char* BQ25798Component::get_tshut_enum_string() {
 }
 
 void BQ25798Component::set_tshut_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TSHUT to %d", value);
+  ESP_LOGD(TAG, "Setting enum TSHUT to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TSHUT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TSHUT");
@@ -4483,7 +5201,7 @@ const char* BQ25798Component::get_jeita_vset_enum_string() {
 }
 
 void BQ25798Component::set_jeita_vset_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum JEITA_VSET to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_VSET to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_VSET);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_VSET");
@@ -4545,7 +5263,7 @@ const char* BQ25798Component::get_jeita_iseth_enum_string() {
 }
 
 void BQ25798Component::set_jeita_iseth_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum JEITA_ISETH to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_ISETH to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETH);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_ISETH");
@@ -4607,7 +5325,7 @@ const char* BQ25798Component::get_jeita_isetc_enum_string() {
 }
 
 void BQ25798Component::set_jeita_isetc_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum JEITA_ISETC to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_ISETC to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_ISETC");
@@ -4669,7 +5387,7 @@ const char* BQ25798Component::get_ts_cool_enum_string() {
 }
 
 void BQ25798Component::set_ts_cool_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TS_COOL to %d", value);
+  ESP_LOGD(TAG, "Setting enum TS_COOL to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_COOL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TS_COOL");
@@ -4731,7 +5449,7 @@ const char* BQ25798Component::get_ts_warm_enum_string() {
 }
 
 void BQ25798Component::set_ts_warm_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum TS_WARM to %d", value);
+  ESP_LOGD(TAG, "Setting enum TS_WARM to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_WARM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TS_WARM");
@@ -4793,7 +5511,7 @@ const char* BQ25798Component::get_bhot_enum_string() {
 }
 
 void BQ25798Component::set_bhot_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum BHOT to %d", value);
+  ESP_LOGD(TAG, "Setting enum BHOT to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BHOT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for BHOT");
@@ -4877,7 +5595,7 @@ void BQ25798Component::set_bcold_bool(bool value) {
 };
 
 void BQ25798Component::set_bcold_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum BCOLD to %d", value);
+  ESP_LOGD(TAG, "Setting enum BCOLD to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BCOLD);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for BCOLD");
@@ -7701,7 +8419,7 @@ void BQ25798Component::set_adc_rate_bool(bool value) {
 };
 
 void BQ25798Component::set_adc_rate_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum ADC_RATE to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_RATE to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_RATE");
@@ -7763,7 +8481,7 @@ const char* BQ25798Component::get_adc_sample_enum_string() {
 }
 
 void BQ25798Component::set_adc_sample_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum ADC_SAMPLE to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_SAMPLE to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_SAMPLE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_SAMPLE");
@@ -7847,7 +8565,7 @@ void BQ25798Component::set_adc_avg_bool(bool value) {
 };
 
 void BQ25798Component::set_adc_avg_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum ADC_AVG to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_AVG to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_AVG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_AVG");
@@ -8799,7 +9517,7 @@ const char* BQ25798Component::get_dplus_dac_enum_string() {
 }
 
 void BQ25798Component::set_dplus_dac_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum DPLUS_DAC to %d", value);
+  ESP_LOGD(TAG, "Setting enum DPLUS_DAC to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DPLUS_DAC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for DPLUS_DAC");
@@ -8861,7 +9579,7 @@ const char* BQ25798Component::get_dminus_dac_enum_string() {
 }
 
 void BQ25798Component::set_dminus_dac_enum_int(int value) {
-  ESP_LOGD(TAG, "Setting enum DMINUS_DAC to %d", value);
+  ESP_LOGD(TAG, "Setting enum DMINUS_DAC to %s (%d)", _INT_TO_ENUM.at(value).c_str(), value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DMINUS_DAC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for DMINUS_DAC");
