@@ -44,7 +44,7 @@ void BQ25798Component::setup() {
 //  }
 //  ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
-  ESP_LOGCONFIG(TAG, "BQ25798 initialized successfully at address 0x%02X", this->address_);
+  ESP_LOGCONFIG(TAG, "BQ25798 read successfully at address 0x%02X", this->address_);
 }
 
 void BQ25798Component::dump_config() {
@@ -234,7 +234,7 @@ void BQ25798Component::update() {
 
 // To visibly indicate that the component is not ready to use, we clear all registers
 void BQ25798Component::clear_registers() {
-  ESP_LOGD(TAG, "Clearing all cached registers");
+  ESP_LOGV(TAG, "Clearing all cached registers");
   for (int i = 0; i < 73; i++) {
     _reg_values[i] = 0;
   }
@@ -283,7 +283,7 @@ int BQ25798Component::get_vsysmin_int() {
 }
 
 void BQ25798Component::set_vsysmin_int(int value) {
-//  ESP_LOGD(TAG, "Setting VSYSMIN to %d", value);
+  ESP_LOGD(TAG, "Setting int VSYSMIN to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VSYSMIN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for VSYSMIN");
@@ -339,7 +339,7 @@ int BQ25798Component::get_vreg_int() {
 }
 
 void BQ25798Component::set_vreg_int(int value) {
-//  ESP_LOGD(TAG, "Setting VREG to %d", value);
+  ESP_LOGD(TAG, "Setting int VREG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VREG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for VREG");
@@ -395,7 +395,7 @@ int BQ25798Component::get_ichg_int() {
 }
 
 void BQ25798Component::set_ichg_int(int value) {
-//  ESP_LOGD(TAG, "Setting ICHG to %d", value);
+  ESP_LOGD(TAG, "Setting int ICHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ICHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for ICHG");
@@ -449,7 +449,7 @@ int BQ25798Component::get_vindpm_int() {
 }
 
 void BQ25798Component::set_vindpm_int(int value) {
-//  ESP_LOGD(TAG, "Setting VINDPM to %d", value);
+  ESP_LOGD(TAG, "Setting int VINDPM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VINDPM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for VINDPM");
@@ -505,7 +505,7 @@ int BQ25798Component::get_iindpm_int() {
 }
 
 void BQ25798Component::set_iindpm_int(int value) {
-//  ESP_LOGD(TAG, "Setting IINDPM to %d", value);
+  ESP_LOGD(TAG, "Setting int IINDPM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IINDPM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for IINDPM");
@@ -568,7 +568,7 @@ const char* BQ25798Component::get_vbat_lowv_enum_string() {
 }
 
 void BQ25798Component::set_vbat_lowv_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VBAT_LOWV to %d", value);
+  ESP_LOGD(TAG, "Setting enum VBAT_LOWV to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBAT_LOWV);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VBAT_LOWV");
@@ -621,7 +621,7 @@ int BQ25798Component::get_iprechg_int() {
 }
 
 void BQ25798Component::set_iprechg_int(int value) {
-//  ESP_LOGD(TAG, "Setting IPRECHG to %d", value);
+  ESP_LOGD(TAG, "Setting int IPRECHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IPRECHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for IPRECHG");
@@ -675,7 +675,7 @@ bool BQ25798Component::get_reg_rst_bool() {
 }
 
 void BQ25798Component::set_reg_rst_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting REG_RST to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool REG_RST to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->REG_RST);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for REG_RST");
@@ -729,7 +729,7 @@ bool BQ25798Component::get_stop_wd_chg_bool() {
 }
 
 void BQ25798Component::set_stop_wd_chg_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting STOP_WD_CHG to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool STOP_WD_CHG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->STOP_WD_CHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for STOP_WD_CHG");
@@ -783,7 +783,7 @@ int BQ25798Component::get_iterm_int() {
 }
 
 void BQ25798Component::set_iterm_int(int value) {
-//  ESP_LOGD(TAG, "Setting ITERM to %d", value);
+  ESP_LOGD(TAG, "Setting int ITERM to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ITERM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for ITERM");
@@ -846,7 +846,7 @@ const char* BQ25798Component::get_cell_enum_string() {
 }
 
 void BQ25798Component::set_cell_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting CELL to %d", value);
+  ESP_LOGD(TAG, "Setting enum CELL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CELL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for CELL");
@@ -908,7 +908,7 @@ const char* BQ25798Component::get_trechg_enum_string() {
 }
 
 void BQ25798Component::set_trechg_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TRECHG to %d", value);
+  ESP_LOGD(TAG, "Setting enum TRECHG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TRECHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TRECHG");
@@ -961,7 +961,7 @@ int BQ25798Component::get_vrechg_int() {
 }
 
 void BQ25798Component::set_vrechg_int(int value) {
-//  ESP_LOGD(TAG, "Setting VRECHG to %d", value);
+  ESP_LOGD(TAG, "Setting int VRECHG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VRECHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for VRECHG");
@@ -1017,7 +1017,7 @@ int BQ25798Component::get_votg_int() {
 }
 
 void BQ25798Component::set_votg_int(int value) {
-//  ESP_LOGD(TAG, "Setting VOTG to %d", value);
+  ESP_LOGD(TAG, "Setting int VOTG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOTG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for VOTG");
@@ -1090,7 +1090,7 @@ const char* BQ25798Component::get_prechg_tmr_enum_string() {
 }
 
 void BQ25798Component::set_prechg_tmr_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting PRECHG_TMR to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool PRECHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for PRECHG_TMR");
@@ -1102,7 +1102,7 @@ void BQ25798Component::set_prechg_tmr_bool(bool value) {
 };
 
 void BQ25798Component::set_prechg_tmr_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting PRECHG_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum PRECHG_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for PRECHG_TMR");
@@ -1155,7 +1155,7 @@ int BQ25798Component::get_iotg_int() {
 }
 
 void BQ25798Component::set_iotg_int(int value) {
-//  ESP_LOGD(TAG, "Setting IOTG to %d", value);
+  ESP_LOGD(TAG, "Setting int IOTG to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IOTG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for IOTG");
@@ -1218,7 +1218,7 @@ const char* BQ25798Component::get_topoff_tmr_enum_string() {
 }
 
 void BQ25798Component::set_topoff_tmr_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TOPOFF_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum TOPOFF_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TOPOFF_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TOPOFF_TMR");
@@ -1271,7 +1271,7 @@ bool BQ25798Component::get_en_trichg_tmr_bool() {
 }
 
 void BQ25798Component::set_en_trichg_tmr_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_TRICHG_TMR to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_TRICHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_TRICHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_TRICHG_TMR");
@@ -1325,7 +1325,7 @@ bool BQ25798Component::get_en_prechg_tmr_bool() {
 }
 
 void BQ25798Component::set_en_prechg_tmr_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_PRECHG_TMR to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_PRECHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_PRECHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_PRECHG_TMR");
@@ -1379,7 +1379,7 @@ bool BQ25798Component::get_en_chg_tmr_bool() {
 }
 
 void BQ25798Component::set_en_chg_tmr_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_CHG_TMR to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_CHG_TMR to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_CHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_CHG_TMR");
@@ -1442,7 +1442,7 @@ const char* BQ25798Component::get_chg_tmr_enum_string() {
 }
 
 void BQ25798Component::set_chg_tmr_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting CHG_TMR to %d", value);
+  ESP_LOGD(TAG, "Setting enum CHG_TMR to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->CHG_TMR);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for CHG_TMR");
@@ -1495,7 +1495,7 @@ bool BQ25798Component::get_tmr2x_en_bool() {
 }
 
 void BQ25798Component::set_tmr2x_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting TMR2X_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool TMR2X_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TMR2X_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for TMR2X_EN");
@@ -1549,7 +1549,7 @@ bool BQ25798Component::get_en_auto_ibatdis_bool() {
 }
 
 void BQ25798Component::set_en_auto_ibatdis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_AUTO_IBATDIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_AUTO_IBATDIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_AUTO_IBATDIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_AUTO_IBATDIS");
@@ -1603,7 +1603,7 @@ bool BQ25798Component::get_force_ibatdis_bool() {
 }
 
 void BQ25798Component::set_force_ibatdis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting FORCE_IBATDIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool FORCE_IBATDIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_IBATDIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for FORCE_IBATDIS");
@@ -1657,7 +1657,7 @@ bool BQ25798Component::get_en_chg_bool() {
 }
 
 void BQ25798Component::set_en_chg_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_CHG to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_CHG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_CHG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_CHG");
@@ -1711,7 +1711,7 @@ bool BQ25798Component::get_en_ico_bool() {
 }
 
 void BQ25798Component::set_en_ico_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_ICO to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_ICO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ICO);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_ICO");
@@ -1765,7 +1765,7 @@ bool BQ25798Component::get_force_ico_bool() {
 }
 
 void BQ25798Component::set_force_ico_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting FORCE_ICO to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool FORCE_ICO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_ICO);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for FORCE_ICO");
@@ -1819,7 +1819,7 @@ bool BQ25798Component::get_en_hiz_bool() {
 }
 
 void BQ25798Component::set_en_hiz_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_HIZ to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_HIZ to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_HIZ);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_HIZ");
@@ -1873,7 +1873,7 @@ bool BQ25798Component::get_en_term_bool() {
 }
 
 void BQ25798Component::set_en_term_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_TERM to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_TERM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_TERM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_TERM");
@@ -1927,7 +1927,7 @@ bool BQ25798Component::get_en_backup_bool() {
 }
 
 void BQ25798Component::set_en_backup_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_BACKUP to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_BACKUP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_BACKUP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_BACKUP");
@@ -1990,7 +1990,7 @@ const char* BQ25798Component::get_vbus_backup_enum_string() {
 }
 
 void BQ25798Component::set_vbus_backup_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VBUS_BACKUP to %d", value);
+  ESP_LOGD(TAG, "Setting enum VBUS_BACKUP to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VBUS_BACKUP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VBUS_BACKUP");
@@ -2052,7 +2052,7 @@ const char* BQ25798Component::get_vac_ovp_enum_string() {
 }
 
 void BQ25798Component::set_vac_ovp_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VAC_OVP to %d", value);
+  ESP_LOGD(TAG, "Setting enum VAC_OVP to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VAC_OVP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VAC_OVP");
@@ -2105,7 +2105,7 @@ bool BQ25798Component::get_wd_rst_bool() {
 }
 
 void BQ25798Component::set_wd_rst_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting WD_RST to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool WD_RST to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->WD_RST);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for WD_RST");
@@ -2168,7 +2168,7 @@ const char* BQ25798Component::get_watchdog_enum_string() {
 }
 
 void BQ25798Component::set_watchdog_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting WATCHDOG to %d", value);
+  ESP_LOGD(TAG, "Setting enum WATCHDOG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WATCHDOG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for WATCHDOG");
@@ -2221,7 +2221,7 @@ bool BQ25798Component::get_force_indet_bool() {
 }
 
 void BQ25798Component::set_force_indet_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting FORCE_INDET to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool FORCE_INDET to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_INDET);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for FORCE_INDET");
@@ -2275,7 +2275,7 @@ bool BQ25798Component::get_auto_indet_en_bool() {
 }
 
 void BQ25798Component::set_auto_indet_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting AUTO_INDET_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool AUTO_INDET_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->AUTO_INDET_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for AUTO_INDET_EN");
@@ -2329,7 +2329,7 @@ bool BQ25798Component::get_en_12v_bool() {
 }
 
 void BQ25798Component::set_en_12v_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_12V to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_12V to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_12V);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_12V");
@@ -2383,7 +2383,7 @@ bool BQ25798Component::get_en_9v_bool() {
 }
 
 void BQ25798Component::set_en_9v_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_9V to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_9V to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_9V);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_9V");
@@ -2437,7 +2437,7 @@ bool BQ25798Component::get_hvdcp_en_bool() {
 }
 
 void BQ25798Component::set_hvdcp_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting HVDCP_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool HVDCP_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->HVDCP_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for HVDCP_EN");
@@ -2500,7 +2500,7 @@ const char* BQ25798Component::get_sdrv_ctrl_enum_string() {
 }
 
 void BQ25798Component::set_sdrv_ctrl_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting SDRV_CTRL to %d", value);
+  ESP_LOGD(TAG, "Setting enum SDRV_CTRL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_CTRL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for SDRV_CTRL");
@@ -2572,7 +2572,7 @@ const char* BQ25798Component::get_sdrv_dly_enum_string() {
 }
 
 void BQ25798Component::set_sdrv_dly_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting SDRV_DLY to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool SDRV_DLY to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->SDRV_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for SDRV_DLY");
@@ -2584,7 +2584,7 @@ void BQ25798Component::set_sdrv_dly_bool(bool value) {
 };
 
 void BQ25798Component::set_sdrv_dly_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting SDRV_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum SDRV_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->SDRV_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for SDRV_DLY");
@@ -2637,7 +2637,7 @@ bool BQ25798Component::get_dis_acdrv_bool() {
 }
 
 void BQ25798Component::set_dis_acdrv_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_ACDRV to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_ACDRV to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_ACDRV);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_ACDRV");
@@ -2691,7 +2691,7 @@ bool BQ25798Component::get_en_otg_bool() {
 }
 
 void BQ25798Component::set_en_otg_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_OTG to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_OTG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_OTG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_OTG");
@@ -2745,7 +2745,7 @@ bool BQ25798Component::get_pfm_otg_dis_bool() {
 }
 
 void BQ25798Component::set_pfm_otg_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting PFM_OTG_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool PFM_OTG_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PFM_OTG_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for PFM_OTG_DIS");
@@ -2799,7 +2799,7 @@ bool BQ25798Component::get_pfm_fwd_dis_bool() {
 }
 
 void BQ25798Component::set_pfm_fwd_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting PFM_FWD_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool PFM_FWD_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PFM_FWD_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for PFM_FWD_DIS");
@@ -2872,7 +2872,7 @@ const char* BQ25798Component::get_wkup_dly_enum_string() {
 }
 
 void BQ25798Component::set_wkup_dly_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting WKUP_DLY to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool WKUP_DLY to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->WKUP_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for WKUP_DLY");
@@ -2884,7 +2884,7 @@ void BQ25798Component::set_wkup_dly_bool(bool value) {
 };
 
 void BQ25798Component::set_wkup_dly_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting WKUP_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum WKUP_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->WKUP_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for WKUP_DLY");
@@ -2937,7 +2937,7 @@ bool BQ25798Component::get_dis_ldo_bool() {
 }
 
 void BQ25798Component::set_dis_ldo_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_LDO to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_LDO to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_LDO);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_LDO");
@@ -2991,7 +2991,7 @@ bool BQ25798Component::get_dis_otg_ooa_bool() {
 }
 
 void BQ25798Component::set_dis_otg_ooa_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_OTG_OOA to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_OTG_OOA to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_OTG_OOA);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_OTG_OOA");
@@ -3045,7 +3045,7 @@ bool BQ25798Component::get_dis_fwd_ooa_bool() {
 }
 
 void BQ25798Component::set_dis_fwd_ooa_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_FWD_OOA to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_FWD_OOA to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_FWD_OOA);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_FWD_OOA");
@@ -3099,7 +3099,7 @@ bool BQ25798Component::get_en_acdrv2_bool() {
 }
 
 void BQ25798Component::set_en_acdrv2_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_ACDRV2 to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_ACDRV2 to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ACDRV2);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_ACDRV2");
@@ -3153,7 +3153,7 @@ bool BQ25798Component::get_en_acdrv1_bool() {
 }
 
 void BQ25798Component::set_en_acdrv1_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_ACDRV1 to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_ACDRV1 to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_ACDRV1);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_ACDRV1");
@@ -3226,7 +3226,7 @@ const char* BQ25798Component::get_pwm_freq_enum_string() {
 }
 
 void BQ25798Component::set_pwm_freq_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting PWM_FREQ to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool PWM_FREQ to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->PWM_FREQ);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for PWM_FREQ");
@@ -3238,7 +3238,7 @@ void BQ25798Component::set_pwm_freq_bool(bool value) {
 };
 
 void BQ25798Component::set_pwm_freq_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting PWM_FREQ to %d", value);
+  ESP_LOGD(TAG, "Setting enum PWM_FREQ to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->PWM_FREQ);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for PWM_FREQ");
@@ -3291,7 +3291,7 @@ bool BQ25798Component::get_dis_stat_bool() {
 }
 
 void BQ25798Component::set_dis_stat_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_STAT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_STAT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_STAT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_STAT");
@@ -3345,7 +3345,7 @@ bool BQ25798Component::get_dis_vsys_short_bool() {
 }
 
 void BQ25798Component::set_dis_vsys_short_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_VSYS_SHORT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_VSYS_SHORT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_VSYS_SHORT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_VSYS_SHORT");
@@ -3399,7 +3399,7 @@ bool BQ25798Component::get_dis_votg_uvp_bool() {
 }
 
 void BQ25798Component::set_dis_votg_uvp_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DIS_VOTG_UVP to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DIS_VOTG_UVP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DIS_VOTG_UVP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DIS_VOTG_UVP");
@@ -3453,7 +3453,7 @@ bool BQ25798Component::get_force_vindpm_det_bool() {
 }
 
 void BQ25798Component::set_force_vindpm_det_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting FORCE_VINDPM_DET to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool FORCE_VINDPM_DET to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->FORCE_VINDPM_DET);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for FORCE_VINDPM_DET");
@@ -3507,7 +3507,7 @@ bool BQ25798Component::get_en_ibus_ocp_bool() {
 }
 
 void BQ25798Component::set_en_ibus_ocp_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_IBUS_OCP to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_IBUS_OCP to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IBUS_OCP);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_IBUS_OCP");
@@ -3561,7 +3561,7 @@ bool BQ25798Component::get_sfet_present_bool() {
 }
 
 void BQ25798Component::set_sfet_present_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting SFET_PRESENT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool SFET_PRESENT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->SFET_PRESENT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for SFET_PRESENT");
@@ -3615,7 +3615,7 @@ bool BQ25798Component::get_en_ibat_bool() {
 }
 
 void BQ25798Component::set_en_ibat_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_IBAT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_IBAT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IBAT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_IBAT");
@@ -3678,7 +3678,7 @@ const char* BQ25798Component::get_ibat_reg_enum_string() {
 }
 
 void BQ25798Component::set_ibat_reg_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting IBAT_REG to %d", value);
+  ESP_LOGD(TAG, "Setting enum IBAT_REG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->IBAT_REG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for IBAT_REG");
@@ -3731,7 +3731,7 @@ bool BQ25798Component::get_en_iindpm_bool() {
 }
 
 void BQ25798Component::set_en_iindpm_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_IINDPM to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_IINDPM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_IINDPM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_IINDPM");
@@ -3785,7 +3785,7 @@ bool BQ25798Component::get_en_extilim_bool() {
 }
 
 void BQ25798Component::set_en_extilim_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_EXTILIM to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_EXTILIM to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_EXTILIM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_EXTILIM");
@@ -3839,7 +3839,7 @@ bool BQ25798Component::get_en_batoc_bool() {
 }
 
 void BQ25798Component::set_en_batoc_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_BATOC to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_BATOC to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_BATOC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_BATOC");
@@ -3902,7 +3902,7 @@ const char* BQ25798Component::get_voc_pct_enum_string() {
 }
 
 void BQ25798Component::set_voc_pct_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VOC_PCT to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_PCT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_PCT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_PCT");
@@ -3964,7 +3964,7 @@ const char* BQ25798Component::get_voc_dly_enum_string() {
 }
 
 void BQ25798Component::set_voc_dly_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VOC_DLY to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_DLY to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_DLY);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_DLY");
@@ -4026,7 +4026,7 @@ const char* BQ25798Component::get_voc_rate_enum_string() {
 }
 
 void BQ25798Component::set_voc_rate_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting VOC_RATE to %d", value);
+  ESP_LOGD(TAG, "Setting enum VOC_RATE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->VOC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for VOC_RATE");
@@ -4079,7 +4079,7 @@ bool BQ25798Component::get_en_mppt_bool() {
 }
 
 void BQ25798Component::set_en_mppt_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting EN_MPPT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool EN_MPPT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->EN_MPPT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for EN_MPPT");
@@ -4142,7 +4142,7 @@ const char* BQ25798Component::get_treg_enum_string() {
 }
 
 void BQ25798Component::set_treg_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TREG to %d", value);
+  ESP_LOGD(TAG, "Setting enum TREG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TREG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TREG");
@@ -4204,7 +4204,7 @@ const char* BQ25798Component::get_tshut_enum_string() {
 }
 
 void BQ25798Component::set_tshut_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TSHUT to %d", value);
+  ESP_LOGD(TAG, "Setting enum TSHUT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TSHUT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TSHUT");
@@ -4257,7 +4257,7 @@ bool BQ25798Component::get_vbus_pd_en_bool() {
 }
 
 void BQ25798Component::set_vbus_pd_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VBUS_PD_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VBUS_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBUS_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VBUS_PD_EN");
@@ -4311,7 +4311,7 @@ bool BQ25798Component::get_vac1_pd_en_bool() {
 }
 
 void BQ25798Component::set_vac1_pd_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VAC1_PD_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VAC1_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC1_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VAC1_PD_EN");
@@ -4365,7 +4365,7 @@ bool BQ25798Component::get_vac2_pd_en_bool() {
 }
 
 void BQ25798Component::set_vac2_pd_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VAC2_PD_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VAC2_PD_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC2_PD_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VAC2_PD_EN");
@@ -4419,7 +4419,7 @@ bool BQ25798Component::get_bkup_acfet1_on_bool() {
 }
 
 void BQ25798Component::set_bkup_acfet1_on_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting BKUP_ACFET1_ON to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool BKUP_ACFET1_ON to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->BKUP_ACFET1_ON);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for BKUP_ACFET1_ON");
@@ -4482,7 +4482,7 @@ const char* BQ25798Component::get_jeita_vset_enum_string() {
 }
 
 void BQ25798Component::set_jeita_vset_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting JEITA_VSET to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_VSET to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_VSET);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_VSET");
@@ -4544,7 +4544,7 @@ const char* BQ25798Component::get_jeita_iseth_enum_string() {
 }
 
 void BQ25798Component::set_jeita_iseth_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting JEITA_ISETH to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_ISETH to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETH);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_ISETH");
@@ -4606,7 +4606,7 @@ const char* BQ25798Component::get_jeita_isetc_enum_string() {
 }
 
 void BQ25798Component::set_jeita_isetc_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting JEITA_ISETC to %d", value);
+  ESP_LOGD(TAG, "Setting enum JEITA_ISETC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->JEITA_ISETC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for JEITA_ISETC");
@@ -4668,7 +4668,7 @@ const char* BQ25798Component::get_ts_cool_enum_string() {
 }
 
 void BQ25798Component::set_ts_cool_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TS_COOL to %d", value);
+  ESP_LOGD(TAG, "Setting enum TS_COOL to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_COOL);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TS_COOL");
@@ -4730,7 +4730,7 @@ const char* BQ25798Component::get_ts_warm_enum_string() {
 }
 
 void BQ25798Component::set_ts_warm_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting TS_WARM to %d", value);
+  ESP_LOGD(TAG, "Setting enum TS_WARM to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->TS_WARM);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for TS_WARM");
@@ -4792,7 +4792,7 @@ const char* BQ25798Component::get_bhot_enum_string() {
 }
 
 void BQ25798Component::set_bhot_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting BHOT to %d", value);
+  ESP_LOGD(TAG, "Setting enum BHOT to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BHOT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for BHOT");
@@ -4864,7 +4864,7 @@ const char* BQ25798Component::get_bcold_enum_string() {
 }
 
 void BQ25798Component::set_bcold_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting BCOLD to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool BCOLD to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->BCOLD);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for BCOLD");
@@ -4876,7 +4876,7 @@ void BQ25798Component::set_bcold_bool(bool value) {
 };
 
 void BQ25798Component::set_bcold_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting BCOLD to %d", value);
+  ESP_LOGD(TAG, "Setting enum BCOLD to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->BCOLD);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for BCOLD");
@@ -4929,7 +4929,7 @@ bool BQ25798Component::get_ts_ignore_bool() {
 }
 
 void BQ25798Component::set_ts_ignore_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting TS_IGNORE to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool TS_IGNORE to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TS_IGNORE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for TS_IGNORE");
@@ -7615,7 +7615,7 @@ bool BQ25798Component::get_adc_en_bool() {
 }
 
 void BQ25798Component::set_adc_en_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting ADC_EN to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool ADC_EN to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_EN);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for ADC_EN");
@@ -7688,7 +7688,7 @@ const char* BQ25798Component::get_adc_rate_enum_string() {
 }
 
 void BQ25798Component::set_adc_rate_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting ADC_RATE to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool ADC_RATE to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for ADC_RATE");
@@ -7700,7 +7700,7 @@ void BQ25798Component::set_adc_rate_bool(bool value) {
 };
 
 void BQ25798Component::set_adc_rate_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting ADC_RATE to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_RATE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_RATE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_RATE");
@@ -7762,7 +7762,7 @@ const char* BQ25798Component::get_adc_sample_enum_string() {
 }
 
 void BQ25798Component::set_adc_sample_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting ADC_SAMPLE to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_SAMPLE to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_SAMPLE);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_SAMPLE");
@@ -7834,7 +7834,7 @@ const char* BQ25798Component::get_adc_avg_enum_string() {
 }
 
 void BQ25798Component::set_adc_avg_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting ADC_AVG to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool ADC_AVG to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_AVG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for ADC_AVG");
@@ -7846,7 +7846,7 @@ void BQ25798Component::set_adc_avg_bool(bool value) {
 };
 
 void BQ25798Component::set_adc_avg_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting ADC_AVG to %d", value);
+  ESP_LOGD(TAG, "Setting enum ADC_AVG to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->ADC_AVG);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for ADC_AVG");
@@ -7899,7 +7899,7 @@ bool BQ25798Component::get_adc_avg_init_bool() {
 }
 
 void BQ25798Component::set_adc_avg_init_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting ADC_AVG_INIT to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool ADC_AVG_INIT to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->ADC_AVG_INIT);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for ADC_AVG_INIT");
@@ -7953,7 +7953,7 @@ bool BQ25798Component::get_ibus_adc_dis_bool() {
 }
 
 void BQ25798Component::set_ibus_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting IBUS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool IBUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->IBUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for IBUS_ADC_DIS");
@@ -8007,7 +8007,7 @@ bool BQ25798Component::get_ibat_adc_dis_bool() {
 }
 
 void BQ25798Component::set_ibat_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting IBAT_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool IBAT_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->IBAT_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for IBAT_ADC_DIS");
@@ -8061,7 +8061,7 @@ bool BQ25798Component::get_vbus_adc_dis_bool() {
 }
 
 void BQ25798Component::set_vbus_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VBUS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VBUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VBUS_ADC_DIS");
@@ -8115,7 +8115,7 @@ bool BQ25798Component::get_vbat_adc_dis_bool() {
 }
 
 void BQ25798Component::set_vbat_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VBAT_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VBAT_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VBAT_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VBAT_ADC_DIS");
@@ -8169,7 +8169,7 @@ bool BQ25798Component::get_vsys_adc_dis_bool() {
 }
 
 void BQ25798Component::set_vsys_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VSYS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VSYS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VSYS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VSYS_ADC_DIS");
@@ -8223,7 +8223,7 @@ bool BQ25798Component::get_ts_adc_dis_bool() {
 }
 
 void BQ25798Component::set_ts_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting TS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool TS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for TS_ADC_DIS");
@@ -8277,7 +8277,7 @@ bool BQ25798Component::get_tdie_adc_dis_bool() {
 }
 
 void BQ25798Component::set_tdie_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting TDIE_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool TDIE_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->TDIE_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for TDIE_ADC_DIS");
@@ -8331,7 +8331,7 @@ bool BQ25798Component::get_dplus_adc_dis_bool() {
 }
 
 void BQ25798Component::set_dplus_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DPLUS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DPLUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DPLUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DPLUS_ADC_DIS");
@@ -8385,7 +8385,7 @@ bool BQ25798Component::get_dminus_adc_dis_bool() {
 }
 
 void BQ25798Component::set_dminus_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting DMINUS_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool DMINUS_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->DMINUS_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for DMINUS_ADC_DIS");
@@ -8439,7 +8439,7 @@ bool BQ25798Component::get_vac2_adc_dis_bool() {
 }
 
 void BQ25798Component::set_vac2_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VAC2_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VAC2_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC2_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VAC2_ADC_DIS");
@@ -8493,7 +8493,7 @@ bool BQ25798Component::get_vac1_adc_dis_bool() {
 }
 
 void BQ25798Component::set_vac1_adc_dis_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting VAC1_ADC_DIS to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool VAC1_ADC_DIS to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->VAC1_ADC_DIS);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for VAC1_ADC_DIS");
@@ -8798,7 +8798,7 @@ const char* BQ25798Component::get_dplus_dac_enum_string() {
 }
 
 void BQ25798Component::set_dplus_dac_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting DPLUS_DAC to %d", value);
+  ESP_LOGD(TAG, "Setting enum DPLUS_DAC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DPLUS_DAC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for DPLUS_DAC");
@@ -8860,7 +8860,7 @@ const char* BQ25798Component::get_dminus_dac_enum_string() {
 }
 
 void BQ25798Component::set_dminus_dac_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting DMINUS_DAC to %d", value);
+  ESP_LOGD(TAG, "Setting enum DMINUS_DAC to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->DMINUS_DAC);
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for DMINUS_DAC");

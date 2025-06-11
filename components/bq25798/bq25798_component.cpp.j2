@@ -46,7 +46,7 @@ void BQ25798Component::setup() {
 //  }
 //  ESP_LOGCONFIG(TAG, "Chip reset complete.");
 
-  ESP_LOGCONFIG(TAG, "BQ25798 initialized successfully at address 0x%02X", this->address_);
+  ESP_LOGCONFIG(TAG, "BQ25798 read successfully at address 0x%02X", this->address_);
 }
 
 void BQ25798Component::dump_config() {
@@ -103,7 +103,7 @@ void BQ25798Component::update() {
 
 // To visibly indicate that the component is not ready to use, we clear all registers
 void BQ25798Component::clear_registers() {
-  ESP_LOGD(TAG, "Clearing all cached registers");
+  ESP_LOGV(TAG, "Clearing all cached registers");
   for (int i = 0; i < {{ registers_count }}; i++) {
     _reg_values[i] = 0;
   }
@@ -255,7 +255,7 @@ const char* BQ25798Component::get_{{ def._snake_case_name }}_enum_string() {
 {%     if def._is_rw %}
 {%          if def._is_bool %}
 void BQ25798Component::set_{{ def._snake_case_name }}_bool(bool value) {
-//  ESP_LOGD(TAG, "Setting {{ def.name }} to %s", value ? "true" : "false");
+  ESP_LOGD(TAG, "Setting bool {{ def.name }} to %s", value ? "true" : "false");
   uint16_t raw_value = this->bq25798_noi2c_->boolToRaw(value, this->bq25798_noi2c_->{{ def.name }});
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting bool to raw value for {{ def.name }}");
@@ -270,7 +270,7 @@ void BQ25798Component::set_{{ def._snake_case_name }}_bool(bool value) {
 {# #}
 {%         if def.type == "int" %}
 void BQ25798Component::set_{{ def._snake_case_name }}_int(int value) {
-//  ESP_LOGD(TAG, "Setting {{ def.name }} to %d", value);
+  ESP_LOGD(TAG, "Setting int {{ def.name }} to %d", value);
   uint16_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->{{ def.name }});
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting int to raw value for {{ def.name }}");
@@ -285,7 +285,7 @@ void BQ25798Component::set_{{ def._snake_case_name }}_int(int value) {
 {# #}
 {%         if def._is_float %}
 void BQ25798Component::set_{{ def._snake_case_name }}_float(float value) {
-//  ESP_LOGD(TAG, "Setting {{ def.name }} to %f", value);
+  ESP_LOGD(TAG, "Setting float {{ def.name }} to %f", value);
   uint16_t raw_value = this->bq25798_noi2c_->floatToRaw(value, this->bq25798_noi2c_->{{ def.name }});
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting float to raw value for {{ def.name }}");
@@ -299,7 +299,7 @@ void BQ25798Component::set_{{ def._snake_case_name }}_float(float value) {
 {# #}
 {%         if def._is_enum %}
 void BQ25798Component::set_{{ def._snake_case_name }}_enum_int(int value) {
-//  ESP_LOGD(TAG, "Setting {{ def.name }} to %d", value);
+  ESP_LOGD(TAG, "Setting enum {{ def.name }} to %d", value);
   uint8_t raw_value = this->bq25798_noi2c_->intToRaw(value, this->bq25798_noi2c_->{{ def.name }});
   if (this->bq25798_noi2c_->lastError()) {
     this->status_set_warning("Error converting enum int to raw value for {{ def.name }}");
